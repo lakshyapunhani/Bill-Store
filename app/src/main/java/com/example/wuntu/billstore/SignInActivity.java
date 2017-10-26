@@ -68,7 +68,7 @@ public class SignInActivity extends AppCompatActivity {
     AppCompatEditText phone_number_edittext;
 
     @BindView(R.id.verification_code_edittext)
-    AppCompatEditText verification_code_edittext;
+    AppCompatEditText verification_code_editText;
 
     @BindView(R.id.send_otp_button)
     AppCompatButton send_otp_button;
@@ -253,13 +253,13 @@ public class SignInActivity extends AppCompatActivity {
     {
         progressDialog.show();
 
-        if (verification_code_edittext.getText().length() == 0)
+        if (verification_code_editText.getText().length() == 0)
         {
-            verification_code_edittext.setError("Please fill the Correct Verification Code");
+            verification_code_editText.setError("Please fill the Correct Verification Code");
             progressDialog.hide();
             return;
         }
-        mcode = verification_code_edittext.getText().toString();
+        mcode = verification_code_editText.getText().toString();
         verifyPhoneNumberWithCode(mverificationCode, mcode);
     }
 
@@ -374,17 +374,13 @@ public class SignInActivity extends AppCompatActivity {
                                 startActivity(new Intent(SignInActivity.this,Main2Activity.class));
                                 finish();
                             }
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.hide();
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            //Toast.makeText(SignInActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this, "Authentication failed. Try Again",Toast.LENGTH_SHORT).show();
 
-                            ///updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
