@@ -2,7 +2,9 @@ package com.example.wuntu.billstore;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Utils.CodeSentDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -49,6 +52,8 @@ import butterknife.OnClick;
 
 
 public class SignInActivity extends AppCompatActivity {
+
+    CodeSentDialog codeSentDialog;
 
     //For Facebook CallbackManager
     CallbackManager callbackManager;
@@ -109,6 +114,8 @@ public class SignInActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        codeSentDialog = new CodeSentDialog(this);
+
         progressDialog = new ProgressDialog(this);
 
         //For Google Integration
@@ -145,7 +152,7 @@ public class SignInActivity extends AppCompatActivity {
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                Toast.makeText(SignInActivity.this, "onVerificationCompleted", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(SignInActivity.this, "onVerificationCompleted", Toast.LENGTH_SHORT).show();
                 signInWithPhoneAuthCredential(phoneAuthCredential);
 
             }
@@ -153,7 +160,8 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 progressDialog.hide();
-                Toast.makeText(SignInActivity.this, "onVerificationFailed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                phone_number_edittext.setError("Please fill the Correct Mobile Number");
+                //Toast.makeText(SignInActivity.this, "onVerificationFailed" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -161,10 +169,12 @@ public class SignInActivity extends AppCompatActivity {
                 super.onCodeSent(verification_id, forceResendingToken);
                 mverificationCode = verification_id;
                 token = forceResendingToken;
-                Toast.makeText(SignInActivity.this, "onCodeSent", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SignInActivity.this, "onCodeSent", Toast.LENGTH_SHORT).show();
                 send_otp_layout.setVisibility(View.GONE);
                 verification_layout.setVisibility(View.VISIBLE);
                 progressDialog.hide();
+                codeSentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                codeSentDialog.show();
             }
         };
 
@@ -179,7 +189,7 @@ public class SignInActivity extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                 Log.d("SUCCESS", loginResult.toString());
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
@@ -187,7 +197,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onCancel() {
                 progressDialog.hide();
-                Toast.makeText(SignInActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
+                //Toast.makeText(SignInActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -211,6 +221,24 @@ public class SignInActivity extends AppCompatActivity {
     {
         progressDialog.setMessage("Verifying");
         progressDialog.show();
+
+        if (phone_number_edittext.getText().length() == 0)
+        {
+            progressDialog.hide();
+            phone_number_edittext.setError("Please fill your Mobile Number");
+            //Toast.makeText(this, "Please fill the phone number", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
+        if (phone_number_edittext.getText().length() < 10)
+        {
+            progressDialog.hide();
+            phone_number_edittext.setError("Please fill the Correct Mobile Number");
+
+            return;
+        }
+
         phone_number = phone_number_edittext.getText().toString();
 
         String country_code = "+91";
@@ -224,6 +252,13 @@ public class SignInActivity extends AppCompatActivity {
     public void verify_button()
     {
         progressDialog.show();
+
+        if (verification_code_edittext.getText().length() == 0)
+        {
+            verification_code_edittext.setError("Please fill the Correct Verification Code");
+            progressDialog.hide();
+            return;
+        }
         mcode = verification_code_edittext.getText().toString();
         verifyPhoneNumberWithCode(mverificationCode, mcode);
     }
@@ -258,8 +293,7 @@ public class SignInActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(SignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             progressDialog.hide();
                             //updateUI(null);
                         }
@@ -288,7 +322,7 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             progressDialog.hide();
-                            Toast.makeText(SignInActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignInActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignInActivity.this, Main2Activity.class).putExtra("LOGIN_METHOD","OTP"));
                             finish();
                         }
@@ -315,12 +349,10 @@ public class SignInActivity extends AppCompatActivity {
             GoogleSignInAccount account = result.getSignInAccount();
             firebaseAuthWithGoogle(account);
 
-            //Toast.makeText(this, acct.getDisplayName() +" Name " + acct.getEmail() + " Email", Toast.LENGTH_SHORT).show();
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
         } else {
+
+            Log.d("TAG","Signed Out");
             // Signed out, show unauthenticated UI.
-          //  updateUI(false);
         }
     }
 
@@ -340,14 +372,14 @@ public class SignInActivity extends AppCompatActivity {
                                 //Toast.makeText(SignInActivity.this, user.getDisplayName() + "", Toast.LENGTH_SHORT).show();
                                 progressDialog.hide();
                                 startActivity(new Intent(SignInActivity.this,Main2Activity.class));
+                                finish();
                             }
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.hide();
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignInActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
 
                             ///updateUI(null);
                         }

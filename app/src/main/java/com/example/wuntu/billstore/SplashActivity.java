@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Toast.makeText(SplashActivity.this, user.getPhoneNumber() + "User Phone Number", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SplashActivity.this, user.getPhoneNumber() + "User Phone Number", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
                     Intent intent = new Intent(SplashActivity.this, Main2Activity.class);
                     startActivity(intent);
@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 } else {
                     // User is signed out
-                    Toast.makeText(SplashActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SplashActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_out");
                     Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
                     startActivity(intent);

@@ -90,7 +90,7 @@ public class Main2Activity extends AppCompatActivity {
                             @Override
                             public void onResult(@NonNull Status status)
                             {
-                                Toast.makeText(getApplicationContext(),"Google Logged Out",Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(),"Google Logged Out",Toast.LENGTH_SHORT).show();
                             }
                         });
 

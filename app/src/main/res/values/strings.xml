@@ -86,7 +86,7 @@
     <string name="verification_code">Enter the Verification Code</string>
     <string name="verify">Verify</string>
     <string name="resend_otp_text">Didn\'t got OTP? Resend OTP</string>
-    <string name="hint_phone_number">Enter your Phone Number</string>
+    <string name="hint_phone_number">Enter your Mobile Number</string>
 
     <string name="facebook_app_id">108772289834883</string>
     <string name="fb_login_protocol_scheme">fb108772289834883</string>

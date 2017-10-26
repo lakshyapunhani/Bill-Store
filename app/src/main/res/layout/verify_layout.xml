@@ -11,7 +11,8 @@
         app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
         android:textColorHint="@android:color/black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorEnabled="true">
 
         <android.support.v7.widget.AppCompatEditText
             android:textColor="@android:color/black"
@@ -20,7 +21,8 @@
             android:id="@+id/verification_code_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/verification_code"/>
+            android:hint="@string/verification_code"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton
