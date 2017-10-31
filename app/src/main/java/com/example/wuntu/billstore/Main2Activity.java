@@ -1,10 +1,12 @@
 package com.example.wuntu.billstore;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.Utils.DrawerUtil;
 import com.example.wuntu.billstore.Utils.ProfileInformationDialog;
+import com.example.wuntu.billstore.Utils.User;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
@@ -23,8 +26,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,12 +48,33 @@ public class Main2Activity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
+    FirebaseFirestore db;
+    DocumentReference documentReference;
+
     Button button;
     GoogleApiClient googleApiClient;
-    String LOGIN_METHOD;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    ProgressDialog progressDialog;
+
+
+    @Override
+    public void onStart()
+    {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        googleApiClient.connect();
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
 
 
 
@@ -49,9 +83,12 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        progressDialog = new ProgressDialog(this);
+
+        db = FirebaseFirestore.getInstance();
+
+
         profileInformationDialog = new ProfileInformationDialog(this);
-        profileInformationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        profileInformationDialog.show();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -62,14 +99,6 @@ public class Main2Activity extends AppCompatActivity {
 
         DrawerUtil.getDrawer(this,toolbar);
 
-
-
-
-
-
-        LOGIN_METHOD = getIntent().getStringExtra("LOGIN_METHOD");
-
-
         button = (Button) findViewById(R.id.log_out);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -77,28 +106,45 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
 
-                    if (LOGIN_METHOD != null)
-                    {
-                        if (LOGIN_METHOD.equals("OTP"))
-                        {
-                           // Toast.makeText(Main2Activity.this, user.getPhoneNumber() + "User Phone Number", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (LOGIN_METHOD.equals("FACEBOOK"))
-                        {
-                            Profile profile = Profile.getCurrentProfile();
-                           // Toast.makeText(Main2Activity.this, profile.getName() +"", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                   // Toast.makeText(Main2Activity.this, user.getDisplayName() + "Google Name", Toast.LENGTH_SHORT).show();
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
 
-                    Log.d("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
+                    //User is signed in
+                    documentReference = db.collection("Users").document(firebaseUser.getUid());
+
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                progressDialog.hide();
+                                User user1 = documentSnapshot.toObject(User.class);
+                                Toast.makeText(Main2Activity.this, "Document Exists", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                progressDialog.hide();
+                                Toast.makeText(Main2Activity.this, "No Such Document", Toast.LENGTH_SHORT).show();
+                                profileInformationDialog.show();
+                                profileInformationDialog.setCancelable(false);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            progressDialog.hide();
+                            Toast.makeText(Main2Activity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
                 } else {
                     // User is signed out
-                    //Toast.makeText(Main2Activity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_out");
                 }
             }
@@ -134,21 +180,6 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-    @Override
-    public void onStart()
-    {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        googleApiClient.connect();
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-    }
 
     @Override
     public void onStop() {

@@ -25,7 +25,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -35,8 +34,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
@@ -47,15 +44,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -65,9 +57,6 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
-    public static final String NAME = "name";
-    public static final String EMAIL_ID = "email_id";
-    public static final String PHONE_NUMBER = "phone_number";
     CodeSentDialog codeSentDialog;
 
     //For Facebook Callbacks
@@ -364,7 +353,9 @@ public class SignInActivity extends AppCompatActivity {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if (user != null) {
-                                makeUserEntry();
+                                progressDialog.hide();
+                                startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                                finish();
 
                             }
                         } else {
@@ -386,44 +377,15 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-                            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                            makeUserEntry();
+                            progressDialog.hide();
+                            startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                            finish();
 
                         }
                     }
                 });
     }
 
-    private void makeUserEntry() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, String> user = new HashMap<>();
-        if (firebaseUser != null) {
-            user.put(NAME, firebaseUser.getDisplayName());
-            user.put(EMAIL_ID, firebaseUser.getEmail());
-            user.put(PHONE_NUMBER, firebaseUser.getPhoneNumber());
-        }
-
-
-        if (firebaseUser != null) {
-            db.collection("Users").document(firebaseUser.getUid()).set(user)
-                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(SignInActivity.this, "Added", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(this, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(SignInActivity.this, "Exception is " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        progressDialog.hide();
-        startActivity(new Intent(SignInActivity.this, Main2Activity.class));
-        finish();
-    }
 
 }
