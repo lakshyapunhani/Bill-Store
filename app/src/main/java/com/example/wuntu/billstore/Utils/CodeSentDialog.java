@@ -17,7 +17,6 @@ import butterknife.Optional;
 
 public class CodeSentDialog extends Dialog
 {
-    public Dialog d;
     public CodeSentDialog(Context context) {
         super(context);
     }
