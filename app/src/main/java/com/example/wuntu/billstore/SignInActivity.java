@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -163,7 +164,12 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                progressDialog.hide();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                    {
+                        progressDialog.hide();
+                    }
+                }
                 phone_number_edittext.setError("Please fill the Correct Mobile Number");
                 //Toast.makeText(SignInActivity.this, "onVerificationFailed" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -176,7 +182,12 @@ public class SignInActivity extends AppCompatActivity {
                 //Toast.makeText(SignInActivity.this, "onCodeSent", Toast.LENGTH_SHORT).show();
                 send_otp_layout.setVisibility(View.GONE);
                 verification_layout.setVisibility(View.VISIBLE);
-                progressDialog.hide();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                    {
+                        progressDialog.hide();
+                    }
+                }
                 codeSentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 codeSentDialog.show();
             }
@@ -219,13 +230,23 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                progressDialog.hide();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                    {
+                        progressDialog.hide();
+                    }
+                }
                 //Toast.makeText(SignInActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException e) {
-                progressDialog.hide();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                    {
+                        progressDialog.hide();
+                    }
+                }
                 Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -247,7 +268,13 @@ public class SignInActivity extends AppCompatActivity {
 
         if (phone_number_edittext.getText().length() == 0)
         {
-            progressDialog.hide();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                {
+                    progressDialog.hide();
+                }
+            }
+
             phone_number_edittext.setError("Please fill your Mobile Number");
             //Toast.makeText(this, "Please fill the phone number", Toast.LENGTH_SHORT).show();
 
@@ -256,7 +283,12 @@ public class SignInActivity extends AppCompatActivity {
 
         if (phone_number_edittext.getText().length() < 10)
         {
-            progressDialog.hide();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                {
+                    progressDialog.hide();
+                }
+            }
             phone_number_edittext.setError("Please fill the Correct Mobile Number");
 
             return;
@@ -278,8 +310,13 @@ public class SignInActivity extends AppCompatActivity {
 
         if (verification_code_editText.getText().length() == 0)
         {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                {
+                    progressDialog.hide();
+                }
+            }
             verification_code_editText.setError("Please fill the Correct Verification Code");
-            progressDialog.hide();
             return;
         }
         mcode = verification_code_editText.getText().toString();
@@ -353,13 +390,23 @@ public class SignInActivity extends AppCompatActivity {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if (user != null) {
-                                progressDialog.hide();
-                                startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                                    if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                                    {
+                                        progressDialog.hide();
+                                    }
+                                }
+                                startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
                                 finish();
 
                             }
                         } else {
-                            progressDialog.hide();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                                {
+                                    progressDialog.hide();
+                                }
+                            }
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed. Try Again",Toast.LENGTH_SHORT).show();
                         }
@@ -377,8 +424,13 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-                            progressDialog.hide();
-                            startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                                {
+                                    progressDialog.hide();
+                                }
+                            }
+                            startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
                             finish();
 
                         }

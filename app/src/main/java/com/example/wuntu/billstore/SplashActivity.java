@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                     // User is signed in
                     //Toast.makeText(SplashActivity.this, user.getPhoneNumber() + "User Phone Number", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
-                    Intent intent = new Intent(SplashActivity.this, Main2Activity.class);
+                    Intent intent = new Intent(SplashActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     finish();
 

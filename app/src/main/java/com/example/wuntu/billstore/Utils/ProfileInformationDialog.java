@@ -91,7 +91,7 @@ public class ProfileInformationDialog extends Dialog
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override

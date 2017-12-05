@@ -14,6 +14,8 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            android:title="@string/app_name"
+            app:title="@string/app_name"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -31,19 +33,8 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.wuntu.billstore.Main2Activity">
+        tools:context="com.example.wuntu.billstore.ProfileActivity">
 
-        <!-- <android.support.v7.widget.Toolbar
-             android:id="@+id/toolbar"
-             app:title="@string/app_name"
-             android:background="@color/colorPrimary"
-             android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
-             android:popupTheme="@android:style/ThemeOverlay.Material.Light"
-             android:layout_width="match_parent"
-             android:layout_height="?attr/actionBarSize"
-             android:minHeight="?attr/actionBarSize"
-             tools:targetApi="lollipop">
-         </android.support.v7.widget.Toolbar>-->
 
         <TextView
             android:text="Logged IN"
@@ -52,8 +43,19 @@
 
 
 
-
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_plus_button"
+        app:layout_anchor="@id/activity_main2"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+
 
 
 </android.support.design.widget.CoordinatorLayout>
