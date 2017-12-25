@@ -42,7 +42,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Main2Activity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     ProfileInformationDialog profileInformationDialog;
 
@@ -86,7 +86,7 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_profile);
 
         ButterKnife.bind(this);
 
@@ -142,7 +142,7 @@ public class Main2Activity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e)
                         {
                             progressDialog.hide();
-                            Toast.makeText(Main2Activity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -165,7 +165,7 @@ public class Main2Activity extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.curve_shape)
                 .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.logout_icon256)
+                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.ic_log_out)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -181,7 +181,7 @@ public class Main2Activity extends AppCompatActivity {
                 .withName("Make new Bill");
 
         SecondaryDrawerItem logoutItem = new SecondaryDrawerItem().withIdentifier(2)
-                .withName("Log Out").withIcon(R.drawable.logout_icon256);
+                .withName("Log Out").withIcon(R.drawable.ic_log_out);
 
         result = new DrawerBuilder()
                 .withAccountHeader(headerResult)
@@ -205,7 +205,7 @@ public class Main2Activity extends AppCompatActivity {
                         switch (position)
                         {
                             case 3:
-                                Toast.makeText(Main2Activity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfileActivity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
                                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                         new ResultCallback<Status>() {
                                             @Override
@@ -216,7 +216,7 @@ public class Main2Activity extends AppCompatActivity {
                                 firebaseAuth.signOut();
                                 LoginManager.getInstance().logOut();
 
-                                startActivity(new Intent(Main2Activity.this,SignInActivity.class));
+                                startActivity(new Intent(ProfileActivity.this,SignInActivity.class));
                                 finish();
                                 break;
                         }
