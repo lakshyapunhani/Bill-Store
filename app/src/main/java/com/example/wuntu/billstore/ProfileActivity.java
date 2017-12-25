@@ -1,17 +1,14 @@
 package com.example.wuntu.billstore;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Utils.ProfileInformationDialog;
@@ -24,13 +21,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -38,14 +35,14 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class ProfileActivity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity {
 
     ProfileInformationDialog profileInformationDialog;
 
@@ -54,11 +51,10 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseFirestore db;
     DocumentReference documentReference;
 
-
     GoogleApiClient googleApiClient;
 
     @BindView(R.id.toolbar)
-            Toolbar toolbar;
+    Toolbar toolbar;
 
     ProgressDialog progressDialog;
 
@@ -67,9 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
     Drawer result;
 
     AccountHeader headerResult;
-
-    @BindView(R.id.fab)
-            FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -93,9 +86,11 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_main2);
 
         ButterKnife.bind(this);
+
+        toolbar.setTitle("Hello");
 
         setSupportActionBar(toolbar);
 
@@ -116,23 +111,20 @@ public class ProfileActivity extends AppCompatActivity {
 
                 final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    //progressDialog.setMessage("Loading...");
-                    //progressDialog.show();
-                    //progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
 
                     //User is signed in
                     documentReference = db.collection("Users").document(firebaseUser.getUid());
 
-                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
-                        public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                            //progressDialog.hide();
-                            if (e != null)
-                            {
-                                Log.w("TAG", "Listen failed.", e);
-                                return;
-                            }
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
+                                progressDialog.hide();
+
                                 User user1 = documentSnapshot.toObject(User.class);
                                 user_name = user1.getName();
                                 shop_name = user1.getShop_name();
@@ -140,11 +132,17 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                             else
                             {
+                                progressDialog.hide();
                                 profileInformationDialog.show();
                                 profileInformationDialog.setCancelable(false);
-                                addNavigationDrawer();
                             }
-
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            progressDialog.hide();
+                            Toast.makeText(Main2Activity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -166,9 +164,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.curve_shape)
                 .withSelectionListEnabledForSingleProfile(false)
-                .addProfiles
-                        (
-                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.ic_profile_round)
+                .addProfiles(
+                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.logout_icon256)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -181,10 +178,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         PrimaryDrawerItem makeBillItem = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("Add new Bill").withIcon(R.drawable.ic_add_bill);
+                .withName("Make new Bill");
 
-        PrimaryDrawerItem logoutItem = new PrimaryDrawerItem().withIdentifier(2)
-                .withName("Log Out").withIcon(R.drawable.ic_log_out);
+        SecondaryDrawerItem logoutItem = new SecondaryDrawerItem().withIdentifier(2)
+                .withName("Log Out").withIcon(R.drawable.logout_icon256);
 
         result = new DrawerBuilder()
                 .withAccountHeader(headerResult)
@@ -208,6 +205,7 @@ public class ProfileActivity extends AppCompatActivity {
                         switch (position)
                         {
                             case 3:
+                                Toast.makeText(Main2Activity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
                                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                         new ResultCallback<Status>() {
                                             @Override
@@ -218,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 firebaseAuth.signOut();
                                 LoginManager.getInstance().logOut();
 
-                                startActivity(new Intent(ProfileActivity.this,SignInActivity.class));
+                                startActivity(new Intent(Main2Activity.this,SignInActivity.class));
                                 finish();
                                 break;
                         }
@@ -230,23 +228,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.fab)
-    public void fab_click()
-    {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.otp_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-        Toast.makeText(this, "Add a new bill", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
         if (firebaseAuth != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
-
 }
