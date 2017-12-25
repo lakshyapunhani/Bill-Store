@@ -1,5 +1,6 @@
 package com.example.wuntu.billstore;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -95,6 +97,7 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.verification_layout)
     LinearLayout verification_layout;
 
+    Dialog dialog;
 
     String phone_number;
 
@@ -117,6 +120,13 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         ButterKnife.bind(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.otp_dialog, null);
+
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.otp_dialog);
+//        dialog.addContentView(alertLayout,null);
 
         codeSentDialog = new CodeSentDialog(this);
 
@@ -163,22 +173,28 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                progressDialog.hide();
-                phone_number_edittext.setError("Please fill the Correct Mobile Number");
+                //progressDialog.hide();
+                phone_number_edittext.setError("Some error occurred. Please try again");
+                Log.d("MESSAGE",e.getMessage());
+
                 //Toast.makeText(SignInActivity.this, "onVerificationFailed" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(String verification_id, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                //progressDialog.hide();
                 super.onCodeSent(verification_id, forceResendingToken);
                 mverificationCode = verification_id;
                 token = forceResendingToken;
                 //Toast.makeText(SignInActivity.this, "onCodeSent", Toast.LENGTH_SHORT).show();
                 send_otp_layout.setVisibility(View.GONE);
                 verification_layout.setVisibility(View.VISIBLE);
-                progressDialog.hide();
                 codeSentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 codeSentDialog.show();
+
+                dialog.show();
+
+
             }
         };
 
@@ -187,12 +203,13 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.facebook_icon)
     public void facebook_click()
     {
-        progressDialog.setMessage("Verifying");
-        progressDialog.show();
+        //progressDialog.setMessage("Verifying");
+        //progressDialog.show();
         LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("email", "public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                //progressDialog.dismiss();
                 //Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                 Log.d("SUCCESS", loginResult.toString());
 
@@ -219,13 +236,13 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                progressDialog.hide();
+                //progressDialog.hide();
                 //Toast.makeText(SignInActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException e) {
-                progressDialog.hide();
+                //progressDialog.hide();
                 Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -234,29 +251,29 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.google_icon)
     public void google_click()
     {
-        progressDialog.setMessage("Verifying");
-        progressDialog.show();
+        //progressDialog.setMessage("Verifying");
+        //progressDialog.show();
         signIn();
     }
 
     @OnClick(R.id.send_otp_button)
     public void send_otp()
     {
-        progressDialog.setMessage("Verifying");
-        progressDialog.show();
+        //progressDialog.setMessage("Verifying");
+        //progressDialog.show();
 
         if (phone_number_edittext.getText().length() == 0)
         {
-            progressDialog.hide();
+            //progressDialog.hide();
             phone_number_edittext.setError("Please fill your Mobile Number");
             //Toast.makeText(this, "Please fill the phone number", Toast.LENGTH_SHORT).show();
 
             return;
         }
 
-        if (phone_number_edittext.getText().length() < 10)
+        if (!(phone_number_edittext.getText().length() > 9 && phone_number_edittext.getText().length() < 12))
         {
-            progressDialog.hide();
+            //progressDialog.hide();
             phone_number_edittext.setError("Please fill the Correct Mobile Number");
 
             return;
@@ -274,12 +291,12 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.verify_button)
     public void verify_button()
     {
-        progressDialog.show();
+        //progressDialog.show();
 
         if (verification_code_editText.getText().length() == 0)
         {
             verification_code_editText.setError("Please fill the Correct Verification Code");
-            progressDialog.hide();
+            //progressDialog.hide();
             return;
         }
         mcode = verification_code_editText.getText().toString();
@@ -289,8 +306,8 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.resend_otp)
     public void resend_otp()
     {
-        progressDialog.setMessage("Verifying");
-        progressDialog.show();
+        //progressDialog.setMessage("Verifying");
+       // progressDialog.show();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
     }
 
@@ -353,13 +370,13 @@ public class SignInActivity extends AppCompatActivity {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if (user != null) {
-                                progressDialog.hide();
-                                startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                               // progressDialog.hide();
+                                startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
                                 finish();
 
                             }
                         } else {
-                            progressDialog.hide();
+                            /*progressDialog.hide();*/
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed. Try Again",Toast.LENGTH_SHORT).show();
                         }
@@ -377,8 +394,8 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-                            progressDialog.hide();
-                            startActivity(new Intent(SignInActivity.this, Main2Activity.class));
+                            /*progressDialog.hide();*/
+                            startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
                             finish();
 
                         }

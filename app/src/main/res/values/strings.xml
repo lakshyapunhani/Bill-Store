@@ -90,6 +90,7 @@
 
     <string name="facebook_app_id">108772289834883</string>
     <string name="fb_login_protocol_scheme">fb108772289834883</string>
+    <string name="sms_text">You will get an SMS with a verification code to this number \n +91 82223906997</string>
 
 </resources>
 
