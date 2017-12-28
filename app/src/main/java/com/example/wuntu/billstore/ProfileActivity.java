@@ -1,7 +1,10 @@
 package com.example.wuntu.billstore;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +44,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -56,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     String user_name,shop_name;
 
@@ -94,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        progressDialog = new ProgressDialog(this);
+        //progressDialog = new ProgressDialog(this);
         db = FirebaseFirestore.getInstance();
         profileInformationDialog = new ProfileInformationDialog(this);
 
@@ -111,9 +115,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    progressDialog.setMessage("Loading...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
+                   // progressDialog.setMessage("Loading...");
+                    //progressDialog.show();
+                    //progressDialog.setCancelable(false);
 
                     //User is signed in
                     documentReference = db.collection("Users").document(firebaseUser.getUid());
@@ -123,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot)
                         {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
-                                progressDialog.hide();
+                             //   progressDialog.hide();
 
                                 User user1 = documentSnapshot.toObject(User.class);
                                 user_name = user1.getName();
@@ -132,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                             else
                             {
-                                progressDialog.hide();
+                               // progressDialog.hide();
                                 profileInformationDialog.show();
                                 profileInformationDialog.setCancelable(false);
                             }
@@ -141,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e)
                         {
-                            progressDialog.hide();
+                            //progressDialog.hide();
                             Toast.makeText(ProfileActivity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -165,7 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.curve_shape)
                 .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(
-                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.ic_log_out)
+                        new ProfileDrawerItem().withName(user_name).withEmail(shop_name).withIcon(R.drawable.ic_profile_round)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -178,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         PrimaryDrawerItem makeBillItem = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("Make new Bill");
+                .withName("Make new Bill").withIcon(R.drawable.ic_add_bill);
 
         SecondaryDrawerItem logoutItem = new SecondaryDrawerItem().withIdentifier(2)
                 .withName("Log Out").withIcon(R.drawable.ic_log_out);
@@ -225,6 +229,15 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .build();
 
+    }
+
+    @OnClick(R.id.fab)
+    public void clickFab()
+    {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.otp_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
 

@@ -5,7 +5,7 @@
     android:id="@+id/activity_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#45d6e6"
+    android:background="#d9c513"
     android:fillViewport="true"
     tools:context="com.example.wuntu.billstore.SignInActivity">
 

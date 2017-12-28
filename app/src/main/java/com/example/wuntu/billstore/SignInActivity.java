@@ -14,12 +14,16 @@ import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.EventBus.EventOTP;
+import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.Utils.CodeSentDialog;
+import com.example.wuntu.billstore.Utils.DialogOTP;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,6 +40,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
@@ -47,10 +52,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,8 +76,8 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.bill_book_text)
     TextView bill_book_text;
 
-    @BindView(R.id.resend_otp)
-    TextView resend_otp;
+    /*@BindView(R.id.resend_otp)
+    TextView resend_otp;*/
 
     @BindView(R.id.phone_number_edittext)
     AppCompatEditText phone_number_edittext;
@@ -76,11 +85,11 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.verification_code_edittext)
     AppCompatEditText verification_code_editText;
 
-    @BindView(R.id.send_otp_button)
-    AppCompatButton send_otp_button;
+    /*@BindView(R.id.send_otp_button)
+    AppCompatButton send_otp_button;*/
 
-    @BindView(R.id.verify_button)
-    AppCompatButton verify_button;
+   /* @BindView(R.id.verify_button)
+    AppCompatButton verify_button;*/
 
     @BindView(R.id.login_with_text)
     TextView login_with_text;
@@ -94,10 +103,10 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.send_otp_layout)
     LinearLayout send_otp_layout;
 
-    @BindView(R.id.verification_layout)
-    LinearLayout verification_layout;
+   /* @BindView(R.id.verification_layout)
+    LinearLayout verification_layout;*/
 
-    Dialog dialog;
+    DialogOTP otpDialog;
 
     String phone_number;
 
@@ -115,18 +124,17 @@ public class SignInActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+
         ButterKnife.bind(this);
 
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.otp_dialog, null);
+        otpDialog = new DialogOTP(this);
 
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.otp_dialog);
-//        dialog.addContentView(alertLayout,null);
+
 
         codeSentDialog = new CodeSentDialog(this);
 
@@ -163,6 +171,7 @@ public class SignInActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
+
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
@@ -184,21 +193,21 @@ public class SignInActivity extends AppCompatActivity {
             public void onCodeSent(String verification_id, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 //progressDialog.hide();
                 super.onCodeSent(verification_id, forceResendingToken);
+
+               // otpDialog.setContentView(R.layout.otp_dialog);
+
+                otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                otpDialog.show();
+
                 mverificationCode = verification_id;
                 token = forceResendingToken;
-                //Toast.makeText(SignInActivity.this, "onCodeSent", Toast.LENGTH_SHORT).show();
-                send_otp_layout.setVisibility(View.GONE);
-                verification_layout.setVisibility(View.VISIBLE);
-                codeSentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                codeSentDialog.show();
-
-                dialog.show();
 
 
             }
         };
 
     }
+
 
     @OnClick(R.id.facebook_icon)
     public void facebook_click()
@@ -256,8 +265,8 @@ public class SignInActivity extends AppCompatActivity {
         signIn();
     }
 
-    @OnClick(R.id.send_otp_button)
-    public void send_otp()
+    @OnClick(R.id.btn_signIn)
+    public void BtnSignIn()
     {
         //progressDialog.setMessage("Verifying");
         //progressDialog.show();
@@ -288,7 +297,7 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.verify_button)
+   /* @OnClick(R.id.verify_button)
     public void verify_button()
     {
         //progressDialog.show();
@@ -301,15 +310,15 @@ public class SignInActivity extends AppCompatActivity {
         }
         mcode = verification_code_editText.getText().toString();
         verifyPhoneNumberWithCode(mverificationCode, mcode);
-    }
+    }*/
 
-    @OnClick(R.id.resend_otp)
+    /*@OnClick(R.id.resend_otp)
     public void resend_otp()
     {
         //progressDialog.setMessage("Verifying");
        // progressDialog.show();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
-    }
+    }*/
 
 
 
@@ -399,8 +408,39 @@ public class SignInActivity extends AppCompatActivity {
                             finish();
 
                         }
+                        else
+                        {
+                            Toast.makeText(SignInActivity.this, "Wrong OTP. Please Enter Again", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSendOTPEvent(EventOTP event)
+    {
+        verifyPhoneNumberWithCode(mverificationCode, event.getCode());
+        //Toast.makeText(this, "Message Event " + event.getCode(), Toast.LENGTH_SHORT).show();
+    };
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onResendOTPEvent(ResendOTPEvent event)
+    {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
+       // Toast.makeText(this, "Resend OTP", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
 

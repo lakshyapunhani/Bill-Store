@@ -35,25 +35,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
-                android:textColorHint="@android:color/black"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true">
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:textColor="@android:color/black"
-                    android:textCursorDrawable="@null"
-                    android:inputType="number"
-                    android:id="@+id/phone_number_edittext"
-                    android:layout_width="match_parent"
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    app:ccp_contentColor="#4e5050"
+                    app:ccp_defaultNameCode="IN"
+                    app:ccp_showPhoneCode="false"
+                    app:ccp_textSize="16sp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                    android:textColorHint="@android:color/black"
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_phone_number"/>
-            </android.support.design.widget.TextInputLayout>
+                    app:errorEnabled="true">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:textColor="@android:color/black"
+                        android:textCursorDrawable="@null"
+                        android:inputType="number"
+                        android:id="@+id/phone_number_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_phone_number"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/send_otp_button"
+                android:id="@+id/btn_signIn"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
