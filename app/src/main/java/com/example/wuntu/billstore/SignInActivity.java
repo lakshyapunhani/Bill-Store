@@ -183,7 +183,8 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 //progressDialog.hide();
-                phone_number_edittext.setError("Some error occurred. Please try again");
+                //phone_number_edittext.setError("Some error occurred. Please try again");
+                Toast.makeText(SignInActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                 Log.d("MESSAGE",e.getMessage());
 
                 //Toast.makeText(SignInActivity.this, "onVerificationFailed" + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -274,8 +275,8 @@ public class SignInActivity extends AppCompatActivity {
         if (phone_number_edittext.getText().length() == 0)
         {
             //progressDialog.hide();
-            phone_number_edittext.setError("Please fill your Mobile Number");
-            //Toast.makeText(this, "Please fill the phone number", Toast.LENGTH_SHORT).show();
+            //phone_number_edittext.setError("Please fill your Mobile Number");
+            Toast.makeText(this, "Please fill the Mobile number", Toast.LENGTH_SHORT).show();
 
             return;
         }
@@ -283,7 +284,8 @@ public class SignInActivity extends AppCompatActivity {
         if (!(phone_number_edittext.getText().length() > 9 && phone_number_edittext.getText().length() < 12))
         {
             //progressDialog.hide();
-            phone_number_edittext.setError("Please fill the Correct Mobile Number");
+            //phone_number_edittext.setError("Please fill the Correct Mobile Number");
+            Toast.makeText(this, "Please fill the Correct Mobile Number", Toast.LENGTH_SHORT).show();
 
             return;
         }
