@@ -1,21 +1,17 @@
 package com.example.wuntu.billstore;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.wuntu.billstore.Utils.ProfileInformationDialog;
-import com.example.wuntu.billstore.Utils.User;
+import com.example.wuntu.billstore.Pojos.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -48,7 +44,7 @@ import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    ProfileInformationDialog profileInformationDialog;
+    //ProfileInformationDialog profileInformationDialog;
 
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
@@ -59,6 +55,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
+    @BindView(R.id.frameLayout)
+    FrameLayout frameLayout;
 
     //ProgressDialog progressDialog;
 
@@ -94,13 +96,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle("Hello");
+        toolbar.setTitle("Bill Store");
 
         setSupportActionBar(toolbar);
 
+
         //progressDialog = new ProgressDialog(this);
         db = FirebaseFirestore.getInstance();
-        profileInformationDialog = new ProfileInformationDialog(this);
+        //profileInformationDialog = new ProfileInformationDialog(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -115,9 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                 final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                   // progressDialog.setMessage("Loading...");
-                    //progressDialog.show();
-                    //progressDialog.setCancelable(false);
 
                     //User is signed in
                     documentReference = db.collection("Users").document(firebaseUser.getUid());
@@ -127,25 +127,16 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot)
                         {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
-                             //   progressDialog.hide();
-
                                 User user1 = documentSnapshot.toObject(User.class);
                                 user_name = user1.getName();
                                 shop_name = user1.getShop_name();
                                 addNavigationDrawer();
-                            }
-                            else
-                            {
-                               // progressDialog.hide();
-                                profileInformationDialog.show();
-                                profileInformationDialog.setCancelable(false);
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e)
                         {
-                            //progressDialog.hide();
                             Toast.makeText(ProfileActivity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -182,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         PrimaryDrawerItem makeBillItem = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("Make new Bill").withIcon(R.drawable.ic_add_bill);
+                .withName("Add new Bill").withIcon(R.drawable.ic_add_new_bill);
 
         SecondaryDrawerItem logoutItem = new SecondaryDrawerItem().withIdentifier(2)
                 .withName("Log Out").withIcon(R.drawable.ic_log_out);
@@ -209,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
                         switch (position)
                         {
                             case 3:
-                                Toast.makeText(ProfileActivity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(ProfileActivity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
                                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                         new ResultCallback<Status>() {
                                             @Override
@@ -231,15 +222,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.fab)
-    public void clickFab()
-    {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.otp_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-
 
     @Override
     public void onStop() {
@@ -247,5 +229,13 @@ public class ProfileActivity extends AppCompatActivity {
         if (firebaseAuth != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
+    }
+
+    @OnClick(R.id.btn_addNewBill)
+    public void addNewBillClick()
+    {
+        coordinatorLayout.setVisibility(View.GONE);
+        AddNewBillFragment addNewBillFragment = new AddNewBillFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,addNewBillFragment).addToBackStack(null).commit();
     }
 }

@@ -92,5 +92,17 @@
     <string name="fb_login_protocol_scheme">fb108772289834883</string>
     <string name="sms_text">You will get an SMS with a verification code to this number +91 8223906997</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_select_from_existing_vendors">Select from Existing Vendors</string>
+    <string name="text_or">OR</string>
+    <string name="text_add_new_vendor">Add new Vendor</string>
+    <string name="text_enter_new_vendor_name">Enter new Vendor name</string>
+    <string name="text_enter_new_vendor_address">Enter new Vendor Address</string>
+    <string name="text_select_bill_date">Select Bill Date</string>
+    <string name="text_enter_bill_amount">Enter Bill Amount</string>
+    <string name="text_submit">Submit</string>
+    <string name="text_enter_bill_description">Enter bill description</string>
+
 </resources>
 

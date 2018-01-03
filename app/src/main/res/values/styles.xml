@@ -21,9 +21,9 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+    <!--<style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
     <item name="android:textColor">@android:color/black</item>
-    </style>
+    </style>-->
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
@@ -39,18 +39,13 @@
 
 
 
-
-
-
-
-
     <!-- Activity with no Title -->
-    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
+    <!--<style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- Dark Buttons -->
+    &lt;!&ndash; Dark Buttons &ndash;&gt;
     <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="android:layout_marginRight">4dp</item>
@@ -58,7 +53,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <!-- Light EditTexts -->
+    &lt;!&ndash; Light EditTexts &ndash;&gt;
     <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark"/>
 
     <style name="ThemeOverlay.MyTextDetail" parent="AppTheme">
@@ -85,6 +80,6 @@
     <style name="Theme_Dialog" parent="android:Theme.Holo.Dialog">
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
-    </style>
+    </style>-->
 
 </resources>

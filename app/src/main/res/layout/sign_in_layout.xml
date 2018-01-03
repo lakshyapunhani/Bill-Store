@@ -56,8 +56,11 @@
 
 
 
+
+
+                <!--  app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"-->
                 <android.support.design.widget.TextInputLayout
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+
                     android:textColorHint="@android:color/black"
                     android:layout_width="0dp"
                     android:layout_weight="7"
@@ -134,7 +137,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_googleg_color_144dp"
+                android:src="@drawable/ic_google"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/google_icon" />

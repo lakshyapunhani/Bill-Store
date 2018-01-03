@@ -8,7 +8,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.TextInputLayout
-        app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
         android:textColorHint="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
 package com.example.wuntu.billstore;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,12 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.EventOTP;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
-import com.example.wuntu.billstore.Utils.CodeSentDialog;
+import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.Utils.DialogOTP;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -41,6 +36,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
@@ -51,6 +47,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,7 +58,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,28 +66,14 @@ import butterknife.OnClick;
 
 public class SignInActivity extends AppCompatActivity {
 
-    CodeSentDialog codeSentDialog;
-
     //For Facebook Callbacks
     CallbackManager callbackManager;
 
     @BindView(R.id.bill_book_text)
     TextView bill_book_text;
 
-    /*@BindView(R.id.resend_otp)
-    TextView resend_otp;*/
-
     @BindView(R.id.phone_number_edittext)
     AppCompatEditText phone_number_edittext;
-
-    @BindView(R.id.verification_code_edittext)
-    AppCompatEditText verification_code_editText;
-
-    /*@BindView(R.id.send_otp_button)
-    AppCompatButton send_otp_button;*/
-
-   /* @BindView(R.id.verify_button)
-    AppCompatButton verify_button;*/
 
     @BindView(R.id.login_with_text)
     TextView login_with_text;
@@ -103,25 +87,26 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.send_otp_layout)
     LinearLayout send_otp_layout;
 
-   /* @BindView(R.id.verification_layout)
-    LinearLayout verification_layout;*/
-
     DialogOTP otpDialog;
 
     String phone_number;
 
     // For Firebase Integration
     FirebaseAuth firebaseAuth;
-    String mverificationCode, mcode;
+
+    String mVerificationCode;
     PhoneAuthProvider.ForceResendingToken token;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
+
+    FirebaseAuth.AuthStateListener authStateListener;
+    FirebaseFirestore db;
+    DocumentReference documentReference;
 
     //For Google Integration
     private static final int RC_SIGN_IN = 9001;
     GoogleApiClient googleApiClient;
 
     ProgressDialog progressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -134,11 +119,10 @@ public class SignInActivity extends AppCompatActivity {
 
         otpDialog = new DialogOTP(this);
 
-
-
-        codeSentDialog = new CodeSentDialog(this);
-
         progressDialog = new ProgressDialog(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         //For Google Integration
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -156,6 +140,50 @@ public class SignInActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+
+                    //User is signed in
+                    documentReference = db.collection("Users").document(firebaseUser.getUid());
+
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                User user1 = documentSnapshot.toObject(User.class);
+                                String user_name = user1.getName();
+                                String shop_name = user1.getShop_name();
+                                startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
+                                finish();
+
+                            }
+                            else
+                            {
+                                startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
+                                finish();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Toast.makeText(SignInActivity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("TAG", "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
 
 
         //For Changing Fonts
@@ -168,7 +196,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
         //For Firebase Integration
-        firebaseAuth = FirebaseAuth.getInstance();
+
 
 
 
@@ -200,7 +228,7 @@ public class SignInActivity extends AppCompatActivity {
                 otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 otpDialog.show();
 
-                mverificationCode = verification_id;
+                mVerificationCode = verification_id;
                 token = forceResendingToken;
 
 
@@ -299,32 +327,6 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-   /* @OnClick(R.id.verify_button)
-    public void verify_button()
-    {
-        //progressDialog.show();
-
-        if (verification_code_editText.getText().length() == 0)
-        {
-            verification_code_editText.setError("Please fill the Correct Verification Code");
-            //progressDialog.hide();
-            return;
-        }
-        mcode = verification_code_editText.getText().toString();
-        verifyPhoneNumberWithCode(mverificationCode, mcode);
-    }*/
-
-    /*@OnClick(R.id.resend_otp)
-    public void resend_otp()
-    {
-        //progressDialog.setMessage("Verifying");
-       // progressDialog.show();
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
-    }*/
-
-
-
-
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -405,10 +407,6 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-                            /*progressDialog.hide();*/
-                            startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
-                            finish();
-
                         }
                         else
                         {
@@ -418,10 +416,12 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSendOTPEvent(EventOTP event)
     {
-        verifyPhoneNumberWithCode(mverificationCode, event.getCode());
+        verifyPhoneNumberWithCode(mVerificationCode, event.getCode());
         //Toast.makeText(this, "Message Event " + event.getCode(), Toast.LENGTH_SHORT).show();
     };
 
@@ -436,12 +436,16 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        if (firebaseAuth != null) {
+            firebaseAuth.removeAuthStateListener(authStateListener);
+        }
         EventBus.getDefault().unregister(this);
     }
 

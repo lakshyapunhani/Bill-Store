@@ -11,8 +11,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
 
-
-
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
 
@@ -31,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    //Toast.makeText(SplashActivity.this, user.getPhoneNumber() + "User Phone Number", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
                     Intent intent = new Intent(SplashActivity.this, ProfileActivity.class);
                     startActivity(intent);
