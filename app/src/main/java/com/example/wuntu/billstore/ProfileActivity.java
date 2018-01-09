@@ -53,11 +53,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     GoogleApiClient googleApiClient;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
 
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
@@ -96,9 +91,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle("Bill Store");
+        /*toolbar.setTitle("Bill Store");
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
+
+        BillStoreFragment billStoreFragment = new BillStoreFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,billStoreFragment).commit();
 
 
         //progressDialog = new ProgressDialog(this);
@@ -130,7 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 User user1 = documentSnapshot.toObject(User.class);
                                 user_name = user1.getName();
                                 shop_name = user1.getShop_name();
-                                addNavigationDrawer();
+                                //addNavigationDrawer();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -153,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void addNavigationDrawer()
+    /*private void addNavigationDrawer()
     {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -220,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .build();
 
-    }
+    }*/
 
 
     @Override
@@ -231,11 +229,5 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btn_addNewBill)
-    public void addNewBillClick()
-    {
-        coordinatorLayout.setVisibility(View.GONE);
-        AddNewBillFragment addNewBillFragment = new AddNewBillFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,addNewBillFragment).addToBackStack(null).commit();
-    }
+
 }

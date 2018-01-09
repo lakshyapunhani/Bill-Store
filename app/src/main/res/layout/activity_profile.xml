@@ -1,85 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_width="match_parent"
+
+<FrameLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-
-
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:title="@string/app_name"
-                app:title="@string/app_name"
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-        </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/activity_main2"
-            android:fitsSystemWindows="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-            <ImageView
-                android:src="@drawable/ic_not_found"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:padding="25dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="20dp"
-                android:text="You dont have any Bills"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"/>
-
-
-
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_addNewBill"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:background="@color/primary"
-            android:text="Add new Bill"
-            android:layout_height="60dp">
-        </Button>
-
-
-
-    </android.support.design.widget.CoordinatorLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frameLayout">
-    </FrameLayout>
-
-
-
+    android:id="@+id/frameLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 </FrameLayout>
+
+
+
+
+
+
+
+
+
+
 
