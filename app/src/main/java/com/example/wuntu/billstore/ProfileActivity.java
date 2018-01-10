@@ -54,8 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
     GoogleApiClient googleApiClient;
 
 
-    @BindView(R.id.frameLayout)
-    FrameLayout frameLayout;
+
 
     //ProgressDialog progressDialog;
 
@@ -95,13 +94,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);*/
 
-        BillStoreFragment billStoreFragment = new BillStoreFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,billStoreFragment).commit();
 
 
         //progressDialog = new ProgressDialog(this);
         db = FirebaseFirestore.getInstance();
-        //profileInformationDialog = new ProfileInformationDialog(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -219,6 +215,14 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
 
     }*/
+
+
+    @OnClick(R.id.btn_addNewBill)
+    public void addNewBillClick()
+    {
+        startActivity(new Intent(ProfileActivity.this, AddNewBillActivity.class));
+        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up);
+    }
 
 
     @Override
