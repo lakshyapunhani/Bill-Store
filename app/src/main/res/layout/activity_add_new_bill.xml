@@ -33,6 +33,7 @@
         android:layout_below="@+id/appBarLayout"
         android:layout_above="@+id/btn"
         android:fitsSystemWindows="true"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -41,11 +42,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
 
             <RadioGroup
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -74,12 +75,20 @@
 
                     </LinearLayout>
 
-                    <Spinner
-                        android:layout_width="250dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp">
-                    </Spinner>
+                    <LinearLayout
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border">
+
+                        <com.example.wuntu.billstore.Utils.SearchableSpinner
+                            android:id="@+id/vendorSpinner"
+                            android:layout_width="250dp"
+                            android:layout_height="40dp">
+                        </com.example.wuntu.billstore.Utils.SearchableSpinner>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -278,17 +287,28 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="10dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:clipToPadding="false"
-                android:id="@+id/recycler_view"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Add Document(s)"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:id="@+id/recycler_view"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
 
         </LinearLayout>

@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 
 import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.SearchableSpinner;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class AddNewBillActivity extends AppCompatActivity {
     RecyclerView recycler_view;
 
     ArrayList<String> arrayList;
+
+    @BindView(R.id.vendorSpinner)
+    SearchableSpinner vendorSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,11 @@ public class AddNewBillActivity extends AppCompatActivity {
         recycler_view.setItemAnimator(new DefaultItemAnimator());
         recycler_view.setNestedScrollingEnabled(false);
         recycler_view.setAdapter(addDocumentsAdapter);
+
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vendorSpinner.setAdapter(spinnerAdapter);
 
     }
 

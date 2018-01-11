@@ -83,6 +83,6 @@ public class AddDocumentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 10;
     }
 }

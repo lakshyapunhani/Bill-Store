@@ -103,6 +103,8 @@
     <string name="text_enter_bill_amount">Enter Bill Amount</string>
     <string name="text_submit">Submit</string>
     <string name="text_enter_bill_description">Enter bill description</string>
+    <string name="dialog_list_btn_close">Close</string>
+    <string name="xml_select_vendor">Select Vendor</string>
 
 </resources>
 
