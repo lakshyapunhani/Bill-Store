@@ -105,6 +105,9 @@
     <string name="text_enter_bill_description">Enter bill description</string>
     <string name="dialog_list_btn_close">Close</string>
     <string name="xml_select_vendor">Select Vendor</string>
+    <string name="text_billStatus">Bill Status</string>
+    <string name="text_due">Due</string>
+    <string name="text_paid">Paid</string>
 
 </resources>
 

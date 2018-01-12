@@ -51,19 +51,23 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/outerView_existingVendor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
 
                     <LinearLayout
+                        android:id="@+id/view_existingVendor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id="@+id/radio_existingVendor"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:checked="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -76,6 +80,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/innerView_existingVendor"
                         android:layout_marginLeft="40dp"
                         android:layout_marginStart="40dp"
                         android:layout_width="wrap_content"
@@ -102,17 +107,20 @@
                     android:textSize="20sp" />
 
                 <LinearLayout
+                    android:id="@+id/outerView_newVendor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
 
                     <LinearLayout
+                        android:id="@+id/view_newVendor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id="@+id/radio_newVendor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -127,26 +135,33 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/innerView_newVendor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:visibility="gone"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
 
                         <EditText
+                            android:id="@+id/edt_newVendorName"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
+                            android:scrollHorizontally="true"
                             android:background="@drawable/border"
                             android:hint="@string/text_enter_new_vendor_name"
+                            android:inputType="text"
                             android:padding="15dp" />
 
                         <EditText
+                            android:id="@+id/edt_newVendorAddress"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:layout_marginTop="10dp"
                             android:background="@drawable/border"
+                            android:layout_marginTop="10dp"
+                            android:inputType="text"
                             android:hint="@string/text_enter_new_vendor_address"
                             android:padding="15dp" />
 
@@ -211,6 +226,7 @@
                     android:background="@android:color/black"/>
 
                 <EditText
+                    android:id="@+id/edt_billAmount"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -218,12 +234,14 @@
                     android:gravity="center_vertical"
                     android:hint="@string/text_enter_bill_amount"
                     android:paddingEnd="0dp"
+                    android:inputType="number"
                     android:paddingLeft="20dp"
                     android:paddingRight="0dp"
                     android:paddingStart="20dp"
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:maxLines="1"/>
 
             </LinearLayout>
 
@@ -236,15 +254,20 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/edt_billDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
                     android:gravity="start|center_horizontal"
                     android:hint="@string/text_enter_bill_description"
-                    android:paddingEnd="0dp"
                     android:paddingLeft="20dp"
-                    android:paddingRight="0dp"
                     android:paddingStart="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:maxLines="3"
+
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/black"
                     android:textSize="16sp" />
@@ -261,28 +284,33 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Bill Status"
+                    android:text="@string/text_billStatus"
                     android:textSize="20sp"/>
 
                 <RadioGroup
+                    android:id="@+id/billStatusRadioGroup"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
 
                     <RadioButton
+                        android:id="@+id/radio_due"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Due"
+                        android:text="@string/text_due"
+                        android:checked="true"
                         android:textSize="16sp"/>
 
 
                     <RadioButton
+                        android:id="@+id/radio_paid"
                         android:layout_marginLeft="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Paid"
-                        android:textSize="16sp"/>
+                        android:text="@string/text_paid"
+                        android:textSize="16sp"
+                        android:layout_marginStart="20dp" />
                 </RadioGroup>
 
             </LinearLayout>
