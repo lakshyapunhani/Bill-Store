@@ -3,13 +3,18 @@ package com.example.wuntu.billstore.Adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.wuntu.billstore.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -26,7 +31,7 @@ public class AddDocumentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context context;
 
-    boolean show_footer = true;
+    private boolean show_footer = true;
 
     private ArrayList<String> arrayList;
 
@@ -101,9 +106,43 @@ public class AddDocumentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     {
         if (holder instanceof MyViewHolder1)
         {
-            String path = arrayList.get(position );
+
+            String path = arrayList.get(position);
             Uri uri = Uri.parse(path);
-            ((MyViewHolder1)holder).imageView.setImageURI(uri);
+            String extension;
+
+            if(path.contains(".")) {
+                extension = path.substring(path.lastIndexOf(".") + 1);
+                Log.d("Position","" + position + " " + extension );
+            }
+            else extension = " ";
+
+
+            if (extension.equalsIgnoreCase("txt"))
+            {
+                ((MyViewHolder1)holder).imageView.setImageResource(R.drawable.ic_txt);
+            }
+            else if (extension.equalsIgnoreCase("pdf"))
+            {
+                ((MyViewHolder1)holder).imageView.setImageResource(R.drawable.ic_pdf);
+            }
+            else if (extension.equalsIgnoreCase("docx"))
+            {
+                ((MyViewHolder1)holder).imageView.setImageResource(R.drawable.ic_word);
+            }
+            else if (extension.equalsIgnoreCase("xls"))
+            {
+                ((MyViewHolder1)holder).imageView.setImageResource(R.drawable.ic_file);
+            }
+            else if (extension.equalsIgnoreCase("ppt"))
+            {
+                ((MyViewHolder1)holder).imageView.setImageResource(R.drawable.ic_ppt);
+            }
+            else
+            {
+                ((MyViewHolder1)holder).imageView.setImageURI(uri);
+            }
+
         }
     }
 

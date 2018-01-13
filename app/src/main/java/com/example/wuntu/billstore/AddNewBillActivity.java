@@ -124,81 +124,87 @@ public class AddNewBillActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position)
             {
-                final CharSequence[] options = {"Take Photo", "Gallery", "Document" ,  "Cancel"};
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddNewBillActivity.this);
-                builder.setTitle("Add Document!");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (options[item].equals("Take Photo")) {
+                if (!(recyclerViewList.size() >= 6))
+                {
+                    if (position == recyclerViewList.size() )
+                    {
 
 
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 
-                                cameraIntent();
-                                //Toast.makeText(AddNewBillActivity.this, "Take Photo Clicked", Toast.LENGTH_SHORT).show();
+                    final CharSequence[] options = {"Take Photo", "Gallery", "Document" ,  "Cancel"};
 
-                            } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddNewBillActivity.this);
+                    builder.setTitle("Add Document!");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (options[item].equals("Take Photo")) {
 
-                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
-                                if (!marshMallowPermission.checkPermissionForCamera()) {
-                                    marshMallowPermission.requestPermissionForCamera();
+
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+
+                                    cameraIntent();
+
                                 } else {
+
+                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+                                    if (!marshMallowPermission.checkPermissionForCamera()) {
+                                        marshMallowPermission.requestPermissionForCamera();
+                                    } else {
+                                        if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                                            marshMallowPermission.requestPermissionForExternalStorage();
+                                        } else {
+                                            cameraIntent();
+                                        }
+                                    }
+                                }
+
+
+                            } else if (options[item].equals("Gallery")) {
+
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                    galleryPicker();
+                                } else {
+
+                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+
                                     if (!marshMallowPermission.checkPermissionForExternalStorage()) {
                                         marshMallowPermission.requestPermissionForExternalStorage();
                                     } else {
-                                        cameraIntent();
-                                        //Toast.makeText(AddNewBillActivity.this, "Take Photo Clicked", Toast.LENGTH_SHORT).show();
+                                        galleryPicker();
 
+                                    }
+
+
+                                }
+                            }
+                            else if (options[item].equals("Document")) {
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                    documentPicker();
+                                    Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+
+                                    if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                                        marshMallowPermission.requestPermissionForExternalStorage();
+                                    } else {
+                                        documentPicker();
+                                        Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
-
-
-                        } else if (options[item].equals("Gallery")) {
-
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                galleryPicker();
-                                //Toast.makeText(AddNewBillActivity.this, "Gallery Clicked", Toast.LENGTH_SHORT).show();
-                            } else {
-
-                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
-
-                                if (!marshMallowPermission.checkPermissionForExternalStorage()) {
-                                    marshMallowPermission.requestPermissionForExternalStorage();
-                                } else {
-                                    //Toast.makeText(AddNewBillActivity.this, "Gallery Clicked", Toast.LENGTH_SHORT).show();
-                                    galleryPicker();
-
-                                }
-
-
+                            else if (options[item].equals("Cancel")) {
+                                dialog.dismiss();
                             }
                         }
-                        else if (options[item].equals("Document")) {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                //galleryIntent();
-                                Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
-                            } else {
+                    });
+                    builder.show();
+                }
+                }
 
-                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
 
-                                if (!marshMallowPermission.checkPermissionForExternalStorage()) {
-                                    marshMallowPermission.requestPermissionForExternalStorage();
-                                } else {
-                                    //galleryIntent();
-                                    Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        }
-                        else if (options[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
                 //Toast.makeText(AddNewBillActivity.this, "Clicked " + position, Toast.LENGTH_SHORT).show();
             }
 
@@ -265,6 +271,19 @@ public class AddNewBillActivity extends AppCompatActivity {
                 if(data!=null)
                 {
                     recyclerViewList.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
+                    if (recyclerViewList.size() >= 6)
+                    {
+                        addDocumentsAdapter.hideFooter();
+                    }
+                    addDocumentsAdapter.notifyDataSetChanged();
+                }
+            }
+
+            else if (requestCode == FilePickerConst.REQUEST_CODE_DOC)
+            {
+                if (data!= null)
+                {
+                    recyclerViewList.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
                     if (recyclerViewList.size() >= 6)
                     {
                         addDocumentsAdapter.hideFooter();
@@ -358,13 +377,25 @@ public class AddNewBillActivity extends AppCompatActivity {
         {
             FilePickerBuilder.getInstance()
                     .setMaxCount(maxCount)
-                    .setSelectedFiles(arrayList)
                     .enableCameraSupport(false)
                     .setActivityTheme(R.style.FilePickerTheme)
                     .pickPhoto(this);
         }
+    }
 
+    private void documentPicker()
+    {
+        int maxCount = MAX_ATTACHMENT_COUNT - recyclerViewList.size();
 
+        if ((recyclerViewList.size()) == MAX_ATTACHMENT_COUNT)
+            Toast.makeText(this, "Cannot select more than " + MAX_ATTACHMENT_COUNT + " items", Toast.LENGTH_SHORT).show();
+
+        else
+        {
+            FilePickerBuilder.getInstance().setMaxCount(maxCount)
+                    .setActivityTheme(R.style.FilePickerTheme)
+                    .pickFile(this);
+        }
 
     }
 
