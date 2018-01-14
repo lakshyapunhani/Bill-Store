@@ -108,6 +108,7 @@
     <string name="text_billStatus">Bill Status</string>
     <string name="text_due">Due</string>
     <string name="text_paid">Paid</string>
+    <string name="toast_please_select_date">Please Select Date</string>
 
 </resources>
 

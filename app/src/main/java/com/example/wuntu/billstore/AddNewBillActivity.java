@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.ParseException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,11 +19,12 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +32,10 @@ import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.example.wuntu.billstore.Utils.SearchableSpinner;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.io.ByteArrayOutputStream;
@@ -46,15 +47,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
-import droidninja.filepicker.utils.Orientation;
 
 public class AddNewBillActivity extends AppCompatActivity {
 
@@ -87,6 +86,15 @@ public class AddNewBillActivity extends AppCompatActivity {
     @BindView(R.id.text_pickDate)
     TextView text_pickDate;
 
+    @BindView(R.id.edt_newVendorName)
+    EditText edt_newVendorName;
+
+    @BindView(R.id.edt_newVendorAddress) EditText edt_newVendorAddress;
+
+    @BindView(R.id.edt_billAmount) EditText edt_billAmount;
+
+    @BindView(R.id.edt_billDescription) EditText edt_billDescription;
+
     Calendar myCalendar = Calendar.getInstance();
 
     ArrayList<String> arrayList;
@@ -99,6 +107,22 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     Uri selectedImageURI;
 
+    int spinnerValue;
+    String spinnerValueName;
+
+    boolean vendorView, statusView;
+
+    String newVendorName,newVendorAddress;
+
+    String billAmount,billDescription;
+
+
+    private FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+    private FirebaseAuth firebaseAuth;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +131,13 @@ public class AddNewBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_bill);
 
         ButterKnife.bind(this);
+
+
+
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         recyclerViewList = new ArrayList<>();
 
@@ -214,6 +245,9 @@ public class AddNewBillActivity extends AppCompatActivity {
             }
         }));
 
+        arrayList.add("A");
+        arrayList.add("B");
+        arrayList.add("C");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vendorSpinner.setAdapter(spinnerAdapter);
@@ -319,6 +353,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     @OnClick({R.id.view_existingVendor,R.id.radio_existingVendor})
     public void existingVendorViewClick()
     {
+        vendorView = false;
         radio_existingVendor.setChecked(true);
         radio_newVendor.setChecked(false);
         TransitionManager.beginDelayedTransition(outerView_newVendor);
@@ -330,6 +365,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     @OnClick({R.id.view_newVendor,R.id.radio_newVendor})
     public void newVendorViewClick()
     {
+        vendorView = true;
         radio_newVendor.setChecked(true);
         radio_existingVendor.setChecked(false);
         TransitionManager.beginDelayedTransition(outerView_newVendor);
@@ -352,12 +388,14 @@ public class AddNewBillActivity extends AppCompatActivity {
     @OnClick(R.id.radio_due)
     public void onDueRadioButtonClicked()
     {
+        statusView = false;
         Toast.makeText(this, "Radio Due Checked", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.radio_paid)
     public void onPaidRadioButtonClicked()
     {
+        statusView = true;
         Toast.makeText(this, "Radio Paid Checked", Toast.LENGTH_SHORT).show();
     }
 
@@ -399,6 +437,100 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     }
 
+    @OnItemSelected(value = R.id.vendorSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
+    void selectVehicle(AdapterView<?> adapterView, int newVal) {
+        if (arrayList.size()>0)
+        {
+            spinnerValue = newVal;
+            //Toast.makeText(this, "Value Selected" + newVal + " " + arrayList.get(newVal), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.btn_submitBill)
+    public void submitBill()
+    {
+        if (vendorView)
+        {
+            if (edt_newVendorName.getText().toString().trim().isEmpty())
+            {
+                Toast.makeText(this, "Fill Vendor Name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (edt_newVendorAddress.getText().toString().trim().isEmpty())
+            {
+                Toast.makeText(this, "Fill Vendor Address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            newVendorName = edt_newVendorName.getText().toString();
+            newVendorAddress = edt_newVendorAddress.getText().toString();
+        }
+        else
+        {
+            spinnerValueName = arrayList.get(spinnerValue);
+        }
+
+
+        if (!text_pickDate.getText().toString().trim().equals("Select Bill Date"))
+        {
+            Log.d("tag",text_pickDate.getText().toString() + "");
+            //Toast.makeText(this, "Date = " + text_pickDate.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(AddNewBillActivity.this, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (edt_billAmount.getText().toString().trim().isEmpty())
+        {
+            Toast.makeText(this, "Enter the bill amount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!edt_billDescription.getText().toString().trim().isEmpty())
+        {
+            billDescription = edt_billDescription.getText().toString();
+        }
+
+        if (recyclerViewList.isEmpty())
+        {
+            Toast.makeText(this, "Please add atleast one document", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        billAmount = edt_billAmount.getText().toString().trim();
+
+        writeDataToFirebase();
+
+    }
+
+    private void writeDataToFirebase()
+    {
+        if (vendorView)
+        {
+
+
+            CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
+
+
+
+            /*db.collection("Bills").document(firebaseUser.getUid()).set(newVendor)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            Toast.makeText(AddNewBillActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddNewBillActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                }
+            });*/
+        }
+
+    }
 
 
     @Override

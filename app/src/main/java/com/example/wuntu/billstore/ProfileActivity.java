@@ -24,9 +24,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -37,6 +41,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,26 +121,62 @@ public class ProfileActivity extends AppCompatActivity {
                 if (firebaseUser != null) {
 
                     //User is signed in
-                    documentReference = db.collection("Users").document(firebaseUser.getUid());
 
-                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+
+                    CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
+
+                    CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
+                            .document("AB Trader").collection("UID");
+
+                    profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot)
-                        {
-                            if (documentSnapshot != null && documentSnapshot.exists()) {
-                                User user1 = documentSnapshot.toObject(User.class);
-                                user_name = user1.getName();
-                                shop_name = user1.getShop_name();
-                                //addNavigationDrawer();
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (!documentSnapshot.exists())
+                            {
+                                Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
+                                return;
                             }
+                            Toast.makeText(ProfileActivity.this, "Profile Request " + documentSnapshot.getData(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            Toast.makeText(ProfileActivity.this, "Exception " + e, Toast.LENGTH_SHORT).show();
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
+                        {
+                            if (e != null) {
+                                Toast.makeText(ProfileActivity.this, "Bills Request Failed", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            List<String> cities = new ArrayList<>();
+                            for (DocumentSnapshot doc : documentSnapshots) {
+                                Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+                    billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null)
+                            {
+                                Toast.makeText(ProfileActivity.this, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            for (DocumentSnapshot doc : documentSnapshots)
+                            {
+                                Toast.makeText(ProfileActivity.this, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
 
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
                 } else {
@@ -142,6 +185,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         };
+
+
 
 
 

@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout"
-        android:layout_above="@+id/btn"
+        android:layout_above="@+id/btn_submitBill"
         android:fitsSystemWindows="true"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -267,7 +267,6 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:maxLines="3"
-
                     android:textColor="@android:color/black"
                     android:textColorHint="@android:color/black"
                     android:textSize="16sp" />
@@ -344,7 +343,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_submitBill"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:background="@color/com_facebook_blue"
