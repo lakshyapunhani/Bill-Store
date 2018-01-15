@@ -333,6 +333,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
+        otpDialog.dismiss();
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         // [END verify_with_code]

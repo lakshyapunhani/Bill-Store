@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "71640536740-ni8tocgs7t8uohgg7u5suet8h4n6g4ds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wuntu.billstore",
+            "certificate_hash": "c3ec18973577f6de44fd2291763ff98a534c1076"
+          }
+        },
+        {
           "client_id": "71640536740-raogh78eq0b2mvnoa0tb8kbml14ib8t7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
