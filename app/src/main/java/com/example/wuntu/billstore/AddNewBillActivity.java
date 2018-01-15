@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.transition.TransitionManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,13 +30,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
+import com.example.wuntu.billstore.Pojos.BillDetails;
+import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.example.wuntu.billstore.Utils.SearchableSpinner;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 import java.io.ByteArrayOutputStream;
@@ -47,6 +55,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,12 +124,14 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     String newVendorName,newVendorAddress;
 
-    String billAmount,billDescription;
+    String billAmount,billDescription,billDate;
+    String billStatus = "Due";
 
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    private StorageReference mStorageRef;
 
 
 
@@ -139,6 +151,8 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         recyclerViewList = new ArrayList<>();
 
         arrayList = new ArrayList<>();
@@ -151,99 +165,98 @@ public class AddNewBillActivity extends AppCompatActivity {
         recycler_view.setAdapter(addDocumentsAdapter);
 
         recycler_view.addOnItemTouchListener(
-        new RecyclerViewListener(this, recycler_view, new RecyclerViewListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position)
-            {
-
-                if (!(recyclerViewList.size() >= 6))
-                {
-                    if (position == recyclerViewList.size() )
+                new RecyclerViewListener(this, recycler_view, new RecyclerViewListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position)
                     {
 
+                        if (!(recyclerViewList.size() >= 6))
+                        {
+                            if (position == recyclerViewList.size() )
+                            {
 
 
-                    final CharSequence[] options = {"Take Photo", "Gallery", "Document" ,  "Cancel"};
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddNewBillActivity.this);
-                    builder.setTitle("Add Document!");
-                    builder.setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int item) {
-                            if (options[item].equals("Take Photo")) {
+                                final CharSequence[] options = {"Take Photo", "Gallery", "Document" ,  "Cancel"};
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AddNewBillActivity.this);
+                                builder.setTitle("Add Document!");
+                                builder.setItems(options, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int item) {
+                                        if (options[item].equals("Take Photo")) {
 
 
-                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 
-                                    cameraIntent();
+                                                cameraIntent();
 
-                                } else {
+                                            } else {
 
-                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
-                                    if (!marshMallowPermission.checkPermissionForCamera()) {
-                                        marshMallowPermission.requestPermissionForCamera();
-                                    } else {
-                                        if (!marshMallowPermission.checkPermissionForExternalStorage()) {
-                                            marshMallowPermission.requestPermissionForExternalStorage();
-                                        } else {
-                                            cameraIntent();
+                                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+                                                if (!marshMallowPermission.checkPermissionForCamera()) {
+                                                    marshMallowPermission.requestPermissionForCamera();
+                                                } else {
+                                                    if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                                                        marshMallowPermission.requestPermissionForExternalStorage();
+                                                    } else {
+                                                        cameraIntent();
+                                                    }
+                                                }
+                                            }
+
+
+                                        } else if (options[item].equals("Gallery")) {
+
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                                galleryPicker();
+                                            } else {
+
+                                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+
+                                                if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                                                    marshMallowPermission.requestPermissionForExternalStorage();
+                                                } else {
+                                                    galleryPicker();
+
+                                                }
+
+
+                                            }
+                                        }
+                                        else if (options[item].equals("Document")) {
+                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                                documentPicker();
+                                                Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
+                                            } else {
+
+                                                MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
+
+                                                if (!marshMallowPermission.checkPermissionForExternalStorage()) {
+                                                    marshMallowPermission.requestPermissionForExternalStorage();
+                                                } else {
+                                                    documentPicker();
+                                                    Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                        else if (options[item].equals("Cancel")) {
+                                            dialog.dismiss();
                                         }
                                     }
-                                }
-
-
-                            } else if (options[item].equals("Gallery")) {
-
-                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                    galleryPicker();
-                                } else {
-
-                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
-
-                                    if (!marshMallowPermission.checkPermissionForExternalStorage()) {
-                                        marshMallowPermission.requestPermissionForExternalStorage();
-                                    } else {
-                                        galleryPicker();
-
-                                    }
-
-
-                                }
-                            }
-                            else if (options[item].equals("Document")) {
-                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                    documentPicker();
-                                    Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
-                                } else {
-
-                                    MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddNewBillActivity.this);
-
-                                    if (!marshMallowPermission.checkPermissionForExternalStorage()) {
-                                        marshMallowPermission.requestPermissionForExternalStorage();
-                                    } else {
-                                        documentPicker();
-                                        Toast.makeText(AddNewBillActivity.this, "Document Clicked", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            else if (options[item].equals("Cancel")) {
-                                dialog.dismiss();
+                                });
+                                builder.show();
                             }
                         }
-                    });
-                    builder.show();
-                }
-                }
 
 
-                //Toast.makeText(AddNewBillActivity.this, "Clicked " + position, Toast.LENGTH_SHORT).show();
-            }
+                    }
 
-            @Override
-            public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
 
-            }
-        }));
+                    }
+                }));
 
         arrayList.add("A");
         arrayList.add("B");
@@ -389,6 +402,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     public void onDueRadioButtonClicked()
     {
         statusView = false;
+        billStatus = "Due";
         Toast.makeText(this, "Radio Due Checked", Toast.LENGTH_SHORT).show();
     }
 
@@ -396,6 +410,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     public void onPaidRadioButtonClicked()
     {
         statusView = true;
+        billStatus = "Paid";
         Toast.makeText(this, "Radio Paid Checked", Toast.LENGTH_SHORT).show();
     }
 
@@ -442,7 +457,6 @@ public class AddNewBillActivity extends AppCompatActivity {
         if (arrayList.size()>0)
         {
             spinnerValue = newVal;
-            //Toast.makeText(this, "Value Selected" + newVal + " " + arrayList.get(newVal), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -473,6 +487,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         if (!text_pickDate.getText().toString().trim().equals("Select Bill Date"))
         {
+            billDate = text_pickDate.getText().toString().trim();
             Log.d("tag",text_pickDate.getText().toString() + "");
             //Toast.makeText(this, "Date = " + text_pickDate.getText().toString().trim(), Toast.LENGTH_SHORT).show();
         }
@@ -492,6 +507,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         {
             billDescription = edt_billDescription.getText().toString();
         }
+        else billDescription = "";
 
         if (recyclerViewList.isEmpty())
         {
@@ -499,35 +515,81 @@ public class AddNewBillActivity extends AppCompatActivity {
             return;
         }
 
+
         billAmount = edt_billAmount.getText().toString().trim();
 
-        writeDataToFirebase();
+        writeImageToCloud();
 
+    }
+
+    private void writeImageToCloud()
+    {
+        if (firebaseUser != null)
+        {
+            StorageReference riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
+
+
+            for (int i = 0;i<recyclerViewList.size();i++)
+            {
+                String fileName = recyclerViewList.get(i);
+                riversRef.child(billDate + "/" + fileName).putFile(Uri.parse(recyclerViewList.get(i)))
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // Get a URL to the uploaded content
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Log.d("TAG Download URL : ", downloadUrl.toString());
+                                writeDataToFirebase();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                                Log.d("TAG Storage Failed", "Storage Failed" + exception);
+                                Toast.makeText(AddNewBillActivity.this, "Storage Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
     }
 
     private void writeDataToFirebase()
     {
         if (vendorView)
         {
+            VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
+            final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus);
 
-            CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
+            final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 
-
-
-            /*db.collection("Bills").document(firebaseUser.getUid()).set(newVendor)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+            vendorReference.document(newVendorName).set(vendorDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    vendorReference.document(newVendorName)
+                            .collection(firebaseUser.getUid()).document(billDate).set(billDetails)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(AddNewBillActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onSuccess(Void aVoid)
-                        {
-                            Toast.makeText(AddNewBillActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AddNewBillActivity.this, "Bill not added", Toast.LENGTH_SHORT).show();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+                    });
+
+                    Toast.makeText(AddNewBillActivity.this, "Trader Request Success", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AddNewBillActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNewBillActivity.this, "Trader Request Failure", Toast.LENGTH_SHORT).show();
                 }
-            });*/
+            });
         }
 
     }

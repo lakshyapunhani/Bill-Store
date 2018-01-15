@@ -43,7 +43,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            Toast.makeText(ProfileActivity.this, "Profile Request " + documentSnapshot.getData(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ProfileActivity.this, "Profile Request " + documentSnapshot.getData(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -176,6 +178,38 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         }
                     });
+
+                    /*final Map<String,String> map = new HashMap<>();
+                    map.put("Document","Document");
+
+                    CollectionReference traderReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
+
+                    traderReference.document("ABC Trader").set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            db.collection("Users").document(firebaseUser.getUid()).collection("Bills").document("ABC Trader")
+                                    .collection(firebaseUser.getUid()).document("13May18").set(map)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(ProfileActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(ProfileActivity.this, "Bill not added", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            Toast.makeText(ProfileActivity.this, "Trader Request Success", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfileActivity.this, "Trader Request Failure", Toast.LENGTH_SHORT).show();
+                        }
+                    });*/
 
 
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
