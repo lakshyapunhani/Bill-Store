@@ -21,6 +21,7 @@
 
 
     <LinearLayout
+        android:id="@+id/emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
@@ -43,6 +44,14 @@
             android:textSize="24sp"/>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/btn_addNewBill">
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn_addNewBill"

@@ -9,9 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Fragments.VendorsFragment;
 import com.example.wuntu.billstore.Pojos.User;
+import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -73,6 +76,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     AccountHeader headerResult;
 
+    List<VendorDetails> vendorDetailsList;
+
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
+
+    VendorsFragment vendorsFragment;
+
 
     @Override
     public void onStart()
@@ -88,6 +98,13 @@ public class ProfileActivity extends AppCompatActivity {
         googleApiClient.connect();
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
+
+
+        if (!vendorDetailsList.isEmpty())
+        {
+            getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).addToBackStack(null).commit();
+        }
+
     }
 
 
@@ -98,6 +115,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         ButterKnife.bind(this);
+
+        vendorDetailsList = new ArrayList<>();
+
+        vendorsFragment = new VendorsFragment();
 
         /*toolbar.setTitle("Bill Store");
 
@@ -156,9 +177,11 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Bills Request Failed", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            List<String> cities = new ArrayList<>();
+
                             for (DocumentSnapshot doc : documentSnapshots) {
-                                Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getId(), Toast.LENGTH_SHORT).show();
+                                VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
+                                vendorDetailsList.add(vendorDetails);
+                                //Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getData(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
