@@ -61,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
     FirebaseFirestore db;
-    DocumentReference documentReference;
 
     GoogleApiClient googleApiClient;
 
@@ -98,12 +97,6 @@ public class ProfileActivity extends AppCompatActivity {
         googleApiClient.connect();
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
-
-
-        if (!vendorDetailsList.isEmpty())
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).addToBackStack(null).commit();
-        }
 
     }
 
@@ -183,6 +176,8 @@ public class ProfileActivity extends AppCompatActivity {
                                 vendorDetailsList.add(vendorDetails);
                                 //Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getData(), Toast.LENGTH_SHORT).show();
                             }
+
+                            openVendorFragment();
                         }
                     });
 
@@ -247,6 +242,14 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void openVendorFragment()
+    {
+        if (!vendorsFragment.isAdded())
+        {
+            getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).commit();
+        }
     }
 
     /*private void addNavigationDrawer()
