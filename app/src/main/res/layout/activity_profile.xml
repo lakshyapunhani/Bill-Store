@@ -18,30 +18,44 @@
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-
-
     <LinearLayout
-        android:id="@+id/emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/btn_addNewBill"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:src="@drawable/ic_not_found"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:padding="25dp"/>
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/emptyLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="You dont have any Bills"
-            android:gravity="center_horizontal"
-            android:textSize="24sp"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <ImageView
+                android:src="@drawable/ic_not_found"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:padding="25dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="You dont have any Bills"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/traderRecyclerView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 

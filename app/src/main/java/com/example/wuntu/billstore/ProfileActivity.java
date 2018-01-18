@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Adapters.VendorListAdapter;
 import com.example.wuntu.billstore.Fragments.VendorsFragment;
 import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
@@ -56,8 +60,6 @@ import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    //ProfileInformationDialog profileInformationDialog;
-
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
     FirebaseFirestore db;
@@ -75,12 +77,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     AccountHeader headerResult;
 
-    List<VendorDetails> vendorDetailsList;
+    ArrayList<VendorDetails> vendorDetailsList;
 
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
 
-    VendorsFragment vendorsFragment;
+    @BindView(R.id.traderRecyclerView)
+    RecyclerView traderRecyclerView;
+
+    VendorListAdapter vendorListAdapter;
+
+    //VendorsFragment vendorsFragment;
 
 
     @Override
@@ -111,11 +118,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         vendorDetailsList = new ArrayList<>();
 
-        vendorsFragment = new VendorsFragment();
+        //vendorsFragment = new VendorsFragment();
 
         /*toolbar.setTitle("Bill Store");
 
         setSupportActionBar(toolbar);*/
+
+        vendorListAdapter = new VendorListAdapter(vendorDetailsList);
 
 
 
@@ -128,6 +137,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        traderRecyclerView.setLayoutManager(mLayoutManager);
+        traderRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        traderRecyclerView.setAdapter(vendorListAdapter);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -145,7 +159,7 @@ public class ProfileActivity extends AppCompatActivity {
                     CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
                             .document("AB Trader").collection("UID");
 
-                    profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    /*profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (!documentSnapshot.exists())
@@ -160,7 +174,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    });*/
 
                     billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -170,6 +184,13 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Bills Request Failed", Toast.LENGTH_SHORT).show();
                                 return;
                             }
+                            vendorDetailsList.clear();
+
+                            if (traderRecyclerView.getVisibility() == View.GONE && emptyLayout.getVisibility() == View.VISIBLE)
+                            {
+                                traderRecyclerView.setVisibility(View.VISIBLE);
+                                emptyLayout.setVisibility(View.GONE);
+                            }
 
                             for (DocumentSnapshot doc : documentSnapshots) {
                                 VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
@@ -177,12 +198,12 @@ public class ProfileActivity extends AppCompatActivity {
                                 //Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getData(), Toast.LENGTH_SHORT).show();
                             }
 
-                            openVendorFragment();
+                            vendorListAdapter.notifyDataSetChanged();
                         }
                     });
 
 
-                    billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    /*billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                             if (e != null)
@@ -195,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
+                    });*/
 
                     /*final Map<String,String> map = new HashMap<>();
                     map.put("Document","Document");
@@ -238,19 +259,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-
-
-
-
     }
 
-    private void openVendorFragment()
-    {
-        if (!vendorsFragment.isAdded())
-        {
-            getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).commit();
-        }
-    }
+
 
     /*private void addNavigationDrawer()
     {

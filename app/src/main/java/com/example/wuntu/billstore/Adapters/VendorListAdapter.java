@@ -54,17 +54,17 @@ public class VendorListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        /*if (holder instanceof ViewHolder)
+        if (holder instanceof ViewHolder)
         {
             vendorDetails = vendorDetailsList.get(position);
             ((ViewHolder)holder).traderName.setText(vendorDetails.getVendorName());
             ((ViewHolder)holder).traderAddress.setText(vendorDetails.getVendorAddress());
-        }*/
+        }
     }
 
     @Override
     public int getItemCount()
     {
-        return 5;
+        return this.vendorDetailsList.size();
     }
 }
