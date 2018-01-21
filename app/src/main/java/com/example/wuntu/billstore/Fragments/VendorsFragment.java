@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Adapters.BillsListAdapter;
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
+import com.example.wuntu.billstore.Pojos.BillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.ProfileActivity;
 import com.example.wuntu.billstore.R;
@@ -42,9 +44,9 @@ public class VendorsFragment extends Fragment {
 
     LinearLayoutManager mLayoutManager;
 
-    ArrayList<VendorDetails> vendorDetailsList;
+    ArrayList<BillDetails> billsList;
 
-    VendorListAdapter vendorListAdapter;
+    BillsListAdapter billsListAdapter;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -74,39 +76,37 @@ public class VendorsFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        vendorDetailsList = new ArrayList<>();
+        billsList = new ArrayList<>();
 
-        vendorListAdapter = new VendorListAdapter(vendorDetailsList);
+        billsListAdapter = new BillsListAdapter(billsList);
 
         mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(vendorListAdapter);
+        recyclerView.setAdapter(billsListAdapter);
+
+        CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
+                .document("ABC Trader").collection(firebaseUser.getUid());
 
 
-        CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
-
-        vendorDetailsList = new ArrayList<>();
-
-        billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
-            {
-                //vendorDetailsList.clear();
-                if (e != null) {
-                    Toast.makeText(context, "Bills Request Failed", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                for (DocumentSnapshot doc : documentSnapshots) {
-                    VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
-                    vendorDetailsList.add(vendorDetails);
-                    vendorListAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-
-
+        billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null)
+                            {
+                                Toast.makeText(context, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            billsList.clear();
+                            for (DocumentSnapshot doc : documentSnapshots)
+                            {
+                                BillDetails billDetails = doc.toObject(BillDetails.class);
+                                billsList.add(billDetails);
+                                Toast.makeText(context, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
+                            }
+                            billsListAdapter.notifyDataSetChanged();
+                        }
+                    });
 
         return view;
     }

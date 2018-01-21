@@ -9,17 +9,16 @@
     tools:context="com.example.wuntu.billstore.RegisterActivity">
 
 
-
-        <TextView
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Complete your Profile"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_marginBottom="30dp">
-        </TextView>
+    <TextView
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Complete your Profile"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp">
+    </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"

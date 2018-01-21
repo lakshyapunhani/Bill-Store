@@ -109,6 +109,8 @@ public class AddDocumentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             String path = arrayList.get(position);
             Uri uri = Uri.parse(path);
+
+            Log.d("TAG","" + position + " " + uri);
             String extension;
 
             if(path.contains(".")) {

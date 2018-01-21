@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,6 +128,8 @@ public class AddNewBillActivity extends AppCompatActivity {
     String billAmount,billDescription,billDate;
     String billStatus = "Due";
 
+    Map<String,String> billImages;
+
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
@@ -144,7 +147,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
+        billImages = new HashMap<>();
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -331,6 +334,7 @@ public class AddNewBillActivity extends AppCompatActivity {
                 if (data!= null)
                 {
                     recyclerViewList.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
+
                     if (recyclerViewList.size() >= 6)
                     {
                         addDocumentsAdapter.hideFooter();
@@ -532,13 +536,28 @@ public class AddNewBillActivity extends AppCompatActivity {
             for (int i = 0;i<recyclerViewList.size();i++)
             {
                 String fileName = recyclerViewList.get(i);
-                riversRef.child(billDate + "/" + fileName).putFile(Uri.parse(recyclerViewList.get(i)))
+                String fileName1;
+                final Uri uri;
+                if (fileName.startsWith("content"))
+                {
+                    fileName1 = fileName;
+                    uri = Uri.parse(fileName1);
+                }
+                else
+                {
+                    fileName1 = "file://" + fileName;
+                    uri = Uri.parse(fileName1);
+                }
+
+                Log.d("TAG",fileName1);
+                riversRef.child(billDate + "/" + uri.getLastPathSegment()).putFile(uri)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Get a URL to the uploaded content
                                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                                 Log.d("TAG Download URL : ", downloadUrl.toString());
+                                billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
                                 writeDataToFirebase();
                             }
                         })
@@ -551,6 +570,8 @@ public class AddNewBillActivity extends AppCompatActivity {
                             }
                         });
             }
+
+
         }
     }
 
@@ -560,7 +581,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         {
             VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-            final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus);
+            final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus,billImages);
 
             final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 

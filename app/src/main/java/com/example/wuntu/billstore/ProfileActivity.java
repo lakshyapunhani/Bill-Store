@@ -19,6 +19,7 @@ import com.example.wuntu.billstore.Adapters.VendorListAdapter;
 import com.example.wuntu.billstore.Fragments.VendorsFragment;
 import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -85,6 +86,10 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.traderRecyclerView)
     RecyclerView traderRecyclerView;
 
+    @BindView(R.id.profileActivity_layout) LinearLayout profileActivity_layout;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
     VendorListAdapter vendorListAdapter;
 
     //VendorsFragment vendorsFragment;
@@ -120,9 +125,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         //vendorsFragment = new VendorsFragment();
 
-        /*toolbar.setTitle("Bill Store");
+        toolbar.setTitle("Bill Store");
 
-        setSupportActionBar(toolbar);*/
+        setSupportActionBar(toolbar);
 
         vendorListAdapter = new VendorListAdapter(vendorDetailsList);
 
@@ -143,6 +148,23 @@ public class ProfileActivity extends AppCompatActivity {
         traderRecyclerView.setItemAnimator(new DefaultItemAnimator());
         traderRecyclerView.setAdapter(vendorListAdapter);
 
+        traderRecyclerView.addOnItemTouchListener(
+                new RecyclerViewListener(this, traderRecyclerView, new RecyclerViewListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(ProfileActivity.this, "" + vendorDetailsList.get(position).getVendorName(), Toast.LENGTH_SHORT).show();
+                        VendorsFragment vendorsFragment = new VendorsFragment();
+                        profileActivity_layout.setVisibility(View.GONE);
+                        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).commit();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -159,7 +181,7 @@ public class ProfileActivity extends AppCompatActivity {
                     CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
                             .document("AB Trader").collection("UID");
 
-                    /*profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (!documentSnapshot.exists())
@@ -167,6 +189,11 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                                 return;
                             }
+
+                            user_name = documentSnapshot.get("name").toString();
+                            shop_name = documentSnapshot.get("shop_name").toString();
+
+                            addNavigationDrawer();
                             //Toast.makeText(ProfileActivity.this, "Profile Request " + documentSnapshot.getData(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -174,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(ProfileActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                         }
-                    });*/
+                    });
 
                     billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -186,16 +213,22 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                             vendorDetailsList.clear();
 
-                            if (traderRecyclerView.getVisibility() == View.GONE && emptyLayout.getVisibility() == View.VISIBLE)
+                            if (documentSnapshots.isEmpty())
                             {
-                                traderRecyclerView.setVisibility(View.VISIBLE);
-                                emptyLayout.setVisibility(View.GONE);
+                                emptyLayout.setVisibility(View.VISIBLE);
+                                traderRecyclerView.setVisibility(View.GONE);
                             }
 
+
+
                             for (DocumentSnapshot doc : documentSnapshots) {
+                                if (traderRecyclerView.getVisibility() == View.GONE && emptyLayout.getVisibility() == View.VISIBLE)
+                                {
+                                    traderRecyclerView.setVisibility(View.VISIBLE);
+                                    emptyLayout.setVisibility(View.GONE);
+                                }
                                 VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
                                 vendorDetailsList.add(vendorDetails);
-                                //Toast.makeText(ProfileActivity.this, "Bills Trader Request " + doc.getData(), Toast.LENGTH_SHORT).show();
                             }
 
                             vendorListAdapter.notifyDataSetChanged();
@@ -263,7 +296,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-    /*private void addNavigationDrawer()
+    private void addNavigationDrawer()
     {
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -330,7 +363,7 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .build();
 
-    }*/
+    }
 
 
     @OnClick(R.id.btn_addNewBill)
