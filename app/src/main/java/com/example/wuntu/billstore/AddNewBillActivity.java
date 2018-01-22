@@ -51,7 +51,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -108,7 +107,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     Calendar myCalendar = Calendar.getInstance();
 
-    ArrayList<String> arrayList;
+    ArrayList<String> vendorsList;
 
     ArrayList<String> recyclerViewList;
 
@@ -147,6 +146,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
         billImages = new HashMap<>();
 
         db = FirebaseFirestore.getInstance();
@@ -158,8 +158,9 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         recyclerViewList = new ArrayList<>();
 
-        arrayList = new ArrayList<>();
+        vendorsList = new ArrayList<>();
 
+        vendorsList = getIntent().getStringArrayListExtra("VENDOR_NAME_LIST");
         addDocumentsAdapter = new AddDocumentsAdapter(recyclerViewList);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
         recycler_view.setLayoutManager(mLayoutManager);
@@ -177,9 +178,6 @@ public class AddNewBillActivity extends AppCompatActivity {
                         {
                             if (position == recyclerViewList.size() )
                             {
-
-
-
                                 final CharSequence[] options = {"Take Photo", "Gallery", "Document" ,  "Cancel"};
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddNewBillActivity.this);
@@ -260,11 +258,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
                     }
                 }));
-
-        arrayList.add("A");
-        arrayList.add("B");
-        arrayList.add("C");
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayList);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vendorsList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vendorSpinner.setAdapter(spinnerAdapter);
 
@@ -458,7 +452,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     @OnItemSelected(value = R.id.vendorSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
     void selectVehicle(AdapterView<?> adapterView, int newVal) {
-        if (arrayList.size()>0)
+        if (vendorsList.size()>0)
         {
             spinnerValue = newVal;
         }
@@ -485,7 +479,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         }
         else
         {
-            spinnerValueName = arrayList.get(spinnerValue);
+            spinnerValueName = vendorsList.get(spinnerValue);
         }
 
 
@@ -528,9 +522,19 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     private void writeImageToCloud()
     {
+        StorageReference riversRef;
         if (firebaseUser != null)
         {
-            StorageReference riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
+            if (vendorView)
+            {
+                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
+            }
+            else
+            {
+                riversRef = mStorageRef.child(firebaseUser.getUid()).child(spinnerValueName);
+            }
+
+
 
 
             for (int i = 0;i<recyclerViewList.size();i++)
@@ -577,14 +581,14 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     private void writeDataToFirebase()
     {
+        VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
+
+        final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus,billImages);
+
+        final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
+
         if (vendorView)
         {
-            VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
-
-            final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus,billImages);
-
-            final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
-
             vendorReference.document(newVendorName).set(vendorDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid)
@@ -611,7 +615,24 @@ public class AddNewBillActivity extends AppCompatActivity {
                     Toast.makeText(AddNewBillActivity.this, "Trader Request Failure", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
+        else
+        {
+            vendorReference.document(spinnerValueName).collection(firebaseUser.getUid()).document(billDate).set(billDetails)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(AddNewBillActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddNewBillActivity.this, "Bill not Added", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
     }
 

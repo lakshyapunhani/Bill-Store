@@ -92,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     VendorListAdapter vendorListAdapter;
 
+    ArrayList<String> vendorNameList;
+
     //VendorsFragment vendorsFragment;
 
 
@@ -122,6 +124,7 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         vendorDetailsList = new ArrayList<>();
+        vendorNameList = new ArrayList<>();
 
         //vendorsFragment = new VendorsFragment();
 
@@ -212,6 +215,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 return;
                             }
                             vendorDetailsList.clear();
+                            vendorNameList.clear();
 
                             if (documentSnapshots.isEmpty())
                             {
@@ -229,6 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                                 VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
                                 vendorDetailsList.add(vendorDetails);
+                                vendorNameList.add(doc.getId());
                             }
 
                             vendorListAdapter.notifyDataSetChanged();
@@ -369,7 +374,9 @@ public class ProfileActivity extends AppCompatActivity {
     @OnClick(R.id.btn_addNewBill)
     public void addNewBillClick()
     {
-        startActivity(new Intent(ProfileActivity.this, AddNewBillActivity.class));
+        Intent intent = new Intent(ProfileActivity.this,AddNewBillActivity.class);
+        intent.putStringArrayListExtra("VENDOR_NAME_LIST",vendorNameList);
+        startActivity(intent);
         overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up);
     }
 
