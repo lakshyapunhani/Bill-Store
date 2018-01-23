@@ -375,7 +375,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void addNewBillClick()
     {
         Intent intent = new Intent(ProfileActivity.this,AddNewBillActivity.class);
-        intent.putStringArrayListExtra("VENDOR_NAME_LIST",vendorNameList);
+        intent.putParcelableArrayListExtra("VENDOR_NAME_LIST",vendorDetailsList);
         startActivity(intent);
         overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up);
     }

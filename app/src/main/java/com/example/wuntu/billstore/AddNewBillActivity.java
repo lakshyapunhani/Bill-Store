@@ -107,7 +107,9 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     Calendar myCalendar = Calendar.getInstance();
 
-    ArrayList<String> vendorsList;
+    ArrayList<VendorDetails> vendorsList;
+
+    ArrayList<String> vendorNameList;
 
     ArrayList<String> recyclerViewList;
 
@@ -118,7 +120,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     Uri selectedImageURI;
 
     int spinnerValue;
-    String spinnerValueName;
+    String spinnerValueName,spinnerValueAddress;
 
     boolean vendorView, statusView;
 
@@ -158,9 +160,17 @@ public class AddNewBillActivity extends AppCompatActivity {
 
         recyclerViewList = new ArrayList<>();
 
-        vendorsList = new ArrayList<>();
+        vendorNameList = new ArrayList<>();
 
-        vendorsList = getIntent().getStringArrayListExtra("VENDOR_NAME_LIST");
+
+
+        vendorsList = getIntent().getParcelableArrayListExtra("VENDOR_NAME_LIST");
+
+        for (int i = 0;i<vendorsList.size();i++)
+        {
+            vendorNameList.add(vendorsList.get(i).getVendorName());
+        }
+
         addDocumentsAdapter = new AddDocumentsAdapter(recyclerViewList);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
         recycler_view.setLayoutManager(mLayoutManager);
@@ -258,7 +268,7 @@ public class AddNewBillActivity extends AppCompatActivity {
 
                     }
                 }));
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vendorsList);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vendorNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vendorSpinner.setAdapter(spinnerAdapter);
 
@@ -479,7 +489,8 @@ public class AddNewBillActivity extends AppCompatActivity {
         }
         else
         {
-            spinnerValueName = vendorsList.get(spinnerValue);
+            newVendorName = vendorNameList.get(spinnerValue);
+            newVendorAddress = vendorsList.get(spinnerValue).getVendorAddress();
         }
 
 
@@ -487,7 +498,6 @@ public class AddNewBillActivity extends AppCompatActivity {
         {
             billDate = text_pickDate.getText().toString().trim();
             Log.d("tag",text_pickDate.getText().toString() + "");
-            //Toast.makeText(this, "Date = " + text_pickDate.getText().toString().trim(), Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -531,7 +541,7 @@ public class AddNewBillActivity extends AppCompatActivity {
             }
             else
             {
-                riversRef = mStorageRef.child(firebaseUser.getUid()).child(spinnerValueName);
+                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
             }
 
 
@@ -583,7 +593,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     {
         VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-        final BillDetails billDetails = new BillDetails(billAmount,billDescription,billDate,billStatus,billImages);
+        final BillDetails billDetails = new BillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages);
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 
@@ -599,6 +609,8 @@ public class AddNewBillActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(AddNewBillActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                    overridePendingTransition(R.anim.slide_out_up, R.anim.slide_out_down);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -619,11 +631,13 @@ public class AddNewBillActivity extends AppCompatActivity {
         }
         else
         {
-            vendorReference.document(spinnerValueName).collection(firebaseUser.getUid()).document(billDate).set(billDetails)
+            vendorReference.document(newVendorName).collection(firebaseUser.getUid()).document(billDate).set(billDetails)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(AddNewBillActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
+                            finish();
+                            overridePendingTransition(R.anim.slide_out_up, R.anim.slide_out_down);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
