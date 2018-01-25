@@ -23,6 +23,8 @@ public class BillDetails
 
     private Map<String,String> billImages;
 
+    public BillDetails() {}
+
     public BillDetails(String newVendorName, String newVendorAddress,String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages) {
         this.vendorName = newVendorName;
         this.vendorAddress = newVendorAddress;

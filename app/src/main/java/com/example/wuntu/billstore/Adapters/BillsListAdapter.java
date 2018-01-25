@@ -50,7 +50,7 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bills_view,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bills_list_view,parent,false);
         return new ViewHolder(view);
     }
 

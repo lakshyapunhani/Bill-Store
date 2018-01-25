@@ -92,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     VendorListAdapter vendorListAdapter;
 
-    ArrayList<String> vendorNameList;
+    //ArrayList<String> vendorNameList;
 
     //VendorsFragment vendorsFragment;
 
@@ -124,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         vendorDetailsList = new ArrayList<>();
-        vendorNameList = new ArrayList<>();
+        //vendorNameList = new ArrayList<>();
 
         //vendorsFragment = new VendorsFragment();
 
@@ -157,8 +157,11 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         Toast.makeText(ProfileActivity.this, "" + vendorDetailsList.get(position).getVendorName(), Toast.LENGTH_SHORT).show();
                         VendorsFragment vendorsFragment = new VendorsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VendorName",vendorDetailsList.get(position).getVendorName());
+                        vendorsFragment.setArguments(bundle);
                         profileActivity_layout.setVisibility(View.GONE);
-                        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).commit();
+                        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).addToBackStack(null).commit();
                     }
 
                     @Override
@@ -215,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 return;
                             }
                             vendorDetailsList.clear();
-                            vendorNameList.clear();
+                           // vendorNameList.clear();
 
                             if (documentSnapshots.isEmpty())
                             {
@@ -233,7 +236,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                                 VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
                                 vendorDetailsList.add(vendorDetails);
-                                vendorNameList.add(doc.getId());
+                               // vendorNameList.add(doc.getId());
                             }
 
                             vendorListAdapter.notifyDataSetChanged();
@@ -300,6 +303,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() >= 0)
+        {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+            {
+                profileActivity_layout.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     private void addNavigationDrawer()
     {

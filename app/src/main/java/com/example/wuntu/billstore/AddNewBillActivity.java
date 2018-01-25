@@ -134,7 +134,6 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
-    private FirebaseAuth firebaseAuth;
     private StorageReference mStorageRef;
 
 
@@ -152,7 +151,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         billImages = new HashMap<>();
 
         db = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         firebaseUser = firebaseAuth.getCurrentUser();
 

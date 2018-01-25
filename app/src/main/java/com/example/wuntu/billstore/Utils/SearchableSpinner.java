@@ -97,7 +97,7 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
                 }
                 // Change end.
 
-                if (!_searchableListDialog.isVisible()) {
+                if (!_searchableListDialog.isAdded()) {
                     _searchableListDialog.show(scanForActivity(_context).getFragmentManager(), "TAG");
                 }
             }

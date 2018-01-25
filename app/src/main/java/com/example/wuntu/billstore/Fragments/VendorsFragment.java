@@ -3,6 +3,7 @@ package com.example.wuntu.billstore.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.example.wuntu.billstore.Pojos.BillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.ProfileActivity;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -54,6 +56,8 @@ public class VendorsFragment extends Fragment {
 
     Context context;
 
+    String vendorName;
+
     public VendorsFragment() {
         // Required empty public constructor
     }
@@ -65,7 +69,7 @@ public class VendorsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendors, container, false);
@@ -76,6 +80,11 @@ public class VendorsFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        if (getArguments() != null)
+        {
+            vendorName = getArguments().getString("VendorName");
+        }
+
         billsList = new ArrayList<>();
 
         billsListAdapter = new BillsListAdapter(billsList);
@@ -85,8 +94,26 @@ public class VendorsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(billsListAdapter);
 
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerViewListener(context, recyclerView, new RecyclerViewListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position)
+                    {
+                        BillsFragment billsFragment = new BillsFragment();
+                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
+
         CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
-                .document("ABC Trader").collection(firebaseUser.getUid());
+                .document(vendorName).collection(firebaseUser.getUid());
 
 
         billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -102,7 +129,7 @@ public class VendorsFragment extends Fragment {
                             {
                                 BillDetails billDetails = doc.toObject(BillDetails.class);
                                 billsList.add(billDetails);
-                                Toast.makeText(context, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
                             }
                             billsListAdapter.notifyDataSetChanged();
                         }
