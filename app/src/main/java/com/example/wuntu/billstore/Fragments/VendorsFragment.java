@@ -101,6 +101,10 @@ public class VendorsFragment extends Fragment {
                     public void onItemClick(View view, int position)
                     {
                         BillsFragment billsFragment = new BillsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VendorName",vendorName);
+                        bundle.putString("BillDate",billsList.get(position).getBillDate());
+                        billsFragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();
                     }
 

@@ -6,6 +6,7 @@
 
 
     <TextView
+        android:id="@+id/wholeSellerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Roadcast Tech Solutions Pvt Ltd"
@@ -13,6 +14,7 @@
         android:gravity="center"/>
 
     <TextView
+        android:id="@+id/wholeSellerAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
@@ -36,9 +38,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bill Date : "
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
+                android:id="@+id/wholeSellerBillDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20 January 2018"
@@ -57,9 +61,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bill Amount :"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/wholeSellerBillAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1000"
@@ -68,5 +74,20 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bill Document(s) :"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/wholeSellerBillDocuments"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
