@@ -1,85 +1,107 @@
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
+    android:id="@+id/layout_drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:title="@string/app_name"
-        app:title="@string/app_name"
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
 
+        <android.support.v7.widget.Toolbar
+            android:title="@string/app_name"
+            app:title="@string/app_name"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <LinearLayout
-        android:id="@+id/profileActivity_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/btn_addNewBill"
-        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/emptyLayout"
+            android:id="@+id/profileActivity_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/btn_addNewBill"
             android:orientation="vertical">
 
-            <ImageView
-                android:src="@drawable/ic_not_found"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:padding="25dp"/>
-
-            <TextView
+            <EditText
+                android:id="@+id/inputSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="You dont have any Bills"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"/>
+                android:hint="Search vendors.."
+                android:inputType="textVisiblePassword" />
+
+
+
+            <LinearLayout
+                android:id="@+id/emptyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:src="@drawable/ic_not_found"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:padding="25dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="You dont have any Bills"
+                    android:gravity="center_horizontal"
+                    android:textSize="24sp"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/traderRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/traderRecyclerView"
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/btn_addNewBill">
+        </FrameLayout>
 
+        <Button
+            android:id="@+id/btn_addNewBill"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:background="@color/primary"
+            android:text="Add new Bill"
+            android:layout_height="60dp">
+        </Button>
+    </RelativeLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical">
+
+        <include layout="@layout/navigationdrawerlayout"/>
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/btn_addNewBill">
 
-        <!--<ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/image"
-            android:scaleType="fitCenter"/>-->
-
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/btn_addNewBill"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:background="@color/primary"
-        android:text="Add new Bill"
-        android:layout_height="60dp">
-    </Button>
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -67,9 +73,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     GoogleApiClient googleApiClient;
 
-
-
-
     //ProgressDialog progressDialog;
 
     String user_name,shop_name;
@@ -90,7 +93,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    @BindView(R.id.inputSearch)
+    EditText inputSearch;
+
     VendorListAdapter vendorListAdapter;
+
+    CollectionReference billsReference;
+
+    @BindView(R.id.layout_drawer)
+    DrawerLayout layout_drawer;
 
     //ArrayList<String> vendorNameList;
 
@@ -124,13 +135,30 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         vendorDetailsList = new ArrayList<>();
-        //vendorNameList = new ArrayList<>();
-
-        //vendorsFragment = new VendorsFragment();
+        ActionBarDrawerToggle mActionBarDrawerToggle = new ActionBarDrawerToggle(this, layout_drawer, toolbar,R.string.material_drawer_open,R.string.material_drawer_close);
 
         toolbar.setTitle("Bill Store");
 
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mActionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        layout_drawer.setDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (layout_drawer.isDrawerOpen(GravityCompat.START))
+                {
+                    layout_drawer.closeDrawer(GravityCompat.START);
+                }
+                else layout_drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
+
 
         vendorListAdapter = new VendorListAdapter(vendorDetailsList);
 
@@ -182,10 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
 
-                    CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
-
-                    CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
-                            .document("AB Trader").collection("UID");
+                    billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 
                     profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -199,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity {
                             user_name = documentSnapshot.get("name").toString();
                             shop_name = documentSnapshot.get("shop_name").toString();
 
-                            addNavigationDrawer();
+                            //addNavigationDrawer();
                             //Toast.makeText(ProfileActivity.this, "Profile Request " + documentSnapshot.getData(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -244,53 +269,6 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
 
-                    /*billDateReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                            if (e != null)
-                            {
-                                Toast.makeText(ProfileActivity.this, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            for (DocumentSnapshot doc : documentSnapshots)
-                            {
-                                Toast.makeText(ProfileActivity.this, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });*/
-
-                    /*final Map<String,String> map = new HashMap<>();
-                    map.put("Document","Document");
-
-                    CollectionReference traderReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
-
-                    traderReference.document("ABC Trader").set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid)
-                        {
-                            db.collection("Users").document(firebaseUser.getUid()).collection("Bills").document("ABC Trader")
-                                    .collection(firebaseUser.getUid()).document("13May18").set(map)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText(ProfileActivity.this, "Bill Added", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(ProfileActivity.this, "Bill not added", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            Toast.makeText(ProfileActivity.this, "Trader Request Success", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ProfileActivity.this, "Trader Request Failure", Toast.LENGTH_SHORT).show();
-                        }
-                    });*/
-
 
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
                 } else {
@@ -299,6 +277,41 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         };
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+
+                ArrayList<VendorDetails> filteredList = new ArrayList<>();
+                for (int i=0;i<vendorDetailsList.size();i++)
+                {
+                    String text = vendorDetailsList.get(i).getVendorName().toLowerCase();
+                    if (text.contains(cs))
+                    {
+                        filteredList.add(vendorDetailsList.get(i));
+                    }
+                }
+                vendorListAdapter = new VendorListAdapter(filteredList);
+                traderRecyclerView.setAdapter(vendorListAdapter);
+                vendorListAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
 
     }
 

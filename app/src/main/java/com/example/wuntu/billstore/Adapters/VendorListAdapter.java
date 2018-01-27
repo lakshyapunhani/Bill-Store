@@ -10,7 +10,6 @@ import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,19 +18,16 @@ import butterknife.ButterKnife;
  * Created by Dell on 1/17/2018.
  */
 
-public class VendorListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
-    ArrayList<VendorDetails> vendorDetailsList;
+public class VendorListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<VendorDetails> vendorDetailsList;
 
-    VendorDetails vendorDetails;
+    private VendorDetails vendorDetails;
 
-    public VendorListAdapter(ArrayList<VendorDetails> vendorDetailsList)
-    {
+    public VendorListAdapter(ArrayList<VendorDetails> vendorDetailsList) {
         this.vendorDetailsList = vendorDetailsList;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.traderName)
         TextView traderName;
 
@@ -40,31 +36,29 @@ public class VendorListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.traderview,parent,false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.traderview, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
-    {
-        if (holder instanceof ViewHolder)
-        {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
             vendorDetails = vendorDetailsList.get(position);
-            ((ViewHolder)holder).traderName.setText(vendorDetails.getVendorName());
-            ((ViewHolder)holder).traderAddress.setText(vendorDetails.getVendorAddress());
+            ((ViewHolder) holder).traderName.setText(vendorDetails.getVendorName());
+            ((ViewHolder) holder).traderAddress.setText(vendorDetails.getVendorAddress());
         }
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return this.vendorDetailsList.size();
     }
 }
+
+
