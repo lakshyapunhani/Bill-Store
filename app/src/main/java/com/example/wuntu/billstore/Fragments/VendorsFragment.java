@@ -104,12 +104,14 @@ public class VendorsFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putString("VendorName",vendorName);
                         bundle.putString("BillDate",billsList.get(position).getBillDate());
+                        bundle.putString("BillTime",billsList.get(position).getBillTime());
                         billsFragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();
                     }
 
                     @Override
-                    public void onLongItemClick(View view, int position) {
+                    public void onLongItemClick(View view, int position)
+                    {
 
                     }
                 })

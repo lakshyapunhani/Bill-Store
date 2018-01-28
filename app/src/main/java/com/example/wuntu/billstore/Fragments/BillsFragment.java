@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import com.example.wuntu.billstore.Pojos.BillDetails;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -44,6 +47,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +66,12 @@ public class BillsFragment extends Fragment {
     @BindView(R.id.wholeSellerBillAmount)
     TextView wholeSellerBillAmount;
 
+    @BindView(R.id.billStatus)
+    TextView billStatus;
+
+    @BindView(R.id.editBillStatus)
+    TextView editBillStatus;
+
     @BindView(R.id.wholeSellerBillDocuments)
     RecyclerView wholeSellerBillDocuments;
 
@@ -75,12 +85,14 @@ public class BillsFragment extends Fragment {
 
     Context context;
 
-    String vendorName,billDate;
+    String vendorName,billDate,billTime;
 
     Map<String,String> billImages;
 
     List<String> keyList;
     List<String> valuesList;
+
+    DocumentReference billDateReference;
 
 
     public BillsFragment() {
@@ -120,10 +132,11 @@ public class BillsFragment extends Fragment {
         {
             vendorName = getArguments().getString("VendorName");
             billDate = getArguments().getString("BillDate");
+            billTime = getArguments().getString("BillTime");
         }
 
-        DocumentReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
-                .document(vendorName).collection(firebaseUser.getUid()).document(billDate);
+        billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills")
+                .document(vendorName).collection(firebaseUser.getUid()).document(billDate + "&&" + billTime);
 
         billDateReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -133,8 +146,15 @@ public class BillsFragment extends Fragment {
                     Toast.makeText(context, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                billDetails = documentSnapshot.toObject(BillDetails.class);
-                setUiFields();
+
+                if (documentSnapshot.exists())
+                {
+                    keyList.clear();
+                    valuesList.clear();
+                    billDetails = documentSnapshot.toObject(BillDetails.class);
+                    setUiFields();
+                }
+
             }
         });
 
@@ -145,17 +165,11 @@ public class BillsFragment extends Fragment {
                     {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(valuesList.get(position)));
                         startActivity(browserIntent);
-                        /*DocumentFragment documentFragment = new DocumentFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("URL",valuesList.get(position));
-                        documentFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,documentFragment).addToBackStack(null).commit();*/
                     }
 
                     @Override
-                    public void onLongItemClick(View view, int position) {
-
-                    }
+                    public void onLongItemClick(View view, int position)
+                    {}
                 }));
 
         return view;
@@ -167,6 +181,15 @@ public class BillsFragment extends Fragment {
         wholeSellerAddress.setText(billDetails.getVendorAddress());
         wholeSellerBillAmount.setText(billDetails.getBillAmount());
         wholeSellerBillDate.setText(billDetails.getBillDate());
+        billStatus.setText(billDetails.getBillStatus());
+        if (billDetails.getBillStatus().equalsIgnoreCase("due"))
+        {
+            Log.d("TAG","TAG");
+        }
+        else
+        {
+            editBillStatus.setVisibility(View.GONE);
+        }
         if (billDetails.getBillImages().size() > 0)
         {
             keyList.addAll(billDetails.getBillImages().keySet());
@@ -177,4 +200,45 @@ public class BillsFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.editBillStatus)
+    public void editBill()
+    {
+        billDateReference.update("billStatus","Paid")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Toast.makeText(context, "Bill Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_deleteDocument)
+    public void deleteBill()
+    {
+
+        billDateReference.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //BillsFragment billsFragment = new BillsFragment();
+                        //getFragmentManager().beginTransaction().remove(billsFragment).commit();
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        Toast.makeText(context, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Not Deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
+
+

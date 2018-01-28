@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -103,6 +104,9 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.layout_drawer)
     DrawerLayout layout_drawer;
 
+    @BindView(R.id.btn_addNewBill)
+    Button btn_addNewBill;
+
     //ArrayList<String> vendorNameList;
 
     //VendorsFragment vendorsFragment;
@@ -189,6 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
                         bundle.putString("VendorName",vendorDetailsList.get(position).getVendorName());
                         vendorsFragment.setArguments(bundle);
                         profileActivity_layout.setVisibility(View.GONE);
+                        btn_addNewBill.setVisibility(View.GONE);
                         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,vendorsFragment).addToBackStack(null).commit();
                     }
 
@@ -243,7 +248,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 return;
                             }
                             vendorDetailsList.clear();
-                           // vendorNameList.clear();
+                            // vendorNameList.clear();
 
                             if (documentSnapshots.isEmpty())
                             {
@@ -261,7 +266,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                                 VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
                                 vendorDetailsList.add(vendorDetails);
-                               // vendorNameList.add(doc.getId());
+                                // vendorNameList.add(doc.getId());
                             }
 
                             vendorListAdapter.notifyDataSetChanged();
@@ -287,8 +292,10 @@ public class ProfileActivity extends AppCompatActivity {
                 ArrayList<VendorDetails> filteredList = new ArrayList<>();
                 for (int i=0;i<vendorDetailsList.size();i++)
                 {
-                    String text = vendorDetailsList.get(i).getVendorName().toLowerCase();
-                    if (text.contains(cs))
+                    String textLower = vendorDetailsList.get(i).getVendorName().toLowerCase();
+                    String textCaps = vendorDetailsList.get(i).getVendorName().toUpperCase();
+                    String text = vendorDetailsList.get(i).getVendorName();
+                    if (text.contains(cs) || textLower.contains(cs) || textCaps.contains(cs))
                     {
                         filteredList.add(vendorDetailsList.get(i));
                     }
@@ -319,12 +326,11 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (getSupportFragmentManager().getBackStackEntryCount() >= 0)
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
         {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-            {
-                profileActivity_layout.setVisibility(View.VISIBLE);
-            }
+            profileActivity_layout.setVisibility(View.VISIBLE);
+            btn_addNewBill.setVisibility(View.VISIBLE);
         }
     }
 
@@ -375,7 +381,7 @@ public class ProfileActivity extends AppCompatActivity {
                         switch (position)
                         {
                             case 3:
-                               // Toast.makeText(ProfileActivity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(ProfileActivity.this, "Reached Right Place ", Toast.LENGTH_SHORT).show();
                                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                         new ResultCallback<Status>() {
                                             @Override

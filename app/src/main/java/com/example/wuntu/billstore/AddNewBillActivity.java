@@ -107,6 +107,10 @@ public class AddNewBillActivity extends AppCompatActivity {
 
     Calendar myCalendar = Calendar.getInstance();
 
+    long timestamp;
+
+    String timestampString;
+
     ArrayList<VendorDetails> vendorsList;
 
     ArrayList<String> vendorNameList;
@@ -470,6 +474,8 @@ public class AddNewBillActivity extends AppCompatActivity {
     @OnClick(R.id.btn_submitBill)
     public void submitBill()
     {
+        timestamp = System.currentTimeMillis();
+        timestampString = String.valueOf(timestamp);
         if (vendorView)
         {
             if (edt_newVendorName.getText().toString().trim().isEmpty())
@@ -563,7 +569,7 @@ public class AddNewBillActivity extends AppCompatActivity {
                 }
 
                 Log.d("TAG",fileName1);
-                riversRef.child(billDate + "/" + uri.getLastPathSegment()).putFile(uri)
+                riversRef.child(billDate + "&&" + timestampString + "/" + uri.getLastPathSegment()).putFile(uri)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -592,7 +598,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     {
         VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-        final BillDetails billDetails = new BillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages);
+        final BillDetails billDetails = new BillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 
@@ -603,7 +609,7 @@ public class AddNewBillActivity extends AppCompatActivity {
                 public void onSuccess(Void aVoid)
                 {
                     vendorReference.document(newVendorName)
-                            .collection(firebaseUser.getUid()).document(billDate).set(billDetails)
+                            .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(billDetails)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -630,7 +636,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         }
         else
         {
-            vendorReference.document(newVendorName).collection(firebaseUser.getUid()).document(billDate).set(billDetails)
+            vendorReference.document(newVendorName).collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(billDetails)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
