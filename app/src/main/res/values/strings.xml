@@ -109,6 +109,10 @@
     <string name="text_due">Due</string>
     <string name="text_paid">Paid</string>
     <string name="toast_please_select_date">Please Select Date</string>
+    <string name="text_home">Home</string>
+    <string name="text_add_bill">Add Bill</string>
+    <string name="text_make_bill">Make Bill</string>
+    <string name="text_profile">Profile</string>
 
 </resources>
 

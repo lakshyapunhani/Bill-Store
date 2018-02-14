@@ -353,10 +353,6 @@ public class AddNewBillActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
     DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int selectedYear, int selectedMonth,

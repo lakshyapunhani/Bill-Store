@@ -3,7 +3,6 @@ package com.example.wuntu.billstore;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,13 +17,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
 import com.example.wuntu.billstore.Fragments.VendorsFragment;
-import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.facebook.FacebookSdk;
@@ -58,9 +55,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -354,7 +348,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         PrimaryDrawerItem makeBillItem = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("Add new Bill").withIcon(R.drawable.ic_add_new_bill);
+                .withName("Add new Bill").withIcon(R.drawable.ic_add_bill_blue);
 
         SecondaryDrawerItem logoutItem = new SecondaryDrawerItem().withIdentifier(2)
                 .withName("Log Out").withIcon(R.drawable.ic_log_out);
