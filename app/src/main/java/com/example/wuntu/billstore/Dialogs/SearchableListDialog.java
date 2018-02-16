@@ -1,4 +1,4 @@
-package com.example.wuntu.billstore.Utils;
+package com.example.wuntu.billstore.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

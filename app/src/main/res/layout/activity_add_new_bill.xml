@@ -87,11 +87,11 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/border">
 
-                        <com.example.wuntu.billstore.Utils.SearchableSpinner
+                        <com.example.wuntu.billstore.Dialogs.SearchableSpinner
                             android:id="@+id/vendorSpinner"
                             android:layout_width="250dp"
                             android:layout_height="40dp">
-                        </com.example.wuntu.billstore.Utils.SearchableSpinner>
+                        </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
 
                     </LinearLayout>
 

@@ -3,7 +3,10 @@ package com.example.wuntu.billstore.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import com.example.wuntu.billstore.Dialogs.DialogAddItem;
 import com.example.wuntu.billstore.R;
 
 import butterknife.BindView;
@@ -28,6 +32,8 @@ public class MakeBillFragment extends Fragment {
     private Context mContext;
     Dialog dialog;
 
+    DialogAddItem dialogAddItem;
+
 
     public MakeBillFragment() {
         // Required empty public constructor
@@ -40,19 +46,16 @@ public class MakeBillFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_make_bill, container, false);
+
         ButterKnife.bind(this,view);
 
-        dialog = new Dialog(mContext);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogAddItem = new DialogAddItem(mContext);
 
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view1 = layoutInflater.inflate(R.layout.dialog_add_item, null);
-
-        dialog.setContentView(view1);
+        dialogAddItem.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return view;
     }
@@ -60,7 +63,7 @@ public class MakeBillFragment extends Fragment {
     @OnClick(R.id.btn)
     public void click()
     {
-        dialog.show();
+        dialogAddItem.show();
     }
 
 }

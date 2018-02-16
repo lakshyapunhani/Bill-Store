@@ -1,4 +1,4 @@
-package com.example.wuntu.billstore.Utils;
+package com.example.wuntu.billstore.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -63,11 +63,6 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
 
         ButterKnife.bind(this);
         setListeners();
-
-        /*editcode1.setHint("*");
-        editcode2.setHint("*");
-        editcode3.setHint("*");
-        editcode4.setHint("*");*/
     }
 
 

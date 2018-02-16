@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.wuntu.billstore.EventBus.EventOTP;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.Pojos.User;
-import com.example.wuntu.billstore.Utils.DialogOTP;
+import com.example.wuntu.billstore.Dialogs.DialogOTP;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -230,8 +230,6 @@ public class SignInActivity extends AppCompatActivity {
 
                 mVerificationCode = verification_id;
                 token = forceResendingToken;
-
-
             }
         };
 

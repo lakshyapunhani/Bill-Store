@@ -1,4 +1,4 @@
-package com.example.wuntu.billstore.Utils;
+package com.example.wuntu.billstore.Dialogs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Dialogs.SearchableListDialog;
 import com.example.wuntu.billstore.R;
 
 import java.util.ArrayList;

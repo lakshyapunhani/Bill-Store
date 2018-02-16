@@ -34,7 +34,7 @@ import com.example.wuntu.billstore.Pojos.BillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
-import com.example.wuntu.billstore.Utils.SearchableSpinner;
+import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
