@@ -1,13 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wuntu.billstore.Fragments.ProfileFragment">
+    android:orientation="vertical"
+    tools:context="com.example.wuntu.billstore.Fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile Fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Profile"
+        android:gravity="center_vertical"
+        android:paddingStart="30dp"
+        android:paddingLeft="30dp"
+        android:paddingEnd="20dp"
+        android:paddingRight="20dp"
+        android:background="#0484AE"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+    </LinearLayout>
+
+
+</LinearLayout>
