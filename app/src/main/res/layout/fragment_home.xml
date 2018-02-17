@@ -5,25 +5,31 @@
     android:orientation="vertical"
     tools:context="com.example.wuntu.billstore.Fragments.HomeFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Bill Store"
-        android:gravity="center_vertical"
-        android:paddingStart="30dp"
-        android:paddingLeft="30dp"
-        android:paddingEnd="20dp"
-        android:paddingRight="20dp"
-        android:background="#0484AE"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"/>
+        android:background="#0484AE">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Bill Store"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7">
+        android:layout_weight="8">
 
     </android.support.v7.widget.RecyclerView>
 

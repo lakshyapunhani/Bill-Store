@@ -48,6 +48,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="standard_title_text_style">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 
 
 

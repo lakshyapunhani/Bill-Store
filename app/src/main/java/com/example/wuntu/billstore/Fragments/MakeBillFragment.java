@@ -26,8 +26,8 @@ import butterknife.OnClick;
  */
 public class MakeBillFragment extends Fragment {
 
-    @BindView(R.id.btn)
-    Button btn;
+    /*@BindView(R.id.btn)
+    Button btn;*/
 
     private Context mContext;
     Dialog dialog;
@@ -59,11 +59,11 @@ public class MakeBillFragment extends Fragment {
 
         return view;
     }
-
+/*
     @OnClick(R.id.btn)
     public void click()
     {
         dialogAddItem.show();
-    }
+    }*/
 
 }

@@ -1,5 +1,6 @@
 package com.example.wuntu.billstore;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import com.example.wuntu.billstore.Fragments.ProfileFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -182,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
         text_profile.setTextColor(getResources().getColor(R.color.blue));
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }
