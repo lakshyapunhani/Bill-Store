@@ -223,7 +223,7 @@ public class SignInActivity extends AppCompatActivity {
                 //progressDialog.hide();
                 super.onCodeSent(verification_id, forceResendingToken);
 
-               // otpDialog.setContentView(R.layout.otp_dialog);
+               // otpDialog.setContentView(R.layout.dialog_otp);
 
                 otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 otpDialog.show();

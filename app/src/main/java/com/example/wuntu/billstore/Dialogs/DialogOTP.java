@@ -59,7 +59,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.otp_dialog);
+        setContentView(R.layout.dialog_otp);
 
         ButterKnife.bind(this);
         setListeners();

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.wuntu.billstore.Dialogs.DialogAddItem;
 import com.example.wuntu.billstore.R;
@@ -26,8 +27,8 @@ import butterknife.OnClick;
  */
 public class MakeBillFragment extends Fragment {
 
-    /*@BindView(R.id.btn)
-    Button btn;*/
+    @BindView(R.id.btn_save)
+    TextView btn_save;
 
     private Context mContext;
     Dialog dialog;
@@ -59,11 +60,10 @@ public class MakeBillFragment extends Fragment {
 
         return view;
     }
-/*
-    @OnClick(R.id.btn)
+    @OnClick(R.id.btn_save)
     public void click()
     {
         dialogAddItem.show();
-    }*/
+    }
 
 }

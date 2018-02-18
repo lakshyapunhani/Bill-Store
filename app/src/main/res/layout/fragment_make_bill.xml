@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#e6e4e4"
     tools:context="com.example.wuntu.billstore.Fragments.MakeBillFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#0484AE">
+        android:layout_height="60dp"
+        android:background="@color/blue">
 
         <TextView
             android:layout_width="0dp"
@@ -26,6 +26,7 @@
             tools:ignore="MissingPrefix"/>
 
         <TextView
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
@@ -49,18 +50,215 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:paddingTop="5dp">
+
+            <RadioGroup
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/outerView_existingVendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
-    <!--<Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Make Bill Fragment" />-->
+                    <LinearLayout
+                        android:id="@+id/view_existingVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_existingVendor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:buttonTint="@color/blue"
+                            tools:targetApi="lollipop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/blue"
+                            android:text="Select Customer"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/innerView_existingVendor"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edt_rounded_corner">
+
+                        <com.example.wuntu.billstore.Dialogs.SearchableSpinner
+                            android:id="@+id/vendorSpinner"
+                            android:layout_width="250dp"
+                            android:layout_height="40dp">
+                        </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/text_or"
+                    android:textSize="20sp"
+                    android:textColor="@color/blue"/>
+
+                <LinearLayout
+                    android:id="@+id/outerView_newVendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/view_newVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_newVendor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            tools:targetApi="lollipop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="Add new Customer"
+                            android:textSize="16sp"
+                            android:textColor="@color/blue"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/innerView_newVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:visibility="gone"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+
+                        <EditText
+                            android:id="@+id/edt_newVendorName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:scrollHorizontally="true"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:hint="Customer Name"
+                            android:inputType="text"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp"/>
+
+                        <EditText
+                            android:id="@+id/edt_newVendorAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:layout_marginTop="15dp"
+                            android:inputType="text"
+                            android:hint="Customer Address"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:layout_marginTop="14dp"
+                            android:inputType="text"
+                            android:hint="Customer GST Number(if any)"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/txt_delivery_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:text="Invoice Date"
+                android:textColor="@color/blue"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/delivery_time"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#92cee1"
+                android:orientation="horizontal"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="20dp">
+
+            <TextView
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="Invoiced Items (Tap to add)"
+                android:gravity="center"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/invoice_item" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>

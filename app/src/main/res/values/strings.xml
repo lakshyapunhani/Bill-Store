@@ -113,6 +113,7 @@
     <string name="text_add_bill">Add Bill</string>
     <string name="text_make_bill">Make Bill</string>
     <string name="text_profile">Profile</string>
+    <string name="rupee_sign">&#8377;</string>
 
 </resources>
 
