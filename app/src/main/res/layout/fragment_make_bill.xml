@@ -50,7 +50,7 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
@@ -234,30 +234,29 @@
                 android:paddingEnd="10dp"
                 android:textSize="14sp"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/layout_invoiced_items_header"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="#92cee1"
-                android:orientation="horizontal"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="20dp">
-
-            <TextView
-                android:paddingLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="Invoiced Items (Tap to add)"
-                android:gravity="center"/>
+                android:gravity="center_vertical"/>
 
-            </LinearLayout>
-
-            <include layout="@layout/invoice_item" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+            <!--<include layout="@layout/invoice_item" />-->
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 
