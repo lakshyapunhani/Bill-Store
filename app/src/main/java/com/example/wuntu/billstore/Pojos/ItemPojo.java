@@ -19,6 +19,14 @@ public class ItemPojo implements Parcelable
     private String totalAmount;
 
 
+    public ItemPojo(){}
+
+    public ItemPojo(String itemName, String costPerItem, String quantity, String totalAmount) {
+        this.itemName = itemName;
+        this.costPerItem = costPerItem;
+        this.quantity = quantity;
+        this.totalAmount = totalAmount;
+    }
 
     protected ItemPojo(Parcel in) {
         itemName = in.readString();

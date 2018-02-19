@@ -29,7 +29,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.itemList = itemList;
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder
+    public class MyViewHolder extends RecyclerView.ViewHolder
     {
         @BindView(R.id.itemName)
         TextView itemName;
@@ -58,12 +58,13 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-
+        ((MyViewHolder)holder).itemName.setText(itemList.get(position).getItemName());
+        ((MyViewHolder)holder).totalAmount.setText(itemList.get(position).getTotalAmount());
     }
 
     @Override
     public int getItemCount()
     {
-        return 5;
+        return this.itemList.size();
     }
 }

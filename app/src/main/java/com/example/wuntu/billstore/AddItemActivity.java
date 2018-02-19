@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,7 +60,7 @@ public class AddItemActivity extends AppCompatActivity
 
     ArrayAdapter<String> adapter;
 
-    int cost_item,quantity,gst_amount,cost_itemGst,totalAmount;
+    //int cost_item,quantity,gst_amount,cost_itemGst,totalAmount;
 
 
     private String[] units = {"Select Unit","Kg"};
@@ -194,6 +198,19 @@ public class AddItemActivity extends AppCompatActivity
             return;
         }
 
+
+        sendEventToMakeBill();
+
+    }
+
+    private void sendEventToMakeBill()
+    {
+        String itemName = edt_itemName.getText().toString().trim();
+        String itemPrice = edt_costPerItem.getText().toString().trim();
+        String quantity = edt_quantity.getText().toString().trim();
+        String totalAmount = edt_totalAmount.getText().toString().trim();
+        EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,totalAmount));
+        finish();
     }
 
 }

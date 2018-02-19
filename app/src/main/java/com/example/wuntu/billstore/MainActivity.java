@@ -15,6 +15,8 @@ import com.example.wuntu.billstore.Fragments.HomeFragment;
 import com.example.wuntu.billstore.Fragments.MakeBillFragment;
 import com.example.wuntu.billstore.Fragments.ProfileFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -190,5 +192,6 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 
 }
