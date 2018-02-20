@@ -144,7 +144,6 @@ public class MakeBillFragment extends Fragment {
                               int selectedDay) {
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-            //SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
             try {
                 Date reportDate = df.parse(selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay);
                 invoice_date.setText((convertDf.format(reportDate)));

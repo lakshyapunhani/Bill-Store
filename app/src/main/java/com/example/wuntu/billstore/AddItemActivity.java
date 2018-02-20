@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,8 +18,6 @@ import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,8 +26,7 @@ import butterknife.OnClick;
  * Created by Dell on 16-Feb-18.
  */
 
-public class AddItemActivity extends AppCompatActivity
-{
+public class AddItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.unitSpinner)
     Spinner unitSpinner;
@@ -58,12 +55,19 @@ public class AddItemActivity extends AppCompatActivity
     @BindView(R.id.btn_add)
     Button btn_add;
 
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<String> unitAdapter;
+
+    ArrayAdapter<String> gstRateAdapter;
+
+    int unitPosition,gstPosition;
 
     //int cost_item,quantity,gst_amount,cost_itemGst,totalAmount;
 
 
     private String[] units = {"Select Unit","Kg"};
+
+    private String[] gstRate = {"GST 5% - CGST 2.5% + SGST 2.5%","GST 12% - CGST 6% + SGST 6%","GST 18% - CGST 9% + SGST 9%"
+                                ,"GST 28% - CGST 14% + SGST 14%","IGST 5%","IGST 12%","IGST 18%","IGST 28%"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +75,18 @@ public class AddItemActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_item);
         ButterKnife.bind(this);
 
-        adapter = new ArrayAdapter<String>(this,
+        unitAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, units);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        unitSpinner.setAdapter(adapter);
-        unitSpinner.setOnItemSelectedListener(null);
+        gstRateAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,gstRate);
 
-        spinner_gst_rate.setAdapter(adapter);
+        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unitSpinner.setAdapter(unitAdapter);
+        unitSpinner.setOnItemSelectedListener(this);
+
+
+        spinner_gst_rate.setAdapter(gstRateAdapter);
+        spinner_gst_rate.setOnItemSelectedListener(this);
 
         edt_costPerItem.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,6 +101,11 @@ public class AddItemActivity extends AppCompatActivity
                     int qty = Integer.parseInt(edt_quantity.getText().toString().trim());
                     int costItem = Integer.parseInt(edt_costPerItem.getText().toString().trim());
                     edt_totalAmount.setText("" + costItem * qty);
+                }
+
+                if (cb_include_gst.isChecked())
+                {
+                    getGstRate();
                 }
 
             }
@@ -113,7 +126,7 @@ public class AddItemActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)
             {
-                if (!edt_costPerItem.getText().toString().isEmpty())
+                if (!edt_costPerItem.getText().toString().trim().isEmpty() && !edt_quantity.getText().toString().trim().isEmpty())
                 {
                     int qty = Integer.parseInt(edt_quantity.getText().toString().trim());
                     int costItem = Integer.parseInt(edt_costPerItem.getText().toString().trim());
@@ -128,6 +141,100 @@ public class AddItemActivity extends AppCompatActivity
         });
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+    {
+        Spinner spinner = (Spinner) parent;
+        if (spinner.getId() == R.id.unitSpinner)
+        {
+            unitPosition = pos;
+        }
+        else if (spinner.getId() == R.id.spinner_gst_rate)
+        {
+            gstPosition = pos;
+            getGstRate();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void getGstRate()
+    {
+        double gstRate;
+        switch (gstPosition)
+        {
+            case 0:
+                gstRate = 0.05;
+                calculateGstAmount(gstRate);
+                break;
+            case 1:
+                gstRate = 0.12;
+                calculateGstAmount(gstRate);
+                break;
+            case 2:
+                gstRate = 0.18;
+                calculateGstAmount(gstRate);
+                break;
+            case 3:
+                gstRate = 0.28;
+                calculateGstAmount(gstRate);
+                break;
+            case 4:
+                gstRate = 0.5;
+                calculateGstAmount(gstRate);
+                break;
+            case 5:
+                gstRate = 0.12;
+                calculateGstAmount(gstRate);
+                break;
+            case 6:
+                gstRate = 0.18;
+                calculateGstAmount(gstRate);
+                break;
+            case 7:
+                gstRate = 0.28;
+                calculateGstAmount(gstRate);
+                break;
+        }
+
+    }
+
+    private void calculateGstAmount(double rate)
+    {
+        double gstAmount,itemWithGST,totalAmount;
+        if (!edt_costPerItem.getText().toString().trim().isEmpty())
+        {
+            int costItem = Integer.parseInt(edt_costPerItem.getText().toString().trim());
+            gstAmount = costItem * rate;
+            itemWithGST = costItem + gstAmount;
+            edt_gstAmount.setText("" + gstAmount);
+            edt_costPerItemGST.setText("" + itemWithGST);
+
+            if (edt_quantity.getText().toString().isEmpty())
+            {
+                totalAmount = itemWithGST;
+                edt_totalAmount.setText("" + totalAmount);
+            }
+            else
+            {
+                int qty = Integer.parseInt(edt_quantity.getText().toString().trim());
+                totalAmount = qty * itemWithGST;
+                edt_totalAmount.setText("" + totalAmount);
+            }
+
+        }
+        else
+        {
+            edt_gstAmount.setText("");
+            edt_costPerItemGST.setText("");
+        }
+    }
+
+
 
     private void showGstLayout()
     {
@@ -182,7 +289,7 @@ public class AddItemActivity extends AppCompatActivity
         {
             if (edt_gstAmount.getText().toString().trim().isEmpty())
             {
-                Toast.makeText(this, "Please provide gst amount", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please fill gst amount", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (edt_costPerItemGST.getText().toString().isEmpty())
@@ -212,5 +319,6 @@ public class AddItemActivity extends AppCompatActivity
         EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,totalAmount));
         finish();
     }
+
 
 }
