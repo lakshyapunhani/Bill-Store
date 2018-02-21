@@ -61,9 +61,6 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
 
     int unitPosition,gstPosition;
 
-    //int cost_item,quantity,gst_amount,cost_itemGst,totalAmount;
-
-
     private String[] units = {"Select Unit","Kg"};
 
     private String[] gstRate = {"GST 5% - CGST 2.5% + SGST 2.5%","GST 12% - CGST 6% + SGST 6%","GST 18% - CGST 9% + SGST 9%"
@@ -92,22 +89,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count)
             {
-                if (edt_quantity.getText().toString().isEmpty())
-                {
-                    edt_totalAmount.setText(edt_costPerItem.getText().toString().trim());
-                }
-                else
-                {
-                    int qty = Integer.parseInt(edt_quantity.getText().toString().trim());
-                    int costItem = Integer.parseInt(edt_costPerItem.getText().toString().trim());
-                    edt_totalAmount.setText("" + costItem * qty);
-                }
-
-                if (cb_include_gst.isChecked())
-                {
-                    getGstRate();
-                }
-
+                setTotalAmount();
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,12 +108,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)
             {
-                if (!edt_costPerItem.getText().toString().trim().isEmpty() && !edt_quantity.getText().toString().trim().isEmpty())
-                {
-                    int qty = Integer.parseInt(edt_quantity.getText().toString().trim());
-                    int costItem = Integer.parseInt(edt_costPerItem.getText().toString().trim());
-                    edt_totalAmount.setText("" + costItem * qty);
-                }
+                setTotalAmount();
             }
 
             @Override
@@ -235,15 +212,98 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     }
 
 
+    private void setTotalAmount()
+    {
+        if (edt_costPerItem.toString().isEmpty())
+        {
+            edt_gstAmount.setText("");
+            edt_costPerItemGST.setText("");
+            edt_totalAmount.setText("");
+        }
+        else
+        {
+            getGstRate();
+            if (!edt_quantity.getText().toString().isEmpty() && cb_include_gst.isChecked())
+            {
+                if (edt_costPerItemGST.getText().toString().trim().isEmpty() || edt_gstAmount.getText().toString().trim().isEmpty())
+                {
+                    Toast.makeText(AddItemActivity.this, "Please fill gst details", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                double qty = Double.parseDouble(edt_quantity.getText().toString().trim());
+                double costGST = Double.parseDouble(edt_costPerItemGST.getText().toString().trim());
+                double totalAmount = qty * costGST;
+                edt_totalAmount.setText(""+ totalAmount);
+            }
+            else if (!edt_quantity.getText().toString().isEmpty() && !cb_include_gst.isChecked())
+            {
+                double qty = Double.parseDouble(edt_quantity.getText().toString().trim());
+                double cost = Double.parseDouble(edt_costPerItem.getText().toString().trim());
+                double totalAmount = qty * cost;
+                edt_totalAmount.setText(""+ totalAmount);
+            }
+            else if (edt_quantity.getText().toString().isEmpty() && cb_include_gst.isChecked())
+            {
+                if (edt_costPerItemGST.getText().toString().trim().isEmpty() || edt_gstAmount.getText().toString().trim().isEmpty())
+                {
+                    Toast.makeText(AddItemActivity.this, "Please fill gst details", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                double costGST = Double.parseDouble(edt_costPerItemGST.getText().toString().trim());
+                edt_totalAmount.setText("" + costGST);
+            }
+            else if (edt_quantity.getText().toString().isEmpty() && !cb_include_gst.isChecked())
+            {
+                double cost = Double.parseDouble(edt_costPerItem.getText().toString().trim());
+                edt_totalAmount.setText("" + cost);
+            }
+        }
+    }
 
     private void showGstLayout()
     {
         layout_gst.setVisibility(View.VISIBLE);
+        if (edt_costPerItemGST.getText().toString().trim().isEmpty())
+        {
+            edt_totalAmount.setText("");
+        }
+        else
+        {
+            if (edt_quantity.getText().toString().trim().isEmpty())
+            {
+                edt_totalAmount.setText(edt_costPerItemGST.getText().toString());
+            }
+            else
+            {
+                double qty = Double.parseDouble(edt_quantity.getText().toString().trim());
+                double cost = Double.parseDouble(edt_costPerItemGST.getText().toString().trim());
+                double totalAmount = qty * cost;
+                edt_totalAmount.setText(""+ totalAmount);
+            }
+        }
     }
 
     private void hideGstLayout()
     {
         layout_gst.setVisibility(View.GONE);
+        if (edt_costPerItem.getText().toString().trim().isEmpty())
+        {
+            edt_totalAmount.setText("");
+        }
+        else
+        {
+            if (edt_quantity.getText().toString().trim().isEmpty())
+            {
+                edt_totalAmount.setText(edt_costPerItem.getText().toString());
+            }
+            else
+            {
+                double qty = Double.parseDouble(edt_quantity.getText().toString().trim());
+                double cost = Double.parseDouble(edt_costPerItem.getText().toString().trim());
+                double totalAmount = qty * cost;
+                edt_totalAmount.setText(""+ totalAmount);
+            }
+        }
     }
 
     @OnClick(R.id.cb_include_gst)
