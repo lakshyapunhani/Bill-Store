@@ -372,8 +372,16 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
 
     private void sendEventToMakeBill()
     {
+        String itemPrice;
+        if (cb_include_gst.isChecked())
+        {
+            itemPrice = edt_costPerItemGST.getText().toString().trim();
+        }
+        else
+        {
+            itemPrice = edt_costPerItem.getText().toString().trim();
+        }
         String itemName = edt_itemName.getText().toString().trim();
-        String itemPrice = edt_costPerItem.getText().toString().trim();
         String quantity = edt_quantity.getText().toString().trim();
         String totalAmount = edt_totalAmount.getText().toString().trim();
         EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,totalAmount));

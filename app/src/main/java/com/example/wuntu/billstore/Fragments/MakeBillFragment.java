@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
 import com.example.wuntu.billstore.AddNewBillActivity;
+import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.R;
@@ -50,6 +55,32 @@ public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.invoice_date) TextView invoice_date;
 
+    @BindView(R.id.customerSpinner)
+    SearchableSpinner customerSpinner;
+
+    @BindView(R.id.radio_existingCustomer)
+    RadioButton radio_existingCustomer;
+
+    @BindView(R.id.radio_newCustomer)
+    RadioButton radio_newCustomer;
+
+    @BindView(R.id.innerView_existingCustomer)
+    LinearLayout innerView_existingCustomer;
+
+    @BindView(R.id.innerView_newCustomer)
+    LinearLayout innerView_newCustomer;
+
+    @BindView(R.id.outerView_newCustomer)
+    LinearLayout outerView_newCustomer;
+
+    @BindView(R.id.outerView_existingCustomer)
+    LinearLayout outerView_existingCustomer;
+
+    @BindView(R.id.edt_newCustomerName)
+    EditText edt_newCustomerName;
+
+    @BindView(R.id.edt_newCustomerAddress) EditText edt_newCustomerAddress;
+
     LinearLayoutManager mLayoutManager;
 
     ProductAdapter productAdapter;
@@ -61,6 +92,8 @@ public class MakeBillFragment extends Fragment {
     Calendar myCalendar = Calendar.getInstance();
 
     SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
+
+    boolean vendorView;
 
     public MakeBillFragment() {
         // Required empty public constructor
@@ -153,4 +186,29 @@ public class MakeBillFragment extends Fragment {
         }
 
     };
+
+    @OnClick({R.id.view_existingCustomer,R.id.radio_existingCustomer})
+    public void existingVendorViewClick()
+    {
+        vendorView = false;
+        radio_existingCustomer.setChecked(true);
+        radio_newCustomer.setChecked(false);
+        //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
+        innerView_existingCustomer.setVisibility(View.VISIBLE);
+        //TransitionManager.beginDelayedTransition(outerView_newCustomer);
+        innerView_newCustomer.setVisibility(View.GONE);
+
+    }
+
+    @OnClick({R.id.view_newCustomer,R.id.radio_newCustomer})
+    public void newVendorViewClick()
+    {
+        vendorView = true;
+        radio_newCustomer.setChecked(true);
+        radio_existingCustomer.setChecked(false);
+        //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
+        innerView_existingCustomer.setVisibility(View.GONE);
+        //TransitionManager.beginDelayedTransition(outerView_newCustomer);
+        innerView_newCustomer.setVisibility(View.VISIBLE);
+    }
 }

@@ -59,7 +59,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         ((MyViewHolder)holder).itemName.setText(itemList.get(position).getItemName());
-        ((MyViewHolder)holder).totalAmount.setText(itemList.get(position).getTotalAmount());
+        ((MyViewHolder)holder).quantity.setText(itemList.get(position).getQuantity() + " * " + context.getString(R.string.rupee_sign) + itemList.get(position).getCostPerItem() );
+        ((MyViewHolder)holder).totalAmount.setText(context.getString(R.string.rupee_sign) + itemList.get(position).getTotalAmount());
     }
 
     @Override

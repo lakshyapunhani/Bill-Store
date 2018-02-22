@@ -93,28 +93,28 @@ public class MainActivity extends AppCompatActivity {
 
         switch (selectedFragmentTag) {
             case "home":
-                transaction.attach(homeFragment);
-                transaction.detach(addBillFragment);
-                transaction.detach(makeBillFragment);
-                transaction.detach(profileFragment);
+                transaction.show(homeFragment);
+                transaction.hide(addBillFragment);
+                transaction.hide(makeBillFragment);
+                transaction.hide(profileFragment);
                 break;
             case "add_bill":
-                transaction.detach(homeFragment);
-                transaction.attach(addBillFragment);
-                transaction.detach(makeBillFragment);
-                transaction.detach(profileFragment);
+                transaction.hide(homeFragment);
+                transaction.show(addBillFragment);
+                transaction.hide(makeBillFragment);
+                transaction.hide(profileFragment);
                 break;
             case "make_bill":
-                transaction.detach(homeFragment);
-                transaction.detach(addBillFragment);
-                transaction.attach(makeBillFragment);
-                transaction.detach(profileFragment);
+                transaction.hide(homeFragment);
+                transaction.hide(addBillFragment);
+                transaction.show(makeBillFragment);
+                transaction.hide(profileFragment);
                 break;
             case "profile":
-                transaction.detach(homeFragment);
-                transaction.detach(addBillFragment);
-                transaction.detach(makeBillFragment);
-                transaction.attach(profileFragment);
+                transaction.hide(homeFragment);
+                transaction.hide(addBillFragment);
+                transaction.hide(makeBillFragment);
+                transaction.show(profileFragment);
                 break;
         }
         transaction.commitAllowingStateLoss();
@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
     private void setCurrentFragment(String show, String hide, String hide2, String hide3) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if(!fragmentManager.findFragmentByTag(show).isVisible() ) {
-            transaction.attach(fragmentManager.findFragmentByTag(show));
-            transaction.detach(fragmentManager.findFragmentByTag(hide));
-            transaction.detach(fragmentManager.findFragmentByTag(hide2));
-            transaction.detach(fragmentManager.findFragmentByTag(hide3));
+            transaction.show(fragmentManager.findFragmentByTag(show));
+            transaction.hide(fragmentManager.findFragmentByTag(hide));
+            transaction.hide(fragmentManager.findFragmentByTag(hide2));
+            transaction.hide(fragmentManager.findFragmentByTag(hide3));
             transaction.commitAllowingStateLoss();
         }
     }

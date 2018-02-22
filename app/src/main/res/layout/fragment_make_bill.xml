@@ -69,20 +69,20 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/outerView_existingVendor"
+                    android:id="@+id/outerView_existingCustomer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
 
                     <LinearLayout
-                        android:id="@+id/view_existingVendor"
+                        android:id="@+id/view_existingCustomer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/radio_existingVendor"
+                            android:id="@+id/radio_existingCustomer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
@@ -101,7 +101,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/innerView_existingVendor"
+                        android:id="@+id/innerView_existingCustomer"
                         android:layout_marginLeft="30dp"
                         android:layout_marginStart="30dp"
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                         android:background="@drawable/edt_rounded_corner">
 
                         <com.example.wuntu.billstore.Dialogs.SearchableSpinner
-                            android:id="@+id/vendorSpinner"
+                            android:id="@+id/customerSpinner"
                             android:layout_width="250dp"
                             android:layout_height="40dp">
                         </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
@@ -125,24 +125,24 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/text_or"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textColor="@color/blue"/>
 
                 <LinearLayout
-                    android:id="@+id/outerView_newVendor"
+                    android:id="@+id/outerView_newCustomer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
 
                     <LinearLayout
-                        android:id="@+id/view_newVendor"
+                        android:id="@+id/view_newCustomer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/radio_newVendor"
+                            android:id="@+id/radio_newCustomer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/blue"
@@ -160,7 +160,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/innerView_newVendor"
+                        android:id="@+id/innerView_newCustomer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
@@ -171,7 +171,7 @@
 
 
                         <EditText
-                            android:id="@+id/edt_newVendorName"
+                            android:id="@+id/edt_newCustomerName"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:scrollHorizontally="true"
@@ -184,7 +184,7 @@
                             android:paddingEnd="10dp"/>
 
                         <EditText
-                            android:id="@+id/edt_newVendorAddress"
+                            android:id="@+id/edt_newCustomerAddress"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="@drawable/edt_rounded_corner"
@@ -197,6 +197,7 @@
                             android:paddingEnd="10dp" />
 
                         <EditText
+                            android:id="@+id/edt_newCustomerGst"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="@drawable/edt_rounded_corner"
