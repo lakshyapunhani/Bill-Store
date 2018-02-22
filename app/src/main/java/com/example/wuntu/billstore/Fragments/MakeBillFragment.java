@@ -143,7 +143,7 @@ public class MakeBillFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(ItemToMakeBill event)
     {
-        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getTotalAmount());
+        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount());
         itemList.add(itemPojo);
         productAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();

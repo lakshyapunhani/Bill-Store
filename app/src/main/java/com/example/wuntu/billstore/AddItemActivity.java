@@ -1,9 +1,11 @@
 package com.example.wuntu.billstore;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,8 +17,27 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
+import com.example.wuntu.billstore.Pojos.VendorDetails;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,10 +82,32 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
 
     int unitPosition,gstPosition;
 
-    private String[] units = {"Select Unit","Kg"};
+    FirebaseAuth firebaseAuth;
+    FirebaseAuth.AuthStateListener authStateListener;
+    FirebaseFirestore db;
+    FirebaseUser firebaseUser;
 
-    private String[] gstRate = {"GST 5% - CGST 2.5% + SGST 2.5%","GST 12% - CGST 6% + SGST 6%","GST 18% - CGST 9% + SGST 9%"
-                                ,"GST 28% - CGST 14% + SGST 14%","IGST 5%","IGST 12%","IGST 18%","IGST 28%"};
+    GoogleApiClient googleApiClient;
+
+    ArrayList<String> gstRateList;
+    ArrayList<String> unitList;
+
+    @Override
+    public void onStart()
+    {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        googleApiClient.connect();
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +115,75 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_add_item);
         ButterKnife.bind(this);
 
-        unitAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, units);
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        gstRateAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,gstRate);
+        firebaseUser = firebaseAuth.getCurrentUser();
 
-        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unitList = new ArrayList<>();
+        unitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, unitList);
+        //unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitAdapter);
         unitSpinner.setOnItemSelectedListener(this);
 
-
+        gstRateList = new ArrayList<>();
+        gstRateAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,gstRateList);
         spinner_gst_rate.setAdapter(gstRateAdapter);
         spinner_gst_rate.setOnItemSelectedListener(this);
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+
+
+                    CollectionReference gstReference = db.collection("GstSlabs");
+
+                    gstReference.get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            gstRateList.add(document.getId());
+                                        }
+                                    } else
+                                    {
+                                        Toast.makeText(AddItemActivity.this, "Error in GST document", Toast.LENGTH_SHORT).show();
+                                    }
+                                    gstRateAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                    CollectionReference unitReference = db.collection("Units");
+
+                    unitReference.get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (DocumentSnapshot document : task.getResult()) {
+                                            unitList.add(document.getId());
+                                        }
+                                    } else
+                                    {
+                                        Toast.makeText(AddItemActivity.this, "Error in unit document", Toast.LENGTH_SHORT).show();
+                                    }
+                                    unitAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                    //User is signed in
+                    Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("TAG", "onAuthStateChanged:signed_out");
+                    Toast.makeText(AddItemActivity.this, "Firebase User Empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
         edt_costPerItem.addTextChangedListener(new TextWatcher() {
             @Override
@@ -384,7 +484,8 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         String itemName = edt_itemName.getText().toString().trim();
         String quantity = edt_quantity.getText().toString().trim();
         String totalAmount = edt_totalAmount.getText().toString().trim();
-        EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,totalAmount));
+        String itemType = unitList.get(unitPosition);
+        EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,itemType,totalAmount));
         finish();
     }
 

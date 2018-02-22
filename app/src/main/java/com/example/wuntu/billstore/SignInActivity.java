@@ -158,7 +158,7 @@ public class SignInActivity extends AppCompatActivity {
                                 User user1 = documentSnapshot.toObject(User.class);
                                 String user_name = user1.getName();
                                 String shop_name = user1.getShop_name();
-                                startActivity(new Intent(SignInActivity.this, ProfileActivity.class));
+                                startActivity(new Intent(SignInActivity.this, MainActivity.class));
                                 finish();
 
                             }

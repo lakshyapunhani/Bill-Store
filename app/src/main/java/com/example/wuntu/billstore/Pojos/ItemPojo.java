@@ -16,15 +16,18 @@ public class ItemPojo implements Parcelable
 
     private String quantity;
 
+    private String itemType;
+
     private String totalAmount;
 
 
     public ItemPojo(){}
 
-    public ItemPojo(String itemName, String costPerItem, String quantity, String totalAmount) {
+    public ItemPojo(String itemName, String costPerItem, String quantity,String itemType, String totalAmount) {
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
+        this.itemType = itemType;
         this.totalAmount = totalAmount;
     }
 
@@ -32,6 +35,7 @@ public class ItemPojo implements Parcelable
         itemName = in.readString();
         costPerItem = in.readString();
         quantity = in.readString();
+        itemType = in.readString();
         totalAmount = in.readString();
     }
 
@@ -70,6 +74,10 @@ public class ItemPojo implements Parcelable
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
+
+    public void setItemType(String itemType) { this.itemType = itemType;}
+
+    public String getItemType(){ return itemType; }
 
     public String getTotalAmount() {
         return totalAmount;

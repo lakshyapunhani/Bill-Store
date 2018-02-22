@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
-                    Intent intent = new Intent(SplashActivity.this, ProfileActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 

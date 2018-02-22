@@ -14,10 +14,13 @@ public class ItemToMakeBill
 
     public String totalAmount;
 
-    public ItemToMakeBill(String itemName, String costPerItem, String quantity, String totalAmount) {
+    public String itemType;
+
+    public ItemToMakeBill(String itemName, String costPerItem, String quantity,String itemType, String totalAmount) {
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
+        this.itemType = itemType;
         this.totalAmount = totalAmount;
     }
 
@@ -35,6 +38,11 @@ public class ItemToMakeBill
 
     public String getTotalAmount() {
         return totalAmount;
+    }
+
+    public String getItemType()
+    {
+        return itemType;
     }
 
 
