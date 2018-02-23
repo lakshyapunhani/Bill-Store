@@ -314,7 +314,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
 
     private void setTotalAmount()
     {
-        if (edt_costPerItem.toString().isEmpty())
+        if (edt_costPerItem.getText().toString().trim().isEmpty())
         {
             edt_gstAmount.setText("");
             edt_costPerItemGST.setText("");
