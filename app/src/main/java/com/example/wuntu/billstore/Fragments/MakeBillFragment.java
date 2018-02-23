@@ -2,12 +2,10 @@ package com.example.wuntu.billstore.Fragments;
 
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,15 +13,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
-import com.example.wuntu.billstore.AddNewBillActivity;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
@@ -81,6 +80,8 @@ public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.edt_newCustomerAddress) EditText edt_newCustomerAddress;
 
+    @BindView(R.id.edt_newCustomerGst) EditText edt_newCustomerGst;
+
     LinearLayoutManager mLayoutManager;
 
     ProductAdapter productAdapter;
@@ -93,7 +94,9 @@ public class MakeBillFragment extends Fragment {
 
     SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
 
-    boolean vendorView;
+    boolean customerView;
+
+    ArrayList<String> customerNameList;
 
     public MakeBillFragment() {
         // Required empty public constructor
@@ -112,6 +115,7 @@ public class MakeBillFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_make_bill, container, false);
         ButterKnife.bind(this,view);
 
+        customerNameList = new ArrayList<>();
         itemList = new ArrayList<>();
         productAdapter = new ProductAdapter(itemList);
 
@@ -125,12 +129,11 @@ public class MakeBillFragment extends Fragment {
         String dateString = convertDf.format(date);
         invoice_date.setText(dateString);
 
-        return view;
-    }
-    @OnClick(R.id.btn_save)
-    public void click()
-    {
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        customerSpinner.setAdapter(spinnerAdapter);
 
+        return view;
     }
 
     @OnClick(R.id.layout_invoiced_items_header)
@@ -188,9 +191,9 @@ public class MakeBillFragment extends Fragment {
     };
 
     @OnClick({R.id.view_existingCustomer,R.id.radio_existingCustomer})
-    public void existingVendorViewClick()
+    public void existingCustomerViewClick()
     {
-        vendorView = false;
+        customerView = false;
         radio_existingCustomer.setChecked(true);
         radio_newCustomer.setChecked(false);
         //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
@@ -201,14 +204,37 @@ public class MakeBillFragment extends Fragment {
     }
 
     @OnClick({R.id.view_newCustomer,R.id.radio_newCustomer})
-    public void newVendorViewClick()
+    public void newCustomerViewClick()
     {
-        vendorView = true;
+        customerView = true;
         radio_newCustomer.setChecked(true);
         radio_existingCustomer.setChecked(false);
         //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
         innerView_existingCustomer.setVisibility(View.GONE);
         //TransitionManager.beginDelayedTransition(outerView_newCustomer);
         innerView_newCustomer.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_save)
+    public void saveClick()
+    {
+        if (itemList.size() == 0)
+        {
+            Toast.makeText(mContext, "Please add atleast one item", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (customerView)
+        {
+            if (edt_newCustomerName.getText().toString().trim().isEmpty())
+            {
+                Toast.makeText(mContext, "Please fill customer name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (edt_newCustomerAddress.getText().toString().trim().isEmpty())
+            {
+                Toast.makeText(mContext, "Please fill customer address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
     }
 }
