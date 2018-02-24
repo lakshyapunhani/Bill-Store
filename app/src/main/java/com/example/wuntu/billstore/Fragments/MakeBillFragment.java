@@ -25,8 +25,14 @@ import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
+import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,6 +105,11 @@ public class MakeBillFragment extends Fragment {
 
     ArrayList<String> customerNameList;
 
+    HashMap<String,ItemPojo> hashMap;
+
+    private FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+
     public MakeBillFragment() {
         // Required empty public constructor
     }
@@ -117,7 +129,13 @@ public class MakeBillFragment extends Fragment {
 
         customerNameList = new ArrayList<>();
         itemList = new ArrayList<>();
+        hashMap = new HashMap<>();
         productAdapter = new ProductAdapter(itemList);
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
@@ -233,8 +251,37 @@ public class MakeBillFragment extends Fragment {
             if (edt_newCustomerAddress.getText().toString().trim().isEmpty())
             {
                 Toast.makeText(mContext, "Please fill customer address", Toast.LENGTH_SHORT).show();
-                return;
             }
         }
+        else
+        {
+            if (customerNameList.size() == 0)
+            {
+                Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        saveDatatoFirebase();
+    }
+
+    private void saveDatatoFirebase()
+    {
+        for (int i = 0;i<itemList.size();i++)
+        {
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount());
+            hashMap.put(itemList.get(i).getItemName(),itemPojo);
+        }
+
+        final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        CustomerDetails customerDetails = new CustomerDetails(edt_newCustomerName.getText().toString().trim(),edt_newCustomerAddress.getText().toString().trim(),edt_newCustomerGst.getText().toString().trim());
+
+        customerReference.document(edt_newCustomerName.getText().toString().trim()).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(mContext, "Customer details added", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }

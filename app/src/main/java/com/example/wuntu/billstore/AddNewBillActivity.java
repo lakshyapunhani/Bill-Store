@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
-import com.example.wuntu.billstore.Pojos.BillDetails;
+import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
@@ -124,7 +124,6 @@ public class AddNewBillActivity extends AppCompatActivity {
     Uri selectedImageURI;
 
     int spinnerValue;
-    String spinnerValueName,spinnerValueAddress;
 
     boolean vendorView, statusView;
 
@@ -571,8 +570,9 @@ public class AddNewBillActivity extends AppCompatActivity {
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Get a URL to the uploaded content
                                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                Log.d("TAG Download URL : ", downloadUrl.toString());
-                                billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
+                                if (downloadUrl != null) {
+                                    billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
+                                }
                                 writeDataToFirebase();
                             }
                         })
@@ -594,7 +594,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     {
         VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-        final BillDetails billDetails = new BillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
+        final AddBillDetails addBillDetails = new AddBillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 
@@ -605,7 +605,7 @@ public class AddNewBillActivity extends AppCompatActivity {
                 public void onSuccess(Void aVoid)
                 {
                     vendorReference.document(newVendorName)
-                            .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(billDetails)
+                            .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(addBillDetails)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -632,7 +632,7 @@ public class AddNewBillActivity extends AppCompatActivity {
         }
         else
         {
-            vendorReference.document(newVendorName).collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(billDetails)
+            vendorReference.document(newVendorName).collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(addBillDetails)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

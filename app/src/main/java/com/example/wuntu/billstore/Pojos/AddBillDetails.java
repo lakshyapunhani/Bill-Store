@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by Dell on 1/15/2018.
  */
 
-public class BillDetails
+public class AddBillDetails
 {
     private String vendorName;
 
@@ -25,9 +25,9 @@ public class BillDetails
 
     private Map<String,String> billImages;
 
-    public BillDetails() {}
+    public AddBillDetails() {}
 
-    public BillDetails(String newVendorName, String newVendorAddress,String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages,String billTime) {
+    public AddBillDetails(String newVendorName, String newVendorAddress, String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages, String billTime) {
         this.vendorName = newVendorName;
         this.vendorAddress = newVendorAddress;
         this.billAmount = billAmount;

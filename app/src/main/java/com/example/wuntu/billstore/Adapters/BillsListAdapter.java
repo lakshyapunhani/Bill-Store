@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.wuntu.billstore.Pojos.BillDetails;
+import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.R;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import butterknife.ButterKnife;
 
 public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    private ArrayList<BillDetails> billsList= new ArrayList<>();
+    private ArrayList<AddBillDetails> billsList= new ArrayList<>();
 
-    private BillDetails billDetails;
+    private AddBillDetails addBillDetails;
 
 
-    public BillsListAdapter(ArrayList<BillDetails> billsList)
+    public BillsListAdapter(ArrayList<AddBillDetails> billsList)
     {
         this.billsList = billsList;
     }
@@ -57,10 +57,10 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        billDetails = billsList.get(position);
-        ((ViewHolder)holder).bill_date.setText(billDetails.getBillDate());
-        ((ViewHolder)holder).bill_amount.setText(billDetails.getBillAmount());
-        ((ViewHolder)holder).bill_status.setText(billDetails.getBillStatus());
+        addBillDetails = billsList.get(position);
+        ((ViewHolder)holder).bill_date.setText(addBillDetails.getBillDate());
+        ((ViewHolder)holder).bill_amount.setText(addBillDetails.getBillAmount());
+        ((ViewHolder)holder).bill_status.setText(addBillDetails.getBillStatus());
 
     }
 

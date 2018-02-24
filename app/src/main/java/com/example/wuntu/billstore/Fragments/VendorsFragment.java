@@ -14,10 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.BillsListAdapter;
-import com.example.wuntu.billstore.Adapters.VendorListAdapter;
-import com.example.wuntu.billstore.Pojos.BillDetails;
-import com.example.wuntu.billstore.Pojos.VendorDetails;
-import com.example.wuntu.billstore.ProfileActivity;
+import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +42,7 @@ public class VendorsFragment extends Fragment {
 
     LinearLayoutManager mLayoutManager;
 
-    ArrayList<BillDetails> billsList;
+    ArrayList<AddBillDetails> billsList;
 
     BillsListAdapter billsListAdapter;
 
@@ -133,8 +129,8 @@ public class VendorsFragment extends Fragment {
                             billsList.clear();
                             for (DocumentSnapshot doc : documentSnapshots)
                             {
-                                BillDetails billDetails = doc.toObject(BillDetails.class);
-                                billsList.add(billDetails);
+                                AddBillDetails addBillDetails = doc.toObject(AddBillDetails.class);
+                                billsList.add(addBillDetails);
                                 //Toast.makeText(context, "Bill Date Request " + doc.getId(), Toast.LENGTH_SHORT).show();
                             }
                             billsListAdapter.notifyDataSetChanged();

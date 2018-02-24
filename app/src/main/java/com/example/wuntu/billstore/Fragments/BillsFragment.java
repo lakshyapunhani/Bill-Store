@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.BillDocumentsAdapter;
-import com.example.wuntu.billstore.Pojos.BillDetails;
+import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,7 +74,7 @@ public class BillsFragment extends Fragment {
     FirebaseUser firebaseUser;
     FirebaseFirestore db;
 
-    BillDetails billDetails;
+    AddBillDetails addBillDetails;
 
     Context context;
 
@@ -146,7 +146,7 @@ public class BillsFragment extends Fragment {
                 {
                     keyList.clear();
                     valuesList.clear();
-                    billDetails = documentSnapshot.toObject(BillDetails.class);
+                    addBillDetails = documentSnapshot.toObject(AddBillDetails.class);
                     setUiFields();
                 }
 
@@ -172,12 +172,12 @@ public class BillsFragment extends Fragment {
 
     private void setUiFields()
     {
-        wholeSellerName.setText(billDetails.getVendorName());
-        wholeSellerAddress.setText(billDetails.getVendorAddress());
-        wholeSellerBillAmount.setText(billDetails.getBillAmount());
-        wholeSellerBillDate.setText(billDetails.getBillDate());
-        billStatus.setText(billDetails.getBillStatus());
-        if (billDetails.getBillStatus().equalsIgnoreCase("due"))
+        wholeSellerName.setText(addBillDetails.getVendorName());
+        wholeSellerAddress.setText(addBillDetails.getVendorAddress());
+        wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
+        wholeSellerBillDate.setText(addBillDetails.getBillDate());
+        billStatus.setText(addBillDetails.getBillStatus());
+        if (addBillDetails.getBillStatus().equalsIgnoreCase("due"))
         {
             Log.d("TAG","TAG");
         }
@@ -185,10 +185,10 @@ public class BillsFragment extends Fragment {
         {
             editBillStatus.setVisibility(View.GONE);
         }
-        if (billDetails.getBillImages().size() > 0)
+        if (addBillDetails.getBillImages().size() > 0)
         {
-            keyList.addAll(billDetails.getBillImages().keySet());
-            valuesList.addAll(billDetails.getBillImages().values());
+            keyList.addAll(addBillDetails.getBillImages().keySet());
+            valuesList.addAll(addBillDetails.getBillImages().values());
         }
 
         billDocumentsAdapter.notifyDataSetChanged();
