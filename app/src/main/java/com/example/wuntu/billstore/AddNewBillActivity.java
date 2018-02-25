@@ -594,7 +594,7 @@ public class AddNewBillActivity extends AppCompatActivity {
     {
         VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-        final AddBillDetails addBillDetails = new AddBillDetails(newVendorName,newVendorAddress,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
+        final AddBillDetails addBillDetails = new AddBillDetails(vendorDetails,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Bills");
 

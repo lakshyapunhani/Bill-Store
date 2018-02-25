@@ -9,9 +9,7 @@ import java.util.Map;
 
 public class AddBillDetails
 {
-    private String vendorName;
-
-    private String vendorAddress;
+    private VendorDetails vendorDetails;
 
     private String billAmount;
 
@@ -27,9 +25,8 @@ public class AddBillDetails
 
     public AddBillDetails() {}
 
-    public AddBillDetails(String newVendorName, String newVendorAddress, String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages, String billTime) {
-        this.vendorName = newVendorName;
-        this.vendorAddress = newVendorAddress;
+    public AddBillDetails(VendorDetails vendorDetails, String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages, String billTime) {
+        this.vendorDetails = vendorDetails;
         this.billAmount = billAmount;
         this.billDescription = billDescription;
         this.billDate = billDate;
@@ -58,9 +55,9 @@ public class AddBillDetails
         return billStatus;
     }
 
-    public String getVendorName() { return vendorName; }
-
-    public String getVendorAddress() { return vendorAddress; }
-
     public String getBillTime() { return billTime; }
+
+    public VendorDetails getVendorDetails() {
+        return vendorDetails;
+    }
 }

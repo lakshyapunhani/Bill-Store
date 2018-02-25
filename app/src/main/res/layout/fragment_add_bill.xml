@@ -26,6 +26,7 @@
             tools:ignore="MissingPrefix"/>
 
         <TextView
+            android:id="@+id/btn_submitBill"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
@@ -155,7 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
