@@ -12,6 +12,9 @@ public class CustomerDetails
 
     private String customerGstNumber;
 
+    public CustomerDetails() {
+    }
+
     public CustomerDetails(String customerName, String customerAddress, String customerGstNumber) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;

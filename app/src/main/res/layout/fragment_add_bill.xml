@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#e6e4e4"
     tools:context="com.example.wuntu.billstore.Fragments.AddBillFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#0484AE">
+        android:layout_height="60dp"
+        android:background="@color/blue">
 
         <TextView
             android:layout_width="0dp"
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="Add"
+            android:text="Save"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
@@ -41,13 +41,358 @@
 
     </LinearLayout>
 
-
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:paddingTop="5dp">
+
+            <RadioGroup
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/outerView_existingVendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/view_existingVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_existingVendor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:buttonTint="@color/blue"
+                            tools:targetApi="lollipop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/blue"
+                            android:text="@string/text_select_from_existing_vendors"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/innerView_existingVendor"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edt_rounded_corner">
+
+                        <com.example.wuntu.billstore.Dialogs.SearchableSpinner
+                            android:id="@+id/vendorSpinner"
+                            android:layout_width="250dp"
+                            android:layout_height="40dp">
+                        </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/text_or"
+                    android:textSize="16sp"
+                    android:textColor="@color/blue"/>
+
+                <LinearLayout
+                    android:id="@+id/outerView_newVendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/view_newVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_newVendor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            tools:targetApi="lollipop" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/text_add_new_vendor"
+                            android:textSize="16sp"
+                            android:textColor="@color/blue"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/innerView_newVendor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:visibility="visible"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+
+                        <EditText
+                            android:id="@+id/edt_newVendorName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:scrollHorizontally="true"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:hint="@string/text_enter_new_vendor_name"
+                            android:inputType="text"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp"/>
+
+                        <EditText
+                            android:id="@+id/edt_newVendorAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:layout_marginTop="15dp"
+                            android:inputType="text"
+                            android:hint="@string/text_enter_new_vendor_address"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/txt_delivery_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Bill Date"
+                android:textColor="@color/blue"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_calender" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/text_pickDate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="20dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_billAmountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="Bill Date"
+                android:textColor="@color/blue"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_indian_rupee" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_billAmount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="0dp"
+                    android:inputType="number"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="20dp"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="16sp"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/txt_billDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Bill Description"
+                android:textColor="@color/blue"
+                android:textSize="16sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edt_billDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="start|center_horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:maxLines="3"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_billStatus"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"/>
+
+                <RadioGroup
+                    android:id="@+id/billStatusRadioGroup"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radio_due"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_due"
+                        android:checked="true"
+                        android:buttonTint="@color/blue"
+                        tools:targetApi="lollipop"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
+
+
+                    <RadioButton
+                        android:id="@+id/radio_paid"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_paid"
+                        android:textSize="14sp"
+                        android:buttonTint="@color/blue"
+                        tools:targetApi="lollipop"
+                        android:textColor="@color/blue"
+                        android:layout_marginStart="20dp" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/blue"
+                    android:text="Add Document(s)"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:id="@+id/recycler_view"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </LinearLayout>

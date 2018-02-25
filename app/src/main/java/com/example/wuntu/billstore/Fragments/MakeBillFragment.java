@@ -6,17 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +32,22 @@ import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
+import com.example.wuntu.billstore.MainActivity;
+import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
+import com.example.wuntu.billstore.Pojos.MakeBillDetails;
 import com.example.wuntu.billstore.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,6 +62,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +74,9 @@ public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.recycler_items)
     RecyclerView recycler_items;
+
+    @BindView(R.id.img_dots)
+    ImageView img_dots;
 
     @BindView(R.id.invoice_date) TextView invoice_date;
 
@@ -103,21 +122,36 @@ public class MakeBillFragment extends Fragment {
 
     boolean customerView;
 
+    ArrayList<CustomerDetails> customersList;
     ArrayList<String> customerNameList;
 
-    HashMap<String,ItemPojo> hashMap;
+    HashMap<String,ItemPojo> billItems;
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
+
+    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="";
+    String invoiceDate = "";
+
+    long timestamp;
+    String timestampString;
+
+    ArrayAdapter<String> spinnerAdapter;
+    int customerSpinnerValue;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     public MakeBillFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -128,8 +162,9 @@ public class MakeBillFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         customerNameList = new ArrayList<>();
+        customersList = new ArrayList<>();
         itemList = new ArrayList<>();
-        hashMap = new HashMap<>();
+        billItems = new HashMap<>();
         productAdapter = new ProductAdapter(itemList);
 
         db = FirebaseFirestore.getInstance();
@@ -147,11 +182,42 @@ public class MakeBillFragment extends Fragment {
         String dateString = convertDf.format(date);
         invoice_date.setText(dateString);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
+        spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         customerSpinner.setAdapter(spinnerAdapter);
 
+        getCustomerList();
+
         return view;
+    }
+
+    private void getCustomerList()
+    {
+        CollectionReference getCustomerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+
+        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e != null)
+                {
+                    Toast.makeText(mContext, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                customersList.clear();
+                if (documentSnapshots.isEmpty())
+                {
+                    newCustomerViewClick();
+                    return;
+                }
+                for (DocumentSnapshot documentSnapshot : documentSnapshots)
+                {
+                    CustomerDetails customerDetails = documentSnapshot.toObject(CustomerDetails.class);
+                    customersList.add(customerDetails);
+                    customerNameList.add(customerDetails.getCustomerName());
+                }
+                spinnerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @OnClick(R.id.layout_invoiced_items_header)
@@ -233,7 +299,42 @@ public class MakeBillFragment extends Fragment {
         innerView_newCustomer.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.btn_save)
+    @OnClick(R.id.img_dots)
+    public void dotsClick()
+    {
+        PopupMenu popup = new PopupMenu(mContext, img_dots);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater()
+                .inflate(R.menu.popupmenu, popup.getMenu());
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.save:
+                        saveClick();
+                        break;
+                    case R.id.preview:
+                        break;
+                }
+                return true;
+            }
+
+        });
+
+        popup.show();
+    }
+
+    @OnItemSelected(value = R.id.customerSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
+    void selectVehicle(AdapterView<?> adapterView, int newVal) {
+        if (customersList.size()>0)
+        {
+            customerSpinnerValue = newVal;
+        }
+    }
+
+
     public void saveClick()
     {
         if (itemList.size() == 0)
@@ -241,6 +342,10 @@ public class MakeBillFragment extends Fragment {
             Toast.makeText(mContext, "Please add atleast one item", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        invoiceDate = invoice_date.getText().toString().trim();
+        timestamp = System.currentTimeMillis();
+        timestampString = String.valueOf(timestamp);
         if (customerView)
         {
             if (edt_newCustomerName.getText().toString().trim().isEmpty())
@@ -248,9 +353,22 @@ public class MakeBillFragment extends Fragment {
                 Toast.makeText(mContext, "Please fill customer name", Toast.LENGTH_SHORT).show();
                 return;
             }
+            else
+            {
+                newCustomerName = edt_newCustomerName.getText().toString().trim();
+            }
             if (edt_newCustomerAddress.getText().toString().trim().isEmpty())
             {
                 Toast.makeText(mContext, "Please fill customer address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else
+            {
+                newCustomerAddress = edt_newCustomerAddress.getText().toString().trim();
+            }
+            if (!edt_newCustomerGst.getText().toString().trim().isEmpty())
+            {
+                newCustomerGstNumber = edt_newCustomerGst.getText().toString().trim();
             }
         }
         else
@@ -259,6 +377,9 @@ public class MakeBillFragment extends Fragment {
             {
                 Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
             }
+            newCustomerName = customersList.get(customerSpinnerValue).getCustomerName();
+            newCustomerAddress = customersList.get(customerSpinnerValue).getCustomerAddress();
+            newCustomerGstNumber = customersList.get(customerSpinnerValue).getCustomerGstNumber();
         }
 
         saveDatatoFirebase();
@@ -269,19 +390,31 @@ public class MakeBillFragment extends Fragment {
         for (int i = 0;i<itemList.size();i++)
         {
             ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount());
-            hashMap.put(itemList.get(i).getItemName(),itemPojo);
+            billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
-        CustomerDetails customerDetails = new CustomerDetails(edt_newCustomerName.getText().toString().trim(),edt_newCustomerAddress.getText().toString().trim(),edt_newCustomerGst.getText().toString().trim());
+        CustomerDetails customerDetails = new CustomerDetails(newCustomerName,newCustomerAddress,newCustomerGstNumber);
+        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems);
 
-        customerReference.document(edt_newCustomerName.getText().toString().trim()).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+        customerReference.document(newCustomerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(mContext, "Customer details added", Toast.LENGTH_SHORT).show();
+
+                customerReference.document(newCustomerName).collection(firebaseUser.getUid())
+                        .document(invoiceDate + " && " + timestampString).set(makeBillDetails)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(mContext, "Bill added", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
             }
         });
-
-
     }
 }
