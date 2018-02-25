@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_home_blue"/>
+                    app:srcCompat="@drawable/ic_home_blue"/>
 
                 <TextView
                     android:id="@+id/text_homePage"
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_add"/>
+                    app:srcCompat="@drawable/ic_add"/>
 
                 <TextView
                     android:id="@+id/text_addBill"
@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_invoice_white"/>
+                    app:srcCompat="@drawable/ic_invoice_white"/>
 
                 <TextView
                     android:id="@+id/text_makeBill"
@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_profile_white"/>
+                    app:srcCompat="@drawable/ic_profile_white"/>
 
                 <TextView
                     android:id="@+id/text_profile"

@@ -172,8 +172,8 @@ public class BillsFragment extends Fragment {
 
     private void setUiFields()
     {
-        wholeSellerName.setText(addBillDetails.getVendorName());
-        wholeSellerAddress.setText(addBillDetails.getVendorAddress());
+        /*wholeSellerName.setText(addBillDetails.getVendorName());
+        wholeSellerAddress.setText(addBillDetails.getVendorAddress());*/
         wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
         wholeSellerBillDate.setText(addBillDetails.getBillDate());
         billStatus.setText(addBillDetails.getBillStatus());

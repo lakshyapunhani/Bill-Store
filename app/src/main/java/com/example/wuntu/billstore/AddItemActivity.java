@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
@@ -74,7 +76,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     @BindView(R.id.edt_totalAmount) EditText edt_totalAmount;
 
     @BindView(R.id.btn_add)
-    Button btn_add;
+    TextView btn_add;
 
     ArrayAdapter<String> unitAdapter;
 
@@ -112,6 +114,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_add_item);
         ButterKnife.bind(this);
 

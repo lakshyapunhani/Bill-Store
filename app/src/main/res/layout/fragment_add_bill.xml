@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#e6e4e4"
+    android:background="@color/background_grey"
     tools:context="com.example.wuntu.billstore.Fragments.AddBillFragment">
 
     <LinearLayout
@@ -215,7 +216,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    android:src="@drawable/ic_calender" />
+                    app:srcCompat="@drawable/ic_calender" />
 
                 <LinearLayout
                     android:layout_width="1dp"
@@ -258,7 +259,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    android:src="@drawable/ic_indian_rupee" />
+                    app:srcCompat="@drawable/ic_indian_rupee" />
 
                 <LinearLayout
                     android:layout_width="1dp"

@@ -1,103 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey"
     android:orientation="vertical">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/blue">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_back_arrow"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Enter Item Details"
+            android:paddingLeft="20dp"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:id="@+id/btn_add"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="Add"
+            android:textAllCaps="true"
+            android:background="@drawable/btn_rounded_bg"
+            android:textColor="@android:color/white"
+            fontPath = "fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:background="@color/blue">
-
-            <ImageView
-                android:id="@+id/back_arrow"
-                android:layout_marginLeft="10dp"
-                android:paddingLeft="5dp"
-                android:layout_width="25dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_back_arrow"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Enter Item Details"
-                android:paddingLeft="20dp"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                style="@style/standard_title_text_style"
-                fontPath="fonts/OpenSans-Regular.ttf"
-                tools:ignore="MissingPrefix"/>
-
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="Item Name"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColorHint="@color/grey">
-                <EditText
-                    android:id="@+id/edt_itemName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Item Name"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/unitSpinner"
+            <EditText
+                android:id="@+id/edt_itemName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:spinnerMode="dropdown"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/grey"/>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColorHint="@color/grey">
+                android:paddingLeft="10dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/edt_costPerItem"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Unit of Sale"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner">
+
+                <Spinner
+                    android:id="@+id/unitSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Cost Per Item"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"/>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColorHint="@color/grey">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Cost per Item"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
 
-                <EditText
-                    android:id="@+id/edt_quantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Quantity"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
+
+            <EditText
+                android:id="@+id/edt_costPerItem"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:inputType="number"
+                android:background="@drawable/edt_rounded_corner"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Quantity"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/edt_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_marginTop="10dp"
@@ -109,13 +156,19 @@
                 <CheckBox
                     android:id="@+id/cb_include_gst"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:buttonTint="@color/blue"
+                    tools:targetApi="lollipop" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Include GST"
+                    android:textColor="@color/blue"
                     android:gravity="center"/>
             </LinearLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/layout_gst"
@@ -125,81 +178,89 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/spinner_gst_rate"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select GST Rate"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5dp"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:spinnerMode="dropdown"
-                    android:textSize="12sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/grey"/>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textColorHint="@color/grey">
-
-                    <EditText
-                        android:id="@+id/edt_gstAmount"
+                    android:background="@drawable/edt_rounded_corner">
+                    <Spinner
+                        android:id="@+id/spinner_gst_rate"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="GST Amount"
-                        android:textSize="14sp" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="40dp"
+                        android:spinnerMode="dropdown"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
-                <android.support.design.widget.TextInputLayout
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textColorHint="@color/grey">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="GST Amount"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5dp"/>
 
-                    <EditText
-                        android:id="@+id/edt_costPerItemGST"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Cost Per Item with GST"
-                        android:textSize="14sp" />
-                </android.support.design.widget.TextInputLayout>
+
+                <EditText
+                    android:id="@+id/edt_gstAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Cost per Item with GST"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5dp"/>
+
+
+                <EditText
+                    android:id="@+id/edt_costPerItemGST"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textColorHint="@color/grey">
-
-                <EditText
-                    android:id="@+id/edt_totalAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Total Amount"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
-
-
-
-            <Button
-                android:id="@+id/btn_add"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/buttonBarButtonStyle"
-                android:text="Add"
-                android:background="@color/blue"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="end"/>
+                android:layout_marginTop="10dp"
+                android:text="Total Amount"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
 
+
+            <EditText
+                android:id="@+id/edt_totalAmount"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:inputType="number"
+                android:background="@drawable/edt_rounded_corner"
+                android:textSize="14sp" />
 
         </LinearLayout>
-    </LinearLayout>
 
+    </ScrollView>
 
 </LinearLayout>
 
