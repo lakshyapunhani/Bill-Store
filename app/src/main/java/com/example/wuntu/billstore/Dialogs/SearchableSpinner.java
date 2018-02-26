@@ -140,6 +140,9 @@ public class SearchableSpinner extends android.support.v7.widget.AppCompatSpinne
     }
 
 
+    public void setTitle(String strTitle) {
+        _searchableListDialog.setTitle(strTitle);
+    }
 
     private Activity scanForActivity(Context cont) {
         if (cont == null)

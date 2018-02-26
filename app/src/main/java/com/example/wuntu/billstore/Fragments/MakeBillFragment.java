@@ -184,6 +184,7 @@ public class MakeBillFragment extends Fragment {
 
         spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        customerSpinner.setTitle("Select Customer");
         customerSpinner.setAdapter(spinnerAdapter);
 
         getCustomerList();
