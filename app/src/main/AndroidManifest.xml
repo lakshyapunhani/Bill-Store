@@ -54,8 +54,9 @@
         <activity android:name=".AddNewBillActivity" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddItemActivity" />
+        <activity android:name=".PreviewActivity"></activity>
     </application>
 
 </manifest>

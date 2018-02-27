@@ -37,6 +37,7 @@ import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.Pojos.MakeBillDetails;
+import com.example.wuntu.billstore.PreviewActivity;
 import com.example.wuntu.billstore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,8 +70,8 @@ import butterknife.OnItemSelected;
  */
 public class MakeBillFragment extends Fragment {
 
-    @BindView(R.id.btn_save)
-    TextView btn_save;
+    @BindView(R.id.btn_preview)
+    TextView btn_preview;
 
     @BindView(R.id.recycler_items)
     RecyclerView recycler_items;
@@ -335,6 +336,12 @@ public class MakeBillFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.btn_preview)
+    public void previewClick()
+    {
+        Intent intent = new Intent(mContext, PreviewActivity.class);
+        startActivity(intent);
+    }
 
     public void saveClick()
     {
