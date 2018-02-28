@@ -32,13 +32,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_generate;
     TextView tv_link;
     ImageView iv_image;
     NestedScrollView scrollView;
-    LinearLayout ll_pdflayout;
     public static int REQUEST_PERMISSIONS = 1;
     boolean boolean_permission;
     boolean boolean_save;
@@ -46,10 +48,41 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     ProgressDialog progressDialog;
     TableLayout ll;
 
+    @BindView(R.id.txt_shopName)
+    TextView txt_shopName;
+
+    @BindView(R.id.txt_shopAddress)
+    TextView txt_shopAddress;
+
+    @BindView(R.id.txt_gstNumber)
+    TextView txt_gstNumber;
+
+    @BindView(R.id.txt_invoiceDate)
+    TextView txt_invoiceDate;
+
+    @BindView(R.id.txt_custName)
+    TextView txt_custName;
+
+    @BindView(R.id.txt_custAddress)
+    TextView txt_custAddress;
+
+    @BindView(R.id.txt_custGstNumber)
+    TextView txt_custGstNumber;
+
+    @BindView(R.id.tableLayoutItems)
+    TableLayout tableLayoutItems;
+
+    @BindView(R.id.invoice_subtotal)
+    TextView invoice_subtotal;
+
+    @BindView(R.id.invoice_total)
+    TextView invoice_total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+        ButterKnife.bind(this);
         init();
         fn_permission();
         listener();
@@ -60,7 +93,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     {
         ll = (TableLayout) findViewById(R.id.tableLayoutItems);
         btn_generate = (Button)findViewById(R.id.btn_generate);
-        scrollView = (NestedScrollView) findViewById(R.id.ll_pdflayout);
+        scrollView = (NestedScrollView) findViewById(R.id.pdflayout);
     }
 
     public void initTable()

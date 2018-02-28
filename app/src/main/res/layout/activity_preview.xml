@@ -26,7 +26,7 @@
             tools:ignore="MissingPrefix"/>
 
         <TextView
-            android:id="@+id/btn_save"
+            android:id="@+id/btn_print"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
@@ -42,6 +42,7 @@
             tools:ignore="MissingPrefix" />
 
         <TextView
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
@@ -62,7 +63,7 @@
 
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ll_pdflayout"
+        android:id="@+id/pdflayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -77,10 +78,9 @@
             android:paddingTop="10dp"
             android:orientation="vertical">
 
-            <!-- end invoice status -->
-            <!-- invoice/client data -->
 
             <TextView
+                android:id="@+id/txt_shopName"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
@@ -89,6 +89,7 @@
                 android:text="Punhani Gift Corner"/>
 
             <TextView
+                android:id="@+id/txt_shopAddress"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
@@ -113,10 +114,11 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
-                        android:text="CIN: "
+                        android:text="GST No: "
                         android:textColor="@android:color/black"/>
 
                     <TextView
+                        android:id="@+id/txt_gstNumber"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
@@ -140,6 +142,7 @@
                         android:textColor="@android:color/black"/>
 
                     <TextView
+                        android:id="@+id/txt_invoiceDate"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
@@ -163,12 +166,14 @@
                 android:orientation="vertical"
                 android:paddingLeft="5dp">
                 <TextView
+                    android:id="@+id/txt_custName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Velocity Concepts"
                     android:textStyle="bold" />
                 <TextView
+                    android:id="@+id/txt_custAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -185,6 +190,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txt_custGstNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -322,6 +328,7 @@
                     android:paddingRight="10dp" />
 
                 <TextView
+                    android:id="@+id/invoice_subtotal"
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
@@ -347,6 +354,7 @@
                     android:gravity="end" />
 
                 <TextView
+                    android:id="@+id/invoice_total"
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
