@@ -339,8 +339,7 @@ public class MakeBillFragment extends Fragment {
     @OnClick(R.id.btn_preview)
     public void previewClick()
     {
-        Intent intent = new Intent(mContext, PreviewActivity.class);
-        startActivity(intent);
+        saveClick();
     }
 
     public void saveClick()
@@ -387,7 +386,11 @@ public class MakeBillFragment extends Fragment {
             }
             newCustomerName = customersList.get(customerSpinnerValue).getCustomerName();
             newCustomerAddress = customersList.get(customerSpinnerValue).getCustomerAddress();
-            newCustomerGstNumber = customersList.get(customerSpinnerValue).getCustomerGstNumber();
+            if (!customersList.get(customerSpinnerValue).getCustomerGstNumber().isEmpty())
+            {
+                newCustomerGstNumber = customersList.get(customerSpinnerValue).getCustomerGstNumber();
+            }
+
         }
 
         saveDatatoFirebase();
@@ -405,7 +408,7 @@ public class MakeBillFragment extends Fragment {
         CustomerDetails customerDetails = new CustomerDetails(newCustomerName,newCustomerAddress,newCustomerGstNumber);
         final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems);
 
-        customerReference.document(newCustomerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+        /*customerReference.document(newCustomerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -423,6 +426,14 @@ public class MakeBillFragment extends Fragment {
                     }
                 });
             }
-        });
+        });*/
+
+        Intent intent = new Intent(mContext, PreviewActivity.class);
+        intent.putParcelableArrayListExtra("ItemList",itemList);
+        intent.putExtra("Customer Name",newCustomerName);
+        intent.putExtra("Customer Address",newCustomerAddress);
+        intent.putExtra("Customer GST Number",newCustomerGstNumber);
+        intent.putExtra("Invoice Date",invoiceDate);
+        startActivity(intent);
     }
 }

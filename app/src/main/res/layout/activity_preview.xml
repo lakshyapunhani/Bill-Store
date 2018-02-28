@@ -256,54 +256,6 @@
                 <!-- end invoice item labels -->
                 <!-- invoice items -->
 
-                <TableRow xmlns:android="http://schemas.android.com/apk/res/android">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:id="@+id/tv0"
-                        android:textColor="#706868"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Domain setup and Wordpress Installation"
-                        android:textSize="12sp"
-                        android:textStyle="bold"/>
-
-
-                    <TextView
-                        android:id="@+id/tv1"
-                        android:textColor="#706868"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="$500"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv2"
-                        android:textColor="#706868"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="1"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv3"
-                        android:textColor="#706868"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="$500"
-                        android:textSize="12sp" />
-                </TableRow>
-
             </TableLayout>
             <!-- end invoice items -->
             <!-- invoice notes -->

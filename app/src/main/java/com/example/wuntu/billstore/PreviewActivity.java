@@ -1,9 +1,7 @@
 package com.example.wuntu.billstore;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,16 +19,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Pojos.ItemPojo;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,13 +39,15 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     Button btn_generate;
     TextView tv_link;
     ImageView iv_image;
+
+    @BindView(R.id.pdflayout)
     NestedScrollView scrollView;
+
     public static int REQUEST_PERMISSIONS = 1;
     boolean boolean_permission;
     boolean boolean_save;
     Bitmap bitmap;
     ProgressDialog progressDialog;
-    TableLayout ll;
 
     @BindView(R.id.txt_shopName)
     TextView txt_shopName;
@@ -78,39 +79,74 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
+    private ArrayList<ItemPojo> itemList;
+    private String customerName = "";
+    private String customerAddress = "";
+    private String customerGstNumber = "";
+    private String invoiceDate = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
+
+        getIntentItems();
+        setViews();
         init();
         fn_permission();
         listener();
         initTable();
     }
 
+
+
+    private void getIntentItems()
+    {
+        if (getIntent() != null)
+        {
+            itemList = getIntent().getParcelableArrayListExtra("ItemList");
+            customerName = getIntent().getStringExtra("Customer Name");
+            customerAddress = getIntent().getStringExtra("Customer Address");
+            customerGstNumber = getIntent().getStringExtra("Customer GST Number");
+            invoiceDate = getIntent().getStringExtra("Invoice Date");
+        }
+    }
+
+    private void setViews()
+    {
+        txt_custName.setText(customerName);
+        txt_custAddress.setText(customerAddress);
+        txt_custGstNumber.setText(customerGstNumber);
+        txt_invoiceDate.setText(invoiceDate);
+    }
+
     private void init()
     {
-        ll = (TableLayout) findViewById(R.id.tableLayoutItems);
         btn_generate = (Button)findViewById(R.id.btn_generate);
-        scrollView = (NestedScrollView) findViewById(R.id.pdflayout);
     }
 
     public void initTable()
     {
-        for (int i = 0; i < 8; i++) {
-            TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, ll, false);
-            TextView txtDeviceName = (TextView) row.findViewById(R.id.tv0);
-            TextView txtLastLoggedIn = (TextView) row.findViewById(R.id.tv1);
-            TextView txtLocation = (TextView) row.findViewById(R.id.tv2);
-            TextView textView  = row.findViewById(R.id.tv3);
+        for (int i = 0; i < itemList.size(); i++) {
 
-            txtDeviceName.setText("Cello Bottle");
-            txtLastLoggedIn.setText("$200");
-            txtLocation.setText("3");
-            textView.setText("$200");
+            ItemPojo itemPojo = itemList.get(i);
+            TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
+            TextView itemName = (TextView) row.findViewById(R.id.tv0);
+            TextView costPerItem= (TextView) row.findViewById(R.id.tv1);
+            TextView quantity = (TextView) row.findViewById(R.id.tv2);
+            TextView totalAmount = row.findViewById(R.id.tv3);
 
-            ll.addView(row);
+            //txtDeviceName.setText("Cello Bottle");
+            itemName.setText(itemPojo.getItemName());
+            //txtLastLoggedIn.setText("$200");
+            costPerItem.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getCostPerItem());
+            //txtLocation.setText("3");
+            quantity.setText(itemPojo.getQuantity());
+            //textView.setText("$200");
+            totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
+
+            tableLayoutItems.addView(row);
         }
     }
 

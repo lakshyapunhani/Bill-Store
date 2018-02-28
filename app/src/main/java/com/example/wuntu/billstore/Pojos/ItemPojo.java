@@ -39,15 +39,15 @@ public class ItemPojo implements Parcelable
         totalAmount = in.readString();
     }
 
-    public static final Creator<VendorDetails> CREATOR = new Creator<VendorDetails>() {
+    public static final Creator<ItemPojo> CREATOR = new Creator<ItemPojo>() {
         @Override
-        public VendorDetails createFromParcel(Parcel in) {
-            return new VendorDetails(in);
+        public ItemPojo createFromParcel(Parcel in) {
+            return new ItemPojo(in);
         }
 
         @Override
-        public VendorDetails[] newArray(int size) {
-            return new VendorDetails[size];
+        public ItemPojo[] newArray(int size) {
+            return new ItemPojo[size];
         }
     };
 
@@ -97,6 +97,7 @@ public class ItemPojo implements Parcelable
         parcel.writeString(itemName);
         parcel.writeString(costPerItem);
         parcel.writeString(quantity);
+        parcel.writeString(itemType);
         parcel.writeString(totalAmount);
     }
 }

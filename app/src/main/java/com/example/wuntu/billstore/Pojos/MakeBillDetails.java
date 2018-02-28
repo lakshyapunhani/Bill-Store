@@ -1,5 +1,8 @@
 package com.example.wuntu.billstore.Pojos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Map;
 
 /**
@@ -8,13 +11,6 @@ import java.util.Map;
 
 public class MakeBillDetails
 {
-    /*private String customerName;
-
-    private String customerAddress;
-
-    private String customerGstNumber;*/
-
-
 
     private CustomerDetails customerDetails;
 
@@ -28,21 +24,10 @@ public class MakeBillDetails
         this.billItems = billItems;
     }
 
+
     public CustomerDetails getCustomerDetails() {
         return customerDetails;
     }
-
-    /*public String getCustomerName() {
-        return customerName;
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public String getCustomerGstNumber() {
-        return customerGstNumber;
-    }*/
 
     public String getBillTime() {
         return billTime;
@@ -51,4 +36,5 @@ public class MakeBillDetails
     public Map<String, ItemPojo> getBillItems() {
         return billItems;
     }
+
 }
