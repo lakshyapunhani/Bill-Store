@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btn_generate;
     TextView tv_link;
     ImageView iv_image;
 
@@ -79,6 +78,9 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
+    @BindView(R.id.btn_generate)
+    Button btn_generate;
+
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
     private String customerAddress = "";
@@ -93,10 +95,11 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         getIntentItems();
         setViews();
-        init();
         fn_permission();
-        listener();
         initTable();
+
+        btn_generate.setOnClickListener(this);
+
     }
 
 
@@ -121,11 +124,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         txt_invoiceDate.setText(invoiceDate);
     }
 
-    private void init()
-    {
-        btn_generate = (Button)findViewById(R.id.btn_generate);
-    }
-
     public void initTable()
     {
         for (int i = 0; i < itemList.size(); i++) {
@@ -137,23 +135,15 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             TextView quantity = (TextView) row.findViewById(R.id.tv2);
             TextView totalAmount = row.findViewById(R.id.tv3);
 
-            //txtDeviceName.setText("Cello Bottle");
             itemName.setText(itemPojo.getItemName());
-            //txtLastLoggedIn.setText("$200");
             costPerItem.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getCostPerItem());
-            //txtLocation.setText("3");
             quantity.setText(itemPojo.getQuantity());
-            //textView.setText("$200");
             totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
 
             tableLayoutItems.addView(row);
         }
     }
 
-    private void listener()
-    {
-        btn_generate.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View view) {
