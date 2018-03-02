@@ -2,12 +2,15 @@ package com.example.wuntu.billstore;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -24,20 +27,27 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
+import com.example.wuntu.billstore.Pojos.MakeBillDetails;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
-
-    TextView tv_link;
-    ImageView iv_image;
 
     @BindView(R.id.pdflayout)
     NestedScrollView scrollView;
@@ -72,14 +82,17 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.tableLayoutItems)
     TableLayout tableLayoutItems;
 
-    @BindView(R.id.invoice_subtotal)
-    TextView invoice_subtotal;
-
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
     @BindView(R.id.btn_generate)
     Button btn_generate;
+
+    @BindView(R.id.btn_save)
+    TextView btn_save;
+
+    @BindView(R.id.btn_print)
+    TextView btn_print;
 
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
@@ -87,22 +100,40 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private String customerGstNumber = "";
     private String invoiceDate = "";
 
+    HashMap<String,ItemPojo> billItems;
+
+    private FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+
+    long timestamp;
+    String timestampString;
+
+    double totalAmount = 0;
+
+    File filePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
 
+        billItems = new HashMap<>();
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        timestamp = System.currentTimeMillis();
+        timestampString = String.valueOf(timestamp);
+
         getIntentItems();
-        setViews();
         fn_permission();
         initTable();
+        setViews();
 
         btn_generate.setOnClickListener(this);
-
     }
-
-
 
     private void getIntentItems()
     {
@@ -118,21 +149,26 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setViews()
     {
+        String amount = String.valueOf(totalAmount);
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
         txt_custGstNumber.setText(customerGstNumber);
         txt_invoiceDate.setText(invoiceDate);
+        invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
+
     }
 
     public void initTable()
     {
-        for (int i = 0; i < itemList.size(); i++) {
+        for (int i = 0; i < itemList.size(); i++)
+        {
+            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
 
             ItemPojo itemPojo = itemList.get(i);
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
-            TextView itemName = (TextView) row.findViewById(R.id.tv0);
-            TextView costPerItem= (TextView) row.findViewById(R.id.tv1);
-            TextView quantity = (TextView) row.findViewById(R.id.tv2);
+            TextView itemName = row.findViewById(R.id.tv0);
+            TextView costPerItem= row.findViewById(R.id.tv1);
+            TextView quantity = row.findViewById(R.id.tv2);
             TextView totalAmount = row.findViewById(R.id.tv3);
 
             itemName.setText(itemPojo.getItemName());
@@ -152,9 +188,11 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_generate:
 
                 if (boolean_save) {
-                    /*Intent intent = new Intent(getApplicationContext(), PDFViewActivity.class);
-                    startActivity(intent);*/
-                    Toast.makeText(this, "Rukja bhai,abhi ye part krna baaki h", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                    //Toast.makeText(this, "Rukja bhai,abhi ye part krna baaki h", Toast.LENGTH_SHORT).show();
 
                 } else {
                     if (boolean_permission) {
@@ -170,7 +208,48 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                     createPdf();
                     break;
                 }
+         }
+    }
+
+    @OnClick(R.id.btn_save)
+    public void saveButton()
+    {
+        //Toast.makeText(this, "Save Button Clicked", Toast.LENGTH_SHORT).show();
+        for (int i = 0;i<itemList.size();i++)
+        {
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount());
+            billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
+
+        final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
+        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems);
+
+        customerReference.document(customerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                customerReference.document(customerName).collection(firebaseUser.getUid())
+                        .document(invoiceDate + " && " + timestampString).set(makeBillDetails)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(PreviewActivity.this, "Bill added", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Request Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_print)
+    public void printButton()
+    {
+
     }
 
     private void createPdf(){
@@ -183,8 +262,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         float width = displaymetrics.widthPixels ;
 
         int convertHeight = (int) scrollHeight, convertWidth = (int) width;
-
-
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHeight, 1).create();
@@ -206,7 +283,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         // write the document content
         String targetPdf = "/sdcard/"+"test.pdf";
         String target = Environment.getExternalStorageDirectory().getPath() + "test.pdf";
-        File filePath = new File(targetPdf);
+        filePath = new File(targetPdf);
         try {
             document.writeTo(new FileOutputStream(filePath));
             btn_generate.setText("Check PDF");
@@ -219,8 +296,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         // close the document
         document.close();
     }
-
-
 
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

@@ -73,8 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:paddingTop="10dp"
             android:orientation="vertical">
 
@@ -211,8 +211,8 @@
                 <!-- invoice item labels -->
                 <TableRow android:background="#706868">
                     <TextView
-                        android:layout_weight="3"
                         android:layout_width="0dp"
+                        android:layout_weight="2"
                         android:layout_height="wrap_content"
                         android:padding="3dp"
                         android:text="Item"
@@ -222,7 +222,7 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
@@ -244,7 +244,7 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dip"
@@ -259,35 +259,6 @@
             </TableLayout>
             <!-- end invoice items -->
             <!-- invoice notes -->
-
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="SubTotal: "
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:gravity="end"
-                    android:paddingEnd="10dp"
-                    android:paddingRight="10dp" />
-
-                <TextView
-                    android:id="@+id/invoice_subtotal"
-                    android:textSize="14sp"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="$1000000" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="5dp"

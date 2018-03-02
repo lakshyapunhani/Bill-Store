@@ -32,23 +32,17 @@
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
+            android:padding="4dp"
             android:text="Preview"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
             fontPath = "fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix" />
-
-        <ImageView
-            android:id="@+id/img_dots"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_menu"
-            android:padding="20dp"/>
 
     </LinearLayout>
 

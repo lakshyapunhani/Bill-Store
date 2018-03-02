@@ -76,9 +76,6 @@ public class MakeBillFragment extends Fragment {
     @BindView(R.id.recycler_items)
     RecyclerView recycler_items;
 
-    @BindView(R.id.img_dots)
-    ImageView img_dots;
-
     @BindView(R.id.invoice_date) TextView invoice_date;
 
     @BindView(R.id.customerSpinner)
@@ -126,8 +123,6 @@ public class MakeBillFragment extends Fragment {
     ArrayList<CustomerDetails> customersList;
     ArrayList<String> customerNameList;
 
-    HashMap<String,ItemPojo> billItems;
-
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
@@ -165,7 +160,6 @@ public class MakeBillFragment extends Fragment {
         customerNameList = new ArrayList<>();
         customersList = new ArrayList<>();
         itemList = new ArrayList<>();
-        billItems = new HashMap<>();
         productAdapter = new ProductAdapter(itemList);
 
         db = FirebaseFirestore.getInstance();
@@ -282,9 +276,7 @@ public class MakeBillFragment extends Fragment {
         customerView = false;
         radio_existingCustomer.setChecked(true);
         radio_newCustomer.setChecked(false);
-        //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
         innerView_existingCustomer.setVisibility(View.VISIBLE);
-        //TransitionManager.beginDelayedTransition(outerView_newCustomer);
         innerView_newCustomer.setVisibility(View.GONE);
 
     }
@@ -295,38 +287,10 @@ public class MakeBillFragment extends Fragment {
         customerView = true;
         radio_newCustomer.setChecked(true);
         radio_existingCustomer.setChecked(false);
-        //TransitionManager.beginDelayedTransition(outerView_existingCustomer);
         innerView_existingCustomer.setVisibility(View.GONE);
-        //TransitionManager.beginDelayedTransition(outerView_newCustomer);
         innerView_newCustomer.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.img_dots)
-    public void dotsClick()
-    {
-        PopupMenu popup = new PopupMenu(mContext, img_dots);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.popupmenu, popup.getMenu());
-
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.save:
-                        saveClick();
-                        break;
-                    case R.id.preview:
-                        break;
-                }
-                return true;
-            }
-
-        });
-
-        popup.show();
-    }
 
     @OnItemSelected(value = R.id.customerSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
     void selectVehicle(AdapterView<?> adapterView, int newVal) {
@@ -398,36 +362,6 @@ public class MakeBillFragment extends Fragment {
 
     private void saveDatatoFirebase()
     {
-        for (int i = 0;i<itemList.size();i++)
-        {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount());
-            billItems.put(itemList.get(i).getItemName(),itemPojo);
-        }
-
-        final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
-        CustomerDetails customerDetails = new CustomerDetails(newCustomerName,newCustomerAddress,newCustomerGstNumber);
-        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems);
-
-        /*customerReference.document(newCustomerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-                customerReference.document(newCustomerName).collection(firebaseUser.getUid())
-                        .document(invoiceDate + " && " + timestampString).set(makeBillDetails)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(mContext, "Bill added", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-        });*/
-
         Intent intent = new Intent(mContext, PreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList",itemList);
         intent.putExtra("Customer Name",newCustomerName);
