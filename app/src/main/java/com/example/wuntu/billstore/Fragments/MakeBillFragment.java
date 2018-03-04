@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
+import com.example.wuntu.billstore.EventBus.EventClearBill;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
@@ -220,6 +221,14 @@ public class MakeBillFragment extends Fragment {
         productAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();
     };
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onClearEvent(EventClearBill event)
+    {
+        itemList.clear();
+        productAdapter.notifyDataSetChanged();
+        EventBus.getDefault().removeAllStickyEvents();
+    }
 
     @Override
     public void onStart() {
