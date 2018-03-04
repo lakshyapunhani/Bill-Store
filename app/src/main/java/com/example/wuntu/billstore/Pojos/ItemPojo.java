@@ -20,15 +20,18 @@ public class ItemPojo implements Parcelable
 
     private String totalAmount;
 
+    private String note;
+
 
     public ItemPojo(){}
 
-    public ItemPojo(String itemName, String costPerItem, String quantity,String itemType, String totalAmount) {
+    public ItemPojo(String itemName, String costPerItem, String quantity,String itemType, String totalAmount,String note) {
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
         this.itemType = itemType;
         this.totalAmount = totalAmount;
+        this.note = note;
     }
 
     protected ItemPojo(Parcel in) {
@@ -37,6 +40,7 @@ public class ItemPojo implements Parcelable
         quantity = in.readString();
         itemType = in.readString();
         totalAmount = in.readString();
+        note = in.readString();
     }
 
     public static final Creator<ItemPojo> CREATOR = new Creator<ItemPojo>() {
@@ -50,6 +54,8 @@ public class ItemPojo implements Parcelable
             return new ItemPojo[size];
         }
     };
+
+    public String getNote() { return note;}
 
     public String getItemName() {
         return itemName;
@@ -99,5 +105,6 @@ public class ItemPojo implements Parcelable
         parcel.writeString(quantity);
         parcel.writeString(itemType);
         parcel.writeString(totalAmount);
+        parcel.writeString(note);
     }
 }

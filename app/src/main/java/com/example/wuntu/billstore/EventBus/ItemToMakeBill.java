@@ -16,13 +16,18 @@ public class ItemToMakeBill
 
     public String itemType;
 
-    public ItemToMakeBill(String itemName, String costPerItem, String quantity,String itemType, String totalAmount) {
+    public String note;
+
+    public ItemToMakeBill(String itemName, String costPerItem, String quantity,String itemType, String totalAmount,String note) {
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
         this.itemType = itemType;
         this.totalAmount = totalAmount;
+        this.note = note;
     }
+
+    public String getNote(){return note;}
 
     public String getItemName() {
         return itemName;

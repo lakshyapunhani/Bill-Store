@@ -12,18 +12,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,15 +27,10 @@ import com.example.wuntu.billstore.Adapters.ProductAdapter;
 import com.example.wuntu.billstore.AddItemActivity;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
-import com.example.wuntu.billstore.MainActivity;
-import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
-import com.example.wuntu.billstore.Pojos.MakeBillDetails;
 import com.example.wuntu.billstore.PreviewActivity;
 import com.example.wuntu.billstore.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -58,7 +48,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -226,7 +215,7 @@ public class MakeBillFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(ItemToMakeBill event)
     {
-        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount());
+        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount(),event.getNote());
         itemList.add(itemPojo);
         productAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();
@@ -357,10 +346,10 @@ public class MakeBillFragment extends Fragment {
 
         }
 
-        saveDatatoFirebase();
+        sendDatatoPreview();
     }
 
-    private void saveDatatoFirebase()
+    private void sendDatatoPreview()
     {
         Intent intent = new Intent(mContext, PreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList",itemList);

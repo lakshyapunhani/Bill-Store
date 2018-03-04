@@ -83,6 +83,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     ArrayAdapter<String> gstRateAdapter;
 
     int unitPosition,gstPosition;
+    boolean gstCheck = false;
 
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
@@ -249,34 +250,42 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         {
             case 0:
                 gstRate = 0.05;
+                gstCheck = true;
                 calculateGstAmount(gstRate);
                 break;
             case 1:
                 gstRate = 0.12;
+                gstCheck = true;
                 calculateGstAmount(gstRate);
                 break;
             case 2:
                 gstRate = 0.18;
+                gstCheck = true;
                 calculateGstAmount(gstRate);
                 break;
             case 3:
                 gstRate = 0.28;
+                gstCheck = true;
                 calculateGstAmount(gstRate);
                 break;
             case 4:
                 gstRate = 0.5;
+                gstCheck = false;
                 calculateGstAmount(gstRate);
                 break;
             case 5:
                 gstRate = 0.12;
+                gstCheck = false;
                 calculateGstAmount(gstRate);
                 break;
             case 6:
                 gstRate = 0.18;
+                gstCheck = false;
                 calculateGstAmount(gstRate);
                 break;
             case 7:
                 gstRate = 0.28;
+                gstCheck = false;
                 calculateGstAmount(gstRate);
                 break;
         }
@@ -476,19 +485,29 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     private void sendEventToMakeBill()
     {
         String itemPrice;
+        String note;
         if (cb_include_gst.isChecked())
         {
             itemPrice = edt_costPerItemGST.getText().toString().trim();
+            if (gstCheck)
+            {
+                note = "The item price is inclusive of CGST and SGST";
+            }
+            else
+            {
+                note = "The item price is inclusive of IGST";
+            }
         }
         else
         {
             itemPrice = edt_costPerItem.getText().toString().trim();
+            note = "";
         }
         String itemName = edt_itemName.getText().toString().trim();
         String quantity = edt_quantity.getText().toString().trim();
         String totalAmount = edt_totalAmount.getText().toString().trim();
         String itemType = unitList.get(unitPosition);
-        EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,itemType,totalAmount));
+        EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,itemType,totalAmount,note));
         finish();
     }
 

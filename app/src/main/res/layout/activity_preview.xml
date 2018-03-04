@@ -75,7 +75,7 @@
             android:background="@android:color/white"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="10dp"
+            android:paddingTop="40dp"
             android:orientation="vertical">
 
 
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Punhani Gift Corner"/>
+                android:text="Your Shop Name"/>
 
             <TextView
                 android:id="@+id/txt_shopAddress"
@@ -96,7 +96,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Bhagat Singh Market, Bahadurgarh"/>
+                android:text="Your Shop Address"/>
+
+
 
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -108,7 +110,29 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        android:text="Date: "
+                        android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/txt_invoiceDate"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        android:text="09/05/10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="end">
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -127,27 +151,7 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end">
 
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:padding="3dip"
-                        android:text="Date: "
-                        android:textColor="@android:color/black"/>
-
-                    <TextView
-                        android:id="@+id/txt_invoiceDate"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:padding="3dip"
-                        android:text="09/05/10" />
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -207,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:id="@+id/tableLayoutItems"
+                android:minHeight="200dp"
                 android:stretchColumns="1">
                 <!-- invoice item labels -->
                 <TableRow android:background="#706868">
@@ -286,29 +291,29 @@
                     android:text="$10000" />
             </LinearLayout>
 
-
-            <!-- invoice buttons -->
-            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="1">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp">
 
-                <TableRow>
+                <TextView
+                    android:id="@+id/title_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:text="Note - "/>
 
-                    <Button
-                        android:id="@+id/btn_generate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Send Invoice" />
+                <TextView
+                    android:id="@+id/note"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Note"/>
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/add_contact_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Payments" />
-                </TableRow>
-            </TableLayout>
-            <!-- end invoice buttons -->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

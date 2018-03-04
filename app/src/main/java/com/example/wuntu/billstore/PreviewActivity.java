@@ -9,14 +9,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,6 +38,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
@@ -47,7 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PreviewActivity extends AppCompatActivity implements View.OnClickListener {
+public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.pdflayout)
     NestedScrollView scrollView;
@@ -85,14 +90,17 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
-    @BindView(R.id.btn_generate)
-    Button btn_generate;
-
     @BindView(R.id.btn_save)
     TextView btn_save;
 
     @BindView(R.id.btn_print)
     TextView btn_print;
+
+    @BindView(R.id.note)
+    TextView note;
+
+    @BindView(R.id.title_note)
+    TextView title_note;
 
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
@@ -128,11 +136,33 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         timestampString = String.valueOf(timestamp);
 
         getIntentItems();
+        getShopDetails();
         fn_permission();
         initTable();
         setViews();
+    }
 
-        btn_generate.setOnClickListener(this);
+    private void getShopDetails()
+    {
+        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+        profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (!documentSnapshot.exists())
+                {
+                    Toast.makeText(PreviewActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                txt_shopName.setText(documentSnapshot.get("shop_name").toString());
+                txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
+                txt_gstNumber.setText(documentSnapshot.get("shop_gst_number").toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(PreviewActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getIntentItems()
@@ -149,6 +179,15 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setViews()
     {
+        if (itemList.get(0).getNote().matches(""))
+        {
+            note.setVisibility(View.GONE);
+            title_note.setVisibility(View.GONE);
+        }
+        else
+        {
+            note.setText(itemList.get(0).getNote());
+        }
         String amount = String.valueOf(totalAmount);
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
@@ -180,44 +219,12 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.btn_generate:
-
-                if (boolean_save) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
-                    //Toast.makeText(this, "Rukja bhai,abhi ye part krna baaki h", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    if (boolean_permission) {
-                        progressDialog = new ProgressDialog(this);
-                        progressDialog.setMessage("Please wait");
-                        bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
-                        createPdf();
-//                        saveBitmap(bitmap);
-                    } else {
-
-                    }
-
-                    createPdf();
-                    break;
-                }
-         }
-    }
-
     @OnClick(R.id.btn_save)
     public void saveButton()
     {
-        //Toast.makeText(this, "Save Button Clicked", Toast.LENGTH_SHORT).show();
         for (int i = 0;i<itemList.size();i++)
         {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount());
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount(),itemList.get(i).getNote());
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
@@ -249,7 +256,15 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     @OnClick(R.id.btn_print)
     public void printButton()
     {
-
+        if (boolean_permission) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait");
+            bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+            createPdf();
+        } else
+        {
+            fn_permission();
+        }
     }
 
     private void createPdf(){
@@ -275,19 +290,18 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHeight, true);
 
-        //paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 0, 0 , null);
         document.finishPage(page);
 
 
         // write the document content
-        String targetPdf = "/sdcard/"+"test.pdf";
+        String targetPdf = "/sdcard/"+"test1.pdf";
         String target = Environment.getExternalStorageDirectory().getPath() + "test.pdf";
         filePath = new File(targetPdf);
         try {
             document.writeTo(new FileOutputStream(filePath));
-            btn_generate.setText("Check PDF");
             boolean_save=true;
+            openPdf();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -295,6 +309,28 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         // close the document
         document.close();
+    }
+
+    private void openPdf()
+    {
+        Intent intent;
+        File file=new File(Environment.getExternalStorageDirectory()
+                + File.separator + "test1.pdf");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            intent = Intent.createChooser(intent, "Open File");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
@@ -309,23 +345,14 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         if ((ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)||
                 (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
 
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE))) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSIONS);
 
-            }
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSIONS);
 
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
-
-            }
         } else {
             boolean_permission = true;
-
-
         }
     }
     @Override
@@ -337,10 +364,9 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
                 boolean_permission = true;
 
-
-            } else {
+            } else if (permissions.length > 0)
+            {
                 Toast.makeText(getApplicationContext(), "Please allow the permission", Toast.LENGTH_LONG).show();
-
             }
         }
     }
