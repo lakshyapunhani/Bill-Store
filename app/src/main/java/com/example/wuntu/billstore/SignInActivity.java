@@ -69,23 +69,23 @@ public class SignInActivity extends AppCompatActivity {
     //For Facebook Callbacks
     CallbackManager callbackManager;
 
-    @BindView(R.id.bill_book_text)
-    TextView bill_book_text;
+   /* @BindView(R.id.bill_book_text)
+    TextView bill_book_text;*/
 
     @BindView(R.id.phone_number_edittext)
     AppCompatEditText phone_number_edittext;
 
-    @BindView(R.id.login_with_text)
+    /*@BindView(R.id.login_with_text)
     TextView login_with_text;
+*/
+    /*@BindView(R.id.facebook_icon)
+    ImageView facebook_icon;*/
 
-    @BindView(R.id.facebook_icon)
-    ImageView facebook_icon;
+    /*@BindView(R.id.google_icon)
+    ImageView google_icon;*/
 
-    @BindView(R.id.google_icon)
-    ImageView google_icon;
-
-    @BindView(R.id.send_otp_layout)
-    LinearLayout send_otp_layout;
+    /*@BindView(R.id.send_otp_layout)
+    LinearLayout send_otp_layout;*/
 
     DialogOTP otpDialog;
 
@@ -112,7 +112,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.test);
 
 
         ButterKnife.bind(this);
@@ -189,10 +189,10 @@ public class SignInActivity extends AppCompatActivity {
         //For Changing Fonts
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/terminator.ttf");
 
-        bill_book_text.setTypeface(typeface);
-        bill_book_text.requestFocus();
+        /*bill_book_text.setTypeface(typeface);
+        bill_book_text.requestFocus();*/
 
-        login_with_text.setTypeface(typeface);
+        //login_with_text.setTypeface(typeface);
 
 
         //For Firebase Integration
@@ -236,7 +236,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.facebook_icon)
+    /*@OnClick(R.id.facebook_icon)
     public void facebook_click()
     {
         //progressDialog.setMessage("Verifying");
@@ -282,15 +282,15 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
-    @OnClick(R.id.google_icon)
+    /*@OnClick(R.id.google_icon)
     public void google_click()
     {
         //progressDialog.setMessage("Verifying");
         //progressDialog.show();
         signIn();
-    }
+    }*/
 
     @OnClick(R.id.btn_signIn)
     public void BtnSignIn()
@@ -325,10 +325,10 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void signIn() {
+    /*private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
+    }*/
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         otpDialog.dismiss();
@@ -348,11 +348,11 @@ public class SignInActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            //handleSignInResult(result);
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    /*private void handleSignInResult(GoogleSignInResult result) {
         Log.d("TAG", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
@@ -367,7 +367,7 @@ public class SignInActivity extends AppCompatActivity {
         } else {
             Log.d("TAG","Signed Out");
         }
-    }
+    }*/
 
 
     private void signInWithCredential(AuthCredential credential)
