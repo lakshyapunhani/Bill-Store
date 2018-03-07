@@ -114,7 +114,6 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
 
-
         ButterKnife.bind(this);
 
         otpDialog = new DialogOTP(this);
