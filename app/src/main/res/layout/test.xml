@@ -68,6 +68,7 @@
                 android:id="@+id/phone_number_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:inputType="phone"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="15dp"
                 android:background="@drawable/edt_rounded_corner"/>
