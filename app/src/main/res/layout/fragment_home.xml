@@ -36,45 +36,13 @@
         app:tabBackground="@color/blue"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Customers"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:background="@drawable/left_rounded_blue"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Vendors"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@color/blue"
-            android:background="@drawable/right_rounded_white"/>
-
-    </LinearLayout>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v4.view.ViewPager>
-    <!--<android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8">
 
-    </android.support.v7.widget.RecyclerView>-->
 
 
 </LinearLayout>
