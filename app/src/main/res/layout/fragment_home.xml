@@ -2,36 +2,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/background_grey"
     tools:context="com.example.wuntu.billstore.Fragments.HomeFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="60dp"
         android:background="#0484AE">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Bill Store"
+            android:text="@string/app_name"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
-            android:paddingLeft="30dp"
             android:paddingEnd="20dp"
-            android:paddingRight="20dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabTextColor="@color/background_grey"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabBackground="@color/blue"
+        app:tabMode="fixed"
+        app:tabGravity="fill"/>
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Customers"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:background="@drawable/left_rounded_blue"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Vendors"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/blue"
+            android:background="@drawable/right_rounded_white"/>
+
+    </LinearLayout>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+    <!--<android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
 
-    </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>-->
 
 
 </LinearLayout>

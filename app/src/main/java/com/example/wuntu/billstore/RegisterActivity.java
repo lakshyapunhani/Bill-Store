@@ -25,7 +25,6 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity {
 
-
     @BindView(R.id.edt_name)
     EditText name;
 

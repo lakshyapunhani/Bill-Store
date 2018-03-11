@@ -123,6 +123,8 @@
     <string name="alert_btn_no">No</string>
     <string name="skip_profile_setup">Skip Profile Setup</string>
     <string name="malfunction">Skipping can lead to malfunctioning of app</string>
+    <string name="customers">Customers</string>
+    <string name="vendors">Vendors</string>
 
 
 </resources>

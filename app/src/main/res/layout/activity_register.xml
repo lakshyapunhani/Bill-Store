@@ -111,8 +111,6 @@
                 android:textColorHint="@android:color/black"/>
 
         </LinearLayout>
-
-
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_profileSubmit"
             android:layout_marginTop="40dp"
