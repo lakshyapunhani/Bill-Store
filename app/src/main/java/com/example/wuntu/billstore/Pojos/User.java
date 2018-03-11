@@ -8,18 +8,30 @@ public class User
 {
     private String name;
     private String shop_name;
-    private String profileImageURL;
+    private String shop_address;
+    private String shop_gst;
+    private String shop_pan;
 
     public User() {}
 
-    public User(String name, String shop_name,String profileImageURL) {
+    public User(String name, String shop_name,String shop_address,String shop_gst,String shop_pan) {
         this.name = name;
         this.shop_name = shop_name;
-        this.profileImageURL = profileImageURL;
+        this.shop_address = shop_address;
+        this.shop_gst = shop_gst;
+        this.shop_pan = shop_pan;
     }
 
-    public User(String name) {
-        this.name = name;
+    public String getShop_address() {
+        return shop_address;
+    }
+
+    public String getShop_gst() {
+        return shop_gst;
+    }
+
+    public String getShop_pan() {
+        return shop_pan;
     }
 
     public String getName() {
@@ -30,12 +42,5 @@ public class User
         return shop_name;
     }
 
-    public String getProfileImageURL() {
-        return profileImageURL;
-    }
-
-    public void setProfileImageURL(String profileImageURL) {
-        this.profileImageURL = profileImageURL;
-    }
 }
 

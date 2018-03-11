@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:text="Bill Date"
+                android:text="Bill Amount"
                 android:textColor="@color/blue"
                 android:textSize="16sp"/>
 

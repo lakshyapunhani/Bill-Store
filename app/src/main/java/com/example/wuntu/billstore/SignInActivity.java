@@ -185,14 +185,6 @@ public class SignInActivity extends AppCompatActivity {
 
 
 
-        //For Changing Fonts
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/terminator.ttf");
-
-        /*bill_book_text.setTypeface(typeface);
-        bill_book_text.requestFocus();*/
-
-        //login_with_text.setTypeface(typeface);
-
 
         //For Firebase Integration
 
@@ -402,13 +394,13 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
+                        if (task.isSuccessful())
+                        {
 
                         }
                         else
                         {
-                            Toast.makeText(SignInActivity.this, "Wrong OTP. Please Enter Again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this,"Wrong OTP. Please Enter Again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
