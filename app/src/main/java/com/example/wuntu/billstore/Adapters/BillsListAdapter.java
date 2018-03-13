@@ -32,14 +32,11 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.bill_amount)
+        @BindView(R.id.item_amount)
         TextView bill_amount;
 
-        @BindView(R.id.bill_date)
+        @BindView(R.id.item_date)
         TextView bill_date;
-
-        @BindView(R.id.bill_status)
-        TextView bill_status;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +47,7 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bills_list_view,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bill_list,parent,false);
         return new ViewHolder(view);
     }
 
@@ -60,7 +57,6 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         addBillDetails = billsList.get(position);
         ((ViewHolder)holder).bill_date.setText(addBillDetails.getBillDate());
         ((ViewHolder)holder).bill_amount.setText(addBillDetails.getBillAmount());
-        ((ViewHolder)holder).bill_status.setText(addBillDetails.getBillStatus());
 
     }
 

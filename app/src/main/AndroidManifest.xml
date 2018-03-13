@@ -17,7 +17,6 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -25,8 +24,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -66,7 +66,8 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddItemActivity" />
-        <activity android:name=".PreviewActivity"></activity>
+        <activity android:name=".PreviewActivity" />
+        <activity android:name=".BillsListActivity"></activity>
     </application>
 
 </manifest>

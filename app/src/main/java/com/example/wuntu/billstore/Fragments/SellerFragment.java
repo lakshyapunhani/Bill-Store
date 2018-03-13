@@ -2,6 +2,7 @@ package com.example.wuntu.billstore.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
+import com.example.wuntu.billstore.BillsListActivity;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.ProfileActivity;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -40,7 +43,6 @@ public class SellerFragment extends Fragment {
 
     ArrayList<VendorDetails> vendorDetailsList;
     FirebaseAuth firebaseAuth;
-    FirebaseAuth.AuthStateListener authStateListener;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
@@ -71,6 +73,24 @@ public class SellerFragment extends Fragment {
         vendorsList.setLayoutManager(mLayoutManager);
         vendorsList.setItemAnimator(new DefaultItemAnimator());
         vendorsList.setAdapter(vendorListAdapter);
+
+        vendorsList.addOnItemTouchListener(
+                new RecyclerViewListener(context, vendorsList, new RecyclerViewListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(context, ""+ vendorDetailsList.get(position).getVendorName(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, BillsListActivity.class);
+                        intent.putExtra("fragment","seller");
+                        intent.putExtra("VendorName",vendorDetailsList.get(position).getVendorName());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
 
         billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors");
 

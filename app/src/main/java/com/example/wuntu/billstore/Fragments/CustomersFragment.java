@@ -2,6 +2,7 @@ package com.example.wuntu.billstore.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.CustomerListAdapter;
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
+import com.example.wuntu.billstore.BillsListActivity;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -75,6 +78,23 @@ public class CustomersFragment extends Fragment {
         customersList.setLayoutManager(mLayoutManager);
         customersList.setItemAnimator(new DefaultItemAnimator());
         customersList.setAdapter(customerListAdapter);
+
+        customersList.addOnItemTouchListener(
+                new RecyclerViewListener(context, customersList, new RecyclerViewListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(context, ""+ customerDetailsList.get(position).getCustomerName(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, BillsListActivity.class);
+                        intent.putExtra("fragment","customer");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
 
         billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
 
