@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
-import com.example.wuntu.billstore.Fragments.VendorsFragment;
+import com.example.wuntu.billstore.Fragments.VendorsFragmentPrevious;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.facebook.FacebookSdk;
@@ -103,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //ArrayList<String> vendorNameList;
 
-    //VendorsFragment vendorsFragment;
+    //VendorsFragmentPrevious vendorsFragment;
 
 
     @Override
@@ -182,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         Toast.makeText(ProfileActivity.this, "" + vendorDetailsList.get(position).getVendorName(), Toast.LENGTH_SHORT).show();
-                        VendorsFragment vendorsFragment = new VendorsFragment();
+                        VendorsFragmentPrevious vendorsFragment = new VendorsFragmentPrevious();
                         Bundle bundle = new Bundle();
                         bundle.putString("VendorName",vendorDetailsList.get(position).getVendorName());
                         vendorsFragment.setArguments(bundle);

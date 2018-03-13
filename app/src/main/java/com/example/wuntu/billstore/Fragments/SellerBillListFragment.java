@@ -100,7 +100,7 @@ public class SellerBillListFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        BillsFragment billsFragment = new BillsFragment();
+                        BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
                         Bundle bundle = new Bundle();
                         bundle.putString("VendorName",vendorName);
                         bundle.putString("BillDate",billsList.get(position).getBillDate());

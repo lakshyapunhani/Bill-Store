@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VendorsFragment extends Fragment {
+public class VendorsFragmentPrevious extends Fragment {
 
 
     @BindView(R.id.recyclerView)
@@ -54,7 +54,7 @@ public class VendorsFragment extends Fragment {
 
     String vendorName;
 
-    public VendorsFragment() {
+    public VendorsFragmentPrevious() {
         // Required empty public constructor
     }
 
@@ -96,7 +96,7 @@ public class VendorsFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        BillsFragment billsFragment = new BillsFragment();
+                        BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
                         Bundle bundle = new Bundle();
                         bundle.putString("VendorName",vendorName);
                         bundle.putString("BillDate",billsList.get(position).getBillDate());

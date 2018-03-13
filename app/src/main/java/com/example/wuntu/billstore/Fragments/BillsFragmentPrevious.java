@@ -45,7 +45,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BillsFragment extends Fragment {
+public class BillsFragmentPrevious extends Fragment {
 
     @BindView(R.id.wholeSellerName)
     TextView wholeSellerName;
@@ -89,7 +89,7 @@ public class BillsFragment extends Fragment {
     StorageReference mStorageRef;
 
 
-    public BillsFragment() {
+    public BillsFragmentPrevious() {
         // Required empty public constructor
     }
 
