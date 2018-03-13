@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wuntu.billstore.Adapters.BillsListAdapter;
+import com.example.wuntu.billstore.Adapters.VendorsBillListAdapter;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.R;
-import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,7 +47,7 @@ public class SellerBillListFragment extends Fragment {
 
     ArrayList<AddBillDetails> billsList;
 
-    BillsListAdapter billsListAdapter;
+    VendorsBillListAdapter billsListAdapter;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -72,7 +71,7 @@ public class SellerBillListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vendors, container, false);
+        View view = inflater.inflate(R.layout.fragment_seller_bill_list, container, false);
 
         ButterKnife.bind(this,view);
 
@@ -88,7 +87,7 @@ public class SellerBillListFragment extends Fragment {
 
         billsList = new ArrayList<>();
 
-        billsListAdapter = new BillsListAdapter(billsList);
+        billsListAdapter = new VendorsBillListAdapter(billsList);
 
         mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);

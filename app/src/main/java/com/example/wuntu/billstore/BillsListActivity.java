@@ -39,7 +39,9 @@ public class BillsListActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.listContainer,sellerBillListFragment).commit();
         }
         else if (string.matches("customer"))
-        {
+        {   Bundle bundle = new Bundle();
+            bundle.putString("VendorName",vendorName);
+            customerBillListFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().add(R.id.listContainer,customerBillListFragment).commit();
         }
     }

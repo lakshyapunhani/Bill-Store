@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
-import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.R;
 
 import java.util.ArrayList;
@@ -22,8 +21,6 @@ import butterknife.ButterKnife;
 public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private ArrayList<CustomerDetails> customerDetailsList;
-
-    private CustomerDetails customerDetails;
 
     public CustomerListAdapter(ArrayList<CustomerDetails> customerDetailsList) {
         this.customerDetailsList = customerDetailsList;
@@ -51,7 +48,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
-            customerDetails = customerDetailsList.get(position);
+            CustomerDetails customerDetails = customerDetailsList.get(position);
             ((ViewHolder) holder).traderName.setText(customerDetails.getCustomerName());
             ((ViewHolder) holder).traderAddress.setText(customerDetails.getCustomerAddress());
         }

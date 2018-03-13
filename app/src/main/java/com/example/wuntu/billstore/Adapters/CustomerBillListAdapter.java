@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
+import com.example.wuntu.billstore.Pojos.CustomerDetails;
+import com.example.wuntu.billstore.Pojos.MakeBillDetails;
 import com.example.wuntu.billstore.R;
 
 import java.util.ArrayList;
@@ -15,17 +17,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Dell on 1/21/2018.
+ * Created by Dell on 13-03-2018.
  */
 
-public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    private ArrayList<AddBillDetails> billsList= new ArrayList<>();
+    private ArrayList<MakeBillDetails> billsList= new ArrayList<>();
 
-    private AddBillDetails addBillDetails;
+    private MakeBillDetails makeBillDetails;
 
 
-    public BillsListAdapter(ArrayList<AddBillDetails> billsList)
+    public CustomerBillListAdapter(ArrayList<MakeBillDetails> billsList)
     {
         this.billsList = billsList;
     }
@@ -54,9 +56,11 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        addBillDetails = billsList.get(position);
-        ((ViewHolder)holder).bill_date.setText(addBillDetails.getBillDate());
-        ((ViewHolder)holder).bill_amount.setText(addBillDetails.getBillAmount());
+        makeBillDetails = billsList.get(position);
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails = makeBillDetails.getCustomerDetails();
+        ((ViewHolder)holder).bill_date.setText(makeBillDetails.getBillTime());
+        //((ViewHolder)holder).bill_amount.setText(makeBillDetails.getBillAmount());
 
     }
 
@@ -65,3 +69,4 @@ public class BillsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return this.billsList.size();
     }
 }
+

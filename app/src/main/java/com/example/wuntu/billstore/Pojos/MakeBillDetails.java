@@ -18,6 +18,9 @@ public class MakeBillDetails
 
     private Map<String,ItemPojo> billItems;
 
+    public MakeBillDetails()
+    {}
+
     public MakeBillDetails(CustomerDetails customerDetails, String billTime, Map<String, ItemPojo> billItems) {
         this.customerDetails = customerDetails;
         this.billTime = billTime;
