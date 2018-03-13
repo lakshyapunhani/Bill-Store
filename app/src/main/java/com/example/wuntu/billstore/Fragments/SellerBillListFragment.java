@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.BillsListAdapter;
@@ -39,6 +40,9 @@ public class SellerBillListFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.vendorName)
+    TextView txt_vendorName;
 
     LinearLayoutManager mLayoutManager;
 
@@ -79,6 +83,7 @@ public class SellerBillListFragment extends Fragment {
         if (getArguments() != null)
         {
             vendorName = getArguments().getString("VendorName");
+            txt_vendorName.setText(vendorName);
         }
 
         billsList = new ArrayList<>();

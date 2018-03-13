@@ -78,7 +78,6 @@ public class SellerFragment extends Fragment {
                 new RecyclerViewListener(context, vendorsList, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(context, ""+ vendorDetailsList.get(position).getVendorName(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, BillsListActivity.class);
                         intent.putExtra("fragment","seller");
                         intent.putExtra("VendorName",vendorDetailsList.get(position).getVendorName());
