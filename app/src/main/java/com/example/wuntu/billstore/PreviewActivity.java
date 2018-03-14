@@ -123,6 +123,10 @@ public class PreviewActivity extends AppCompatActivity {
 
     File filePath;
 
+    String invoiceNumber= "";
+
+    boolean printClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,9 +235,10 @@ public class PreviewActivity extends AppCompatActivity {
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
+        invoiceNumber = autoGenerateInvoiceNumber();
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
-        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount);
+        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount,invoiceNumber);
 
         customerReference.document(customerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -245,8 +250,16 @@ public class PreviewActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(PreviewActivity.this, "Bill added", Toast.LENGTH_SHORT).show();
-                                EventBus.getDefault().postSticky(new EventClearBill());
-                                finish();
+                                if (printClicked)
+                                {
+                                    openPdf();
+                                }
+                                else
+                                {
+                                    EventBus.getDefault().postSticky(new EventClearBill());
+                                    finish();
+                                }
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -261,9 +274,8 @@ public class PreviewActivity extends AppCompatActivity {
     @OnClick(R.id.btn_print)
     public void printButton()
     {
+        printClicked = true;
         if (boolean_permission) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Please wait");
             bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
             createPdf();
         } else
@@ -274,7 +286,6 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void createPdf(){
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         float height = displaymetrics.heightPixels ;
@@ -300,13 +311,13 @@ public class PreviewActivity extends AppCompatActivity {
 
 
         // write the document content
-        String targetPdf = "/sdcard/"+"test1.pdf";
+        String targetPdf = "/sdcard/"+"Invoice.pdf";
         String target = Environment.getExternalStorageDirectory().getPath() + "test.pdf";
         filePath = new File(targetPdf);
         try {
             document.writeTo(new FileOutputStream(filePath));
             boolean_save=true;
-            openPdf();
+            saveButton();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -320,7 +331,7 @@ public class PreviewActivity extends AppCompatActivity {
     {
         Intent intent;
         File file=new File(Environment.getExternalStorageDirectory()
-                + File.separator + "test1.pdf");
+                + File.separator + "Invoice.pdf");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
@@ -329,12 +340,16 @@ public class PreviewActivity extends AppCompatActivity {
             intent.setData(uri);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
+            EventBus.getDefault().postSticky(new EventClearBill());
+            finish();
         } else {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(file), "application/pdf");
             intent = Intent.createChooser(intent, "Open File");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            EventBus.getDefault().postSticky(new EventClearBill());
+            finish();
         }
     }
 
@@ -360,6 +375,7 @@ public class PreviewActivity extends AppCompatActivity {
             boolean_permission = true;
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -375,4 +391,14 @@ public class PreviewActivity extends AppCompatActivity {
             }
         }
     }
+
+    private String autoGenerateInvoiceNumber()
+    {
+        double doublea = (Math.random() * 46656);
+        String a = String.valueOf(doublea);
+        String firstPart = "000" + a;
+        firstPart = firstPart.substring(a.length() - 4,a.length());
+        return firstPart;
+    }
+
 }

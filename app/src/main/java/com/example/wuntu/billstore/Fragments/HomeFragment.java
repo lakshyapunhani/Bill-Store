@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
 
     CustomersFragment customersFragment;
-    SellerFragment sellerFragment;
+    VendorFragment sellerFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         customersFragment = new CustomersFragment();
-        sellerFragment = new SellerFragment();
+        sellerFragment = new VendorFragment();
         adapter.addFragment(customersFragment, getResources().getString(R.string.customers));
         adapter.addFragment(sellerFragment, getResources().getString(R.string.vendors));
         viewPager.setAdapter(adapter);

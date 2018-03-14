@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
         android:layout_marginTop="10dp"
@@ -25,10 +26,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:visibility="gone"
+                    android:id="@+id/invoice_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add money"
+                    tools:text="Add money"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"/>
 
@@ -37,8 +38,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="March 13. 2018"
-                    android:textColor="@android:color/black"
+                    tools:text="March 13. 2018"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -53,6 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:textColor="@android:color/black"
                     android:text="@string/rupee_sign"/>
 
@@ -61,8 +62,9 @@
                     android:layout_marginLeft="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:textColor="@android:color/black"
-                    android:text="105.0"/>
+                    tools:text="105.0"/>
 
             </LinearLayout>
 

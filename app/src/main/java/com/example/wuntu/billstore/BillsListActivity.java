@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.example.wuntu.billstore.Fragments.CustomerBillListFragment;
-import com.example.wuntu.billstore.Fragments.SellerBillListFragment;
+import com.example.wuntu.billstore.Fragments.VendorBillListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +15,7 @@ public class BillsListActivity extends AppCompatActivity {
     @BindView(R.id.listContainer)
     FrameLayout listContainer;
     CustomerBillListFragment customerBillListFragment;
-    SellerBillListFragment sellerBillListFragment;
+    VendorBillListFragment sellerBillListFragment;
     String string = "",vendorName = "";
 
     @Override
@@ -24,7 +24,7 @@ public class BillsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bills_list);
         ButterKnife.bind(this);
         customerBillListFragment = new CustomerBillListFragment();
-        sellerBillListFragment = new SellerBillListFragment();
+        sellerBillListFragment = new VendorBillListFragment();
         if (getIntent().getStringExtra("fragment") != null)
         {
             string = getIntent().getStringExtra("fragment");

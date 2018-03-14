@@ -23,9 +23,11 @@ public class AddBillDetails
 
     private Map<String,String> billImages;
 
+    private String billNumber;
+
     public AddBillDetails() {}
 
-    public AddBillDetails(VendorDetails vendorDetails, String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages, String billTime) {
+    public AddBillDetails(VendorDetails vendorDetails, String billAmount, String billDescription, String billDate, String billStatus, Map<String,String> billImages, String billTime,String billNumber) {
         this.vendorDetails = vendorDetails;
         this.billAmount = billAmount;
         this.billDescription = billDescription;
@@ -33,6 +35,7 @@ public class AddBillDetails
         this.billStatus = billStatus;
         this.billImages = billImages;
         this.billTime = billTime;
+        this.billNumber = billNumber;
     }
 
     public String getBillAmount() {
@@ -60,4 +63,6 @@ public class AddBillDetails
     public VendorDetails getVendorDetails() {
         return vendorDetails;
     }
+
+    public String getBillNumber() {return billNumber; }
 }

@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SellerBillListFragment extends Fragment {
+public class VendorBillListFragment extends Fragment {
 
 
     @BindView(R.id.recyclerView)
@@ -57,7 +57,7 @@ public class SellerBillListFragment extends Fragment {
 
     String vendorName;
 
-    public SellerBillListFragment() {
+    public VendorBillListFragment() {
         // Required empty public constructor
     }
 

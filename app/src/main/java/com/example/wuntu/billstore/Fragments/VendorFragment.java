@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SellerFragment extends Fragment {
+public class VendorFragment extends Fragment {
 
     @BindView(R.id.vendorsList)
     RecyclerView vendorsList;

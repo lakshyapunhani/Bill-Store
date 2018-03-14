@@ -18,16 +18,19 @@ public class MakeBillDetails
 
     private double billAmount;
 
+    private String invoiceNumber;
+
     private Map<String,ItemPojo> billItems;
 
     public MakeBillDetails()
     {}
 
-    public MakeBillDetails(CustomerDetails customerDetails, String billTime, Map<String, ItemPojo> billItems,double billAmount) {
+    public MakeBillDetails(CustomerDetails customerDetails, String billTime, Map<String, ItemPojo> billItems,double billAmount,String invoiceNumber) {
         this.customerDetails = customerDetails;
         this.billTime = billTime;
         this.billItems = billItems;
         this.billAmount = billAmount;
+        this.invoiceNumber = invoiceNumber;
     }
 
     public double getBillAmount() {
@@ -45,5 +48,7 @@ public class MakeBillDetails
     public Map<String, ItemPojo> getBillItems() {
         return billItems;
     }
+
+    public String getInvoiceNumber(){ return invoiceNumber;}
 
 }

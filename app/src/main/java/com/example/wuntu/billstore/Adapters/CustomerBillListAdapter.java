@@ -34,6 +34,9 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
+        @BindView(R.id.invoice_number)
+        TextView invoice_number;
+
         @BindView(R.id.item_amount)
         TextView bill_amount;
 
@@ -59,6 +62,7 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
         makeBillDetails = billsList.get(position);
         CustomerDetails customerDetails = new CustomerDetails();
         customerDetails = makeBillDetails.getCustomerDetails();
+        ((ViewHolder)holder).invoice_number.setText("Invoice Number : " + makeBillDetails.getInvoiceNumber());
         ((ViewHolder)holder).bill_date.setText(makeBillDetails.getBillTime());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
 

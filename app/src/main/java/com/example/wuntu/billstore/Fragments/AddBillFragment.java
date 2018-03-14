@@ -154,6 +154,8 @@ public class AddBillFragment extends Fragment {
 
     ArrayAdapter<String> spinnerAdapter;
 
+    String billNumber = "";
+
     public AddBillFragment() {
         // Required empty public constructor
     }
@@ -636,7 +638,9 @@ public class AddBillFragment extends Fragment {
     {
         VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
 
-        final AddBillDetails addBillDetails = new AddBillDetails(vendorDetails,billAmount,billDescription,billDate,billStatus,billImages,timestampString);
+        billNumber = autoGenerateInvoiceNumber();
+
+        final AddBillDetails addBillDetails = new AddBillDetails(vendorDetails,billAmount,billDescription,billDate,billStatus,billImages,timestampString,billNumber);
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors");
 
@@ -665,6 +669,15 @@ public class AddBillFragment extends Fragment {
                     Toast.makeText(context, "Trader Request Failure", Toast.LENGTH_SHORT).show();
                 }
             });
+    }
+
+    private String autoGenerateInvoiceNumber()
+    {
+        double doublea = (Math.random() * 46656);
+        String a = String.valueOf(doublea);
+        String firstPart = "000" + a;
+        firstPart = firstPart.substring(a.length() - 4,a.length());
+        return firstPart;
     }
 
 }

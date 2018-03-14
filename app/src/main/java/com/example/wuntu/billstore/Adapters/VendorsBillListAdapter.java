@@ -32,6 +32,9 @@ public class VendorsBillListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
+        @BindView(R.id.invoice_number)
+        TextView invoice_number;
+
         @BindView(R.id.item_amount)
         TextView bill_amount;
 
@@ -55,6 +58,7 @@ public class VendorsBillListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         addBillDetails = billsList.get(position);
+        ((ViewHolder)holder).invoice_number.setText("Bill Number : " +addBillDetails.getBillNumber());
         ((ViewHolder)holder).bill_date.setText(addBillDetails.getBillDate());
         ((ViewHolder)holder).bill_amount.setText(addBillDetails.getBillAmount());
 
