@@ -233,7 +233,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
-        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems);
+        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount);
 
         customerReference.document(customerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

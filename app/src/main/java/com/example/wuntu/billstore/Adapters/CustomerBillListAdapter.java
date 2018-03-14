@@ -60,7 +60,7 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
         CustomerDetails customerDetails = new CustomerDetails();
         customerDetails = makeBillDetails.getCustomerDetails();
         ((ViewHolder)holder).bill_date.setText(makeBillDetails.getBillTime());
-        //((ViewHolder)holder).bill_amount.setText(makeBillDetails.getBillAmount());
+        ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
 
     }
 
