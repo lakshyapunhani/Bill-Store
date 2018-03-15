@@ -1,6 +1,7 @@
 package com.example.wuntu.billstore.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,8 +15,12 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.CustomerBillListAdapter;
 import com.example.wuntu.billstore.Adapters.VendorsBillListAdapter;
+import com.example.wuntu.billstore.Pojos.CustomerDetails;
+import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.Pojos.MakeBillDetails;
+import com.example.wuntu.billstore.PreviewActivity;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,6 +31,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +61,13 @@ public class CustomerBillListFragment extends Fragment {
     Context context;
 
     String vendorName;
+    private ArrayList<ItemPojo> itemList;
+
+    String billTime ="";
+    String customerName = "";
+    String customerAddress = "";
+    String customerGst = "";
+    Map<String,ItemPojo> billItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +86,9 @@ public class CustomerBillListFragment extends Fragment {
             txt_vendorName.setText(vendorName);
         }
 
+        itemList = new ArrayList<>();
         billsList = new ArrayList<>();
+        billItems = new HashMap<>();
 
         customerBillListAdapter = new CustomerBillListAdapter(billsList);
 
@@ -80,18 +98,25 @@ public class CustomerBillListFragment extends Fragment {
         recyclerView.setAdapter(customerBillListAdapter);
 
 
-        /*recyclerView.addOnItemTouchListener(
+        recyclerView.addOnItemTouchListener(
                 new RecyclerViewListener(context, recyclerView, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("VendorName",vendorName);
-                        bundle.putString("BillDate",billsList.get(position).getBillDate());
-                        bundle.putString("BillTime",billsList.get(position).getBillTime());
-                        billsFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();
+                        itemList.clear();
+                        MakeBillDetails makeBillDetails = new MakeBillDetails();
+                        makeBillDetails = billsList.get(position);
+                        Double billAmount = makeBillDetails.getBillAmount();
+                        billTime = makeBillDetails.getBillTime();
+                        CustomerDetails customerDetails = new CustomerDetails();
+                        customerDetails = makeBillDetails.getCustomerDetails();
+                        customerName = customerDetails.getCustomerName();
+                        customerAddress = customerDetails.getCustomerAddress();
+                        customerGst = customerDetails.getCustomerGstNumber();
+                        billItems = makeBillDetails.getBillItems();
+                        itemList.addAll(billItems.values());
+                        sendDatatoPreview();
+
                     }
 
                     @Override
@@ -100,7 +125,7 @@ public class CustomerBillListFragment extends Fragment {
 
                     }
                 })
-        );*/
+        );
 
 
         CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers")
@@ -127,6 +152,18 @@ public class CustomerBillListFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void sendDatatoPreview()
+    {
+        Intent intent = new Intent(context, PreviewActivity.class);
+        intent.putParcelableArrayListExtra("ItemList",itemList);
+        intent.putExtra("Customer Name",customerName);
+        intent.putExtra("Customer Address",customerAddress);
+        intent.putExtra("Customer GST Number",customerGst);
+        intent.putExtra("Invoice Date",billTime);
+        intent.putExtra("showSave" ,false);
+        startActivity(intent);
     }
 
 

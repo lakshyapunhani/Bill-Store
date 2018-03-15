@@ -366,6 +366,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer Address",newCustomerAddress);
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
         intent.putExtra("Invoice Date",invoiceDate);
+        intent.putExtra("showSave",true);
         startActivity(intent);
     }
 }

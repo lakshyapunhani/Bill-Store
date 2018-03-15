@@ -62,7 +62,6 @@ public class PreviewActivity extends AppCompatActivity {
 
     public static int REQUEST_PERMISSIONS = 1;
     boolean boolean_permission;
-    boolean boolean_save;
     Bitmap bitmap;
     ProgressDialog progressDialog;
 
@@ -126,6 +125,7 @@ public class PreviewActivity extends AppCompatActivity {
     String invoiceNumber= "";
 
     boolean printClicked = false;
+    boolean showSave = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +134,7 @@ public class PreviewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         billItems = new HashMap<>();
+        itemList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -141,6 +142,9 @@ public class PreviewActivity extends AppCompatActivity {
 
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
+
+        billItems.clear();
+        itemList.clear();
 
         getIntentItems();
         getShopDetails();
@@ -181,6 +185,7 @@ public class PreviewActivity extends AppCompatActivity {
             customerAddress = getIntent().getStringExtra("Customer Address");
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
             invoiceDate = getIntent().getStringExtra("Invoice Date");
+            showSave = getIntent().getBooleanExtra("showSave",false);
         }
     }
 
@@ -201,6 +206,14 @@ public class PreviewActivity extends AppCompatActivity {
         txt_custGstNumber.setText(customerGstNumber);
         txt_invoiceDate.setText(invoiceDate);
         invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
+        if (showSave)
+        {
+            btn_save.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            btn_save.setVisibility(View.GONE);
+        }
 
     }
 
@@ -316,8 +329,15 @@ public class PreviewActivity extends AppCompatActivity {
         filePath = new File(targetPdf);
         try {
             document.writeTo(new FileOutputStream(filePath));
-            boolean_save=true;
-            saveButton();
+            if (showSave)
+            {
+                saveButton();
+            }
+            else
+            {
+                openPdf();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
@@ -401,4 +421,8 @@ public class PreviewActivity extends AppCompatActivity {
         return firstPart;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
