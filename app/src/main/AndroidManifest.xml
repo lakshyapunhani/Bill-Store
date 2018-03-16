@@ -67,7 +67,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddItemActivity" />
         <activity android:name=".PreviewActivity" />
-        <activity android:name=".BillsListActivity"></activity>
+        <activity android:name=".BillsListActivity" />
+        <activity android:name=".BillViewActivity"></activity>
     </application>
 
 </manifest>

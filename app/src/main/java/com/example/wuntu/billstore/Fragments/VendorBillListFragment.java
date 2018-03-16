@@ -2,6 +2,7 @@ package com.example.wuntu.billstore.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.VendorsBillListAdapter;
+import com.example.wuntu.billstore.BillViewActivity;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -95,18 +98,23 @@ public class VendorBillListFragment extends Fragment {
         recyclerView.setAdapter(billsListAdapter);
 
 
-        /*recyclerView.addOnItemTouchListener(
+        recyclerView.addOnItemTouchListener(
                 new RecyclerViewListener(context, recyclerView, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
+                        /*BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
                         Bundle bundle = new Bundle();
                         bundle.putString("VendorName",vendorName);
                         bundle.putString("BillDate",billsList.get(position).getBillDate());
                         bundle.putString("BillTime",billsList.get(position).getBillTime());
                         billsFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();*/
+                        Intent intent = new Intent(context, BillViewActivity.class);
+                        intent.putExtra("VendorName",vendorName);
+                        intent.putExtra("BillDate",billsList.get(position).getBillDate());
+                        intent.putExtra("BillTime",billsList.get(position).getBillTime());
+                        startActivity(intent);
                     }
 
                     @Override
@@ -115,7 +123,7 @@ public class VendorBillListFragment extends Fragment {
 
                     }
                 })
-        );*/
+        );
 
 
         CollectionReference billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors")
