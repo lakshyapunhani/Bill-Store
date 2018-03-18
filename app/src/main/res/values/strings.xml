@@ -119,13 +119,16 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="txt_skip"><u>SKIP</u></string>
-    <string name="alert_btn_yes">Continue</string>
+    <string name="alert_btn_continue">Continue</string>
+    <string name="alert_btn_yes">Yes</string>
     <string name="alert_btn_no">No</string>
     <string name="skip_profile_setup">Skip Profile Setup</string>
     <string name="malfunction">Skipping can lead to malfunctioning of app</string>
     <string name="customers">Customers</string>
     <string name="vendors">Vendors</string>
     <string name="verification_message">You will get an SMS with a verification number to this number +91</string>
+    <string name="exit">Exit</string>
+    <string name="alert_sure_exit_app">Are you sure you want to exit?</string>
 
 
 </resources>

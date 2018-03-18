@@ -1,6 +1,5 @@
 package com.example.wuntu.billstore.Fragments;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
@@ -41,11 +41,13 @@ public class VendorFragment extends Fragment {
     @BindView(R.id.vendorsList)
     RecyclerView vendorsList;
 
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
+
     ArrayList<VendorDetails> vendorDetailsList;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
-
     VendorListAdapter vendorListAdapter;
 
     CollectionReference billsReference;
@@ -108,6 +110,14 @@ public class VendorFragment extends Fragment {
                     vendorDetailsList.add(vendorDetails);
                 }
 
+                if (vendorDetailsList.isEmpty())
+                {
+                    emptyLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    emptyLayout.setVisibility(View.GONE);
+                }
                 vendorListAdapter.notifyDataSetChanged();
             }
         });

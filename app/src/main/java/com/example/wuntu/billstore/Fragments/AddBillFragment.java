@@ -3,6 +3,7 @@ package com.example.wuntu.billstore.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
+import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.ProfileActivity;
@@ -53,6 +55,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -154,7 +158,10 @@ public class AddBillFragment extends Fragment {
 
     ArrayAdapter<String> spinnerAdapter;
 
+    ProgressDialog progressDialog;
+
     String billNumber = "";
+    SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
 
     public AddBillFragment() {
         // Required empty public constructor
@@ -177,6 +184,9 @@ public class AddBillFragment extends Fragment {
         marshMallowPermission = new MarshMallowPermission(getActivity());
         billImages = new HashMap<>();
 
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Saving");
+
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -188,6 +198,11 @@ public class AddBillFragment extends Fragment {
         vendorsList = new ArrayList<>();
 
         vendorNameList = new ArrayList<>();
+
+        long date = System.currentTimeMillis();
+
+        String dateString = convertDf.format(date);
+        text_pickDate.setText(dateString);
 
         addDocumentsAdapter = new AddDocumentsAdapter(imagesList);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
@@ -455,7 +470,6 @@ public class AddBillFragment extends Fragment {
     {
         statusView = false;
         billStatus = "Due";
-        Toast.makeText(context, "Radio Due Checked", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.radio_paid)
@@ -463,7 +477,6 @@ public class AddBillFragment extends Fragment {
     {
         statusView = true;
         billStatus = "Paid";
-        Toast.makeText(context, "Radio Paid Checked", Toast.LENGTH_SHORT).show();
     }
 
     private void cameraIntent()
@@ -515,17 +528,31 @@ public class AddBillFragment extends Fragment {
     @OnClick(R.id.btn_submitBill)
     public void submitBill()
     {
+
+        if (!progressDialog.isShowing() && AddBillFragment.this.isVisible())
+        {
+            progressDialog.show();
+        }
+
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
         if (vendorView)
         {
             if (edt_newVendorName.getText().toString().trim().isEmpty())
             {
+                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                {
+                    progressDialog.hide();
+                }
                 Toast.makeText(context, "Fill Vendor Name", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (edt_newVendorAddress.getText().toString().trim().isEmpty())
             {
+                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                {
+                    progressDialog.hide();
+                }
                 Toast.makeText(context, "Fill Vendor Address", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -547,12 +574,20 @@ public class AddBillFragment extends Fragment {
         }
         else
         {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.hide();
+            }
             Toast.makeText(context, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (edt_billAmount.getText().toString().trim().isEmpty())
         {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.hide();
+            }
             Toast.makeText(context, "Enter the bill amount", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -565,6 +600,10 @@ public class AddBillFragment extends Fragment {
 
         if (imagesList.isEmpty())
         {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.hide();
+            }
             Toast.makeText(context, "Please add atleast one document", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -626,8 +665,12 @@ public class AddBillFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 // Handle unsuccessful uploads
+                                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                                {
+                                    progressDialog.hide();
+                                }
                                 Log.d("TAG Storage Failed", "Storage Failed" + exception);
-                                Toast.makeText(context, "Storage Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -653,20 +696,32 @@ public class AddBillFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                                    {
+                                        progressDialog.hide();
+                                    }
                                     Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
+                                    EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Bill not added", Toast.LENGTH_SHORT).show();
+                            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                            {
+                                progressDialog.hide();
+                            }
+                            Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Toast.makeText(context, "Trader Request Success", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, "Trader Request Failure", Toast.LENGTH_SHORT).show();
+                    if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                    {
+                        progressDialog.hide();
+                    }
+                    Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                 }
             });
     }

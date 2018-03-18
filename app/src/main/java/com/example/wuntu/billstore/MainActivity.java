@@ -1,21 +1,26 @@
 package com.example.wuntu.billstore;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Fragments.AddBillFragment;
 import com.example.wuntu.billstore.Fragments.HomeFragment;
 import com.example.wuntu.billstore.Fragments.MakeBillFragment;
 import com.example.wuntu.billstore.Fragments.ProfileFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setCurrentFragment(String show, String hide, String hide2, String hide3) {
+    public void setCurrentFragment(String show, String hide, String hide2, String hide3) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if(!fragmentManager.findFragmentByTag(show).isVisible() ) {
             transaction.show(fragmentManager.findFragmentByTag(show));
@@ -130,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
             transaction.hide(fragmentManager.findFragmentByTag(hide3));
             transaction.commitAllowingStateLoss();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setFragment(SetCurrentFragmentEvent event)
+    {
+        setCurrentFragment(event.getShow(),event.getHide(),event.getHide2(),event.getHide3());
     }
 
     @OnClick(R.id.layout_home)
@@ -193,5 +204,43 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    public void onBackPressed() {
+        showBackAlert();
+    }
 
+    private void showBackAlert()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder1.setTitle(getString(R.string.exit));
+        builder1.setMessage(getString(R.string.alert_sure_exit_app));
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        builder1.setNegativeButton(getString(R.string.alert_btn_no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -142,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
         builder1.setTitle(getString(R.string.skip_profile_setup));
         builder1.setMessage(getString(R.string.malfunction));
         builder1.setCancelable(true);
-        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
+        builder1.setPositiveButton(getString(R.string.alert_btn_continue),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

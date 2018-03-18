@@ -31,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.EventClearBill;
+import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
+import com.example.wuntu.billstore.Fragments.AddBillFragment;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.Pojos.MakeBillDetails;
@@ -63,7 +65,6 @@ public class PreviewActivity extends AppCompatActivity {
     public static int REQUEST_PERMISSIONS = 1;
     boolean boolean_permission;
     Bitmap bitmap;
-    ProgressDialog progressDialog;
 
     @BindView(R.id.txt_shopName)
     TextView txt_shopName;
@@ -126,6 +127,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     boolean printClicked = false;
     boolean showSave = true;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,9 @@ public class PreviewActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Saving");
+
         firebaseUser = firebaseAuth.getCurrentUser();
 
         timestamp = System.currentTimeMillis();
@@ -145,6 +150,11 @@ public class PreviewActivity extends AppCompatActivity {
 
         billItems.clear();
         itemList.clear();
+
+        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
 
         getIntentItems();
         getShopDetails();
@@ -166,7 +176,7 @@ public class PreviewActivity extends AppCompatActivity {
                 }
                 txt_shopName.setText(documentSnapshot.get("shop_name").toString());
                 txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
-                txt_gstNumber.setText(documentSnapshot.get("shop_gst_number").toString());
+                txt_gstNumber.setText(documentSnapshot.get("shop_gst").toString());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -215,6 +225,11 @@ public class PreviewActivity extends AppCompatActivity {
             btn_save.setVisibility(View.GONE);
         }
 
+        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        {
+            progressDialog.hide();
+        }
+
     }
 
     public void initTable()
@@ -242,6 +257,11 @@ public class PreviewActivity extends AppCompatActivity {
     @OnClick(R.id.btn_save)
     public void saveButton()
     {
+
+        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
         for (int i = 0;i<itemList.size();i++)
         {
             ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount(),itemList.get(i).getNote());
@@ -262,13 +282,20 @@ public class PreviewActivity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(PreviewActivity.this, "Bill added", Toast.LENGTH_SHORT).show();
                                 if (printClicked)
                                 {
+                                    if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+                                    {
+                                        progressDialog.hide();
+                                    }
                                     openPdf();
                                 }
                                 else
                                 {
+                                    if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+                                    {
+                                        progressDialog.hide();
+                                    }
                                     EventBus.getDefault().postSticky(new EventClearBill());
                                     finish();
                                 }
@@ -277,7 +304,11 @@ public class PreviewActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PreviewActivity.this, "Bill Request Failed", Toast.LENGTH_SHORT).show();
+                        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+                        {
+                            progressDialog.hide();
+                        }
+                        Toast.makeText(PreviewActivity.this, "Request Failed.Please try again", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

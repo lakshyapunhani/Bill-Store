@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.CustomerListAdapter;
@@ -43,15 +44,16 @@ public class CustomersFragment extends Fragment {
     @BindView(R.id.customersList)
     RecyclerView customersList;
 
+    @BindView(R.id.emptyLayout)
+    LinearLayout emptyLayout;
+
     ArrayList<CustomerDetails> customerDetailsList;
     FirebaseAuth firebaseAuth;
-    FirebaseAuth.AuthStateListener authStateListener;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
     CustomerListAdapter customerListAdapter;
 
     CollectionReference billsReference;
-
     Context context;
 
     @Override
@@ -111,6 +113,15 @@ public class CustomersFragment extends Fragment {
                 for (DocumentSnapshot doc : documentSnapshots) {
                     CustomerDetails customerDetails = doc.toObject(CustomerDetails.class);
                     customerDetailsList.add(customerDetails);
+                }
+
+                if (customerDetailsList.isEmpty())
+                {
+                    emptyLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    emptyLayout.setVisibility(View.GONE);
                 }
 
                 customerListAdapter.notifyDataSetChanged();
