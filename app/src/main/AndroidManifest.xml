@@ -68,7 +68,7 @@
         <activity android:name=".AddItemActivity" />
         <activity android:name=".PreviewActivity" />
         <activity android:name=".BillsListActivity" />
-        <activity android:name=".BillViewActivity"></activity>
+        <activity android:name=".BillViewActivity" />
     </application>
 
 </manifest>

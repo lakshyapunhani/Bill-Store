@@ -90,7 +90,7 @@
 
     <string name="facebook_app_id">108772289834883</string>
     <string name="fb_login_protocol_scheme">fb108772289834883</string>
-    <string name="sms_text">You will get an SMS with a verification code to this number +91 8223906997</string>
+    <string name="sms_text">You will get an SMS with a verification number to this number +91 8223906997</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -125,6 +125,7 @@
     <string name="malfunction">Skipping can lead to malfunctioning of app</string>
     <string name="customers">Customers</string>
     <string name="vendors">Vendors</string>
+    <string name="verification_message">You will get an SMS with a verification number to this number +91</string>
 
 
 </resources>

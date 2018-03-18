@@ -1,6 +1,7 @@
 package com.example.wuntu.billstore.Dialogs;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +11,17 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.EventOTP;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.R;
+import com.example.wuntu.billstore.SignInActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,9 +51,16 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
     @BindView(R.id.edt_code6)
     EditText editcode6;
 
+    @BindView(R.id.verification_message)
+    TextView verification_message;
+
     private int whoHasFocus;
 
     private char[] code = new char[6];
+
+    String number = "";
+
+    ProgressDialog progressDialog;
 
 
     public DialogOTP(@NonNull Context context) {
@@ -60,11 +72,14 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_otp);
-
         ButterKnife.bind(this);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Verifying");
+
+        verification_message.setText("You will get an SMS with a verification number to this number +91" + number);
         setListeners();
     }
-
 
     private void setListeners()
     {
@@ -93,7 +108,8 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
     @OnClick(R.id.btn_submitOTP)
     public void submit()
     {
-        //Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+        progressDialog.show();
         if (!editcode1.getText().toString().equals("") &&
                 !editcode2.getText().toString().equals("") &&
                 !editcode3.getText().toString().equals("") &&
@@ -104,13 +120,25 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
             String mCode = editcode1.getText().toString() + editcode2.getText().toString()
                     + editcode3.getText().toString() + editcode4.getText().toString()
                     + editcode5.getText().toString() + editcode6.getText().toString();
-            //Toast.makeText(getContext(), "Code" + mCode, Toast.LENGTH_SHORT).show();
 
+            if (progressDialog.isShowing())
+            {
+                progressDialog.hide();
+            }
             EventBus.getDefault().post(new EventOTP(mCode));
-            //checkOTPandTakeAction(editcode1.getText().toString() + editcode2.getText().toString() + editcode3.getText().toString() + editcode4.getText().toString());
         }else {
+            if (progressDialog.isShowing())
+            {
+                progressDialog.hide();
+            }
             Toast.makeText(getContext(), "Everything Wrong Bro", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void changeMessage(String number)
+    {
+        this.number = number;
+        //verification_message.setText("You will get an SMS with a verification number to this number +91" + number);
     }
 
     @OnClick(R.id.img_editNumber)
@@ -122,6 +150,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
     @OnClick(R.id.text_SendOtpAgain)
     public void sendOTPAgain()
     {
+        Toast.makeText(getContext(), "OTP Resent", Toast.LENGTH_SHORT).show();
         EventBus.getDefault().post(new ResendOTPEvent());
     }
 
