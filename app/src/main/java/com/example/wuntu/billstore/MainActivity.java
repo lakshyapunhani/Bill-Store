@@ -199,10 +199,10 @@ public class MainActivity extends AppCompatActivity {
         text_profile.setTextColor(getResources().getColor(R.color.blue));
     }
 
-    @Override
+   /* @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

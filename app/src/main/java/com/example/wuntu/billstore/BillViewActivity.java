@@ -3,6 +3,7 @@ package com.example.wuntu.billstore;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,9 +62,6 @@ public class BillViewActivity extends AppCompatActivity {
     @BindView(R.id.billStatus)
     TextView billStatus;
 
-    @BindView(R.id.editBillStatus)
-    TextView editBillStatus;
-
     @BindView(R.id.wholeSellerBillDocuments)
     RecyclerView wholeSellerBillDocuments;
 
@@ -87,6 +86,8 @@ public class BillViewActivity extends AppCompatActivity {
     DocumentReference billDateReference;
     StorageReference mStorageRef;
 
+    PopupMenu popup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +103,11 @@ public class BillViewActivity extends AppCompatActivity {
 
         keyList = new ArrayList<>();
         valuesList = new ArrayList<>();
+
+        popup = new PopupMenu(BillViewActivity.this, menu_dots);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater()
+                .inflate(R.menu.popupmenu, popup.getMenu());
 
         billDocumentsAdapter = new BillDocumentsAdapter(keyList,valuesList);
 
@@ -158,11 +164,6 @@ public class BillViewActivity extends AppCompatActivity {
     @OnClick(R.id.menu_dots)
     public void menuClick()
     {
-        PopupMenu popup = new PopupMenu(BillViewActivity.this, menu_dots);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.popupmenu, popup.getMenu());
-
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -192,14 +193,7 @@ public class BillViewActivity extends AppCompatActivity {
         wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
         wholeSellerBillDate.setText(addBillDetails.getBillDate());
         billStatus.setText(addBillDetails.getBillStatus());
-        if (addBillDetails.getBillStatus().equalsIgnoreCase("due"))
-        {
-            Log.d("TAG","TAG");
-        }
-        else
-        {
-            editBillStatus.setVisibility(View.GONE);
-        }
+
         if (addBillDetails.getBillImages().size() > 0)
         {
             keyList.addAll(addBillDetails.getBillImages().keySet());
@@ -210,25 +204,44 @@ public class BillViewActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.editBillStatus)
     public void editBill()
     {
-        billDateReference.update("billStatus","Paid")
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        if (addBillDetails.getBillStatus().equalsIgnoreCase("due"))
+        {
+            billDateReference.update("billStatus","Paid")
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else
+        {
+            billDateReference.update("billStatus","Due")
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 
-    /*@OnClick(R.id.btn_deleteDocument)*/
     public void deleteBill()
     {
         billDateReference.delete()

@@ -49,7 +49,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".SignInActivity" />
         <activity
             android:name=".SplashActivity"
@@ -61,7 +60,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".AddNewBillActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />

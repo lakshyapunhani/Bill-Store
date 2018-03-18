@@ -174,9 +174,18 @@ public class PreviewActivity extends AppCompatActivity {
                     Toast.makeText(PreviewActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                txt_shopName.setText(documentSnapshot.get("shop_name").toString());
-                txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
-                txt_gstNumber.setText(documentSnapshot.get("shop_gst").toString());
+                if (documentSnapshot.contains("shop_name"))
+                {
+                    txt_shopName.setText(documentSnapshot.get("shop_name").toString());
+                }
+                if (documentSnapshot.contains("shop_address"))
+                {
+                    txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
+                }
+                if (documentSnapshot.contains("shop_gst"))
+                {
+                    txt_gstNumber.setText(documentSnapshot.get("shop_gst").toString());
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

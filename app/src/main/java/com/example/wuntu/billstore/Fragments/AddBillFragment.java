@@ -38,7 +38,6 @@ import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
-import com.example.wuntu.billstore.ProfileActivity;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
@@ -266,14 +265,12 @@ public class AddBillFragment extends Fragment {
                                         else if (options[item].equals("Document")) {
                                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                                                 documentPicker();
-                                                Toast.makeText(context, "Document Clicked", Toast.LENGTH_SHORT).show();
                                             } else {
 
                                                 if (!marshMallowPermission.checkPermissionForExternalStorage()) {
                                                     marshMallowPermission.requestPermissionForExternalStorage();
                                                 } else {
                                                     documentPicker();
-                                                    Toast.makeText(context, "Document Clicked", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         }

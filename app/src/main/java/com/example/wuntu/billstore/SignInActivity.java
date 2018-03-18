@@ -66,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test);
+        setContentView(R.layout.activity_sign_in);
 
         ButterKnife.bind(this);
 
@@ -173,7 +173,6 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.btn_signIn)
     public void BtnSignIn()
     {
-
         if (phone_number_edittext.getText().length() == 0)
         {
             //progressDialog.hide();

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.wuntu.billstore.Adapters.VendorListAdapter;
 import com.example.wuntu.billstore.BillsListActivity;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
-import com.example.wuntu.billstore.ProfileActivity;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
