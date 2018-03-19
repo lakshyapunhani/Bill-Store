@@ -171,7 +171,7 @@ public class PreviewActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (!documentSnapshot.exists())
                 {
-                    Toast.makeText(PreviewActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (documentSnapshot.contains("shop_name"))
@@ -190,7 +190,7 @@ public class PreviewActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PreviewActivity.this, "Profile Request Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
             }
         });
     }

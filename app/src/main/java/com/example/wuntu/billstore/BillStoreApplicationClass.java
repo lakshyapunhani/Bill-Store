@@ -5,17 +5,22 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by Dell on 17-Feb-18.
  */
 
-public class MyApplication extends Application
+public class BillStoreApplicationClass extends Application
 {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Fabric.with(this, new Crashlytics());
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
