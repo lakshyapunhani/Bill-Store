@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Enter your name"
+                android:text="Full name"
                 android:textColor="@color/blue"
                 android:textSize="16sp"/>
 
@@ -78,10 +78,6 @@
                     android:background="@color/blue"
                     app:srcCompat="@drawable/ic_user_white" />
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/edt_name"
@@ -121,11 +117,6 @@
                     android:background="@color/blue"
                     app:srcCompat="@drawable/ic_house_white" />
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>
-
                 <EditText
                     android:id="@+id/edt_shopName"
                     android:layout_width="0dp"
@@ -164,10 +155,6 @@
                     android:background="@color/blue"
                     app:srcCompat="@drawable/ic_house_white" />
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/edt_shopAddress"
@@ -207,11 +194,6 @@
                     android:background="@color/blue"
                     app:srcCompat="@drawable/ic_house_white" />
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>
-
                 <EditText
                     android:id="@+id/edt_gstNumber"
                     android:layout_width="0dp"
@@ -249,11 +231,6 @@
                     android:padding="10dp"
                     android:background="@color/blue"
                     app:srcCompat="@drawable/ic_house_white" />
-
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/edt_panNumber"

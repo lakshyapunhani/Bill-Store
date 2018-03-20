@@ -13,7 +13,8 @@
         android:background="#0484AE">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="match_parent"
             android:text="Profile"
             android:gravity="center_vertical"
@@ -23,8 +24,290 @@
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
 
+        <TextView
+            android:id="@+id/btn_profileSubmit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="4dp"
+            android:text="Update"
+            android:textAllCaps="true"
+            android:background="@drawable/btn_rounded_bg"
+            android:textColor="@android:color/white"
+            fontPath = "fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix" />
+
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="start|center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_round_user"/>
+
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Mobile Number"/>
+
+                <TextView
+                    android:id="@+id/mobile_number"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7988523722"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please provide the below details"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Full name"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edt_rounded_corner"
+                        android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_user_white" />
+-->
+                        <EditText
+                            android:id="@+id/edt_name"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:backgroundTint="@android:color/transparent"
+                            android:paddingStart="20dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Shop/Company Name"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edt_rounded_corner"
+                        android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
+
+                        <EditText
+                            android:id="@+id/edt_shopName"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingStart="20dp"
+                            android:backgroundTint="@android:color/transparent"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Shop/Company Address"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edt_rounded_corner"
+                        android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
+
+                        <EditText
+                            android:id="@+id/edt_shopAddress"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingStart="20dp"
+                            android:backgroundTint="@android:color/transparent"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="GST Number"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edt_rounded_corner"
+                        android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
+
+
+                        <EditText
+                            android:id="@+id/edt_gstNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="0dp"
+                            android:backgroundTint="@android:color/transparent"
+                            android:paddingStart="20dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="CIN/PAN Number"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/edt_rounded_corner"
+                        android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
+
+                        <EditText
+                            android:id="@+id/edt_panNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="0dp"
+                            android:paddingStart="20dp"
+                            android:textColor="@android:color/black"
+                            android:backgroundTint="@android:color/transparent"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
