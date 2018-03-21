@@ -14,7 +14,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by Dell on 17-Feb-18.
  */
 
-public class BillStoreApplicationClass extends Application
+public class BillStoreApplication extends Application
 {
     @Override
     public void onCreate() {

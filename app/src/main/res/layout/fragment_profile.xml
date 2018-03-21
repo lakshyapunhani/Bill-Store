@@ -25,7 +25,7 @@
             tools:ignore="MissingPrefix"/>
 
         <TextView
-            android:id="@+id/btn_profileSubmit"
+            android:id="@+id/btn_profileUpdate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
@@ -75,6 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
                     android:text="Mobile Number"/>
 
                 <TextView
@@ -101,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:text="Please provide the below details"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"/>
+                android:textStyle="bold"
+                android:textColor="@color/blue"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -113,12 +116,13 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/blue"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="Full name"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -134,7 +138,7 @@
                             app:srcCompat="@drawable/ic_user_white" />
 -->
                         <EditText
-                            android:id="@+id/edt_name"
+                            android:id="@+id/edt_updateName"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -156,7 +160,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:text="Shop/Company Name"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -172,7 +177,7 @@
                             app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
-                            android:id="@+id/edt_shopName"
+                            android:id="@+id/edt_updatesShopName"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -194,7 +199,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:text="Shop/Company Address"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -210,7 +216,7 @@
                             app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
-                            android:id="@+id/edt_shopAddress"
+                            android:id="@+id/edt_updateShopAddress"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -232,7 +238,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:text="GST Number"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -249,18 +256,19 @@
 
 
                         <EditText
-                            android:id="@+id/edt_gstNumber"
+                            android:id="@+id/edt_updateGstNumber"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:paddingEnd="0dp"
                             android:paddingLeft="20dp"
-                            android:paddingRight="0dp"
+                            android:paddingRight="20dp"
                             android:backgroundTint="@android:color/transparent"
                             android:paddingStart="20dp"
                             android:textColor="@android:color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
 
                     </LinearLayout>
 
@@ -269,8 +277,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
+                        android:textColor="@color/blue"
                         android:text="CIN/PAN Number"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -287,18 +296,19 @@
                             app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
-                            android:id="@+id/edt_panNumber"
+                            android:id="@+id/edt_updatePanNumber"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:paddingEnd="0dp"
                             android:paddingLeft="20dp"
-                            android:paddingRight="0dp"
+                            android:paddingRight="20dp"
                             android:paddingStart="20dp"
                             android:textColor="@android:color/black"
                             android:backgroundTint="@android:color/transparent"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
 
                     </LinearLayout>
 

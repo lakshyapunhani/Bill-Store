@@ -151,11 +151,6 @@ public class PreviewActivity extends AppCompatActivity {
         billItems.clear();
         itemList.clear();
 
-        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-        {
-            progressDialog.show();
-        }
-
         getIntentItems();
         getShopDetails();
         fn_permission();
