@@ -1,23 +1,31 @@
 package com.example.wuntu.billstore.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.BillViewActivity;
 import com.example.wuntu.billstore.MainActivity;
 import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.PreviewActivity;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.RegisterActivity;
+import com.example.wuntu.billstore.SignInActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,12 +63,19 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.edt_updatePanNumber)
     EditText edt_updatePanNumber;
 
+    @BindView(R.id.menu_dots)
+    ImageView menu_dots;
+
+    PopupMenu popup;
+
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
     private Context context;
 
     String _name ="",_shopName = "",_shopPanNumber ="",_shopGstNumber = "",_shopAddress = "";
+
+    ProgressDialog progressDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -78,6 +93,16 @@ public class ProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Updating");
+        progressDialog.setMessage("Please wait...");
+
+
+        popup = new PopupMenu(context, menu_dots);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater()
+                .inflate(R.menu.logoutmenu, popup.getMenu());
 
         DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
 
@@ -112,44 +137,47 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-       /* profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (!documentSnapshot.exists())
-                {
-                    Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (documentSnapshot.contains("shop_name"))
-                {
-                    edt_updatesShopName.setText(documentSnapshot.get("shop_name").toString());
-                }
-                if (documentSnapshot.contains("shop_address"))
-                {
-                    edt_updateShopAddress.setText(documentSnapshot.get("shop_address").toString());
-                }
-                if (documentSnapshot.contains("shop_gst"))
-                {
-                    edt_updateGstNumber.setText(documentSnapshot.get("shop_gst").toString());
-                }
-
-                if (documentSnapshot.contains("name"))
-                {
-                    edt_updateName.setText(documentSnapshot.get("name").toString());
-                }
-                if (documentSnapshot.contains("shop_pan"))
-                {
-                    edt_updatePanNumber.setText(documentSnapshot.get("shop_pan").toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         return view;
+    }
+
+    @OnClick(R.id.menu_dots)
+    public void menuClick()
+    {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                showLogOutAlert();
+                return true;
+            }
+        });
+
+        popup.show();
+    }
+
+    private void showLogOutAlert()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setTitle("Log Out");
+        builder1.setMessage("Are you sure You want to Log out?");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(context, SignInActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+        builder1.setNegativeButton(getString(R.string.alert_btn_no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     @OnClick(R.id.btn_profileUpdate)
@@ -183,6 +211,7 @@ public class ProfileFragment extends Fragment {
     public void writeDataToFirebase()
     {
         User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
+        progressDialog.show();
 
         if (firebaseUser != null ) {
 
@@ -193,6 +222,7 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override

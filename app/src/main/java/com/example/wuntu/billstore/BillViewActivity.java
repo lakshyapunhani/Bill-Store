@@ -1,5 +1,6 @@
 package com.example.wuntu.billstore;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -88,11 +89,17 @@ public class BillViewActivity extends AppCompatActivity {
 
     PopupMenu popup;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_view);
         ButterKnife.bind(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Deleting");
+        progressDialog.setMessage("Please wait...");
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -239,11 +246,15 @@ public class BillViewActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     public void deleteBill()
     {
+        if (!progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
+
         billDateReference.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -261,6 +272,11 @@ public class BillViewActivity extends AppCompatActivity {
                                     // File deleted successfully
                                     if (finalI == keyList.size() - 1)
                                     {
+                                        if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                        {
+                                            progressDialog.dismiss();
+                                        }
+
                                         //getActivity().getSupportFragmentManager().popBackStack();
                                         Toast.makeText(BillViewActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                         finish();
@@ -270,6 +286,10 @@ public class BillViewActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
                                     // Uh-oh, an error occurred!
+                                    if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                    {
+                                        progressDialog.dismiss();
+                                    }
                                 }
                             });
                         }

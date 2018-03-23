@@ -30,7 +30,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
@@ -41,6 +40,15 @@
             android:textColor="@android:color/white"
             fontPath = "fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/menu_dots"
+            android:layout_width="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_menu"/>
 
     </LinearLayout>
 

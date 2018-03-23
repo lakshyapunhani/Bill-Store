@@ -36,8 +36,10 @@ import com.example.wuntu.billstore.Fragments.AddBillFragment;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.Pojos.MakeBillDetails;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -276,6 +278,7 @@ public class PreviewActivity extends AppCompatActivity {
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
         final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount,invoiceNumber);
+
 
         customerReference.document(customerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
