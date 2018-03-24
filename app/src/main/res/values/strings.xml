@@ -129,6 +129,18 @@
     <string name="verification_message">You will get an SMS with a verification number to this number +91</string>
     <string name="exit">Exit</string>
     <string name="alert_sure_exit_app">Are you sure you want to exit?</string>
+    <string name="text_bill_date">Bill Date</string>
+    <string name="text_bill_amount">Bill Amount</string>
+    <string name="text_bill_description">Bill Description</string>
+    <string name="text_save">Save</string>
+    <string name="text_add_document">Add Document(s)</string>
+    <string name="text_setup_profile">Setup Profile</string>
+    <string name="text_full_name">Full name</string>
+    <string name="text_shop_company_name">Shop/Company Name</string>
+    <string name="text_shop_company_address">Shop/Company Address</string>
+    <string name="text_gst_number">GST Number</string>
+    <string name="text_cin_pan_number">CIN/PAN Number</string>
+    <string name="text_mobile_number">Mobile Number</string>
 
 
 </resources>

@@ -45,6 +45,9 @@ import butterknife.OnClick;
  */
 public class ProfileFragment extends Fragment {
 
+    @BindView(R.id.mobile_number)
+    TextView mobile_number;
+
     @BindView(R.id.btn_profileUpdate)
     TextView btn_profileUpdate;
 
@@ -97,6 +100,8 @@ public class ProfileFragment extends Fragment {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Updating");
         progressDialog.setMessage("Please wait...");
+
+        mobile_number.setText(firebaseUser.getPhoneNumber());
 
 
         popup = new PopupMenu(context, menu_dots);

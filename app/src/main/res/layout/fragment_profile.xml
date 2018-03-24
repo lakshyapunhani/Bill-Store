@@ -85,7 +85,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/blue"
-                    android:text="Mobile Number"/>
+                    android:text="@string/text_mobile_number"/>
 
                 <TextView
                     android:id="@+id/mobile_number"
@@ -129,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="Full name"
+                        android:text="@string/text_full_name"
                         android:textSize="14sp"/>
 
                     <LinearLayout
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
-                        android:text="Shop/Company Name"
+                        android:text="@string/text_shop_company_name"
                         android:textColor="@color/blue"
                         android:textSize="14sp"/>
 
@@ -206,7 +206,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
-                        android:text="Shop/Company Address"
+                        android:text="@string/text_shop_company_address"
                         android:textColor="@color/blue"
                         android:textSize="14sp"/>
 
@@ -245,7 +245,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
-                        android:text="GST Number"
+                        android:text="@string/text_gst_number"
                         android:textColor="@color/blue"
                         android:textSize="14sp"/>
 
@@ -286,7 +286,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:textColor="@color/blue"
-                        android:text="CIN/PAN Number"
+                        android:text="@string/text_cin_pan_number"
                         android:textSize="14sp"/>
 
                     <LinearLayout
