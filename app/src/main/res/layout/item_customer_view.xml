@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background_grey"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -11,17 +13,11 @@
         android:layout_weight="1"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        card_view:contentPaddingLeft="-3dp"
-        card_view:contentPaddingRight="-3dp"
-        card_view:contentPaddingTop="-3dp"
-        card_view:contentPaddingBottom="-3dp"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        card_view:cardBackgroundColor="#e6e4e4"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardUseCompatPadding="false">
+        card_view:cardBackgroundColor="#918d8d"
+        card_view:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,34 +28,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <TextView
+                    android:id="@+id/traderName"
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!--<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>-->
-
-                    <TextView
-                        android:id="@+id/expenseDate"
-                        android:layout_width="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        android:text="AB Trader"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
-
-                </LinearLayout>
-
+                    android:text="AB Trader"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -81,10 +61,9 @@
                     android:textColor="@android:color/black"/>
 
                 <TextView
-                    android:id="@+id/expenseDescription"
+                    android:id="@+id/traderAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:scrollHorizontally="true"
                     android:text="ABC Trader"
                     android:textSize="12sp"/>

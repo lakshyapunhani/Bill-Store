@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/background_grey"
+    android:background="#323131"
     tools:context="com.example.wuntu.billstore.Fragments.HomeFragment">
 
 
