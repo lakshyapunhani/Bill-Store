@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.example.wuntu.billstore.Adapters.AddDocumentsAdapter;
 import com.example.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.example.wuntu.billstore.R;
@@ -119,7 +120,9 @@ public class AddBillFragment extends Fragment {
 
     @BindView(R.id.edt_billDescription) EditText edt_billDescription;
 
-    Calendar myCalendar = Calendar.getInstance();
+    Calendar myCalendar;
+
+    private SessionManager sessionManager;
 
     private Context context;
     long timestamp;
@@ -186,8 +189,12 @@ public class AddBillFragment extends Fragment {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Saving");
 
+        sessionManager = new SessionManager(context);
+
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        myCalendar = Calendar.getInstance();
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -608,7 +615,20 @@ public class AddBillFragment extends Fragment {
 
         billAmount = edt_billAmount.getText().toString().trim();
 
-        writeImageToCloud();
+        if (sessionManager.isInternetAvailable())
+        {
+            writeImageToCloud();
+        }
+        else
+        {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.hide();
+            }
+            showNoInternetDialog();
+            //Toast.makeText(context, "Please connect to Internet", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 
@@ -625,9 +645,6 @@ public class AddBillFragment extends Fragment {
             {
                 riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
             }
-
-
-
 
             for (int i = 0; i< imagesList.size(); i++)
             {
@@ -730,6 +747,21 @@ public class AddBillFragment extends Fragment {
         String firstPart = "000" + a;
         firstPart = firstPart.substring(a.length() - 4,a.length());
         return firstPart;
+    }
+
+    private void showNoInternetDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("It seems you don't have an active internet connection")
+                .setCancelable(false)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        submitBill();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

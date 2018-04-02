@@ -280,7 +280,30 @@ public class PreviewActivity extends AppCompatActivity {
         final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount,invoiceNumber);
 
 
-        customerReference.document(customerName).set(customerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+        customerReference.document(customerName).set(customerDetails);
+        customerReference.document(customerName).collection(firebaseUser.getUid())
+                .document(invoiceDate + " && " + timestampString).set(makeBillDetails);
+
+        Toast.makeText(this, "Invoice Saved", Toast.LENGTH_SHORT).show();
+        if (printClicked)
+        {
+            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+            {
+                progressDialog.hide();
+            }
+            openPdf();
+        }
+        else
+        {
+            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+            {
+                progressDialog.hide();
+            }
+            EventBus.getDefault().postSticky(new EventClearBill());
+            finish();
+        }
+        /*
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -319,7 +342,7 @@ public class PreviewActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
     }
 
     @OnClick(R.id.btn_print)

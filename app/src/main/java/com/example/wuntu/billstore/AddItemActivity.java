@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -85,32 +86,10 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
     int unitPosition,gstPosition;
     boolean gstCheck = false;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseAuth.AuthStateListener authStateListener;
-    FirebaseFirestore db;
-    FirebaseUser firebaseUser;
-
-    GoogleApiClient googleApiClient;
-
     ArrayList<String> gstRateList;
     ArrayList<String> unitList;
+    SessionManager sessionManager;
 
-    @Override
-    public void onStart()
-    {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        googleApiClient.connect();
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,75 +98,20 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_add_item);
         ButterKnife.bind(this);
 
-        db = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        firebaseUser = firebaseAuth.getCurrentUser();
+        sessionManager = new SessionManager(this);
 
         unitList = new ArrayList<>();
+        unitList = sessionManager.getUnitList();
         unitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, unitList);
-        //unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitAdapter);
         unitSpinner.setOnItemSelectedListener(this);
 
         gstRateList = new ArrayList<>();
+        gstRateList = sessionManager.getGstSlabList();
         gstRateAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,gstRateList);
         spinner_gst_rate.setAdapter(gstRateAdapter);
         spinner_gst_rate.setOnItemSelectedListener(this);
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser != null) {
-
-
-                    CollectionReference gstReference = db.collection("GstSlabs");
-
-                    gstReference.get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (DocumentSnapshot document : task.getResult()) {
-                                            gstRateList.add(document.getId());
-                                        }
-                                    } else
-                                    {
-                                        Toast.makeText(AddItemActivity.this, "Error in GST document", Toast.LENGTH_SHORT).show();
-                                    }
-                                    gstRateAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                    CollectionReference unitReference = db.collection("Units");
-
-                    unitReference.get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (DocumentSnapshot document : task.getResult()) {
-                                            unitList.add(document.getId());
-                                        }
-                                    } else
-                                    {
-                                        Toast.makeText(AddItemActivity.this, "Error in unit document", Toast.LENGTH_SHORT).show();
-                                    }
-                                    unitAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                    //User is signed in
-                    Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("TAG", "onAuthStateChanged:signed_out");
-                    Toast.makeText(AddItemActivity.this, "Firebase User Empty", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
 
         edt_costPerItem.addTextChangedListener(new TextWatcher() {
             @Override

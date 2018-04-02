@@ -2,6 +2,9 @@ package com.example.wuntu.billstore;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,18 +12,32 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.telephony.TelephonyManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Fragments.AddBillFragment;
 import com.example.wuntu.billstore.Fragments.HomeFragment;
 import com.example.wuntu.billstore.Fragments.MakeBillFragment;
 import com.example.wuntu.billstore.Fragments.ProfileFragment;
+import com.example.wuntu.billstore.Manager.SessionManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
     Fragment profileFragment;
     private String selectedFragmentTag = "home";
 
+    FirebaseAuth firebaseAuth;
+    FirebaseAuth.AuthStateListener authStateListener;
+    FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+    ArrayList<String> gstRateList;
+    ArrayList<String> unitList;
+
+    private SessionManager sessionManager;
+    Gson gson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -84,10 +111,21 @@ public class MainActivity extends AppCompatActivity {
             selectedFragmentTag = getIntent().getStringExtra("fragmentFlag");
         }
 
+        sessionManager = new SessionManager(this);
+        gson = new Gson();
+
         homeFragment = new HomeFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
         profileFragment = new ProfileFragment();
+
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        unitList = new ArrayList<>();
+        gstRateList = new ArrayList<>();
+
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -123,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         transaction.commitAllowingStateLoss();
+
+        saveDataToSessionManager();
+
+        checkInternetStatus();
 
     }
 
@@ -243,4 +285,68 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+    private void saveDataToSessionManager()
+    {
+        CollectionReference gstReference = db.collection("GstSlabs");
+
+        gstReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                gstRateList.add(document.getId());
+                            }
+
+                            String s = gson.toJson(gstRateList);
+                            sessionManager.saveGstSlabLists(s);
+
+                        } else
+                        {
+                            Toast.makeText(MainActivity.this, "Error in GST document", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        CollectionReference unitReference = db.collection("Units");
+
+        unitReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                unitList.add(document.getId());
+                            }
+                            String s = gson.toJson(unitList);
+                            sessionManager.saveUnitList(s);
+                        } else
+                        {
+                            Toast.makeText(MainActivity.this, "Error in unit document", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void checkInternetStatus() {
+        if (isOnline())
+        {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+
 }
