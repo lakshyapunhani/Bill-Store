@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                     // User is signed out
                     //Toast.makeText(SplashActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onAuthStateChanged:signed_out");
-                    Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
                     startActivity(intent);
                     finish();
                 }

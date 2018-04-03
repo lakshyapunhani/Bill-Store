@@ -18,6 +18,7 @@ public class SessionManager
     private String GST_SLAB_LIST = "gst_slab_list";
     private String UNITS_LIST = "units_list";
     private String ISINTERNETAVAILABLE="isinternetavailable";
+    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -28,6 +29,15 @@ public class SessionManager
         this._context = context.getApplicationContext();
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+    public void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean isFirstTimeLaunch() {
+        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
 
     public void saveGstSlabLists(String arraylistString) {
