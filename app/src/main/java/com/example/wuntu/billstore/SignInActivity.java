@@ -2,8 +2,10 @@ package com.example.wuntu.billstore;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +15,11 @@ import android.widget.Toast;
 
 import com.example.wuntu.billstore.Dialogs.DialogOTP;
 import com.example.wuntu.billstore.EventBus.EventOTP;
+import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.User;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +67,9 @@ public class SignInActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -69,6 +77,9 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
 
         otpDialog = new DialogOTP(this);
 
@@ -248,6 +259,8 @@ public class SignInActivity extends AppCompatActivity {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
         EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
     }
 
     @Override
@@ -257,5 +270,17 @@ public class SignInActivity extends AppCompatActivity {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
         EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
     }
 }

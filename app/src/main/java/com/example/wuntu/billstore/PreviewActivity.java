@@ -3,11 +3,13 @@ package com.example.wuntu.billstore;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -31,11 +33,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.EventClearBill;
+import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Fragments.AddBillFragment;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.CustomerDetails;
 import com.example.wuntu.billstore.Pojos.ItemPojo;
 import com.example.wuntu.billstore.Pojos.MakeBillDetails;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +53,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -131,11 +138,17 @@ public class PreviewActivity extends AppCompatActivity {
     boolean showSave = true;
     ProgressDialog progressDialog;
 
+    private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
 
         billItems = new HashMap<>();
         itemList = new ArrayList<>();
@@ -485,5 +498,31 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        this.unregisterReceiver(networkReceiver);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
     }
 }

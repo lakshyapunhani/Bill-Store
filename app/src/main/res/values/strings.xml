@@ -68,6 +68,8 @@
     <string name="text_cin_pan_number">CIN/PAN Number</string>
     <string name="text_mobile_number">Mobile Number</string>
 
+
+    <!--Test-->
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
     <string name="next">NEXT</string>
@@ -82,5 +84,9 @@
 
     <string name="slide_4_title">World Travel</string>
     <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <!--Test-->
+
+    <string name="info_internet_available">Available</string>
+    <string name="info_internet_not_available">Internet Not Available!</string>
 </resources>
 

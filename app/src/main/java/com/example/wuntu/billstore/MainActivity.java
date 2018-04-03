@@ -2,6 +2,7 @@ package com.example.wuntu.billstore;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -17,12 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.example.wuntu.billstore.Fragments.AddBillFragment;
 import com.example.wuntu.billstore.Fragments.HomeFragment;
 import com.example.wuntu.billstore.Fragments.MakeBillFragment;
 import com.example.wuntu.billstore.Fragments.ProfileFragment;
 import com.example.wuntu.billstore.Manager.SessionManager;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> unitList;
 
     private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
     Gson gson;
 
     @Override
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
         homeFragment = new HomeFragment();
@@ -163,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.commitAllowingStateLoss();
 
         saveDataToSessionManager();
-
-        checkInternetStatus();
 
     }
 
@@ -278,12 +281,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        this.unregisterReceiver(networkReceiver);
     }
 
     private void saveDataToSessionManager()
@@ -329,22 +335,15 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void checkInternetStatus() {
-        if (isOnline())
-        {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
             sessionManager.setInternetAvailable(true);
         }
         else
         {
             sessionManager.setInternetAvailable(false);
         }
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.wuntu.billstore;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +20,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,6 +43,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -88,7 +94,8 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
 
     ArrayList<String> gstRateList;
     ArrayList<String> unitList;
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
 
 
     @Override
@@ -99,6 +106,7 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         ButterKnife.bind(this);
 
         sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
 
         unitList = new ArrayList<>();
         unitList = sessionManager.getUnitList();
@@ -433,6 +441,33 @@ public class AddItemActivity extends AppCompatActivity implements AdapterView.On
         String itemType = unitList.get(unitPosition);
         EventBus.getDefault().postSticky(new ItemToMakeBill(itemName,itemPrice,quantity,itemType,totalAmount,note));
         finish();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        this.unregisterReceiver(networkReceiver);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
     }
 
 

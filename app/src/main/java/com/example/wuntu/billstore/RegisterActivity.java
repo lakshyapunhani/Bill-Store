@@ -2,6 +2,8 @@ package com.example.wuntu.billstore;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -10,12 +12,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wuntu.billstore.EventBus.InternetStatus;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.User;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 
@@ -44,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
+    private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
 
         HashMap<String,String> map = new HashMap<>();
         map.put("UID",firebaseUser.getUid());
@@ -160,12 +174,34 @@ public class RegisterActivity extends AppCompatActivity {
         alert11.show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     @Override
     public void onBackPressed()
     {}
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        this.unregisterReceiver(networkReceiver);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
+    }
 }

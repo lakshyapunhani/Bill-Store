@@ -3,6 +3,8 @@ package com.example.wuntu.billstore;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -21,8 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Adapters.BillDocumentsAdapter;
+import com.example.wuntu.billstore.EventBus.InternetStatus;
+import com.example.wuntu.billstore.Manager.SessionManager;
 import com.example.wuntu.billstore.Pojos.AddBillDetails;
 import com.example.wuntu.billstore.Pojos.VendorDetails;
+import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.example.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +40,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +62,9 @@ public class BillViewActivity extends AppCompatActivity {
 
     @BindView(R.id.wholeSellerAddress)
     TextView wholeSellerAddress;
+
+    @BindView(R.id.wholeSellerGst)
+    TextView wholeSellerGst;
 
     @BindView(R.id.wholeSellerBillDate)
     TextView wholeSellerBillDate;
@@ -91,13 +103,18 @@ public class BillViewActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    String vendorGst = " ";
+    String vendorGst = "NA";
+    private SessionManager sessionManager;
+    private NetworkReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_view);
         ButterKnife.bind(this);
+
+        sessionManager = new SessionManager(this);
+        networkReceiver = new NetworkReceiver();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Deleting");
@@ -199,7 +216,12 @@ public class BillViewActivity extends AppCompatActivity {
         vendorDetails = addBillDetails.getVendorDetails();
         wholeSellerName.setText(vendorDetails.getVendorName());
         wholeSellerAddress.setText(vendorDetails.getVendorAddress());
-        vendorGst = vendorDetails.getVendorGst();
+        if (vendorDetails.getVendorGst().matches(""))
+        {
+            vendorGst = vendorDetails.getVendorGst();
+        }
+
+        wholeSellerGst.setText("(GST Number - " + vendorGst + ")");
         wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
         wholeSellerBillDate.setText(addBillDetails.getBillDate());
         billStatus.setText(addBillDetails.getBillStatus());
@@ -305,5 +327,31 @@ public class BillViewActivity extends AppCompatActivity {
                 Toast.makeText(BillViewActivity.this, "Not Deleted", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(networkReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        this.unregisterReceiver(networkReceiver);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(InternetStatus event) {
+        if (event.getStatus()) {
+            sessionManager.setInternetAvailable(true);
+        }
+        else
+        {
+            sessionManager.setInternetAvailable(false);
+        }
     }
 }
