@@ -12,10 +12,6 @@
         android:layout_weight="1"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        card_view:contentPaddingLeft="-3dp"
-        card_view:contentPaddingRight="-3dp"
-        card_view:contentPaddingTop="-3dp"
-        card_view:contentPaddingBottom="-3dp"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -55,7 +51,7 @@
                 android:orientation="vertical"
                 android:paddingTop="5dp"
                 android:paddingLeft="10dp"
-                android:background="@android:color/white"
+                android:background="@drawable/bottom_rounded"
                 android:paddingRight="10dp">
 
                 <TextView
