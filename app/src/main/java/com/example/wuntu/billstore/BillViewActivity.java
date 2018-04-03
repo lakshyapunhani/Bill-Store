@@ -91,6 +91,8 @@ public class BillViewActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    String vendorGst = " ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +199,7 @@ public class BillViewActivity extends AppCompatActivity {
         vendorDetails = addBillDetails.getVendorDetails();
         wholeSellerName.setText(vendorDetails.getVendorName());
         wholeSellerAddress.setText(vendorDetails.getVendorAddress());
+        vendorGst = vendorDetails.getVendorGst();
         wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
         wholeSellerBillDate.setText(addBillDetails.getBillDate());
         billStatus.setText(addBillDetails.getBillStatus());

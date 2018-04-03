@@ -153,7 +153,7 @@
                         android:id="@+id/innerView_newVendor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
@@ -185,6 +185,19 @@
                             android:paddingRight="10dp"
                             android:paddingEnd="10dp" />
 
+                        <EditText
+                            android:id="@+id/edt_newVendorGst"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:layout_marginTop="15dp"
+                            android:inputType="text"
+                            android:hint="@string/text_enter_new_vendor_gst_number"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp" />
+
                     </LinearLayout>
 
 
@@ -208,16 +221,6 @@
                 android:background="@drawable/edt_rounded_corner"
                 android:orientation="horizontal">
 
-                <!--<android.support.v7.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_calender" />
-
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>-->
 
                 <TextView
                     android:id="@+id/text_pickDate"
@@ -249,16 +252,6 @@
                 android:background="@drawable/edt_rounded_corner"
                 android:orientation="horizontal">
 
-                <!--<android.support.v7.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_indian_rupee" />
-
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>-->
 
                 <EditText
                     android:id="@+id/edt_billAmount"

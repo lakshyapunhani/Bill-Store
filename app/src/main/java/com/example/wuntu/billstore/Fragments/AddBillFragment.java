@@ -116,6 +116,8 @@ public class AddBillFragment extends Fragment {
 
     @BindView(R.id.edt_newVendorAddress) EditText edt_newVendorAddress;
 
+    @BindView(R.id.edt_newVendorGst) EditText edt_newVendorGst;
+
     @BindView(R.id.edt_billAmount) EditText edt_billAmount;
 
     @BindView(R.id.edt_billDescription) EditText edt_billDescription;
@@ -145,7 +147,7 @@ public class AddBillFragment extends Fragment {
 
     boolean vendorView, statusView;
 
-    String newVendorName,newVendorAddress;
+    String newVendorName,newVendorAddress,newVendorGst = " ";
 
     String billAmount,billDescription,billDate;
     String billStatus = "Due";
@@ -563,6 +565,10 @@ public class AddBillFragment extends Fragment {
 
             newVendorName = edt_newVendorName.getText().toString();
             newVendorAddress = edt_newVendorAddress.getText().toString();
+            if (!edt_newVendorGst.getText().toString().trim().isEmpty())
+            {
+                newVendorGst = edt_newVendorGst.getText().toString().trim();
+            }
         }
         else
         {
@@ -693,7 +699,7 @@ public class AddBillFragment extends Fragment {
 
     private void writeDataToFirebase()
     {
-        VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress);
+        VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress,newVendorGst);
 
         billNumber = autoGenerateInvoiceNumber();
 

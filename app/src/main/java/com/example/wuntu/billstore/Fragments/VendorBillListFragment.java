@@ -103,13 +103,6 @@ public class VendorBillListFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        /*BillsFragmentPrevious billsFragment = new BillsFragmentPrevious();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("VendorName",vendorName);
-                        bundle.putString("BillDate",billsList.get(position).getBillDate());
-                        bundle.putString("BillTime",billsList.get(position).getBillTime());
-                        billsFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frameLayout,billsFragment).addToBackStack(null).commit();*/
                         Intent intent = new Intent(context, BillViewActivity.class);
                         intent.putExtra("VendorName",vendorName);
                         intent.putExtra("BillDate",billsList.get(position).getBillDate());

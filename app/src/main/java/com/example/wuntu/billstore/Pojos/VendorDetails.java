@@ -13,16 +13,20 @@ public class VendorDetails implements Parcelable
 
     private String vendorAddress;
 
+    private String vendorGst;
+
     public VendorDetails() {}
 
-    public VendorDetails(String vendorName, String vendorAddress) {
+    public VendorDetails(String vendorName, String vendorAddress,String vendorGst) {
         this.vendorName = vendorName;
         this.vendorAddress = vendorAddress;
+        this.vendorGst = vendorGst;
     }
 
     protected VendorDetails(Parcel in) {
         vendorName = in.readString();
         vendorAddress = in.readString();
+        vendorGst = in.readString();
     }
 
     public static final Creator<VendorDetails> CREATOR = new Creator<VendorDetails>() {
@@ -45,6 +49,11 @@ public class VendorDetails implements Parcelable
         return vendorAddress;
     }
 
+    public String getVendorGst()
+    {
+        return vendorGst;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -54,5 +63,6 @@ public class VendorDetails implements Parcelable
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(vendorName);
         parcel.writeString(vendorAddress);
+        parcel.writeString(vendorGst);
     }
 }
