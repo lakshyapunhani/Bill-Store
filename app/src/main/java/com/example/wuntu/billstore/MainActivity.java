@@ -185,7 +185,23 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setFragment(SetCurrentFragmentEvent event)
     {
-        setCurrentFragment(event.getShow(),event.getHide(),event.getHide2(),event.getHide3());
+        //setCurrentFragment(event.getShow(),event.getHide(),event.getHide2(),event.getHide3());
+        if (event.getShow().matches("home"))
+        {
+            homeClick();
+        }
+        else if (event.getShow().matches("add_bill"))
+        {
+            addBillClick();
+        }
+        else if (event.getShow().matches("make_bill"))
+        {
+            makeBillClick();
+        }
+        else if (event.getShow().matches("profile"))
+        {
+            profileClick();
+        }
     }
 
     @OnClick(R.id.layout_home)

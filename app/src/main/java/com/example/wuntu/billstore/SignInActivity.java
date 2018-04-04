@@ -107,7 +107,7 @@ public class SignInActivity extends AppCompatActivity {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
                                 if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                                 {
-                                    progressDialog.hide();
+                                    progressDialog.dismiss();
                                 }
                                 User user1 = documentSnapshot.toObject(User.class);
                                 String user_name = user1.getName();
@@ -120,7 +120,7 @@ public class SignInActivity extends AppCompatActivity {
                             {
                                 if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                                 {
-                                    progressDialog.hide();
+                                    progressDialog.dismiss();
                                 }
                                 startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
                                 finish();
@@ -157,7 +157,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onVerificationFailed(FirebaseException e) {
                 if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                 {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                 }
                 Toast.makeText(SignInActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                 Log.d("MESSAGE",e.getMessage());
@@ -167,7 +167,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onCodeSent(String verification_id, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                 {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                 }
                 super.onCodeSent(verification_id, forceResendingToken);
 
@@ -226,14 +226,14 @@ public class SignInActivity extends AppCompatActivity {
                         {
                             if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                             {
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                             }
                         }
                         else
                         {
                             if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
                             {
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                             }
                             Toast.makeText(SignInActivity.this,"Wrong OTP. Please Enter Again", Toast.LENGTH_SHORT).show();
                         }

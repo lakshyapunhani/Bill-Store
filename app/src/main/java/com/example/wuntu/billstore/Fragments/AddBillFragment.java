@@ -548,7 +548,7 @@ public class AddBillFragment extends Fragment {
             {
                 if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                 {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                 }
                 Toast.makeText(context, "Fill Vendor Name", Toast.LENGTH_SHORT).show();
                 return;
@@ -557,7 +557,7 @@ public class AddBillFragment extends Fragment {
             {
                 if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                 {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                 }
                 Toast.makeText(context, "Fill Vendor Address", Toast.LENGTH_SHORT).show();
                 return;
@@ -586,7 +586,7 @@ public class AddBillFragment extends Fragment {
         {
             if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             Toast.makeText(context, getString(R.string.toast_please_select_date), Toast.LENGTH_SHORT).show();
             return;
@@ -596,7 +596,7 @@ public class AddBillFragment extends Fragment {
         {
             if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             Toast.makeText(context, "Enter the bill amount", Toast.LENGTH_SHORT).show();
             return;
@@ -612,7 +612,7 @@ public class AddBillFragment extends Fragment {
         {
             if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             Toast.makeText(context, "Please add atleast one document", Toast.LENGTH_SHORT).show();
             return;
@@ -629,7 +629,7 @@ public class AddBillFragment extends Fragment {
         {
             if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             showNoInternetDialog();
             //Toast.makeText(context, "Please connect to Internet", Toast.LENGTH_SHORT).show();
@@ -687,7 +687,7 @@ public class AddBillFragment extends Fragment {
                                 // Handle unsuccessful uploads
                                 if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                                 {
-                                    progressDialog.hide();
+                                    progressDialog.dismiss();
                                 }
                                 Log.d("TAG Storage Failed", "Storage Failed" + exception);
                                 Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
@@ -718,7 +718,7 @@ public class AddBillFragment extends Fragment {
                                 public void onSuccess(Void aVoid) {
                                     if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                                     {
-                                        progressDialog.hide();
+                                        progressDialog.dismiss();
                                     }
                                     Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
                                     EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
@@ -728,7 +728,7 @@ public class AddBillFragment extends Fragment {
                         public void onFailure(@NonNull Exception e) {
                             if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                             {
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                             }
                             Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                         }
@@ -739,7 +739,7 @@ public class AddBillFragment extends Fragment {
                 public void onFailure(@NonNull Exception e) {
                     if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
                     {
-                        progressDialog.hide();
+                        progressDialog.dismiss();
                     }
                     Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                 }

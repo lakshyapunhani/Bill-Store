@@ -246,7 +246,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
-            progressDialog.hide();
+            progressDialog.dismiss();
         }
 
     }
@@ -302,7 +302,7 @@ public class PreviewActivity extends AppCompatActivity {
         {
             if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             openPdf();
         }
@@ -310,52 +310,12 @@ public class PreviewActivity extends AppCompatActivity {
         {
             if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         }
-        /*
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
 
-                customerReference.document(customerName).collection(firebaseUser.getUid())
-                        .document(invoiceDate + " && " + timestampString).set(makeBillDetails)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                if (printClicked)
-                                {
-                                    if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-                                    {
-                                        progressDialog.hide();
-                                    }
-                                    openPdf();
-                                }
-                                else
-                                {
-                                    if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-                                    {
-                                        progressDialog.hide();
-                                    }
-                                    EventBus.getDefault().postSticky(new EventClearBill());
-                                    finish();
-                                }
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-                        {
-                            progressDialog.hide();
-                        }
-                        Toast.makeText(PreviewActivity.this, "Request Failed.Please try again", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });*/
     }
 
     @OnClick(R.id.btn_print)
