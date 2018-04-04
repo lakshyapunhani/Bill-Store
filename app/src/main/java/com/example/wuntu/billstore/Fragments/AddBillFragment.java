@@ -164,6 +164,7 @@ public class AddBillFragment extends Fragment {
 
     ProgressDialog progressDialog;
 
+    String dateString;
     String billNumber = "";
     SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
 
@@ -190,6 +191,7 @@ public class AddBillFragment extends Fragment {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Saving");
+        progressDialog.setMessage("Please wait...");
 
         sessionManager = new SessionManager(context);
 
@@ -209,7 +211,7 @@ public class AddBillFragment extends Fragment {
 
         long date = System.currentTimeMillis();
 
-        String dateString = convertDf.format(date);
+        dateString = convertDf.format(date);
         text_pickDate.setText(dateString);
 
         addDocumentsAdapter = new AddDocumentsAdapter(imagesList);
@@ -534,7 +536,6 @@ public class AddBillFragment extends Fragment {
     @OnClick(R.id.btn_submitBill)
     public void submitBill()
     {
-
         if (!progressDialog.isShowing() && AddBillFragment.this.isVisible())
         {
             progressDialog.show();
@@ -720,6 +721,7 @@ public class AddBillFragment extends Fragment {
                                     {
                                         progressDialog.dismiss();
                                     }
+                                    clearData();
                                     Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
                                     EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
                                 }
@@ -744,6 +746,18 @@ public class AddBillFragment extends Fragment {
                     Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                 }
             });
+    }
+
+    private void clearData()
+    {
+        imagesList.clear();
+        addDocumentsAdapter.notifyDataSetChanged();
+        edt_newVendorName.setText("");
+        edt_newVendorAddress.setText("");
+        edt_newVendorGst.setText("");
+        edt_billAmount.setText("");
+        edt_billDescription.setText("");
+        text_pickDate.setText(dateString);
     }
 
     private String autoGenerateInvoiceNumber()

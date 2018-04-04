@@ -3,6 +3,8 @@ package com.example.wuntu.billstore.Dialogs;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -15,13 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.EventBus.EventOTP;
+import com.example.wuntu.billstore.EventBus.EventPrintOtp;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.R;
 import com.example.wuntu.billstore.SignInActivity;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -306,6 +312,29 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
             }
         }
         return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onResendOTPEvent(EventPrintOtp event)
+    {
+        editcode1.setText(event.getCode1());
+        editcode2.setText(event.getCode2());
+        editcode3.setText(event.getCode3());
+        editcode4.setText(event.getCode4());
+        editcode5.setText(event.getCode5());
+        editcode6.setText(event.getCode6());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
 }

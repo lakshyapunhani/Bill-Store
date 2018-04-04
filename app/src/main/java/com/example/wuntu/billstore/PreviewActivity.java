@@ -157,6 +157,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Saving");
+        progressDialog.setMessage("Please wait...");
 
         firebaseUser = firebaseAuth.getCurrentUser();
 

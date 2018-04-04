@@ -1,5 +1,6 @@
 package com.example.wuntu.billstore;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -55,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
 
@@ -78,8 +83,17 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.btn_profileSubmit)
     public void profileSubmitClick()
     {
+        if (!progressDialog.isShowing() && RegisterActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
+
         if (name.getText().toString().trim().isEmpty())
         {
+            if (progressDialog.isShowing() && RegisterActivity.this.isDestroyed())
+            {
+                progressDialog.dismiss();
+            }
             Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -90,6 +104,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (shopName.getText().toString().trim().isEmpty())
         {
+            if (progressDialog.isShowing() && RegisterActivity.this.isDestroyed())
+            {
+                progressDialog.dismiss();
+            }
             Toast.makeText(this, "Please enter Shop name", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -99,6 +117,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (shopAddress.getText().toString().trim().isEmpty())
         {
+            if (progressDialog.isShowing() && RegisterActivity.this.isDestroyed())
+            {
+                progressDialog.dismiss();
+            }
             Toast.makeText(this, "Please enter Shop Address", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -132,7 +154,11 @@ public class RegisterActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(RegisterActivity.this, "Request Success", Toast.LENGTH_SHORT).show();
+                            if (progressDialog.isShowing() && RegisterActivity.this.isDestroyed())
+                            {
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(RegisterActivity.this, "Profile Uploaded", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         }
                     }).addOnFailureListener(new OnFailureListener() {

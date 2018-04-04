@@ -1,20 +1,27 @@
 package com.example.wuntu.billstore;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.wuntu.billstore.Dialogs.DialogOTP;
 import com.example.wuntu.billstore.EventBus.EventOTP;
+import com.example.wuntu.billstore.EventBus.EventPrintOtp;
 import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.Manager.SessionManager;
@@ -44,6 +51,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
+
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -69,6 +78,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
+    private SMSReceiver smsReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,11 +90,20 @@ public class SignInActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
+        smsReceiver = new SMSReceiver();
+
+        // Generate a filter object
+        IntentFilter intentFilter = new IntentFilter();
+        // Add filter an action
+        intentFilter.addAction(SMS_RECEIVED_ACTION);
+        registerReceiver(smsReceiver, intentFilter);
+
 
         otpDialog = new DialogOTP(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Verifying");
+        progressDialog.setMessage("Please wait...");
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -109,9 +128,6 @@ public class SignInActivity extends AppCompatActivity {
                                 {
                                     progressDialog.dismiss();
                                 }
-                                User user1 = documentSnapshot.toObject(User.class);
-                                String user_name = user1.getName();
-                                String shop_name = user1.getShop_name();
                                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
                                 finish();
 
@@ -148,7 +164,12 @@ public class SignInActivity extends AppCompatActivity {
         //For Firebase Integration
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
-            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential)
+            {
+                if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                {
+                    progressDialog.show();
+                }
                 signInWithPhoneAuthCredential(phoneAuthCredential);
 
             }
@@ -281,6 +302,77 @@ public class SignInActivity extends AppCompatActivity {
         else
         {
             sessionManager.setInternetAvailable(false);
+        }
+    }
+
+    public class SMSReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(SMS_RECEIVED_ACTION)) {
+                Bundle extras = intent.getExtras();
+
+                String strMessage = "";
+
+                if (extras != null) {
+                    Object[] smsextras = (Object[]) extras.get("pdus");
+
+                    assert smsextras != null;
+                    for (Object smsextra : smsextras) {
+                        SmsMessage smsmsg = SmsMessage.createFromPdu((byte[]) smsextra);
+
+                        String strMsgBody = smsmsg.getMessageBody();
+                        strMessage += strMsgBody;
+                    }
+
+                    //012345 is your verification code
+
+                    strMessage = strMessage.toLowerCase();
+                    if (strMessage.contains("verification")) {
+                        String otpSms;
+                        try {
+                            progressDialog.show();
+                            otpSms = strMessage.substring(0, 6);
+                            String otpSms1 = strMessage.substring(0,1);
+                            String otpSms2 = strMessage.substring(1,2);
+                            String otpSms3 = strMessage.substring(2,3);
+                            String otpSms4 = strMessage.substring(3,4);
+                            String otpSms5 = strMessage.substring(4,5);
+                            String otpSms6 = strMessage.substring(5,6);
+
+                            EventPrintOtp eventPrintOtp = new EventPrintOtp(otpSms1,otpSms2,otpSms3,otpSms4,otpSms5,otpSms6);
+                            EventBus.getDefault().post(eventPrintOtp);
+                            /*editcode1.setText(otpSms1);
+                            editcode2.setText(otpSms2);
+                            editcode3.setText(otpSms3);
+                            editcode4.setText(otpSms4);*/
+
+                        } catch (Exception e) {
+                            return;
+                        }
+
+                        if (ContextCompat.checkSelfPermission(SignInActivity.this,
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                            ActivityCompat.requestPermissions(SignInActivity.this,
+                                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    1);
+                        } else {
+                            //checkOTPandTakeAction(otpSms);
+                            progressDialog.dismiss();
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (smsReceiver != null) {
+            unregisterReceiver(smsReceiver);
         }
     }
 }
