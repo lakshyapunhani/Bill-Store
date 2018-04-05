@@ -25,7 +25,6 @@ import com.example.wuntu.billstore.EventBus.EventPrintOtp;
 import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.Manager.SessionManager;
-import com.example.wuntu.billstore.Pojos.User;
 import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,7 +51,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
-
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -158,9 +156,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         };
 
-
-
-
         //For Firebase Integration
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
@@ -207,14 +202,12 @@ public class SignInActivity extends AppCompatActivity {
     {
         if (phone_number_edittext.getText().length() == 0)
         {
-            //progressDialog.hide();
             Toast.makeText(this, "Please fill the Mobile number", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!(phone_number_edittext.getText().length() > 9 && phone_number_edittext.getText().length() < 12))
         {
-            //progressDialog.hide();
             Toast.makeText(this, "Please fill the Correct Mobile Number", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -223,7 +216,6 @@ public class SignInActivity extends AppCompatActivity {
 
         String country_code = "+91";
         String phone_number1 = country_code + phone_number;
-
 
         progressDialog.show();
 
@@ -341,16 +333,10 @@ public class SignInActivity extends AppCompatActivity {
                             String otpSms6 = strMessage.substring(5,6);
 
                             EventPrintOtp eventPrintOtp = new EventPrintOtp(otpSms1,otpSms2,otpSms3,otpSms4,otpSms5,otpSms6);
-                            EventBus.getDefault().post(eventPrintOtp);
-                            /*editcode1.setText(otpSms1);
-                            editcode2.setText(otpSms2);
-                            editcode3.setText(otpSms3);
-                            editcode4.setText(otpSms4);*/
-
+                            EventBus.getDefault().postSticky(eventPrintOtp);
                         } catch (Exception e) {
                             return;
                         }
-
                         if (ContextCompat.checkSelfPermission(SignInActivity.this,
                                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -358,7 +344,6 @@ public class SignInActivity extends AppCompatActivity {
                                     new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     1);
                         } else {
-                            //checkOTPandTakeAction(otpSms);
                             progressDialog.dismiss();
                         }
                     }

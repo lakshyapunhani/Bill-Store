@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@android:color/holo_blue_light"/>
+        android:drawable="@android:color/white"/>
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/billstore_launcher"/>
+            android:src="@mipmap/ic_launcher_400"/>
     </item>
 
 </layer-list>

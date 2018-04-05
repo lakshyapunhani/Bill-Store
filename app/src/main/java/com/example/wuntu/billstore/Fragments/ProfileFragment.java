@@ -185,9 +185,15 @@ public class ProfileFragment extends Fragment {
         alert11.show();
     }
 
-    @OnClick(R.id.btn_profileUpdate)
+
     public void updateClick()
     {
+
+        if (!progressDialog.isShowing())
+        {
+            progressDialog.show();
+        }
+
         if (!edt_updateName.getText().toString().trim().isEmpty())
         {
             _name = edt_updateName.getText().toString();
@@ -209,32 +215,48 @@ public class ProfileFragment extends Fragment {
         {
             _shopPanNumber = edt_updatePanNumber.getText().toString();
         }
-
         writeDataToFirebase();
+    }
+
+    @OnClick(R.id.btn_profileUpdate)
+    public void showUpdateAlert()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setTitle("Update Details");
+        builder1.setMessage("Are you sure?");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        updateClick();
+                    }
+                });
+        builder1.setNegativeButton(getString(R.string.alert_btn_no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     public void writeDataToFirebase()
     {
         User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
-        progressDialog.show();
 
         if (firebaseUser != null ) {
 
             db.collection("Users")
                     .document(firebaseUser.getUid())
-                    .set(user)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    .set(user);
+            Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show();
+            if (progressDialog.isShowing())
+            {
+                progressDialog.dismiss();
+            }
+
         }
     }
 

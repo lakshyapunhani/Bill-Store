@@ -82,6 +82,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Verifying");
+        progressDialog.setMessage("Please wait...");
 
         verification_message.setText("You will get an SMS with a verification number to this number +91" + number);
         setListeners();
@@ -129,22 +130,21 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
 
             if (progressDialog.isShowing())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
             EventBus.getDefault().post(new EventOTP(mCode));
         }else {
             if (progressDialog.isShowing())
             {
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
-            Toast.makeText(getContext(), "Everything Wrong Bro", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please fill OTP", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void changeMessage(String number)
     {
         this.number = number;
-        //verification_message.setText("You will get an SMS with a verification number to this number +91" + number);
     }
 
     @OnClick(R.id.img_editNumber)
@@ -193,7 +193,6 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     editcode6.setHint("*");
                 }
                 break;
-
             case 2:
                 if(!editcode2.getText().toString().isEmpty())
                 {
@@ -201,7 +200,6 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     editcode3.requestFocus();
                 }
                 break;
-
             case 3:
                 if(!editcode3.getText().toString().isEmpty())
                 {
@@ -209,7 +207,6 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     editcode4.requestFocus();
                 }
                 break;
-
             case 4:
                 if(!editcode4.getText().toString().isEmpty())
                 {
@@ -217,7 +214,6 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     editcode5.requestFocus();
                 }
                 break;
-
             case 5:
                 if(!editcode5.getText().toString().isEmpty())
                 {
@@ -225,15 +221,12 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     editcode6.requestFocus();
                 }
                 break;
-
             case 6:
                 if(!editcode6.getText().toString().isEmpty())
                 {
                     code[5]= editcode6.getText().toString().charAt(0);
                 }
                 break;
-
-
             default:
                 break;
         }
@@ -314,7 +307,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
         return false;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onResendOTPEvent(EventPrintOtp event)
     {
         editcode1.setText(event.getCode1());
