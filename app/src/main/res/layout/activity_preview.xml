@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#e6e4e4">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +16,7 @@
             android:text="Preview"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
-            android:paddingLeft="30dp"
             android:paddingEnd="20dp"
-            android:paddingRight="20dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
@@ -85,7 +82,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Your Shop Name"/>
+                android:text="Your Shop Name"
+                fontPath="fonts/DroidSansMono.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <TextView
                 android:id="@+id/txt_shopAddress"
@@ -95,7 +94,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Your Shop Address"/>
+                android:text="Your Shop Address"
+                fontPath="fonts/DroidSansMono.ttf"
+                tools:ignore="MissingPrefix"/>
 
 
 
@@ -116,6 +117,8 @@
                         android:layout_width="wrap_content"
                         android:padding="3dip"
                         android:text="Date: "
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
                         android:textColor="@android:color/black"/>
 
                     <TextView
@@ -123,6 +126,8 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
                         tools:text="09/05/10" />
                 </LinearLayout>
 
@@ -138,6 +143,8 @@
                         android:layout_width="wrap_content"
                         android:padding="3dip"
                         android:text="GST No: "
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
                         android:textColor="@android:color/black"/>
 
                     <TextView
@@ -145,12 +152,11 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
-                        android:text="1212121212" />
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
+                        tools:text="1212121212" />
 
                 </LinearLayout>
-
-
-
 
             </LinearLayout>
 
@@ -159,7 +165,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="3dip"
-                android:text="To"
+                android:text="For :"
+                fontPath="fonts/DroidSansMono.ttf"
+                tools:ignore="MissingPrefix"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"/>
 
@@ -173,12 +181,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Velocity Concepts"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/txt_custAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
                     tools:text="Shalimar Bagh,Delhi (111111)"/>
 
                 <LinearLayout
@@ -189,6 +201,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="GST Number : "
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
                         android:textStyle="bold" />
 
                     <TextView
@@ -221,6 +235,8 @@
                         android:text="Item"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
                         android:textStyle="bold" />
 
                     <TextView
@@ -232,7 +248,9 @@
                         android:text="Cost"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -243,7 +261,9 @@
                         android:text="Qty"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -254,7 +274,9 @@
                         android:text="Total"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
                 </TableRow>
                 <!-- end invoice item labels -->
                 <!-- invoice items -->
@@ -276,7 +298,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="Total : "
+                    android:text="Subtotal : "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
                     android:gravity="end" />
 
                 <TextView
@@ -302,6 +326,8 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="16sp"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
                     android:text="Note - "/>
 
                 <TextView
@@ -309,6 +335,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
                     android:text="Note"/>
             </LinearLayout>
 

@@ -65,6 +65,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -485,5 +486,10 @@ public class PreviewActivity extends AppCompatActivity {
         {
             sessionManager.setInternetAvailable(false);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
