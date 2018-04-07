@@ -73,11 +73,11 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
     <string name="next">NEXT</string>
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title">Digitize Bills</string>
+    <string name="slide_1_desc">Digitize all your paper bills and save another tree from cutting down</string>
 
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title">Generate Invoice</string>
+    <string name="slide_2_desc">Generate invoice for your customers instantly</string>
 
     <string name="slide_3_title">Great Discounts</string>
     <string name="slide_3_desc">Best discounts on every single service we offer!</string>
