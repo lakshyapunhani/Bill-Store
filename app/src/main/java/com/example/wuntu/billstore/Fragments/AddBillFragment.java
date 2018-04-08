@@ -18,16 +18,19 @@ import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -122,6 +125,11 @@ public class AddBillFragment extends Fragment {
 
     @BindView(R.id.edt_billDescription) EditText edt_billDescription;
 
+    @BindView(R.id.menu_dots_add_bill)
+    ImageView menu_dots;
+
+    PopupMenu popup;
+
     Calendar myCalendar;
 
     private SessionManager sessionManager;
@@ -203,6 +211,11 @@ public class AddBillFragment extends Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        popup = new PopupMenu(context, menu_dots);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater()
+                .inflate(R.menu.add_bill_menu, popup.getMenu());
 
         imagesList = new ArrayList<>();
         vendorsList = new ArrayList<>();
@@ -783,5 +796,41 @@ public class AddBillFragment extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+    private void showDiscardBillDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Discard Bill?");
+        builder.setMessage("Are you sure?")
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.alert_btn_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        clearData();
+                    }
+                })
+        .setNegativeButton(getString(R.string.alert_btn_no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @OnClick(R.id.menu_dots_add_bill)
+    public void menuClick()
+    {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                showDiscardBillDialog();
+                return true;
+            }
+        });
+
+        popup.show();
+    }
+
 
 }

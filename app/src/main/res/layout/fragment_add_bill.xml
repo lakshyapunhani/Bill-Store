@@ -28,7 +28,8 @@
             android:id="@+id/btn_submitBill"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
@@ -38,6 +39,15 @@
             android:textColor="@android:color/white"
             fontPath = "fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/menu_dots_add_bill"
+            android:layout_width="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            app:srcCompat="@drawable/ic_menu"/>
 
     </LinearLayout>
 

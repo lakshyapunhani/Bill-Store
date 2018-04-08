@@ -78,7 +78,7 @@ public class BillViewActivity extends AppCompatActivity {
     @BindView(R.id.wholeSellerBillDocuments)
     RecyclerView wholeSellerBillDocuments;
 
-    @BindView(R.id.menu_dots)
+    @BindView(R.id.menu_dots_bill_view)
     ImageView menu_dots;
 
     BillDocumentsAdapter billDocumentsAdapter;
@@ -187,7 +187,7 @@ public class BillViewActivity extends AppCompatActivity {
                 }));
     }
 
-    @OnClick(R.id.menu_dots)
+    @OnClick(R.id.menu_dots_bill_view)
     public void menuClick()
     {
         //registering popup with OnMenuItemClickListener

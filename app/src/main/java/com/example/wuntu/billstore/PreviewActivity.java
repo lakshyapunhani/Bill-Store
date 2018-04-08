@@ -20,9 +20,11 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -76,6 +78,8 @@ public class PreviewActivity extends AppCompatActivity {
     boolean boolean_permission;
     Bitmap bitmap;
 
+    PopupMenu popup;
+
     @BindView(R.id.txt_shopName)
     TextView txt_shopName;
 
@@ -103,9 +107,6 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
-    @BindView(R.id.btn_save)
-    TextView btn_save;
-
     @BindView(R.id.btn_print)
     TextView btn_print;
 
@@ -114,6 +115,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.title_note)
     TextView title_note;
+
+    @BindView(R.id.menu_dots_preview)
+    ImageView menu_dots;
 
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
@@ -159,6 +163,11 @@ public class PreviewActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Saving");
         progressDialog.setMessage("Please wait...");
+
+        popup = new PopupMenu(this, menu_dots);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater()
+                .inflate(R.menu.preview_menu, popup.getMenu());
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -239,11 +248,11 @@ public class PreviewActivity extends AppCompatActivity {
         invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
         if (showSave)
         {
-            btn_save.setVisibility(View.VISIBLE);
+            menu_dots.setVisibility(View.VISIBLE);
         }
         else
         {
-            btn_save.setVisibility(View.GONE);
+            menu_dots.setVisibility(View.GONE);
         }
 
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
@@ -275,7 +284,6 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btn_save)
     public void saveButton()
     {
 
@@ -491,5 +499,26 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @OnClick(R.id.menu_dots_preview)
+    public void menuClick()
+    {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.save_bill)
+                {
+                    saveButton();
+                }
+                else if (item.getItemId() == R.id.discard_bill)
+                {
+                    EventBus.getDefault().postSticky(new EventClearBill());
+                    finish();
+                }
+                return true;
+            }
+        });
+
+        popup.show();
     }
 }
