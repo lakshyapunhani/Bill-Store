@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_grey"
-    tools:context="com.example.wuntu.billstore.Fragments.HomeFragment">
+    tools:context="com.fabuleux.wuntu.billstore.Fragments.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

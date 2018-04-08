@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#e6e4e4"
-    tools:context="com.example.wuntu.billstore.Fragments.MakeBillFragment">
+    tools:context="com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,11 +104,11 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/edt_rounded_corner">
 
-                        <com.example.wuntu.billstore.Dialogs.SearchableSpinner
+                        <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
                             android:id="@+id/customerSpinner"
                             android:layout_width="250dp"
                             android:layout_height="40dp">
-                        </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
+                        </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
 
                     </LinearLayout>
 
