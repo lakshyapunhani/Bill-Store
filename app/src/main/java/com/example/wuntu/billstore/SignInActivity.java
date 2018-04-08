@@ -1,5 +1,6 @@
 package com.example.wuntu.billstore;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +26,7 @@ import com.example.wuntu.billstore.EventBus.EventPrintOtp;
 import com.example.wuntu.billstore.EventBus.InternetStatus;
 import com.example.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.example.wuntu.billstore.Manager.SessionManager;
+import com.example.wuntu.billstore.Utils.MarshMallowPermission;
 import com.example.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +46,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -95,6 +98,8 @@ public class SignInActivity extends AppCompatActivity {
         // Add filter an action
         intentFilter.addAction(SMS_RECEIVED_ACTION);
         registerReceiver(smsReceiver, intentFilter);
+
+        askForPermissions();
 
 
         otpDialog = new DialogOTP(this);
@@ -195,6 +200,28 @@ public class SignInActivity extends AppCompatActivity {
                 token = forceResendingToken;
             }
         };
+    }
+
+    private void askForPermissions()
+    {
+        int requestCode = 0;
+
+        ArrayList<String> permissionsToRequestFor = new ArrayList<>();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequestFor.add(android.Manifest.permission.CAMERA);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequestFor.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (permissionsToRequestFor.size() > 0) {
+            String[] requestArray = new String[permissionsToRequestFor.size()];
+            permissionsToRequestFor.toArray(requestArray);
+
+            ActivityCompat.requestPermissions(this, requestArray, requestCode);
+        }
     }
 
     @OnClick(R.id.btn_signIn)
@@ -349,7 +376,6 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 }
             }
-
         }
     }
 
