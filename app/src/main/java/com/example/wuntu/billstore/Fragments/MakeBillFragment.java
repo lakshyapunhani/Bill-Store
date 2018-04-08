@@ -191,6 +191,7 @@ public class MakeBillFragment extends Fragment {
                     return;
                 }
                 customersList.clear();
+                customerNameList.clear();
                 if (documentSnapshots.isEmpty())
                 {
                     newCustomerViewClick();
@@ -228,6 +229,9 @@ public class MakeBillFragment extends Fragment {
     {
         itemList.clear();
         productAdapter.notifyDataSetChanged();
+        edt_newCustomerName.setText("");
+        edt_newCustomerAddress.setText("");
+        edt_newCustomerGst.setText("");
         EventBus.getDefault().removeAllStickyEvents();
     }
 

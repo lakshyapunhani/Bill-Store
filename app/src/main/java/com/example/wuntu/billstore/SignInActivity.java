@@ -257,7 +257,7 @@ public class SignInActivity extends AppCompatActivity {
         signInWithPhoneAuthCredential(credential);
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
+    private void signInWithPhoneAuthCredential(final PhoneAuthCredential phoneAuthCredential) {
         firebaseAuth.signInWithCredential(phoneAuthCredential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -275,6 +275,7 @@ public class SignInActivity extends AppCompatActivity {
                             {
                                 progressDialog.dismiss();
                             }
+                            Log.d("MESSAGE",task.getException().getMessage());
                             Toast.makeText(SignInActivity.this,"Wrong OTP. Please Enter Again", Toast.LENGTH_SHORT).show();
                         }
                     }
