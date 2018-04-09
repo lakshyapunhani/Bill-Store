@@ -21,15 +21,13 @@
             android:text="Preview"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
-            android:paddingLeft="30dp"
             android:paddingEnd="20dp"
-            android:paddingRight="20dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
 
         <ImageView
-            android:id="@+id/menu_dots"
+            android:id="@+id/menu_dots_bill_view"
             android:layout_width="0dp"
             android:padding="20dp"
             android:layout_height="match_parent"
@@ -51,7 +49,7 @@
             android:id="@+id/wholeSellerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Roadcast Tech Solutions Pvt Ltd"
+            tools:text="Roadcast Tech Solutions Pvt Ltd"
             android:textAppearance="?android:textAppearanceLarge"
             android:gravity="center"/>
 
@@ -60,7 +58,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="AM - 197 Shaheed Udham Singh Marg, Shalimar Bagh, Delhi"
+            tools:text="AM - 197 Shaheed Udham Singh Marg, Shalimar Bagh, Delhi"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/wholeSellerGst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"
+            android:text="GST Number - 1234567890"
             android:gravity="center"/>
 
         <LinearLayout

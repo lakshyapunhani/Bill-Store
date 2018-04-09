@@ -22,8 +22,9 @@
     <string name="text_select_from_existing_vendors">Select Vendor</string>
     <string name="text_or">OR</string>
     <string name="text_add_new_vendor">Add new Vendor</string>
-    <string name="text_enter_new_vendor_name">Enter new Vendor name</string>
-    <string name="text_enter_new_vendor_address">Enter new Vendor Address</string>
+    <string name="text_enter_new_vendor_name">Vendor name</string>
+    <string name="text_enter_new_vendor_address">Vendor Address</string>
+    <string name="text_enter_new_vendor_gst_number">Vendor GST Number</string>
     <string name="text_select_bill_date">Select Bill Date</string>
     <string name="text_enter_bill_amount">Enter Bill Amount</string>
     <string name="text_submit">Submit</string>
@@ -68,5 +69,22 @@
     <string name="text_mobile_number">Mobile Number</string>
 
 
+    <!--Test-->
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="next">NEXT</string>
+    <string name="slide_1_title">Digitize Bills</string>
+    <string name="slide_1_desc">Digitize all your paper bills and save another tree from cutting down</string>
+
+    <string name="slide_2_title">Generate Invoice</string>
+    <string name="slide_2_desc">Generate invoice for your customers instantly</string>
+
+    <string name="slide_3_title">Search Easily</string>
+    <string name="slide_3_desc">Search among your customers and vendors with just one click</string>
+
+    <!--Test-->
+
+    <string name="info_internet_available">Available</string>
+    <string name="info_internet_not_available">Internet Not Available!</string>
 </resources>
 

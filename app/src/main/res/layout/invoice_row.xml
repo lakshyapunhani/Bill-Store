@@ -1,4 +1,5 @@
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android">
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/tv0"
@@ -7,9 +8,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:padding="3dp"
-        android:text="Domain setup and Wordpress Installation"
+        tools:text="Domain setup and Wordpress Installation"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        fontPath="fonts/DroidSansMono.ttf"
+        tools:ignore="MissingPrefix"/>
 
 
     <TextView
@@ -20,8 +23,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dp"
-        android:text="100000000"
-        android:textSize="12sp" />
+        tools:text="100000000"
+        android:textSize="12sp"
+        fontPath="fonts/DroidSansMono.ttf"
+        tools:ignore="MissingPrefix"/>
 
     <TextView
         android:id="@+id/tv2"
@@ -42,6 +47,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dp"
-        android:text="$500"
-        android:textSize="12sp" />
+        tools:text="$500"
+        android:textSize="12sp"
+        fontPath="fonts/DroidSansMono.ttf"
+        tools:ignore="MissingPrefix"/>
 </TableRow>

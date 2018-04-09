@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_grey"
-    tools:context="com.example.wuntu.billstore.Fragments.AddBillFragment">
+    tools:context="com.fabuleux.wuntu.billstore.Fragments.AddBillFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,8 @@
             android:id="@+id/btn_submitBill"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
@@ -38,6 +39,15 @@
             android:textColor="@android:color/white"
             fontPath = "fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/menu_dots_add_bill"
+            android:layout_width="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            app:srcCompat="@drawable/ic_menu"/>
 
     </LinearLayout>
 
@@ -98,11 +108,11 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/edt_rounded_corner">
 
-                        <com.example.wuntu.billstore.Dialogs.SearchableSpinner
+                        <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
                             android:id="@+id/vendorSpinner"
                             android:layout_width="250dp"
                             android:layout_height="40dp">
-                        </com.example.wuntu.billstore.Dialogs.SearchableSpinner>
+                        </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
 
                     </LinearLayout>
 
@@ -153,7 +163,7 @@
                         android:id="@+id/innerView_newVendor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
@@ -185,6 +195,19 @@
                             android:paddingRight="10dp"
                             android:paddingEnd="10dp" />
 
+                        <EditText
+                            android:id="@+id/edt_newVendorGst"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edt_rounded_corner"
+                            android:layout_marginTop="15dp"
+                            android:inputType="text"
+                            android:hint="@string/text_enter_new_vendor_gst_number"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp" />
+
                     </LinearLayout>
 
 
@@ -208,16 +231,6 @@
                 android:background="@drawable/edt_rounded_corner"
                 android:orientation="horizontal">
 
-                <!--<android.support.v7.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_calender" />
-
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>-->
 
                 <TextView
                     android:id="@+id/text_pickDate"
@@ -249,16 +262,6 @@
                 android:background="@drawable/edt_rounded_corner"
                 android:orientation="horizontal">
 
-                <!--<android.support.v7.widget.AppCompatImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_indian_rupee" />
-
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"/>-->
 
                 <EditText
                     android:id="@+id/edt_billAmount"
