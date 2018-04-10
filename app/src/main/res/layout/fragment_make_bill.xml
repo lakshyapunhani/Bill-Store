@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +20,7 @@
             android:paddingStart="30dp"
             android:paddingLeft="30dp"
             android:paddingEnd="20dp"
-            android:paddingRight="20dp"
+            android:paddingRight="30dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
@@ -33,11 +32,12 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
             android:padding="4dp"
-            android:text="Preview"
+            android:text="@string/txt_preview"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
@@ -89,9 +89,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginRight="10dp"
                             android:textColor="@color/blue"
-                            android:text="Select Customer"
+                            android:text="@string/txt_select_customer"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -99,7 +99,7 @@
                     <LinearLayout
                         android:id="@+id/innerView_existingCustomer"
                         android:layout_marginLeft="30dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginRight="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edt_rounded_corner">
@@ -148,8 +148,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
-                            android:text="Add new Customer"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/txt_add_new_customer"
                             android:textSize="16sp"
                             android:textColor="@color/blue"/>
 
@@ -160,6 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
                         android:visibility="gone"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
@@ -172,7 +173,7 @@
                             android:layout_height="40dp"
                             android:scrollHorizontally="true"
                             android:background="@drawable/edt_rounded_corner"
-                            android:hint="Customer Name"
+                            android:hint="@string/txt_customer_name"
                             android:inputType="text"
                             android:paddingStart="10dp"
                             android:paddingLeft="10dp"
@@ -186,7 +187,7 @@
                             android:background="@drawable/edt_rounded_corner"
                             android:layout_marginTop="15dp"
                             android:inputType="text"
-                            android:hint="Customer Address"
+                            android:hint="@string/txt_customer_address"
                             android:paddingStart="10dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
@@ -199,7 +200,7 @@
                             android:background="@drawable/edt_rounded_corner"
                             android:layout_marginTop="14dp"
                             android:inputType="text"
-                            android:hint="Customer GST Number(if any)"
+                            android:hint="@string/txt_customer_gst_number_if_any"
                             android:paddingStart="10dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
@@ -215,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="20dp"
-                android:text="Invoice Date"
+                android:text="@string/txt_invoice_date"
                 android:textColor="@color/blue"
                 android:textSize="16sp"/>
 
@@ -234,6 +235,7 @@
             <TextView
                 android:id="@+id/layout_invoiced_items_header"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
@@ -241,7 +243,7 @@
                 android:background="#92cee1"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:text="Invoiced Items (Tap to add)"
+                android:text="@string/txt_invoiced_items_tap_to_add"
                 android:gravity="center_vertical"/>
 
             <android.support.v7.widget.RecyclerView

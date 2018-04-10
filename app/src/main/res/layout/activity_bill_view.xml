@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:text="Preview"
+            android:text="@string/txt_preview"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
             android:paddingEnd="20dp"
@@ -28,6 +28,7 @@
 
         <ImageView
             android:id="@+id/menu_dots_bill_view"
+            android:contentDescription="@string/txt_menu"
             android:layout_width="0dp"
             android:padding="20dp"
             android:layout_height="match_parent"
@@ -67,14 +68,15 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginTop="5dp"
-            android:text="GST Number - 1234567890"
+            tools:text="GST Number - 1234567890"
             android:gravity="center"/>
 
         <LinearLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:gravity="start"
@@ -86,7 +88,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bill Date : "
+                    android:text="@string/text_bill_date"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"/>
 
@@ -94,7 +96,7 @@
                     android:id="@+id/wholeSellerBillDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20 January 2018"
+                    tools:text="20 January 2018"
                     android:textSize="16sp"/>
 
             </LinearLayout>
@@ -109,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bill Amount :"
+                    android:text="@string/txt_bill_amount"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"/>
 
@@ -117,7 +119,7 @@
                     android:id="@+id/wholeSellerBillAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1000"
+                    tools:text="1000"
                     android:textSize="16sp"/>
 
             </LinearLayout>
@@ -139,7 +141,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bill Status : "
+                    android:text="@string/txt_bill_status"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"/>
 
@@ -147,7 +149,7 @@
                     android:id="@+id/billStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Due"
+                    tools:text="Due"
                     android:textSize="16sp"/>
 
             </LinearLayout>
@@ -160,7 +162,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bill Document(s) :"
+            android:text="@string/text_bill_documents"
             android:textColor="@android:color/black"
             android:textSize="16sp"/>
 
@@ -174,14 +176,3 @@
     </LinearLayout>
 </LinearLayout>
 
-    <!--
-    <Button
-    android:id="@+id/btn_deleteDocument"
-    android:layout_gravity="bottom"
-    android:layout_width="match_parent"
-    android:background="@color/md_red_A400"
-    android:text="Delete Document"
-    android:layout_height="50dp"
-    android:textColor="@color/md_white_1000"
-    android:layout_alignParentBottom="true">
-    </Button>-->

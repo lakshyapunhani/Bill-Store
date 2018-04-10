@@ -18,7 +18,9 @@
 
         <ImageView
             android:id="@+id/back_arrow"
+            android:contentDescription="@string/btn_back_button"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_width="30dp"
@@ -30,8 +32,9 @@
             android:layout_weight="3"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="Enter Item Details"
+            android:text="@string/txt_enter_item_details"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             style="@style/standard_title_text_style"
@@ -46,7 +49,7 @@
             android:layout_margin="12dp"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="Add"
+            android:text="@string/text_add"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
@@ -70,11 +73,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Item Name"
+                android:text="@string/txt_item_name"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:labelFor="@id/edt_itemName"/>
 
 
             <EditText
@@ -82,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:inputType="text"
                 android:background="@drawable/edt_rounded_corner"
                 android:textSize="14sp" />
 
@@ -89,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Unit of Sale"
+                android:text="@string/txt_unit_of_sale"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
                 android:layout_marginBottom="5dp"/>
@@ -113,10 +119,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Cost per Item"
+                android:text="@string/txt_cost_per_item"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:labelFor="@id/edt_costPerItem"/>
 
 
             <EditText
@@ -124,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:inputType="number"
                 android:background="@drawable/edt_rounded_corner"
                 android:textSize="14sp" />
@@ -132,10 +140,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Quantity"
+                android:text="@string/txt_quantity"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:labelFor="@id/edt_quantity"/>
 
             <EditText
                 android:id="@+id/edt_quantity"
@@ -143,6 +152,7 @@
                 android:layout_height="40dp"
                 android:inputType="number"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:background="@drawable/edt_rounded_corner"
                 android:textSize="14sp" />
 
@@ -163,7 +173,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Include GST"
+                    android:text="@string/txt_include_gst"
                     android:textColor="@color/blue"
                     android:gravity="center"/>
             </LinearLayout>
@@ -181,7 +191,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Select GST Rate"
+                    android:text="@string/txt_select_gst_rate"
                     android:textColor="@color/blue"
                     android:textSize="16sp"
                     android:layout_marginBottom="5dp"/>
@@ -203,10 +213,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="GST Amount"
+                    android:text="@string/txt_gst_amount"
                     android:textColor="@color/blue"
                     android:textSize="16sp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/edt_gstAmount"/>
 
 
                 <EditText
@@ -214,6 +225,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:inputType="number"
                     android:background="@drawable/edt_rounded_corner"
                     android:textSize="14sp" />
@@ -222,10 +234,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Cost per Item with GST"
+                    android:text="@string/txt_cost_per_item_with_gst"
                     android:textColor="@color/blue"
                     android:textSize="16sp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    android:labelFor="@id/edt_costPerItemGST"/>
 
 
                 <EditText
@@ -233,6 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:inputType="number"
                     android:background="@drawable/edt_rounded_corner"
                     android:textSize="14sp" />
@@ -243,10 +257,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Total Amount"
+                android:text="@string/txt_total_amount"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:labelFor="@id/edt_totalAmount"/>
 
 
             <EditText
@@ -255,6 +270,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="20dp"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:inputType="number"
                 android:background="@drawable/edt_rounded_corner"
                 android:textSize="14sp" />

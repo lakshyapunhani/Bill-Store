@@ -2,6 +2,7 @@ package com.fabuleux.wuntu.billstore.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position)
     {
         ((MyViewHolder)holder).itemName.setText(itemList.get(position).getItemName());
         ((MyViewHolder)holder).quantity.setText(itemList.get(position).getQuantity() + " " + itemList.get(position).getItemType() +  " * " + context.getString(R.string.rupee_sign) + itemList.get(position).getCostPerItem() );
@@ -79,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void showAlertDialog(final int position)
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle("Delete Order");
+        builder1.setTitle("Delete Item");
         builder1.setMessage("Are you sure you want to delete this item?");
         builder1.setCancelable(true);
         builder1.setPositiveButton("Yes",

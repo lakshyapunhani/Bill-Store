@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:text="Bottle"
+            tools:text="Bottle"
             android:textSize="14sp"
             android:textStyle="bold"/>
 
@@ -45,8 +46,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-
-            android:text="1pcs * 120"
+            tools:text="1pcs * 120"
             android:textStyle="bold"
             android:textSize="14sp"/>
 
@@ -56,6 +56,7 @@
             android:layout_weight="1"
             android:layout_height="20dp"
             android:gravity="center"
+            android:contentDescription="@string/txt_delete_item"
             app:srcCompat="@drawable/ic_rubbish_bin"
             android:textStyle="bold"/>
 

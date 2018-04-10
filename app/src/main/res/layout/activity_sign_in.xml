@@ -11,6 +11,7 @@
         <ImageView
             android:alpha="0.2"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/txt_background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/photo"/>
@@ -34,6 +35,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:contentDescription="@string/txt_app_icon"
                 android:src="@drawable/ic_launchera"/>
 
             <TextView
@@ -59,10 +61,11 @@
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Phone Number"
+                android:text="@string/txt_enter_phone_number"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:labelFor="@id/phone_number_edittext"/>
 
             <EditText
                 android:id="@+id/phone_number_edittext"
@@ -71,10 +74,12 @@
                 android:inputType="phone"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:background="@drawable/edt_rounded_corner"/>
 
             <ImageView
                 android:id="@+id/btn_signIn"
+                android:contentDescription="@string/txt_sign_in"
                 android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

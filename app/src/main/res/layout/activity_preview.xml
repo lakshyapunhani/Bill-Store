@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:text="Preview"
+            android:text="@string/txt_preview"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
             android:paddingEnd="20dp"
@@ -31,8 +31,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="Print"
+            android:text="@string/txt_print"
             android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
@@ -41,6 +42,7 @@
 
         <ImageView
             android:id="@+id/menu_dots_preview"
+            android:contentDescription="@string/txt_menu"
             android:layout_width="0dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
@@ -74,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Your Shop Name"
+                android:text="@string/place_holder_shop_name"
                 fontPath="fonts/DroidSansMono.ttf"
                 tools:ignore="MissingPrefix"/>
 
@@ -86,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Your Shop Address"
+                android:text="@string/place_holder_shop_address"
                 fontPath="fonts/DroidSansMono.ttf"
                 tools:ignore="MissingPrefix"/>
 
@@ -96,7 +98,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -108,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
-                        android:text="Date: "
+                        android:text="@string/txt_date"
                         fontPath="fonts/DroidSansMono.ttf"
                         tools:ignore="MissingPrefix"
                         android:textColor="@android:color/black"/>
@@ -134,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
-                        android:text="GST No: "
+                        android:text="@string/txt_gst_no"
                         fontPath="fonts/DroidSansMono.ttf"
                         tools:ignore="MissingPrefix"
                         android:textColor="@android:color/black"/>
@@ -157,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="3dip"
-                android:text="For :"
+                android:text="@string/txt_for"
                 fontPath="fonts/DroidSansMono.ttf"
                 tools:ignore="MissingPrefix"
                 android:textColor="@android:color/black"
@@ -167,7 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="5dp">
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
                 <TextView
                     android:id="@+id/txt_custName"
                     android:layout_width="wrap_content"
@@ -192,7 +196,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GST Number : "
+                        android:text="@string/txt_gst_no"
                         fontPath="fonts/DroidSansMono.ttf"
                         tools:ignore="MissingPrefix"
                         android:textStyle="bold" />
@@ -224,7 +228,7 @@
                         android:layout_weight="2"
                         android:layout_height="wrap_content"
                         android:padding="3dp"
-                        android:text="Item"
+                        android:text="@string/table_item"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         fontPath="fonts/DroidSansMono.ttf"
@@ -237,7 +241,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Cost"
+                        android:text="@string/table_cost"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -250,7 +254,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Qty"
+                        android:text="@string/table_qty"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -263,7 +267,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dip"
-                        android:text="Total"
+                        android:text="@string/table_total"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -290,7 +294,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="Subtotal : "
+                    android:text="@string/txt_subtotal"
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
                     android:gravity="end" />
@@ -302,7 +306,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="$10000" />
+                    tools:text="$10000" />
             </LinearLayout>
 
             <LinearLayout
@@ -320,16 +324,17 @@
                     android:textSize="16sp"
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
-                    android:text="Note - "/>
+                    android:text="@string/txt_note"/>
 
                 <TextView
                     android:id="@+id/note"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
-                    android:text="Note"/>
+                    tools:text="Note"/>
             </LinearLayout>
 
         </LinearLayout>
