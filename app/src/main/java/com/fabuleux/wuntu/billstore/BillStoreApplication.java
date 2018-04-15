@@ -20,7 +20,7 @@ public class BillStoreApplication extends Application
     public void onCreate() {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 

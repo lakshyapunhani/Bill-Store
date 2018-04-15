@@ -121,7 +121,7 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
         sessionManager.saveLanguagePreference(selectedLanguage);
 
-        Intent refresh = new Intent(LanguageSelectionActivity.this, MainActivity.class);
+        Intent refresh = new Intent(LanguageSelectionActivity.this, RegisterActivity.class);
         startActivity(refresh);
     }
 

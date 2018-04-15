@@ -141,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
                                 {
                                     progressDialog.dismiss();
                                 }
-                                startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
+                                startActivity(new Intent(SignInActivity.this, LanguageSelectionActivity.class));
                                 finish();
                             }
                         }

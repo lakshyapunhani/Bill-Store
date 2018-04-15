@@ -307,13 +307,7 @@ public class MakeBillFragment extends Fragment {
     @OnClick(R.id.btn_preview)
     public void previewClick()
     {
-        showLanguageActivity();
-        //saveClick();
-    }
-
-    public void showLanguageActivity()
-    {
-        startActivity(new Intent(mContext, LanguageSelectionActivity.class));
+        saveClick();
     }
 
     public void saveClick()
