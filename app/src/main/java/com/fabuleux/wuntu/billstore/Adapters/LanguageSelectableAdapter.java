@@ -17,17 +17,27 @@ public class LanguageSelectableAdapter extends RecyclerView.Adapter implements S
 
     private final List<SelectableLanguage> mValues;
     private boolean isMultiSelectionEnabled = false;
+
     SelectableViewHolder.OnItemSelectedListener listener;
 
 
     public LanguageSelectableAdapter(SelectableViewHolder.OnItemSelectedListener listener,
-                             List<Language> items, boolean isMultiSelectionEnabled) {
+                             List<Language> items, boolean isMultiSelectionEnabled,String languagePreference) {
         this.listener = listener;
         this.isMultiSelectionEnabled = isMultiSelectionEnabled;
 
         mValues = new ArrayList<>();
-        for (Language item : items) {
-            mValues.add(new SelectableLanguage(item, false));
+        for (Language item : items)
+        {
+            if (item.getLanguageCode().matches(languagePreference))
+            {
+                mValues.add(new SelectableLanguage(item,true));
+            }
+            else
+            {
+                mValues.add(new SelectableLanguage(item, false));
+            }
+
         }
     }
 
@@ -46,6 +56,7 @@ public class LanguageSelectableAdapter extends RecyclerView.Adapter implements S
         SelectableLanguage selectableItem = mValues.get(position);
         String name = selectableItem.getLanguage();
         holder.textView.setText(name);
+
         if (isMultiSelectionEnabled) {
             TypedValue value = new TypedValue();
             holder.textView.getContext().getTheme().resolveAttribute(android.R.attr.listChoiceIndicatorMultiple, value, true);

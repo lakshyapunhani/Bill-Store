@@ -139,5 +139,6 @@
     <string name="txt_delete_bill">ਬਿਲ ਹਟਾਓ</string>
     <string name="txt_save_bill">ਬਿੱਲ ਬਚਾਓ</string>
     <string name="txt_discard_bill">ਬਿੱਲ ਰੱਦ ਕਰੋ</string>
+    <string name="text_please_provide_the_below_details">ਕਿਰਪਾ ਕਰਕੇ ਹੇਠਾਂ ਵੇਰਵੇ ਪ੍ਰਦਾਨ ਕਰੋ</string>
 </resources>
 

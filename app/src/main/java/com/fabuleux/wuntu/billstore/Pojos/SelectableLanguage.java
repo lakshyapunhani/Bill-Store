@@ -5,7 +5,7 @@ public class SelectableLanguage extends Language
     public boolean isSelected = false;
     public SelectableLanguage(Language language,boolean isSelected)
     {
-        super(language.getLanguage());
+        super(language.getLanguage(),language.getLanguageCode());
         this.isSelected = isSelected;
     }
 

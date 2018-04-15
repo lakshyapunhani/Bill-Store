@@ -126,7 +126,6 @@
     <string name="txt_invoiced_items_tap_to_add">চালান আইটেম (যোগ করতে আলতো চাপুন)</string>
     <string name="txt_update">হালনাগাদ</string>
     <string name="txt_profile_image">প্রোফাইল ছবি</string>
-    <string name="txt_please_provide_the_below_details">নিচে বিস্তারিত বিবরণ প্রদান করুন</string>
     <string name="txt_you_haven_t_added_any_vendor_yet">আপনি এখনও কোন বিক্রেতা এখনো যোগ করেনি</string>
     <string name="txt_delete_item">আইটেমটি মুছুন</string>
     <string name="txt_address">ঠিকানা</string>
@@ -139,5 +138,6 @@
     <string name="txt_delete_bill">বিল মুছুন</string>
     <string name="txt_save_bill">বিল সংরক্ষণ করুন</string>
     <string name="txt_discard_bill">বিল বাতিল করুন</string>
+    <string name="text_please_provide_the_below_details">নিচে বিস্তারিত বিবরণ প্রদান করুন</string>
 </resources>
 

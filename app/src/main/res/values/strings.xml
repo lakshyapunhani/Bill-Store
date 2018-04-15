@@ -122,7 +122,6 @@
     <string name="txt_invoiced_items_tap_to_add">Invoiced Items (Tap to add)</string>
     <string name="txt_update">Update</string>
     <string name="txt_profile_image">profile image</string>
-    <string name="txt_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_you_haven_t_added_any_vendor_yet">You haven\'t added any vendor yet</string>
     <string name="txt_delete_item">delete item</string>
     <string name="txt_address">Address</string>
@@ -135,5 +134,6 @@
     <string name="txt_delete_bill">Delete Bill</string>
     <string name="txt_save_bill">Save Bill</string>
     <string name="txt_discard_bill">Discard Bill</string>
+    <string name="text_please_provide_the_below_details">Please provide the below details</string>
 </resources>
 

@@ -24,8 +24,6 @@ public class SelectableViewHolder extends RecyclerView.ViewHolder {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 if (mItem.isSelected() && getItemViewType() == MULTI_SELECTION) {
                     setChecked(false);
                 } else {
@@ -38,11 +36,11 @@ public class SelectableViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setChecked(boolean value) {
-        if (value) {
+        /*if (value) {
             textView.setBackgroundColor(Color.LTGRAY);
         } else {
             textView.setBackground(null);
-        }
+        }*/
         mItem.setSelected(value);
         textView.setChecked(value);
     }

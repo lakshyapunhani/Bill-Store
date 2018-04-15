@@ -16,10 +16,10 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="match_parent"
-            android:text="@string/text_profile"
+            android:text="Profile"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
-            android:paddingEnd="30dp"
+            android:paddingEnd="20dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
@@ -34,12 +34,11 @@
             android:gravity="center"
             android:textSize="15sp"
             android:padding="4dp"
-            android:text="@string/txt_update"
+            android:text="Update"
             android:textAllCaps="true"
             android:background="@drawable/btn_rounded_bg"
             android:textColor="@android:color/white"
-            style="@style/standard_title_text_style"
-            fontPath="fonts/OpenSans-Regular.ttf"
+            fontPath = "fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix" />
 
         <ImageView
@@ -49,8 +48,7 @@
             android:paddingBottom="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_menu"
-            android:contentDescription="@string/txt_menu"/>
+            app:srcCompat="@drawable/ic_menu"/>
 
     </LinearLayout>
 
@@ -70,7 +68,6 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:contentDescription="@string/txt_profile_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_round_user"/>
@@ -95,7 +92,7 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="7988523722"/>
+                    android:text="7988523722"/>
 
             </LinearLayout>
 
@@ -112,7 +109,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_please_provide_the_below_details"
+                android:text="@string/text_please_provide_the_below_details"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/blue"/>
@@ -133,8 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="@string/text_full_name"
-                        android:textSize="14sp"
-                        android:labelFor="@id/edt_updateName"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -142,6 +138,13 @@
                         android:background="@drawable/edt_rounded_corner"
                         android:orientation="horizontal">
 
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_user_white" />
+-->
                         <EditText
                             android:id="@+id/edt_updateName"
                             android:layout_width="0dp"
@@ -151,11 +154,11 @@
                             android:paddingEnd="0dp"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:inputType="text"
                             android:backgroundTint="@android:color/transparent"
                             android:paddingStart="20dp"
                             android:textColor="@android:color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:targetApi="lollipop" />
 
                     </LinearLayout>
 
@@ -166,8 +169,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/text_shop_company_name"
                         android:textColor="@color/blue"
-                        android:textSize="14sp"
-                        android:labelFor="@id/edt_updatesShopName"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -175,6 +177,12 @@
                         android:background="@drawable/edt_rounded_corner"
                         android:orientation="horizontal">
 
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
                             android:id="@+id/edt_updatesShopName"
@@ -186,7 +194,6 @@
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:paddingStart="20dp"
-                            android:inputType="text"
                             android:backgroundTint="@android:color/transparent"
                             android:textColor="@android:color/black"
                             android:textSize="16sp"
@@ -201,14 +208,20 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/text_shop_company_address"
                         android:textColor="@color/blue"
-                        android:textSize="14sp"
-                        android:labelFor="@id/edt_updateShopAddress"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/edt_rounded_corner"
                         android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
                             android:id="@+id/edt_updateShopAddress"
@@ -223,7 +236,6 @@
                             android:backgroundTint="@android:color/transparent"
                             android:textColor="@android:color/black"
                             android:textSize="16sp"
-                            android:inputType="text"
                             tools:targetApi="lollipop" />
 
                     </LinearLayout>
@@ -235,14 +247,21 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/text_gst_number"
                         android:textColor="@color/blue"
-                        android:textSize="14sp"
-                        android:labelFor="@id/edt_updateGstNumber"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/edt_rounded_corner"
                         android:orientation="horizontal">
+
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
+
 
                         <EditText
                             android:id="@+id/edt_updateGstNumber"
@@ -268,8 +287,7 @@
                         android:layout_marginTop="20dp"
                         android:textColor="@color/blue"
                         android:text="@string/text_cin_pan_number"
-                        android:textSize="14sp"
-                        android:labelFor="@id/edt_updatePanNumber"/>
+                        android:textSize="14sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -278,6 +296,12 @@
                         android:background="@drawable/edt_rounded_corner"
                         android:orientation="horizontal">
 
+                        <!--<android.support.v7.widget.AppCompatImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:background="@color/blue"
+                            app:srcCompat="@drawable/ic_house_white" />-->
 
                         <EditText
                             android:id="@+id/edt_updatePanNumber"

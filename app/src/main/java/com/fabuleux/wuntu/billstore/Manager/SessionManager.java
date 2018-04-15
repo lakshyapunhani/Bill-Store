@@ -17,8 +17,9 @@ public class SessionManager
 
     private String GST_SLAB_LIST = "gst_slab_list";
     private String UNITS_LIST = "units_list";
-    private String ISINTERNETAVAILABLE="isinternetavailable";
+    private String IS_INTERNET_AVAILABLE ="isinternetavailable";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String LANGUAGE_PREFERENCE = "language_preference";
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -67,11 +68,22 @@ public class SessionManager
     }
 
     public void setInternetAvailable(boolean b) {
-        editor.putBoolean(ISINTERNETAVAILABLE,b);
+        editor.putBoolean(IS_INTERNET_AVAILABLE,b);
         editor.commit();
     }
 
     public Boolean isInternetAvailable() {
-        return pref.getBoolean(ISINTERNETAVAILABLE,true);
+        return pref.getBoolean(IS_INTERNET_AVAILABLE,true);
+    }
+
+    public void saveLanguagePreference(String language)
+    {
+        editor.putString(LANGUAGE_PREFERENCE, language);
+        editor.commit();
+    }
+
+    public String getLanguagePreference()
+    {
+        return pref.getString(LANGUAGE_PREFERENCE, "en");
     }
 }

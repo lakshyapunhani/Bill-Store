@@ -4,8 +4,11 @@ public class Language
 {
     private String language;
 
-    public Language(String language) {
+    private String languageCode;
+
+    public Language(String language,String languageCode) {
         this.language = language;
+        this.languageCode = languageCode;
     }
 
     public String getLanguage() {
@@ -17,7 +20,8 @@ public class Language
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if(obj == null)
             return false;
 
@@ -26,5 +30,13 @@ public class Language
             return true;
 
         return false;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
     }
 }
