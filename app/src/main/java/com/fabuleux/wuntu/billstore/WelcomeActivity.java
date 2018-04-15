@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -61,6 +62,8 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_welcome);
+
+        ButterKnife.bind(this);
 
         //viewPager = (ViewPager) findViewById(R.id.view_pager);
         //dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
