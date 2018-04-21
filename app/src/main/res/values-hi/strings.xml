@@ -136,5 +136,6 @@
     <string name="txt_save_bill">बिल सहेजें</string>
     <string name="txt_discard_bill">बिल त्यागें</string>
     <string name="text_please_provide_the_below_details">कृपया नीचे विवरण प्रदान करें</string>
+    <string name="txt_profile">Profile</string>
 </resources>
 

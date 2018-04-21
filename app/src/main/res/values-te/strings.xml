@@ -140,5 +140,6 @@
     <string name="txt_save_bill">Save Bill</string>
     <string name="txt_discard_bill">Discard Bill</string>
     <string name="text_please_provide_the_below_details">Please provide the below details</string>
+    <string name="txt_profile">Profile</string>
 </resources>
 

@@ -135,5 +135,6 @@
     <string name="txt_save_bill">ಬಿಲ್ ಉಳಿಸಿ</string>
     <string name="txt_discard_bill">ಬಿಲ್ ತ್ಯಜಿಸಿ</string>
     <string name="text_please_provide_the_below_details">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ವಿವರಗಳನ್ನು ಒದಗಿಸಿ</string>
+    <string name="txt_profile">Profile</string>
 </resources>
 

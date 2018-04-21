@@ -135,5 +135,6 @@
     <string name="txt_save_bill">બિલ સાચવો</string>
     <string name="txt_discard_bill">બિલ કાઢી નાખો</string>
     <string name="text_please_provide_the_below_details">કૃપા કરીને નીચેની વિગતો આપો</string>
+    <string name="txt_profile">Profile</string>
 </resources>
 

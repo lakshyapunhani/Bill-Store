@@ -139,5 +139,6 @@
     <string name="txt_save_bill">বিল সংরক্ষণ করুন</string>
     <string name="txt_discard_bill">বিল বাতিল করুন</string>
     <string name="text_please_provide_the_below_details">নিচে বিস্তারিত বিবরণ প্রদান করুন</string>
+    <string name="txt_profile">Profile</string>
 </resources>
 

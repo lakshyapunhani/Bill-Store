@@ -14,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.BillViewActivity;
+import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
@@ -45,7 +48,14 @@ import butterknife.OnClick;
  */
 public class ProfileFragment extends Fragment {
 
-    @BindView(R.id.mobile_number)
+
+    @BindView(R.id.layout_changeLanguage)
+    LinearLayout layout_changeLanguage;
+
+    @BindView(R.id.layout_logOut)
+    Button layout_logOut;
+
+    /*@BindView(R.id.mobile_number)
     TextView mobile_number;
 
     @BindView(R.id.btn_profileUpdate)
@@ -78,7 +88,9 @@ public class ProfileFragment extends Fragment {
 
     String _name ="",_shopName = "",_shopPanNumber ="",_shopGstNumber = "",_shopAddress = "";
 
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog;*/
+
+    private Context context;
 
     @Override
     public void onAttach(Context context) {
@@ -90,10 +102,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_profile, container, false);
+        View view =  inflater.inflate(R.layout.fragment_profile_new, container, false);
         ButterKnife.bind(this,view);
 
-        db = FirebaseFirestore.getInstance();
+       /* db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -141,12 +153,24 @@ public class ProfileFragment extends Fragment {
                     edt_updatePanNumber.setText(documentSnapshot.get("shop_pan").toString());
                 }
             }
-        });
+        });*/
 
         return view;
     }
 
-    @OnClick(R.id.menu_dots)
+    @OnClick(R.id.layout_changeLanguage)
+    public void changeLayout()
+    {
+        startActivity(new Intent(context, LanguageSelectionActivity.class));
+    }
+
+    @OnClick(R.id.layout_logOut)
+    public void logOut()
+    {
+        showLogOutAlert();
+    }
+
+    /*@OnClick(R.id.menu_dots)
     public void menuClick()
     {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -157,7 +181,7 @@ public class ProfileFragment extends Fragment {
         });
 
         popup.show();
-    }
+    }*/
 
     private void showLogOutAlert()
     {
@@ -186,7 +210,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    public void updateClick()
+    /*public void updateClick()
     {
 
         if (!progressDialog.isShowing())
@@ -258,6 +282,6 @@ public class ProfileFragment extends Fragment {
             }
 
         }
-    }
+    }*/
 
 }
