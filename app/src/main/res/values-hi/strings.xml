@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">Bill Store</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="bill_store"><b>Bill Store</b></string>
+
+    <string name="resend_otp_text"><u>ओटीपी नहीं मिला? ओटीपी पुनः भेजें</u></string>
+    <string name="hint_phone_number">अपना मोबाइल नंबर दर्ज करें</string>
+
+    <string name="sms_text">आपको इस नंबर पर एक सत्यापन संख्या के साथ एक एसएमएस मिलेगा +91 8223906997</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_select_from_existing_vendors">विक्रेता का चयन करें</string>
+    <string name="text_or">या</string>
+    <string name="text_add_new_vendor">नया विक्रेता जोड़ें</string>
+    <string name="text_enter_new_vendor_name">विक्रेता का नाम</string>
+    <string name="text_enter_new_vendor_address">विक्रेता का पता</string>
+    <string name="text_enter_new_vendor_gst_number">विक्रेता जीएसटी संख्या</string>
+    <string name="text_select_bill_date">बिल तिथि का चयन करें</string>
+    <string name="text_enter_bill_amount">बिल राशि दर्ज करें</string>
+    <string name="text_enter_bill_description">बिल विवरण दर्ज करें</string>
+    <string name="dialog_list_btn_close">बंद करे</string>
+    <string name="xml_select_vendor">विक्रेता का चयन करें</string>
+    <string name="text_billStatus">विधेयक स्थिति</string>
+    <string name="text_due">देय</string>
+    <string name="text_paid">चुकाया हुआ</string>
+    <string name="toast_please_select_date">कृपया तिथि का चयन करें</string>
+    <string name="text_home">होम</string>
+    <string name="text_add_bill">बिल जोड़ें</string>
+    <string name="text_make_bill">बिल बनाएं</string>
+    <string name="text_profile">प्रोफाइल</string>
+    <string name="rupee_sign">&#8377;</string>
+    <string name="txt_skip"><u>छोड़ें</u></string>
+    <string name="alert_btn_continue">जारी रहना</string>
+    <string name="alert_btn_yes">हाँ</string>
+    <string name="alert_btn_no">नहीं</string>
+    <string name="skip_profile_setup">प्रोफ़ाइल सेटअप को छोड़ें</string>
+    <string name="malfunction">लंघन ऐप के खराब होने का कारण बन सकता है</string>
+    <string name="customers">ग्राहक</string>
+    <string name="vendors">विक्रेता</string>
+    <string name="verification_message">आपको इस नंबर पर एक सत्यापन संख्या के साथ एक एसएमएस मिलेगा +91</string>
+    <string name="exit">बाहर जाएं</string>
+    <string name="alert_sure_exit_app">क्या आप निश्चित हैं आपकी बाहर निकलने की इच्छा है?</string>
+    <string name="text_bill_date">बिल की तिथि</string>
+    <string name="text_bill_amount">बिल की राशि</string>
+    <string name="text_bill_description">बिल विवरण</string>
+    <string name="text_save">बचाना</string>
+    <string name="text_add_document">दस्तावेज़ जोड़ें</string>
+    <string name="text_setup_profile">सेटअप प्रोफ़ाइल</string>
+    <string name="text_full_name">पूरा नाम</string>
+    <string name="text_shop_company_name">दुकान / कंपनी का नाम</string>
+    <string name="text_shop_company_address">दुकान / कंपनी का पता</string>
+    <string name="text_gst_number">जीएसटी संख्या</string>
+    <string name="text_cin_pan_number">सीआईएन / पैन नंबर</string>
+    <string name="text_mobile_number">मोबाइल नंबर</string>
+
+
+    <!--Welcome Activity-->
+    <string name="skip">छोड़ें</string>
+    <string name="start">समझ गया</string>
+    <string name="next">अगला</string>
+    <string name="slide_1_title">डिजिटाइज़ बिल</string>
+    <string name="slide_1_desc">अपने सभी पेपर बिलों को डिजिटाइज़ करें और एक और पेड़ को काटने से बचाएं</string>
+
+    <string name="slide_2_title">बिल बनाना</string>
+    <string name="slide_2_desc">अपने ग्राहकों के लिए तुरंत बिल उत्पन्न करें</string>
+
+    <string name="slide_3_title">आसानी से खोजें</string>
+    <string name="slide_3_desc">केवल एक क्लिक के साथ अपने ग्राहकों और विक्रेताओं के बीच खोजें</string>
+    <!--Welcome Activity-->
+
+    <string name="info_internet_available">उपलब्ध</string>
+    <string name="info_internet_not_available">इंटरनेट उपलब्ध नहीं है!</string>
+    <string name="txt_enter_item_details">आइटम विवरण दर्ज करें</string>
+    <string name="btn_back_button">पिछला बटन</string>
+    <string name="text_add">जोडे</string>
+    <string name="txt_item_name">वस्तु का नाम</string>
+    <string name="txt_unit_of_sale">बिक्री का यूनिट</string>
+    <string name="txt_cost_per_item">लागत प्रति आइटम</string>
+    <string name="txt_quantity">मात्रा</string>
+    <string name="txt_include_gst">जीएसटी शामिल करें</string>
+    <string name="txt_select_gst_rate">जीएसटी दर चुनें</string>
+    <string name="txt_gst_amount">जीएसटी राशि</string>
+    <string name="txt_cost_per_item_with_gst">जीएसटी के साथ प्रति आइटम लागत</string>
+    <string name="txt_total_amount">कुल रकम</string>
+    <string name="txt_preview">पूर्वावलोकन</string>
+    <string name="txt_menu">मेन्यू</string>
+    <string name="txt_bill_amount">बिल की राशि :</string>
+    <string name="txt_bill_status">बिल की स्थिति :</string>
+    <string name="text_bill_documents">बिल दस्तावेज़:</string>
+    <string name="txt_print">छाप</string>
+    <string name="place_holder_shop_name">आपकी दुकान का नाम</string>
+    <string name="place_holder_shop_address">आपकी दुकान का पता</string>
+    <string name="txt_date">Bill Date :</string>
+    <string name="txt_gst_no">Invoice Number :</string>
+    <string name="txt_for">For :</string>
+    <string name="table_item">Item</string>
+    <string name="table_cost">Cost</string>
+    <string name="table_qty">Qty</string>
+    <string name="table_total">Total</string>
+    <string name="txt_subtotal">SubTotal :</string>
+    <string name="txt_note">Note -</string>
+    <string name="txt_done">किया हुआ</string>
+    <string name="txt_app_icon">ऐप आइकन</string>
+    <string name="txt_enter_phone_number">फोन नंबर दर्ज</string>
+    <string name="txt_sign_in">साइन इन करें</string>
+    <string name="txt_background_image">पृष्ठभूमि छवि</string>
+    <string name="txt_bill_card">बिल कार्ड</string>
+    <string name="txt_verification">सत्यापन</string>
+    <string name="txt_edit_number">नंबर संपादित करें</string>
+    <string name="txt_submit">जमा करें</string>
+    <string name="txt_add_bill_image">बिल छवि जोड़ें</string>
+    <string name="txt_you_haven_t_added_any_customer_yet">आपने अभी तक कोई ग्राहक जोड़ा नहीं है</string>
+    <string name="txt_content_not_found">सामग्री नहीं मिली</string>
+    <string name="txt_select_customer">ग्राहक चुनें</string>
+    <string name="txt_add_new_customer">नया ग्राहक जोड़ें</string>
+    <string name="txt_customer_name">ग्राहक का नाम</string>
+    <string name="txt_customer_address">ग्राहक का पता</string>
+    <string name="txt_customer_gst_number_if_any">ग्राहक जीएसटी संख्या (यदि कोई हो)</string>
+    <string name="txt_invoice_date">बिल की तिथि</string>
+    <string name="txt_invoiced_items_tap_to_add">बिल आइटम (जोड़ने के लिए टैप करें)</string>
+    <string name="txt_update">अद्यतन करें</string>
+    <string name="txt_profile_image">प्रोफ़ाइल छवि</string>
+    <string name="txt_please_provide_the_below_details">कृपया नीचे विवरण प्रदान करें</string>
+    <string name="txt_you_haven_t_added_any_vendor_yet">आपने अभी तक कोई भी विक्रेता जोड़ा नहीं है</string>
+    <string name="txt_delete_item">चीज़ें हटाएं</string>
+    <string name="txt_address">पता</string>
+    <string name="txt_digitize_bills_image">बिल को डिजीटल करें</string>
+    <string name="txt_generate_invoice_image">बिल को डिजीटल करें</string>
+    <string name="txt_search_easily_image">आसानी से खोजें</string>
+    <string name="txt_clear">साफ़</string>
+    <string name="txt_log_out">लोग आउट</string>
+    <string name="txt_mark_paid">अंकित भुगतान</string>
+    <string name="txt_delete_bill">बिल हटाएं</string>
+    <string name="txt_save_bill">बिल सहेजें</string>
+    <string name="txt_discard_bill">बिल त्यागें</string>
+    <string name="text_please_provide_the_below_details">कृपया नीचे विवरण प्रदान करें</string>
+</resources>
+

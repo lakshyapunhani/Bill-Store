@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please provide the below details"
+                android:text="@string/text_please_provide_the_below_details"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/blue"/>

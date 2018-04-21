@@ -141,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
                                 {
                                     progressDialog.dismiss();
                                 }
-                                startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
+                                startActivity(new Intent(SignInActivity.this, LanguageSelectionActivity.class));
                                 finish();
                             }
                         }
@@ -311,6 +311,7 @@ public class SignInActivity extends AppCompatActivity {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
         EventBus.getDefault().unregister(this);
+
     }
 
 
@@ -385,6 +386,10 @@ public class SignInActivity extends AppCompatActivity {
         super.onDestroy();
         if (smsReceiver != null) {
             unregisterReceiver(smsReceiver);
+        }
+        if (networkReceiver != null)
+        {
+            this.unregisterReceiver(networkReceiver);
         }
     }
 }

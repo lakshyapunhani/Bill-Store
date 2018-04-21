@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/txt_add_bill_image"
         app:srcCompat="@drawable/ic_add_image"/>
 
 </android.support.v7.widget.CardView>

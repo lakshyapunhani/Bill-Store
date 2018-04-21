@@ -15,6 +15,7 @@
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
+            android:contentDescription="@string/txt_search_easily_image"
             app:srcCompat="@drawable/ic_search_file" />
 
         <TextView

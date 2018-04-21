@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/save_bill"
-        android:title="Save Bill" />
+        android:title="@string/txt_save_bill" />
     <item android:id="@+id/discard_bill"
-        android:title="Discard Bill" />
+        android:title="@string/txt_discard_bill" />
 </menu>

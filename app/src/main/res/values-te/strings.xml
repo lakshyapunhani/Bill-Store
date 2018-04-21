@@ -31,6 +31,10 @@
     <string name="text_make_bill">Make Bill</string>
     <string name="text_profile">Profile</string>
     <string name="rupee_sign">&#8377;</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
     <string name="txt_skip"><u>SKIP</u></string>
     <string name="alert_btn_continue">Continue</string>
     <string name="alert_btn_yes">Yes</string>
@@ -122,6 +126,7 @@
     <string name="txt_invoiced_items_tap_to_add">Invoiced Items (Tap to add)</string>
     <string name="txt_update">Update</string>
     <string name="txt_profile_image">profile image</string>
+    <string name="txt_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_you_haven_t_added_any_vendor_yet">You haven\'t added any vendor yet</string>
     <string name="txt_delete_item">delete item</string>
     <string name="txt_address">Address</string>
