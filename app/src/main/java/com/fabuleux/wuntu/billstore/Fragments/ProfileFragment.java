@@ -69,12 +69,9 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.mobile_number)
     TextView mobile_number;
 
-//
-//    @BindView(R.id.menu_dots)
-//    ImageView menu_dots;
-//
-//    PopupMenu popup;
-//
+    @BindView(R.id.layout_invite)
+    LinearLayout layout_invite;
+
     FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
 
@@ -144,6 +141,17 @@ public class ProfileFragment extends Fragment {
     public void profileLayout()
     {
         startActivity(new Intent(context, EditProfileActivity.class));
+    }
+
+    @OnClick(R.id.layout_invite)
+    public void invite()
+    {
+        String shareBody = getString(R.string.invite_link);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "I love using Bill Store");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
     }
 
 

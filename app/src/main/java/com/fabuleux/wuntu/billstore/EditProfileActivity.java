@@ -159,8 +159,8 @@ public class EditProfileActivity extends AppCompatActivity
     {
         User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
 
-        if (firebaseUser != null ) {
-
+        if (firebaseUser != null )
+        {
             db.collection("Users")
                     .document(firebaseUser.getUid())
                     .set(user);
@@ -172,5 +172,11 @@ public class EditProfileActivity extends AppCompatActivity
             finish();
 
         }
+    }
+
+    @OnClick(R.id.back_arrow)
+    public void backClick()
+    {
+        finish();
     }
 }

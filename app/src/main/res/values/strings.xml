@@ -137,5 +137,7 @@
     <string name="text_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_profile">Profile</string>
     <string name="freshchat_file_provider_authority">com.fabuleux.wuntu.billstore.provider</string>
+    <string name="share_using">Share</string>
+    <string name="invite_link">You have been invited to use Bill Store. I love using Bill Store, it\'s simple and incredible. You should try it here:<a>https://bit.ly/2qRLNJ4</a> </string>
 </resources>
 
