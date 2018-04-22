@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         img_homePage.setImageResource(R.drawable.ic_home_blue);
         img_addBill.setImageResource(R.drawable.ic_add);
         img_makeBill.setImageResource(R.drawable.ic_invoice_white);
-        img_profile.setImageResource(R.drawable.ic_profile_white);
+        img_profile.setImageResource(R.drawable.ic_settings_white);
         text_homePage.setTextColor(getResources().getColor(R.color.blue));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         img_homePage.setImageResource(R.drawable.ic_home_white);
         img_addBill.setImageResource(R.drawable.ic_add_blue);
         img_makeBill.setImageResource(R.drawable.ic_invoice_white);
-        img_profile.setImageResource(R.drawable.ic_profile_white);
+        img_profile.setImageResource(R.drawable.ic_settings_white);
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
         text_addBill.setTextColor(getResources().getColor(R.color.blue));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         img_homePage.setImageResource(R.drawable.ic_home_white);
         img_addBill.setImageResource(R.drawable.ic_add);
         img_makeBill.setImageResource(R.drawable.ic_invoice_blue);
-        img_profile.setImageResource(R.drawable.ic_profile_white);
+        img_profile.setImageResource(R.drawable.ic_settings_white);
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.blue));
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         img_homePage.setImageResource(R.drawable.ic_home_white);
         img_addBill.setImageResource(R.drawable.ic_add);
         img_makeBill.setImageResource(R.drawable.ic_invoice_white);
-        img_profile.setImageResource(R.drawable.ic_profile_blue);
+        img_profile.setImageResource(R.drawable.ic_settings_blue);
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));

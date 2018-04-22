@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.BillViewActivity;
+import com.fabuleux.wuntu.billstore.EditProfileActivity;
 import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Pojos.User;
@@ -29,6 +31,10 @@ import com.fabuleux.wuntu.billstore.PreviewActivity;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.RegisterActivity;
 import com.fabuleux.wuntu.billstore.SignInActivity;
+import com.freshchat.consumer.sdk.Freshchat;
+import com.freshchat.consumer.sdk.FreshchatConfig;
+import com.freshchat.consumer.sdk.FreshchatNotificationConfig;
+import com.freshchat.consumer.sdk.FreshchatUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,47 +54,29 @@ import butterknife.OnClick;
  */
 public class ProfileFragment extends Fragment {
 
-
     @BindView(R.id.layout_changeLanguage)
     LinearLayout layout_changeLanguage;
 
     @BindView(R.id.layout_logOut)
     Button layout_logOut;
 
-    /*@BindView(R.id.mobile_number)
+    @BindView(R.id.layout_freshchat)
+    LinearLayout layout_freshChat;
+
+    @BindView(R.id.layout_profile)
+    LinearLayout layout_profile;
+
+    @BindView(R.id.mobile_number)
     TextView mobile_number;
 
-    @BindView(R.id.btn_profileUpdate)
-    TextView btn_profileUpdate;
-
-    @BindView(R.id.edt_updateName)
-    EditText edt_updateName;
-
-    @BindView(R.id.edt_updatesShopName)
-    EditText edt_updatesShopName;
-
-    @BindView(R.id.edt_updateShopAddress)
-    EditText edt_updateShopAddress;
-
-    @BindView(R.id.edt_updateGstNumber)
-    EditText edt_updateGstNumber;
-
-    @BindView(R.id.edt_updatePanNumber)
-    EditText edt_updatePanNumber;
-
-    @BindView(R.id.menu_dots)
-    ImageView menu_dots;
-
-    PopupMenu popup;
-
-    private FirebaseFirestore db;
+//
+//    @BindView(R.id.menu_dots)
+//    ImageView menu_dots;
+//
+//    PopupMenu popup;
+//
     FirebaseUser firebaseUser;
-
-    private Context context;
-
-    String _name ="",_shopName = "",_shopPanNumber ="",_shopGstNumber = "",_shopAddress = "";
-
-    ProgressDialog progressDialog;*/
+    ProgressDialog progressDialog;
 
     private Context context;
 
@@ -105,7 +93,6 @@ public class ProfileFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_profile_new, container, false);
         ButterKnife.bind(this,view);
 
-       /* db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -116,50 +103,11 @@ public class ProfileFragment extends Fragment {
         mobile_number.setText(firebaseUser.getPhoneNumber());
 
 
-        popup = new PopupMenu(context, menu_dots);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.logoutmenu, popup.getMenu());
-
-        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
-
-        profileReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e)
-            {
-                if (e != null)
-                {
-                    return;
-                }
-                if (documentSnapshot.contains("shop_name"))
-                {
-                    edt_updatesShopName.setText(documentSnapshot.get("shop_name").toString());
-                }
-                if (documentSnapshot.contains("shop_address"))
-                {
-                    edt_updateShopAddress.setText(documentSnapshot.get("shop_address").toString());
-                }
-                if (documentSnapshot.contains("shop_gst"))
-                {
-                    edt_updateGstNumber.setText(documentSnapshot.get("shop_gst").toString());
-                }
-
-                if (documentSnapshot.contains("name"))
-                {
-                    edt_updateName.setText(documentSnapshot.get("name").toString());
-                }
-                if (documentSnapshot.contains("shop_pan"))
-                {
-                    edt_updatePanNumber.setText(documentSnapshot.get("shop_pan").toString());
-                }
-            }
-        });*/
-
         return view;
     }
 
     @OnClick(R.id.layout_changeLanguage)
-    public void changeLayout()
+    public void changeLanguage()
     {
         startActivity(new Intent(context, LanguageSelectionActivity.class));
     }
@@ -170,18 +118,34 @@ public class ProfileFragment extends Fragment {
         showLogOutAlert();
     }
 
-    /*@OnClick(R.id.menu_dots)
-    public void menuClick()
+    @OnClick(R.id.layout_freshchat)
+    public void startChat()
     {
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                showLogOutAlert();
-                return true;
-            }
-        });
+        FreshchatConfig freshchatConfig = new FreshchatConfig("d462331e-d19a-46e1-9f72-696564b6c514", "ac2788ab-197d-4108-8a21-a6415be5a1f6");
+        Freshchat.getInstance(context.getApplicationContext()).init(freshchatConfig);
 
-        popup.show();
-    }*/
+        FreshchatUser user = Freshchat.getInstance(context.getApplicationContext()).getUser();
+        //user.setFirstName(mSessionManager.getName()).setPhone(mSessionManager.getCountryCode(), mSessionManager.getUsername());
+        Freshchat.getInstance(context.getApplicationContext()).setUser(user);
+
+        Freshchat.showConversations(context.getApplicationContext());
+
+        FreshchatNotificationConfig notificationConfig = new FreshchatNotificationConfig()
+                .setNotificationSoundEnabled(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(R.mipmap.ic_launcher)
+                .launchActivityOnFinish(ProfileFragment.class.getName())
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        Freshchat.getInstance(context.getApplicationContext()).setNotificationConfig(notificationConfig);
+    }
+
+    @OnClick(R.id.layout_profile)
+    public void profileLayout()
+    {
+        startActivity(new Intent(context, EditProfileActivity.class));
+    }
+
 
     private void showLogOutAlert()
     {
@@ -208,80 +172,5 @@ public class ProfileFragment extends Fragment {
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
-
-
-    /*public void updateClick()
-    {
-
-        if (!progressDialog.isShowing())
-        {
-            progressDialog.show();
-        }
-
-        if (!edt_updateName.getText().toString().trim().isEmpty())
-        {
-            _name = edt_updateName.getText().toString();
-        }
-
-        if (!edt_updatesShopName.getText().toString().trim().isEmpty())
-        {
-            _shopName = edt_updatesShopName.getText().toString();
-        }
-        if (!edt_updateShopAddress.getText().toString().trim().isEmpty())
-        {
-            _shopAddress = edt_updateShopAddress.getText().toString();
-        }
-        if (!edt_updateGstNumber.getText().toString().trim().isEmpty())
-        {
-            _shopGstNumber = edt_updateShopAddress.getText().toString();
-        }
-        if (!edt_updatePanNumber.getText().toString().trim().isEmpty())
-        {
-            _shopPanNumber = edt_updatePanNumber.getText().toString();
-        }
-        writeDataToFirebase();
-    }
-
-    @OnClick(R.id.btn_profileUpdate)
-    public void showUpdateAlert()
-    {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle("Update Details");
-        builder1.setMessage("Are you sure?");
-        builder1.setCancelable(true);
-        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        updateClick();
-                    }
-                });
-        builder1.setNegativeButton(getString(R.string.alert_btn_no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
-
-    public void writeDataToFirebase()
-    {
-        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
-
-        if (firebaseUser != null ) {
-
-            db.collection("Users")
-                    .document(firebaseUser.getUid())
-                    .set(user);
-            Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show();
-            if (progressDialog.isShowing())
-            {
-                progressDialog.dismiss();
-            }
-
-        }
-    }*/
 
 }
