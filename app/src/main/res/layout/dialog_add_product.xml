@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="420dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/ThemeWithCorners"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        card_view:contentPaddingLeft="-3dp"
+        card_view:contentPaddingRight="-3dp"
+        card_view:contentPaddingTop="-3dp"
+        card_view:contentPaddingBottom="-3dp"
+        android:orientation="vertical"
+        card_view:cardBackgroundColor="#e6e4e4"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Expense Date"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/expenseDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="20dp"
+                    android:gravity="center_vertical"
+                    tools:text="asd"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Amount"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_expenseAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="20dp"
+                    tools:text="asd"
+                    android:inputType="number"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Description"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/edt_expenseDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:gravity="start"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    tools:text="description"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_createExpense"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Create Expense"
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/btn_rounded_bg"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

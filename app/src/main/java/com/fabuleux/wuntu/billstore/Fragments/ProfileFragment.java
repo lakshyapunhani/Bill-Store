@@ -28,6 +28,7 @@ import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
+import com.fabuleux.wuntu.billstore.ProductsActivity;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.RegisterActivity;
 import com.fabuleux.wuntu.billstore.SignInActivity;
@@ -71,6 +72,9 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.layout_invite)
     LinearLayout layout_invite;
+
+    @BindView(R.id.layout_products)
+            LinearLayout layout_products;
 
     FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
@@ -179,6 +183,12 @@ public class ProfileFragment extends Fragment {
                 });
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    }
+
+    @OnClick(R.id.layout_products)
+    public void productLayoutClick()
+    {
+        startActivity(new Intent(context, ProductsActivity.class));
     }
 
 }
