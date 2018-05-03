@@ -38,12 +38,12 @@
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:text="Expense Date"
+                    android:text="Product Name"
                     android:layout_marginBottom="5dp"
                     android:textColor="@android:color/black"/>
 
-                <TextView
-                    android:id="@+id/expenseDate"
+                <EditText
+                    android:id="@+id/productName"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:paddingLeft="20dp"
@@ -56,12 +56,12 @@
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:text="Amount"
+                    android:text="Unit Amount"
                     android:layout_marginBottom="5dp"
                     android:textColor="@android:color/black"/>
 
                 <EditText
-                    android:id="@+id/edt_expenseAmount"
+                    android:id="@+id/edt_productAmount"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:paddingLeft="20dp"
@@ -79,7 +79,7 @@
                     android:textColor="@android:color/black"/>
 
                 <EditText
-                    android:id="@+id/edt_expenseDescription"
+                    android:id="@+id/edt_productDescription"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:paddingLeft="20dp"
@@ -92,10 +92,10 @@
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/btn_createExpense"
+                    android:id="@+id/btn_addProduct"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Create Expense"
+                    android:text="Add Product"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textColor="#ffffff"
