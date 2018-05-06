@@ -8,6 +8,9 @@ public class ProductModel
 
     private String productDescription;
 
+    public ProductModel()
+    {}
+
     public ProductModel(String productName, String productRate, String productDescription)
     {
         this.productName = productName;

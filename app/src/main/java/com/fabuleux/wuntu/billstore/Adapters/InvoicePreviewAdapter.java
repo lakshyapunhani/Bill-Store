@@ -23,12 +23,12 @@ import butterknife.ButterKnife;
  * Created by roadcast on 19/2/18.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private Context context;
     private ArrayList<ItemPojo> itemList;
 
-    public ProductAdapter(ArrayList<ItemPojo> itemList)
+    public InvoicePreviewAdapter(ArrayList<ItemPojo> itemList)
     {
         this.itemList = itemList;
     }

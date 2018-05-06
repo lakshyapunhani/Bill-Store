@@ -2,7 +2,6 @@ package com.fabuleux.wuntu.billstore.Fragments;
 
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,12 +23,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.InvoicePreviewAdapter;
 import com.fabuleux.wuntu.billstore.AddItemActivity;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.ItemToMakeBill;
-import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
@@ -100,7 +98,7 @@ public class MakeBillFragment extends Fragment {
 
     LinearLayoutManager mLayoutManager;
 
-    ProductAdapter productAdapter;
+    InvoicePreviewAdapter invoicePreviewAdapter;
 
     private Context mContext;
 
@@ -152,7 +150,7 @@ public class MakeBillFragment extends Fragment {
         customerNameList = new ArrayList<>();
         customersList = new ArrayList<>();
         itemList = new ArrayList<>();
-        productAdapter = new ProductAdapter(itemList);
+        invoicePreviewAdapter = new InvoicePreviewAdapter(itemList);
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -162,7 +160,7 @@ public class MakeBillFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
         recycler_items.setItemAnimator(new DefaultItemAnimator());
-        recycler_items.setAdapter(productAdapter);
+        recycler_items.setAdapter(invoicePreviewAdapter);
 
         long date = System.currentTimeMillis();
 
@@ -221,7 +219,7 @@ public class MakeBillFragment extends Fragment {
     {
         ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount(),event.getNote());
         itemList.add(itemPojo);
-        productAdapter.notifyDataSetChanged();
+        invoicePreviewAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();
     };
 
@@ -229,7 +227,7 @@ public class MakeBillFragment extends Fragment {
     public void onClearEvent(EventClearBill event)
     {
         itemList.clear();
-        productAdapter.notifyDataSetChanged();
+        invoicePreviewAdapter.notifyDataSetChanged();
         edt_newCustomerName.setText("");
         edt_newCustomerAddress.setText("");
         edt_newCustomerGst.setText("");
