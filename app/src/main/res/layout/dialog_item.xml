@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:theme="@style/ThemeWithCorners"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        card_view:contentPaddingLeft="-3dp"
+        card_view:contentPaddingRight="-3dp"
+        card_view:contentPaddingTop="-3dp"
+        card_view:contentPaddingBottom="-3dp"
+        android:orientation="vertical"
+        card_view:cardBackgroundColor="#e6e4e4"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Item 1 abc xyz"
+                    android:textSize="27sp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Unit Price"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/productPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2000.00"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Description"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/productDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Disprin tablets and Disprin direct tablets both contain the anti-inflammatory painkiller aspirin - read on for advice on their use,warnings and side effects"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_dismiss"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Dismiss"
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/gradient_background"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+

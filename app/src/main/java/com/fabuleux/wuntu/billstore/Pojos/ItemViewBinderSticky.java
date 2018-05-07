@@ -1,7 +1,14 @@
 package com.fabuleux.wuntu.billstore.Pojos;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.support.transition.TransitionManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fabuleux.wuntu.billstore.R;
@@ -13,14 +20,18 @@ import tellh.com.stickyheaderview_rv.adapter.ViewBinder;
  * Created by roadcast on 6/5/18.
  */
 
-public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderSticky.ViewHolder> {
+public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderSticky.ViewHolder>
+{
+    Context context;
     @Override
-    public ViewHolder provideViewHolder(View itemView) {
+    public ViewHolder provideViewHolder(View itemView)
+    {
+        context = itemView.getContext();
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void bindView(StickyHeaderViewAdapter adapter, ViewHolder holder, int position, ItemSticky entity) {
+    public void bindView(StickyHeaderViewAdapter adapter, final ViewHolder holder, int position, final ItemSticky entity) {
         holder.tvName.setText(entity.getProductName());
         String name = entity.getProductName().toLowerCase();
         if (name.startsWith("a"))
@@ -128,6 +139,67 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
             holder.ivAvatar.setImageResource(R.drawable.ic_letter_z);
         }
 
+
+
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.hiddenLayout.getVisibility() == View.GONE)
+                {
+                    TransitionManager.beginDelayedTransition(holder.hiddenLayout);
+                    holder.hiddenLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    TransitionManager.beginDelayedTransition(holder.hiddenLayout);
+                    holder.hiddenLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        holder.detailsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog=new Dialog(context,R.style.ThemeWithCorners);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                LayoutInflater layoutInflater=LayoutInflater.from(context);
+                View view1=layoutInflater.inflate(R.layout.dialog_item,null);
+                TextView productName = (TextView) view1.findViewById(R.id.productName);
+                TextView productPrice = (TextView) view1.findViewById(R.id.productPrice);
+                TextView productDesc = (TextView) view1.findViewById(R.id.productDescription);
+                Button btn_dismiss = (Button) view1.findViewById(R.id.btn_dismiss);
+                btn_dismiss.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+                productName.setText(entity.getProductName());
+
+                if (entity.getProductRate() != null)
+                {
+                    productPrice.setText(entity.getProductRate());
+                }
+                else
+                {
+                    productPrice.setText("NA");
+                }
+
+                if (entity.getProductDescription() != null)
+                {
+                    productDesc.setText(entity.getProductDescription());
+                }
+                else
+                {
+                    productDesc.setText("NA");
+                }
+                dialog.setContentView(view1);
+                dialog.show();
+            }
+        });
+
     }
 
     @Override
@@ -140,12 +212,18 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
     {
         public ImageView ivAvatar;
         public TextView tvName;
+        public LinearLayout hiddenLayout;
+        public LinearLayout mainLayout;
+        public LinearLayout detailsLayout;
 
         public ViewHolder(View rootView)
         {
             super(rootView);
             this.ivAvatar = (ImageView) rootView.findViewById(R.id.iv_avatar);
             this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
+            this.hiddenLayout = (LinearLayout) rootView.findViewById(R.id.hiddenLayout);
+            this.mainLayout = (LinearLayout) rootView.findViewById(R.id.mainLayout);
+            this.detailsLayout = (LinearLayout) rootView.findViewById(R.id.detailsLayout);
         }
 
     }
