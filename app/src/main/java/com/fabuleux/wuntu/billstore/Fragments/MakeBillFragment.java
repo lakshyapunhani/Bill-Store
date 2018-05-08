@@ -349,6 +349,7 @@ public class MakeBillFragment extends Fragment {
             if (customerNameList.size() == 0)
             {
                 Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
+                return;
             }
             newCustomerName = customersList.get(customerSpinnerValue).getCustomerName();
             newCustomerAddress = customersList.get(customerSpinnerValue).getCustomerAddress();
