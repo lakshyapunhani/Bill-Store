@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/fullLayout"
+    android:animateLayoutChanges="true"
     android:padding="8dp">
 
     <LinearLayout
@@ -34,12 +36,12 @@
 
     <LinearLayout
         android:id="@+id/hiddenLayout"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:padding="5dp"
-        android:background="@color/grey_100"
+        android:padding="10dp"
+        android:background="@color/grey_300"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -49,7 +51,7 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 app:srcCompat="@drawable/ic_mode_edit_black"/>
 
             <TextView
@@ -69,8 +71,8 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_rubbish_bin"/>
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_information"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -89,7 +91,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 app:srcCompat="@drawable/ic_rubbish_bin"/>
 
             <TextView

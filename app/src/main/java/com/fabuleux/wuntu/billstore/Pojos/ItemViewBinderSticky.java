@@ -23,6 +23,8 @@ import tellh.com.stickyheaderview_rv.adapter.ViewBinder;
 public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderSticky.ViewHolder>
 {
     Context context;
+
+    int mExpandedPosition = -1;
     @Override
     public ViewHolder provideViewHolder(View itemView)
     {
@@ -31,7 +33,7 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
     }
 
     @Override
-    public void bindView(StickyHeaderViewAdapter adapter, final ViewHolder holder, int position, final ItemSticky entity) {
+    public void bindView(StickyHeaderViewAdapter adapter, final ViewHolder holder, final int position, final ItemSticky entity) {
         holder.tvName.setText(entity.getProductName());
         String name = entity.getProductName().toLowerCase();
         if (name.startsWith("a"))
@@ -139,25 +141,39 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
             holder.ivAvatar.setImageResource(R.drawable.ic_letter_z);
         }
 
+        /*final boolean isExpanded = position==mExpandedPosition;
 
+        holder.hiddenLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+        holder.itemView.setActivated(isExpanded);
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                mExpandedPosition = isExpanded ? -1:position;
+                TransitionManager.beginDelayedTransition(holder.fullLayout);
+                holder.hiddenLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+
+            }
+        });*/
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.hiddenLayout.getVisibility() == View.GONE)
                 {
-                    TransitionManager.beginDelayedTransition(holder.hiddenLayout);
+                    TransitionManager.beginDelayedTransition(holder.fullLayout);
                     holder.hiddenLayout.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    TransitionManager.beginDelayedTransition(holder.hiddenLayout);
+                    TransitionManager.beginDelayedTransition(holder.fullLayout);
                     holder.hiddenLayout.setVisibility(View.GONE);
                 }
             }
         });
 
-        holder.detailsLayout.setOnClickListener(new View.OnClickListener() {
+        holder.detailsLayout.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 final Dialog dialog=new Dialog(context,R.style.ThemeWithCorners);
@@ -215,6 +231,7 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
         public LinearLayout hiddenLayout;
         public LinearLayout mainLayout;
         public LinearLayout detailsLayout;
+        public LinearLayout fullLayout;
 
         public ViewHolder(View rootView)
         {
@@ -224,6 +241,7 @@ public class ItemViewBinderSticky extends ViewBinder<ItemSticky, ItemViewBinderS
             this.hiddenLayout = (LinearLayout) rootView.findViewById(R.id.hiddenLayout);
             this.mainLayout = (LinearLayout) rootView.findViewById(R.id.mainLayout);
             this.detailsLayout = (LinearLayout) rootView.findViewById(R.id.detailsLayout);
+            this.fullLayout = (LinearLayout) rootView.findViewById(R.id.fullLayout);
         }
 
     }
