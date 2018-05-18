@@ -2,7 +2,7 @@ package com.fabuleux.wuntu.billstore;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,47 +11,35 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
-import com.fabuleux.wuntu.billstore.Pojos.ItemHeaderSticky;
-import com.fabuleux.wuntu.billstore.Pojos.ItemHeaderViewBinderSticky;
-import com.fabuleux.wuntu.billstore.Pojos.ItemSticky;
-import com.fabuleux.wuntu.billstore.Pojos.ItemViewBinderSticky;
+import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tellh.com.stickyheaderview_rv.adapter.DataBean;
-import tellh.com.stickyheaderview_rv.adapter.StickyHeaderViewAdapter;
+import butterknife.OnTextChanged;
 
 public class ProductsActivity extends AppCompatActivity {
 
     @BindView(R.id.productsList)
-    RecyclerView productsList;
+    RecyclerView productsListRecycler;
 
     @BindView(R.id.emptyProductLayout)
     LinearLayout emptyProductLayout;
@@ -66,13 +54,23 @@ public class ProductsActivity extends AppCompatActivity {
     CollectionReference productReference;
 
     ArrayList<ProductModel> products;
-    private StickyHeaderViewAdapter adapter;
+    ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
         ButterKnife.bind(this);
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+        View view1 = this.getCurrentFocus();
+
+        if (view1 != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+        }
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -101,9 +99,34 @@ public class ProductsActivity extends AppCompatActivity {
                     ProductModel productModel = doc.toObject(ProductModel.class);
                     products.add(productModel);
                 }
-                initData();
+                productAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @OnTextChanged(value = R.id.edt_searchProduct, callback = OnTextChanged.Callback.TEXT_CHANGED)
+    public void onTextChanged(CharSequence cs)
+    {
+        updateList(filterList(cs));
+    }
+
+    private void updateList(ArrayList<ProductModel> arrayList)
+    {
+        productsListRecycler.setAdapter(new ProductAdapter(arrayList));
+    }
+
+    private ArrayList<ProductModel> filterList(CharSequence cs)
+    {
+        productsListRecycler.removeAllViewsInLayout();
+        ArrayList<ProductModel> filteredList = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++)
+        {
+            if (products.get(i).getProductName().toLowerCase().contains(cs.toString().toLowerCase())) {
+                filteredList.add(products.get(i));
+            }
+        }
+        return filteredList;
+
     }
 
     @OnClick(R.id.btn_addProduct)
@@ -135,45 +158,11 @@ public class ProductsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void initView() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        productsList.setLayoutManager(linearLayoutManager);
-    }
-
-    private void initData()
+    private void initView()
     {
-        if (products.size() == 0)
-        {
-            return;
-        }
-        List<ItemSticky> itemStickyList = new ArrayList<>();
-        for (int i = 0;i<products.size();i++)
-        {
-            ItemSticky itemSticky = new ItemSticky(products.get(i).getProductName(),products.get(i).getProductDescription(),products.get(i).getProductRate());
-            itemStickyList.add(itemSticky);
-        }
-        Collections.sort(itemStickyList, new Comparator<ItemSticky>() {
-            @Override
-            public int compare(ItemSticky o1, ItemSticky o2)
-            {
-                return o1.getProductName().compareToIgnoreCase(o2.getProductName());
-            }
-        });
-        List<DataBean> userListBak = new ArrayList<>();
-        String currentPrefix = itemStickyList.get(0).getProductName().substring(0, 1).toUpperCase();
-        userListBak.add(new ItemHeaderSticky(currentPrefix));
-        for (ItemSticky itemSticky : itemStickyList) {
-            if (currentPrefix.compareToIgnoreCase(itemSticky.getProductName().substring(0, 1)) == 0)
-                userListBak.add(itemSticky);
-            else {
-                currentPrefix = itemSticky.getProductName().substring(0, 1).toUpperCase();
-                userListBak.add(new ItemHeaderSticky(currentPrefix));
-                userListBak.add(itemSticky);
-            }
-        }
-        adapter = new StickyHeaderViewAdapter(userListBak)
-                .RegisterItemType(new ItemViewBinderSticky())
-                .RegisterItemType(new ItemHeaderViewBinderSticky());
-        productsList.setAdapter(adapter);
+        productAdapter = new ProductAdapter(products);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        productsListRecycler.setLayoutManager(linearLayoutManager);
+        productsListRecycler.setAdapter(productAdapter);
     }
 }

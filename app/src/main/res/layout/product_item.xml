@@ -16,20 +16,20 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            tools:src="@mipmap/ic_launcher" />
+            android:id="@+id/iv_productImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_productname"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:textSize="18sp"
             android:gravity="center_vertical"
-            tools:text="Hello World"
+            android:text="Hello World"
             android:textColor="@android:color/black"/>
 
     </LinearLayout>
@@ -103,6 +103,13 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/dotted_line">
     </LinearLayout>
 
 </LinearLayout>
