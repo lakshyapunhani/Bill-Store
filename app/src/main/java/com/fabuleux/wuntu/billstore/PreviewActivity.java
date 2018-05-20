@@ -231,7 +231,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void setViews()
     {
-        if (itemList.get(0).getNote().matches(""))
+        /*if (itemList.get(0).getNote().matches(""))
         {
             note.setVisibility(View.GONE);
             title_note.setVisibility(View.GONE);
@@ -239,7 +239,7 @@ public class PreviewActivity extends AppCompatActivity {
         else
         {
             note.setText(itemList.get(0).getNote());
-        }
+        }*/
         String amount = String.valueOf(totalAmount);
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
@@ -266,7 +266,7 @@ public class PreviewActivity extends AppCompatActivity {
     {
         for (int i = 0; i < itemList.size(); i++)
         {
-            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
+            //totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
 
             ItemPojo itemPojo = itemList.get(i);
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
@@ -278,7 +278,7 @@ public class PreviewActivity extends AppCompatActivity {
             itemName.setText(itemPojo.getItemName());
             costPerItem.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getCostPerItem());
             quantity.setText(itemPojo.getQuantity());
-            totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
+            //totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
 
             tableLayoutItems.addView(row);
         }
@@ -287,7 +287,7 @@ public class PreviewActivity extends AppCompatActivity {
     public void saveButton()
     {
 
-        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        /*if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
             progressDialog.show();
         }
@@ -324,7 +324,7 @@ public class PreviewActivity extends AppCompatActivity {
             }
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
-        }
+        }*/
 
     }
 

@@ -28,9 +28,12 @@ import com.fabuleux.wuntu.billstore.AddItemActivity;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.ItemToMakeBill;
+import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
+import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
+import com.fabuleux.wuntu.billstore.ProductSelectionActivity;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,6 +129,8 @@ public class MakeBillFragment extends Fragment {
     ArrayAdapter<String> spinnerAdapter;
     int customerSpinnerValue;
 
+    int flag =0;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -181,9 +187,11 @@ public class MakeBillFragment extends Fragment {
     {
         CollectionReference getCustomerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
 
-        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
             @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
+            {
                 if (e != null)
                 {
                     Toast.makeText(mContext, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
@@ -210,18 +218,11 @@ public class MakeBillFragment extends Fragment {
     @OnClick(R.id.layout_invoiced_items_header)
     public void headerClick()
     {
-        Intent intent = new Intent(mContext,AddItemActivity.class);
+        flag = 1;
+        Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(ItemToMakeBill event)
-    {
-        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount(),event.getNote());
-        itemList.add(itemPojo);
-        invoicePreviewAdapter.notifyDataSetChanged();
-        EventBus.getDefault().removeAllStickyEvents();
-    };
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onClearEvent(EventClearBill event)
@@ -361,6 +362,27 @@ public class MakeBillFragment extends Fragment {
         }
 
         sendDatatoPreview();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onEvent(SendItemsEvent itemsEvent)
+    {
+
+        if (itemsEvent.getFlag().matches("1") && flag == 1)
+        {
+            List<ItemSelectionPojo> arrayList = new ArrayList<>();
+            arrayList = itemsEvent.getItemList();
+            for (int i = 0;i<arrayList.size();i++)
+            {
+                int totalAmount = arrayList.get(i).getNumProducts() * Integer.parseInt(arrayList.get(i).getProductRate());
+                ItemPojo itemPojo = new ItemPojo(arrayList.get(i).getProductName(),arrayList.get(i).getProductRate(),String.valueOf(arrayList.get(i).getNumProducts()),String.valueOf(totalAmount));
+                itemList.add(itemPojo);
+            }
+
+            invoicePreviewAdapter.notifyDataSetChanged();
+            EventBus.getDefault().removeAllStickyEvents();
+        }
+
     }
 
     private void sendDatatoPreview()

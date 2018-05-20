@@ -66,9 +66,9 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position)
     {
         ((MyViewHolder)holder).itemName.setText(itemList.get(position).getItemName());
-        ((MyViewHolder)holder).quantity.setText(itemList.get(position).getQuantity() + " " + itemList.get(position).getItemType() +  " * " + context.getString(R.string.rupee_sign) + itemList.get(position).getCostPerItem() );
-        ((MyViewHolder)holder).totalAmount.setText(context.getString(R.string.rupee_sign) + itemList.get(position).getTotalAmount());
+        ((MyViewHolder)holder).quantity.setText(itemList.get(position).getQuantity() +  " * "  + context.getString(R.string.rupee_sign)+ itemList.get(position).getCostPerItem());
 
+        ((MyViewHolder)holder).totalAmount.setText(context.getString(R.string.rupee_sign) +itemList.get(position).getTotalAmount());
         ((MyViewHolder)holder).img_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

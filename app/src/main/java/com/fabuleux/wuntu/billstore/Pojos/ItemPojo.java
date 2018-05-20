@@ -16,31 +16,31 @@ public class ItemPojo implements Parcelable
 
     private String quantity;
 
-    private String itemType;
+   // private String itemType;
 
     private String totalAmount;
 
-    private String note;
+   // private String note;
 
 
     public ItemPojo(){}
 
-    public ItemPojo(String itemName, String costPerItem, String quantity,String itemType, String totalAmount,String note) {
+    public ItemPojo(String itemName, String costPerItem, String quantity,String totalAmount) {
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
-        this.itemType = itemType;
+        //this.itemType = itemType;
         this.totalAmount = totalAmount;
-        this.note = note;
+        //this.note = note;
     }
 
     protected ItemPojo(Parcel in) {
         itemName = in.readString();
         costPerItem = in.readString();
         quantity = in.readString();
-        itemType = in.readString();
+        //itemType = in.readString();
         totalAmount = in.readString();
-        note = in.readString();
+        //note = in.readString();
     }
 
     public static final Creator<ItemPojo> CREATOR = new Creator<ItemPojo>() {
@@ -55,7 +55,7 @@ public class ItemPojo implements Parcelable
         }
     };
 
-    public String getNote() { return note;}
+    /*public String getNote() { return note;}*/
 
     public String getItemName() {
         return itemName;
@@ -81,10 +81,10 @@ public class ItemPojo implements Parcelable
         this.quantity = quantity;
     }
 
-    public void setItemType(String itemType) { this.itemType = itemType;}
+   /* public void setItemType(String itemType) { this.itemType = itemType;}
 
     public String getItemType(){ return itemType; }
-
+*/
     public String getTotalAmount() {
         return totalAmount;
     }
@@ -103,8 +103,8 @@ public class ItemPojo implements Parcelable
         parcel.writeString(itemName);
         parcel.writeString(costPerItem);
         parcel.writeString(quantity);
-        parcel.writeString(itemType);
+       // parcel.writeString(itemType);
         parcel.writeString(totalAmount);
-        parcel.writeString(note);
+       // parcel.writeString(note);
     }
 }
