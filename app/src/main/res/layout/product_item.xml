@@ -40,15 +40,16 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:padding="10dp"
         android:background="@color/grey_300"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/editLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -68,7 +69,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -84,10 +86,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/deleteLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="match_parent"

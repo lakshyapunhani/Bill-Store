@@ -3,11 +3,13 @@ package com.fabuleux.wuntu.billstore;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,9 +22,12 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -146,11 +151,33 @@ public class ProductsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                String productName = edt_productName.getText().toString();
-                String productRate = edt_productAmount.getText().toString();
-                String productDesc = edt_productDescription.getText().toString();
-                ProductModel productModel = new ProductModel(productName,productRate,productDesc);
-                productReference.document(productName +  " && " + productRate).set(productModel);
+                final String productName = edt_productName.getText().toString();
+                final String productRate = edt_productAmount.getText().toString();
+                final String productDesc = edt_productDescription.getText().toString();
+
+                final ProductModel productModel = new ProductModel(productName,productRate,productDesc);
+
+                final DocumentReference documentReference = productReference.document(productName);
+
+                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists())
+                            {
+                                Toast.makeText(ProductsActivity.this, "Product Already added", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                documentReference.set(productModel);
+                            }
+                        } else
+                        {
+                            Toast.makeText(ProductsActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 dialog.dismiss();
             }
         });
