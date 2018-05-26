@@ -2,6 +2,8 @@ package com.fabuleux.wuntu.billstore.Pojos;
 
 public class ProductModel
 {
+    private String productId;
+
     private String productName;
 
     private String productRate;
@@ -11,8 +13,9 @@ public class ProductModel
     public ProductModel()
     {}
 
-    public ProductModel(String productName, String productRate, String productDescription)
+    public ProductModel(String productId,String productName, String productRate, String productDescription)
     {
+        this.productId = productId;
         this.productName = productName;
         this.productRate = productRate;
         this.productDescription = productDescription;
@@ -46,5 +49,13 @@ public class ProductModel
     public void setProductDescription(String productDescription)
     {
         this.productDescription = productDescription;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

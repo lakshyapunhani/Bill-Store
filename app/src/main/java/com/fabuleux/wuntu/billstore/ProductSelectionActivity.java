@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.ProductSelectionAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
@@ -109,9 +110,10 @@ public class ProductSelectionActivity extends AppCompatActivity {
                 for (DocumentSnapshot doc : documentSnapshots)
                 {
                     ProductModel productModel = doc.toObject(ProductModel.class);
-                    ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productModel.getProductName(),productModel.getProductRate(),productModel.getProductDescription(),0);
+                    ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productModel.getProductId(),productModel.getProductName(),productModel.getProductRate(),productModel.getProductDescription(),0);
                     itemList.add(itemSelectionPojo);
                 }
+                RealmManager.addItemsInRealm(itemList);
                 initialiseUI();
             }
         });
@@ -175,6 +177,7 @@ public class ProductSelectionActivity extends AppCompatActivity {
     private ArrayList<ItemSelectionPojo> addedList()
     {
         mRecyclerView.removeAllViewsInLayout();
+        itemList = RealmManager.getSelecteditems();
         ArrayList<ItemSelectionPojo> filteredList = new ArrayList<>();
         for (int i = 0; i < itemList.size(); i++)
         {
@@ -200,6 +203,7 @@ public class ProductSelectionActivity extends AppCompatActivity {
             mRecyclerView.removeAllViewsInLayout();
             view_added = 0;
             viewAdded.setText("View added");
+            itemList = RealmManager.getItemsList();
             initialiseUI();
         }
     }
@@ -207,7 +211,6 @@ public class ProductSelectionActivity extends AppCompatActivity {
     @OnClick(R.id.btn_save)
     public void saveButton()
     {
-        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
         ArrayList<ItemSelectionPojo> savedList = new ArrayList<>();
 
         for (int i =0;i<itemList.size();i++)
@@ -216,7 +219,7 @@ public class ProductSelectionActivity extends AppCompatActivity {
             {
                 savedList.add(itemList.get(i));
             }
-            //RealmManager.updateSavedItem(itemList.get(i).getId());
+            RealmManager.updateSavedItem(itemList.get(i).getProductId());
         }
         EventBus.getDefault().postSticky(new SendItemsEvent(savedList,"1"));
         finish();

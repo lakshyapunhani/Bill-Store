@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.R;
@@ -65,7 +66,7 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
 
     public void decrement(ViewHolder viewHolder,int position)
     {
-        mValue = hashMap.get(mDataArray.get(position).getId());
+        mValue = hashMap.get(mDataArray.get(position).getProductId());
         if (mValue <= 0)
         {
             mAutoDecrement =false;
@@ -75,20 +76,20 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         viewHolder.img_minus.setImageResource(R.drawable.ic_minus);
         mValue--;
         viewHolder.tv_numberProducts.setText( ""+mValue);
-        hashMap.put(mDataArray.get(position).getId(),mValue);
+        hashMap.put(mDataArray.get(position).getProductId(),mValue);
         mDataArray.get(position).setNumProducts(mValue);
-        RealmManager.updateNumItem(mDataArray.get(position).getId(),mValue);
+        RealmManager.updateNumItem(mDataArray.get(position).getProductId(),mValue);
     }
 
     public void increment(ViewHolder viewHolder,int position)
     {
         viewHolder.img_minus.setImageResource(R.drawable.ic_minus);
-        mValue = hashMap.get(mDataArray.get(position).getId());
+        mValue = hashMap.get(mDataArray.get(position).getProductId());
         mValue++;
         viewHolder.tv_numberProducts.setText( ""+mValue );
-        hashMap.put(mDataArray.get(position).getId(),mValue);
+        hashMap.put(mDataArray.get(position).getProductId(),mValue);
         mDataArray.get(position).setNumProducts(mValue);
-        RealmManager.updateNumItem(mDataArray.get(position).getId(),mValue);
+        RealmManager.updateNumItem(mDataArray.get(position).getProductId(),mValue);
     }
 
     public ProductSelectionAdapter(List<ItemSelectionPojo> mDataArray)
@@ -97,7 +98,7 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         hashMap = new HashMap<>();
         for (int i = 0;i<mDataArray.size();i++)
         {
-            hashMap.put(mDataArray.get(i).getId(), mDataArray.get(i).getNumProducts());
+            hashMap.put(mDataArray.get(i).getProductId(), mDataArray.get(i).getNumProducts());
         }
     }
 
@@ -122,9 +123,9 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
 
-        number = hashMap.get(mDataArray.get(position).getId());
-        holder.tv_productName.setText(mDataArray.get(position).getName());
-        holder.tv_numberProducts.setText(String.valueOf(hashMap.get(mDataArray.get(position).getId())));
+        number = hashMap.get(mDataArray.get(position).getProductId());
+        holder.tv_productName.setText(mDataArray.get(position).getProductName());
+        holder.tv_numberProducts.setText(String.valueOf(hashMap.get(mDataArray.get(position).getProductId())));
 
         if (number == 0)
         {
@@ -137,7 +138,7 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
             holder.img_minus.setImageResource(R.drawable.ic_minus);
         }
 
-        holder.tv_numberProducts.setOnClickListener(new View.OnClickListener() {
+        /*holder.tv_numberProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -171,22 +172,22 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
                 dialog.setContentView(view1);
                 dialog.show();
             }
-        });
+        });*/
 
         holder.img_minus.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                number = hashMap.get(mDataArray.get(position).getId());
+                number = hashMap.get(mDataArray.get(position).getProductId());
 
                 if (number == 0)
                 {
                     holder.img_minus.setEnabled(false);
                     holder.img_minus.setImageResource(R.drawable.ic_minus_freeze);
                     holder.tv_numberProducts.setText(String.valueOf(number));
-                    hashMap.put(mDataArray.get(position).getId(),number);
-                    RealmManager.updateNumItem(mDataArray.get(position).getId(),number);
+                    hashMap.put(mDataArray.get(position).getProductId(),number);
+                    RealmManager.updateNumItem(mDataArray.get(position).getProductId(),number);
                     return;
                 }
 
@@ -195,10 +196,10 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
                     holder.img_minus.setImageResource(R.drawable.ic_minus_freeze);
                 }
                 number--;
-                hashMap.put(mDataArray.get(position).getId(),number);
+                hashMap.put(mDataArray.get(position).getProductId(),number);
                 holder.tv_numberProducts.setText(String.valueOf(number));
                 mDataArray.get(position).setNumProducts(number);
-                RealmManager.updateNumItem(mDataArray.get(position).getId(),number);
+                RealmManager.updateNumItem(mDataArray.get(position).getProductId(),number);
             }
         });
 
@@ -206,14 +207,14 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
             @Override
             public void onClick(View v)
             {
-                number = hashMap.get(mDataArray.get(position).getId());
+                number = hashMap.get(mDataArray.get(position).getProductId());
                 holder.img_minus.setEnabled(true);
                 holder.img_minus.setImageResource(R.drawable.ic_minus);
                 number++;
-                hashMap.put(mDataArray.get(position).getId(),number);
+                hashMap.put(mDataArray.get(position).getProductId(),number);
                 holder.tv_numberProducts.setText(String.valueOf(number));
                 mDataArray.get(position).setNumProducts(number);
-                RealmManager.updateNumItem(mDataArray.get(position).getId(),number);
+                RealmManager.updateNumItem(mDataArray.get(position).getProductId(),number);
             }
         });
 
@@ -289,8 +290,6 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
                 View view1=layoutInflater.inflate(R.layout.dialog_item,null);
                 TextView productName = (TextView) view1.findViewById(R.id.productName);
                 TextView productPrice = (TextView) view1.findViewById(R.id.productPrice);
-                TextView productQty = (TextView) view1.findViewById(R.id.productQty);
-                TextView productMrp = (TextView) view1.findViewById(R.id.productMrp);
                 TextView productDesc = (TextView) view1.findViewById(R.id.productDescription);
                 Button btn_dismiss = (Button) view1.findViewById(R.id.btn_dismiss);
                 btn_dismiss.setOnClickListener(new View.OnClickListener()
@@ -300,40 +299,25 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
                         dialog.dismiss();
                     }
                 });
-                productName.setText(mDataArray.get(position).getName());
-                if (mDataArray.get(position).getBoxQty() != null)
-                {
-                    productQty.setText(mDataArray.get(position).getBoxQty());
-                }
-                else
-                {
-                    productQty.setText("NA");
-                }
+                productName.setText(mDataArray.get(position).getProductName());
 
-                if (mDataArray.get(position).getRate() != null)
+
+                if (mDataArray.get(position).getProductRate() != null)
                 {
-                    productPrice.setText(mDataArray.get(position).getRate());
+                    productPrice.setText(mDataArray.get(position).getProductRate());
                 }
                 else
                 {
                     productPrice.setText("NA");
                 }
 
-                if (mDataArray.get(position).getDesc() != null)
+                if (mDataArray.get(position).getProductDescription() != null)
                 {
-                    productDesc.setText(mDataArray.get(position).getDesc());
+                    productDesc.setText(mDataArray.get(position).getProductDescription());
                 }
                 else
                 {
                     productDesc.setText("NA");
-                }
-                if (mDataArray.get(position).getMrp() != null)
-                {
-                    productMrp.setText(mDataArray.get(position).getMrp());
-                }
-                else
-                {
-                    productMrp.setText("NA");
                 }
                 dialog.setContentView(view1);
                 dialog.show();
@@ -355,7 +339,7 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
         mSectionPositions = new ArrayList<>(26);
         for (int i = 0, size = this.mDataArray.size(); i < size; i++)
         {
-            String section = String.valueOf(this.mDataArray.get(i).getName().charAt(0)).toUpperCase();
+            String section = String.valueOf(this.mDataArray.get(i).getProductName().charAt(0)).toUpperCase();
             if (!sections.contains(section))
             {
                 sections.add(section);

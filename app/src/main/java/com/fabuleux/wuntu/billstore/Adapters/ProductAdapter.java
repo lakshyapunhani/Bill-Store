@@ -298,7 +298,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         String productName = edt_productName.getText().toString();
                         String productRate = edt_productAmount.getText().toString();
                         String productDesc = edt_productDescription.getText().toString();
-                        final ProductModel productModel = new ProductModel(productName,productRate,productDesc);
+                        final ProductModel productModel = new ProductModel("",productName,productRate,productDesc);
 
                         final DocumentReference documentReference = productReference.document(productName);
                         documentReference.set(productModel);

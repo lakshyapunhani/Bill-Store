@@ -25,29 +25,13 @@ public class Migration implements RealmMigration {
 
         if (oldVersion == 0) {
 
-            RealmObjectSchema cashInHand = schema.get("CashInHandRealm");
-            cashInHand.addField("sentStatus", String.class)
-                    .addField("submitStatus", String.class)
-                    .addField("orderNumber", String.class)
-                    .removeField("status");
-
-
-            RealmObjectSchema orderRealm = schema.get("OrderRealm");
-            orderRealm.removeField("isExpress")
-                    .addField("isExpress", int.class);
-
-
-            schema.create("NotificationRealm")
-                    .addField("message", String.class)
-                    .addField("timestamp", long.class)
-                    .addField("id", long.class);
-
-
-            schema.create("ChatPojo")
-                    .addField("text", String.class)
-                    .addField("senderName", String.class)
-                    .addField("senderID", String.class)
-                    .addField("time", String.class);
+            schema.create("ItemRealm")
+                    .addField("productId",String.class,FieldAttribute.PRIMARY_KEY)
+                    .addField("productName",String.class)
+                    .addField("productRate",String.class)
+                    .addField("productDescription",String.class)
+                    .addField("numProducts",int.class)
+                    .addField("isSaved",String.class);
 
             oldVersion++;
 

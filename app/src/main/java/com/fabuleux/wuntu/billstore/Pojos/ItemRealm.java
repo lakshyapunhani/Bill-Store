@@ -1,8 +1,15 @@
 package com.fabuleux.wuntu.billstore.Pojos;
 
-public class ItemSelectionPojo
-{
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by roadcast on 3/5/18.
+ */
+
+public class ItemRealm extends RealmObject
+{
+    @PrimaryKey
     private String productId;
 
     private String productName;
@@ -13,16 +20,9 @@ public class ItemSelectionPojo
 
     private int numProducts;
 
-    public ItemSelectionPojo() {
-    }
+    private String isSaved;
 
-    public ItemSelectionPojo(ItemRealm itemRealm)
-    {
-        this.productId = itemRealm.getProductId();
-        this.productName = itemRealm.getProductName();
-        this.productRate = itemRealm.getProductRate();
-        this.productDescription = itemRealm.getProductDescription();
-        this.numProducts = itemRealm.getNumProducts();
+    public ItemRealm() {
     }
 
     public int getNumProducts() {
@@ -33,12 +33,13 @@ public class ItemSelectionPojo
         this.numProducts = numProducts;
     }
 
-    public ItemSelectionPojo(String productId , String productName, String productRate, String productDescription, int numProducts) {
+    public ItemRealm(String productId, String productName, String productRate, String productDescription, int numProducts, String isSaved) {
         this.productId = productId;
         this.productName = productName;
         this.productRate = productRate;
         this.productDescription = productDescription;
         this.numProducts = numProducts;
+        this.isSaved = isSaved;
     }
 
     public String getProductName()
@@ -77,5 +78,13 @@ public class ItemSelectionPojo
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getIsSaved() {
+        return isSaved;
+    }
+
+    public void setIsSaved(String isSaved) {
+        this.isSaved = isSaved;
     }
 }

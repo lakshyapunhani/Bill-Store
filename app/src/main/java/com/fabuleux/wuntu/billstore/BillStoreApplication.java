@@ -23,7 +23,8 @@ import com.facebook.stetho.Stetho;
 public class BillStoreApplication extends Application
 {
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
 
         Fabric.with(this, new Crashlytics());
@@ -34,7 +35,7 @@ public class BillStoreApplication extends Application
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("default.realm")
                 .migration(new Migration())
-                .schemaVersion(15)
+                .schemaVersion(1)
                 .build();
 
         Realm.setDefaultConfiguration(config);

@@ -155,7 +155,7 @@ public class ProductsActivity extends AppCompatActivity {
                 final String productRate = edt_productAmount.getText().toString();
                 final String productDesc = edt_productDescription.getText().toString();
 
-                final ProductModel productModel = new ProductModel(productName,productRate,productDesc);
+                final ProductModel productModel = new ProductModel("",productName,productRate,productDesc);
 
                 final DocumentReference documentReference = productReference.document(productName);
 
