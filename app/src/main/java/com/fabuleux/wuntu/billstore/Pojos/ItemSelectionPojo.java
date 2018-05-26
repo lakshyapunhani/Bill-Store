@@ -2,6 +2,9 @@ package com.fabuleux.wuntu.billstore.Pojos;
 
 public class ItemSelectionPojo
 {
+
+    private String productId;
+
     private String productName;
 
     private String productRate;
@@ -21,7 +24,8 @@ public class ItemSelectionPojo
         this.numProducts = numProducts;
     }
 
-    public ItemSelectionPojo(String productName, String productRate, String productDescription, int numProducts) {
+    public ItemSelectionPojo(String productId , String productName, String productRate, String productDescription, int numProducts) {
+        this.productId = productId;
         this.productName = productName;
         this.productRate = productRate;
         this.productDescription = productDescription;
