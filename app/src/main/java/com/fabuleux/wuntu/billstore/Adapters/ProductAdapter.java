@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.ProductsActivity;
 import com.fabuleux.wuntu.billstore.R;
@@ -42,12 +43,12 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Context context;
 
-    private ArrayList<ProductModel> arrayList;
+    private ArrayList<ItemSelectionPojo> arrayList;
     CollectionReference productReference;
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
-    public ProductAdapter(ArrayList<ProductModel> arrayList)
+    public ProductAdapter(ArrayList<ItemSelectionPojo> arrayList)
     {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -99,7 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position)
     {
 
-        final ProductModel productModel = arrayList.get(position);
+        final ItemSelectionPojo itemSelectionPojo = arrayList.get(position);
 
         final boolean isExpanded = position==mExpandedPosition;
         ((ViewHolder)holder).hiddenLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
@@ -249,20 +250,20 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mExpandedPosition = -1;
                     }
                 });
-                productName.setText(productModel.getProductName());
+                productName.setText(itemSelectionPojo.getProductName());
 
-                if (productModel.getProductRate() != null)
+                if (itemSelectionPojo.getProductRate() != null)
                 {
-                    productPrice.setText(productModel.getProductRate());
+                    productPrice.setText(itemSelectionPojo.getProductRate());
                 }
                 else
                 {
                     productPrice.setText("NA");
                 }
 
-                if (productModel.getProductDescription() != null)
+                if (itemSelectionPojo.getProductDescription() != null)
                 {
-                    productDesc.setText(productModel.getProductDescription());
+                    productDesc.setText(itemSelectionPojo.getProductDescription());
                 }
                 else
                 {
@@ -286,9 +287,9 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 final EditText edt_productDescription = (EditText) view1.findViewById(R.id.edt_productDescription);
                 Button btn_createExpense = (Button) view1.findViewById(R.id.btn_addProduct);
                 edt_productName.setEnabled(false);
-                edt_productAmount.setText(productModel.getProductRate());
-                edt_productName.setText(productModel.getProductName());
-                edt_productDescription.setText(productModel.getProductDescription());
+                edt_productAmount.setText(itemSelectionPojo.getProductRate());
+                edt_productName.setText(itemSelectionPojo.getProductName());
+                edt_productDescription.setText(itemSelectionPojo.getProductDescription());
 
                 btn_createExpense.setOnClickListener(new View.OnClickListener()
                 {
@@ -298,10 +299,10 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         String productName = edt_productName.getText().toString();
                         String productRate = edt_productAmount.getText().toString();
                         String productDesc = edt_productDescription.getText().toString();
-                        final ProductModel productModel = new ProductModel("",productName,productRate,productDesc);
+                        final ProductModel editProductModel = new ProductModel(itemSelectionPojo.getProductId(),productName,productRate,productDesc);
 
-                        final DocumentReference documentReference = productReference.document(productName);
-                        documentReference.set(productModel);
+                        final DocumentReference documentReference = productReference.document(itemSelectionPojo.getProductId());
+                        documentReference.set(editProductModel);
                         Toast.makeText(context, "Product edited", Toast.LENGTH_SHORT).show();
                         previousExpandedPosition = -1;
                         mExpandedPosition = -1;
@@ -318,7 +319,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onClick(View v)
             {
-                showAlertDialog(productModel.getProductName());
+                showAlertDialog(itemSelectionPojo.getProductName());
             }
         });
 

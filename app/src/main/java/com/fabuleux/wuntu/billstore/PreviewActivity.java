@@ -38,6 +38,7 @@ import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
@@ -107,14 +108,15 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
+    @BindView(R.id.invoice_gst)
+    TextView invoice_gst;
+
+    @BindView(R.id.invoice_subTotal)
+    TextView invoice_subTotal;
+
     @BindView(R.id.btn_print)
     TextView btn_print;
 
-    @BindView(R.id.note)
-    TextView note;
-
-    @BindView(R.id.title_note)
-    TextView title_note;
 
     @BindView(R.id.menu_dots_preview)
     ImageView menu_dots;
@@ -134,6 +136,8 @@ public class PreviewActivity extends AppCompatActivity {
     String timestampString;
 
     double totalAmount = 0;
+
+    double gstRate = 0;
 
     File filePath;
 
@@ -226,26 +230,19 @@ public class PreviewActivity extends AppCompatActivity {
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             showSave = getIntent().getBooleanExtra("showSave",false);
+            gstRate = getIntent().getDoubleExtra("gstValue",0.0);
         }
     }
 
     private void setViews()
     {
-        /*if (itemList.get(0).getNote().matches(""))
-        {
-            note.setVisibility(View.GONE);
-            title_note.setVisibility(View.GONE);
-        }
-        else
-        {
-            note.setText(itemList.get(0).getNote());
-        }*/
+
         String amount = String.valueOf(totalAmount);
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
         txt_custGstNumber.setText(customerGstNumber);
         txt_invoiceDate.setText(invoiceDate);
-        invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
+        invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) + amount);
         if (showSave)
         {
             menu_dots.setVisibility(View.VISIBLE);
@@ -266,7 +263,7 @@ public class PreviewActivity extends AppCompatActivity {
     {
         for (int i = 0; i < itemList.size(); i++)
         {
-            //totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
+            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
 
             ItemPojo itemPojo = itemList.get(i);
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
@@ -278,7 +275,7 @@ public class PreviewActivity extends AppCompatActivity {
             itemName.setText(itemPojo.getItemName());
             costPerItem.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getCostPerItem());
             quantity.setText(itemPojo.getQuantity());
-            //totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
+            totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
 
             tableLayoutItems.addView(row);
         }
@@ -287,13 +284,13 @@ public class PreviewActivity extends AppCompatActivity {
     public void saveButton()
     {
 
-        /*if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
             progressDialog.show();
         }
         for (int i = 0;i<itemList.size();i++)
         {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount(),itemList.get(i).getNote());
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
@@ -301,7 +298,6 @@ public class PreviewActivity extends AppCompatActivity {
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
         final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount,invoiceNumber);
-
 
         customerReference.document(customerName).set(customerDetails);
         customerReference.document(customerName).collection(firebaseUser.getUid())
@@ -324,7 +320,7 @@ public class PreviewActivity extends AppCompatActivity {
             }
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
-        }*/
+        }
 
     }
 
@@ -404,6 +400,7 @@ public class PreviewActivity extends AppCompatActivity {
             intent.setData(uri);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
+            RealmManager.addItemsInRealm(RealmManager.getItemsList());
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         } else {
@@ -412,6 +409,7 @@ public class PreviewActivity extends AppCompatActivity {
             intent = Intent.createChooser(intent, "Open File");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            RealmManager.addItemsInRealm(RealmManager.getItemsList());
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         }

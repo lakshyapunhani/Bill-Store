@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
+import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
@@ -62,7 +65,7 @@ import butterknife.OnItemSelected;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeBillFragment extends Fragment {
+public class MakeBillFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.btn_preview)
     TextView btn_preview;
@@ -100,6 +103,15 @@ public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.edt_newCustomerGst) EditText edt_newCustomerGst;
 
+    @BindView(R.id.spinner_gst_rate)
+    Spinner spinner_gst_rate;
+
+    ArrayList<String> gstRateList;
+
+    ArrayAdapter<String> gstRateAdapter;
+
+    SessionManager sessionManager;
+
     LinearLayoutManager mLayoutManager;
 
     InvoicePreviewAdapter invoicePreviewAdapter;
@@ -131,6 +143,10 @@ public class MakeBillFragment extends Fragment {
 
     int flag =0;
 
+    int gstPosition;
+
+    double gstRate;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -161,12 +177,20 @@ public class MakeBillFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+        sessionManager = new SessionManager(mContext);
+
         firebaseUser = firebaseAuth.getCurrentUser();
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
         recycler_items.setItemAnimator(new DefaultItemAnimator());
         recycler_items.setAdapter(invoicePreviewAdapter);
+
+        gstRateList = new ArrayList<>();
+        gstRateList = sessionManager.getGstSlabList();
+        gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
+        spinner_gst_rate.setAdapter(gstRateAdapter);
+        spinner_gst_rate.setOnItemSelectedListener(this);
 
         long date = System.currentTimeMillis();
 
@@ -221,6 +245,55 @@ public class MakeBillFragment extends Fragment {
         flag = 1;
         Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+    {
+        Spinner spinner = (Spinner) parent;
+
+        if (spinner.getId() == R.id.spinner_gst_rate)
+        {
+            gstPosition = pos;
+            getGstRate();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void getGstRate()
+    {
+        switch (gstPosition)
+        {
+            case 0:
+                gstRate = 0.05;
+                break;
+            case 1:
+                gstRate = 0.12;
+                break;
+            case 2:
+                gstRate = 0.18;
+                break;
+            case 3:
+                gstRate = 0.28;
+                break;
+            case 4:
+                gstRate = 0.5;
+                break;
+            case 5:
+                gstRate = 0.12;
+                break;
+            case 6:
+                gstRate = 0.18;
+                break;
+            case 7:
+                gstRate = 0.28;
+                break;
+        }
+
     }
 
 
@@ -371,7 +444,7 @@ public class MakeBillFragment extends Fragment {
         if (itemsEvent.getFlag().matches("1") && flag == 1)
         {
             List<ItemSelectionPojo> arrayList = new ArrayList<>();
-            arrayList = itemsEvent.getItemList();
+            arrayList = RealmManager.getSavedItems();
             for (int i = 0;i<arrayList.size();i++)
             {
                 int totalAmount = arrayList.get(i).getNumProducts() * Integer.parseInt(arrayList.get(i).getProductRate());
@@ -385,6 +458,7 @@ public class MakeBillFragment extends Fragment {
 
     }
 
+
     private void sendDatatoPreview()
     {
         Intent intent = new Intent(mContext, PreviewActivity.class);
@@ -394,6 +468,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("showSave",true);
+        intent.putExtra("gstValue",gstRate);
         startActivity(intent);
     }
 }

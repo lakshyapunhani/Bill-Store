@@ -1,5 +1,7 @@
 package com.fabuleux.wuntu.billstore.Manager;
 
+import android.util.Log;
+
 import com.fabuleux.wuntu.billstore.Pojos.ItemRealm;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 
@@ -11,6 +13,32 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class RealmManager {
+
+    public static void deleteAllRealm() {
+        try(Realm realm= Realm.getDefaultInstance()) {
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+
+                    RealmResults<ItemRealm> list = realm.where(ItemRealm.class).findAll();
+
+
+                    list.deleteAllFromRealm();
+
+                }
+            }, new Realm.Transaction.OnSuccess() {
+                @Override
+                public void onSuccess() {
+                    Log.d("aaaaaaaaa", "aaaaaaaaaaaa");
+                }
+            }, new Realm.Transaction.OnError() {
+                @Override
+                public void onError(Throwable error) {
+                    Log.d("aaaaaaaaa", "aaaaaaaaaaaa");
+                }
+            });
+        }
+    }
 
 
     public static void addItemsInRealm(final List<ItemSelectionPojo> response)

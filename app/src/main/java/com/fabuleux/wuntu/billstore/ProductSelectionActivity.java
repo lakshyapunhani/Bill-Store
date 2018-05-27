@@ -92,8 +92,12 @@ public class ProductSelectionActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
         }
 
+        itemList = RealmManager.getItemsList();
 
-        productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
+        initialiseUI();
+
+
+        /*productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
 
         productReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -116,7 +120,7 @@ public class ProductSelectionActivity extends AppCompatActivity {
                 RealmManager.addItemsInRealm(itemList);
                 initialiseUI();
             }
-        });
+        });*/
 
 
     }
@@ -213,12 +217,10 @@ public class ProductSelectionActivity extends AppCompatActivity {
     {
         ArrayList<ItemSelectionPojo> savedList = new ArrayList<>();
 
+        itemList = RealmManager.getSelecteditems();
+
         for (int i =0;i<itemList.size();i++)
         {
-            if (itemList.get(i).getNumProducts() > 0)
-            {
-                savedList.add(itemList.get(i));
-            }
             RealmManager.updateSavedItem(itemList.get(i).getProductId());
         }
         EventBus.getDefault().postSticky(new SendItemsEvent(savedList,"1"));

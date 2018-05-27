@@ -26,6 +26,8 @@ import com.fabuleux.wuntu.billstore.BillViewActivity;
 import com.fabuleux.wuntu.billstore.EditProfileActivity;
 import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.MainActivity;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
+import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
 import com.fabuleux.wuntu.billstore.ProductsActivity;
@@ -81,6 +83,8 @@ public class ProfileFragment extends Fragment {
 
     private Context context;
 
+    private SessionManager sessionManager;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -93,6 +97,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_profile_new, container, false);
         ButterKnife.bind(this,view);
+
+        sessionManager = new SessionManager(context);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -169,6 +175,8 @@ public class ProfileFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        RealmManager.deleteAllRealm();
+                        sessionManager.clearSharedPref();
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(context, SignInActivity.class);
                         startActivity(intent);

@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
+import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +36,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,14 +63,19 @@ public class ProductsActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     CollectionReference productReference;
 
-    ArrayList<ProductModel> products;
+    ArrayList<ItemSelectionPojo> products;
     ProductAdapter productAdapter;
+
+    final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    SecureRandom rnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
         ButterKnife.bind(this);
+
+        rnd = new SecureRandom();
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -83,11 +93,11 @@ public class ProductsActivity extends AppCompatActivity {
 
         products = new ArrayList<>();
 
-        initView();
+        //initView();
 
         productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
 
-        productReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        productReference.orderBy("productName").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
             {
@@ -101,12 +111,15 @@ public class ProductsActivity extends AppCompatActivity {
 
                 for (DocumentSnapshot doc : documentSnapshots)
                 {
-                    ProductModel productModel = doc.toObject(ProductModel.class);
-                    products.add(productModel);
+                    ItemSelectionPojo itemSelectionPojo = doc.toObject(ItemSelectionPojo.class);
+                    products.add(itemSelectionPojo);
                 }
                 productAdapter.notifyDataSetChanged();
             }
         });
+
+        //products = RealmManager.getItemsList();
+        initView();
     }
 
     @OnTextChanged(value = R.id.edt_searchProduct, callback = OnTextChanged.Callback.TEXT_CHANGED)
@@ -115,15 +128,15 @@ public class ProductsActivity extends AppCompatActivity {
         updateList(filterList(cs));
     }
 
-    private void updateList(ArrayList<ProductModel> arrayList)
+    private void updateList(ArrayList<ItemSelectionPojo> arrayList)
     {
         productsListRecycler.setAdapter(new ProductAdapter(arrayList));
     }
 
-    private ArrayList<ProductModel> filterList(CharSequence cs)
+    private ArrayList<ItemSelectionPojo> filterList(CharSequence cs)
     {
         productsListRecycler.removeAllViewsInLayout();
-        ArrayList<ProductModel> filteredList = new ArrayList<>();
+        ArrayList<ItemSelectionPojo> filteredList = new ArrayList<>();
         for (int i = 0; i < products.size(); i++)
         {
             if (products.get(i).getProductName().toLowerCase().contains(cs.toString().toLowerCase())) {
@@ -155,9 +168,11 @@ public class ProductsActivity extends AppCompatActivity {
                 final String productRate = edt_productAmount.getText().toString();
                 final String productDesc = edt_productDescription.getText().toString();
 
-                final ProductModel productModel = new ProductModel("",productName,productRate,productDesc);
+                String productId= randomString(6);
 
-                final DocumentReference documentReference = productReference.document(productName);
+                final ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productId,productName,productRate,productDesc,0);
+
+                final DocumentReference documentReference = productReference.document(productId);
 
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -170,7 +185,7 @@ public class ProductsActivity extends AppCompatActivity {
                             }
                             else
                             {
-                                documentReference.set(productModel);
+                                documentReference.set(itemSelectionPojo);
                             }
                         } else
                         {
@@ -185,8 +200,24 @@ public class ProductsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private String randomString( int len )
+    {
+        StringBuilder sb = new StringBuilder(len);
+        for( int i = 0; i < len; i++ )
+            sb.append( AB.charAt( rnd.nextInt(AB.length())));
+        return sb.toString();
+    }
+
     private void initView()
     {
+
+        Collections.sort(products, new Comparator<ItemSelectionPojo>() {
+            @Override
+            public int compare(ItemSelectionPojo s1, ItemSelectionPojo s2) {
+                return (s1.getProductName()).compareToIgnoreCase(s2.getProductName());
+            }
+        });
+
         productAdapter = new ProductAdapter(products);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         productsListRecycler.setLayoutManager(linearLayoutManager);

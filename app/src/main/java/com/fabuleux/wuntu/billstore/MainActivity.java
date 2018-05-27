@@ -24,7 +24,10 @@ import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.HomeFragment;
 import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.ProfileFragment;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
+import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +35,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
@@ -41,6 +47,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> gstRateList;
     ArrayList<String> unitList;
 
+    CollectionReference productReference;
+
+    private List<ItemSelectionPojo> itemList;
+
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
     Gson gson;
@@ -130,6 +141,31 @@ public class MainActivity extends AppCompatActivity {
 
         unitList = new ArrayList<>();
         gstRateList = new ArrayList<>();
+        itemList = new ArrayList<>();
+
+        productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
+
+        productReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
+            {
+                if (e != null)
+                {
+                    Toast.makeText(MainActivity.this, "Not able to show products. Please try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                itemList.clear();
+
+                for (DocumentSnapshot doc : documentSnapshots)
+                {
+                    ProductModel productModel = doc.toObject(ProductModel.class);
+                    ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productModel.getProductId(),productModel.getProductName(),productModel.getProductRate(),productModel.getProductDescription(),0);
+                    itemList.add(itemSelectionPojo);
+                }
+                RealmManager.addItemsInRealm(itemList);
+            }
+        });
 
 
         fragmentManager = getSupportFragmentManager();
