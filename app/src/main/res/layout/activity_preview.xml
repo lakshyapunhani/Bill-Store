@@ -310,6 +310,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_cgst"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -322,13 +324,73 @@
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="GST: "
+                    android:text="CGST: "
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
                     android:gravity="end" />
 
                 <TextView
-                    android:id="@+id/invoice_gst"
+                    android:id="@+id/invoice_cgst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="SGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_sgst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_igst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="IGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_igst"
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
@@ -339,6 +401,7 @@
 
             <LinearLayout
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

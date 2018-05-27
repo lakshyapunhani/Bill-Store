@@ -147,6 +147,9 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     double gstRate;
 
+    double cgst = 0,sgst = 0,igst = 0;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -254,6 +257,8 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
         if (spinner.getId() == R.id.spinner_gst_rate)
         {
+
+            //Toast.makeText(mContext, spinner_gst_rate.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             gstPosition = pos;
             getGstRate();
         }
@@ -269,27 +274,51 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         switch (gstPosition)
         {
             case 0:
+                cgst = 2.5;
+                sgst = 2.5;
+                igst = 0;
                 gstRate = 0.05;
                 break;
             case 1:
+                cgst = 6;
+                sgst = 6;
+                igst = 0;
                 gstRate = 0.12;
                 break;
             case 2:
+                cgst = 9;
+                sgst = 9;
+                igst = 0;
                 gstRate = 0.18;
                 break;
             case 3:
+                cgst = 14;
+                sgst = 14;
+                igst = 0;
                 gstRate = 0.28;
                 break;
             case 4:
+                cgst = 0;
+                sgst = 0;
+                igst = 5;
                 gstRate = 0.5;
                 break;
             case 5:
+                cgst = 0;
+                sgst = 0;
+                igst = 12;
                 gstRate = 0.12;
                 break;
             case 6:
+                cgst = 0;
+                sgst = 0;
+                igst = 18;
                 gstRate = 0.18;
                 break;
             case 7:
+                cgst = 0;
+                sgst = 0;
+                igst = 28;
                 gstRate = 0.28;
                 break;
         }
@@ -469,6 +498,11 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("showSave",true);
         intent.putExtra("gstValue",gstRate);
+        intent.putExtra("cgst",cgst);
+        intent.putExtra("sgst",sgst);
+        intent.putExtra("igst",igst);
+
+
         startActivity(intent);
     }
 }

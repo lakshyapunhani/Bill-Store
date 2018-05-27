@@ -68,6 +68,9 @@ public class CustomerBillListFragment extends Fragment {
     String customerAddress = "";
     String customerGst = "";
     Map<String,ItemPojo> billItems;
+    double gstRate;
+
+    double cgst = 0,sgst = 0,igst = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,6 +111,10 @@ public class CustomerBillListFragment extends Fragment {
                         makeBillDetails = billsList.get(position);
                         Double billAmount = makeBillDetails.getBillAmount();
                         billTime = makeBillDetails.getBillTime();
+                        cgst = makeBillDetails.getCgst();
+                        sgst = makeBillDetails.getSgst();
+                        igst = makeBillDetails.getIgst();
+                        gstRate = makeBillDetails.getGstRate();
                         CustomerDetails customerDetails = new CustomerDetails();
                         customerDetails = makeBillDetails.getCustomerDetails();
                         customerName = customerDetails.getCustomerName();
@@ -163,6 +170,11 @@ public class CustomerBillListFragment extends Fragment {
         intent.putExtra("Customer GST Number",customerGst);
         intent.putExtra("Invoice Date",billTime);
         intent.putExtra("showSave" ,false);
+        intent.putExtra("gstValue",gstRate);
+        intent.putExtra("cgst",cgst);
+        intent.putExtra("sgst",sgst);
+        intent.putExtra("igst",igst);
+
         startActivity(intent);
     }
 
