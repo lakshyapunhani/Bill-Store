@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="My Profile"
+                    android:text="Profile"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -119,7 +119,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"/>
+                android:background="@color/grey"/>
 
             <LinearLayout
                 android:id="@+id/layout_products"
@@ -133,13 +133,13 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invoice_black"/>
+                    app:srcCompat="@drawable/ic_products"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="My Products"
+                    android:text="Products"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -155,7 +155,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"/>
+                android:background="@color/grey"/>
 
             <LinearLayout
                 android:id="@+id/layout_changeLanguage"
@@ -169,7 +169,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invoice_black"/>
+                    app:srcCompat="@drawable/ic_language"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -192,7 +192,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"/>
+                android:background="@color/grey"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,7 +205,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invoice_black"/>
+                    app:srcCompat="@drawable/ic_faq"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -228,7 +228,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"/>
+                android:background="@color/grey"/>
 
             <LinearLayout
                 android:id="@+id/layout_freshchat"
@@ -242,7 +242,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invoice_black"/>
+                    app:srcCompat="@drawable/ic_chat"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -264,7 +264,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"/>
+                android:background="@color/grey"/>
 
             <LinearLayout
                 android:id="@+id/layout_invite"
@@ -278,7 +278,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invoice_black"/>
+                    app:srcCompat="@drawable/ic_invite"/>
 
                 <TextView
                     android:layout_width="0dp"
