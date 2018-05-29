@@ -193,6 +193,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         gstRateList = sessionManager.getGstSlabList();
         gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
         spinner_gst_rate.setAdapter(gstRateAdapter);
+        spinner_gst_rate.setSelection(gstRateList.size() - 1);
         spinner_gst_rate.setOnItemSelectedListener(this);
 
         long date = System.currentTimeMillis();
@@ -301,7 +302,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 cgst = 0;
                 sgst = 0;
                 igst = 5;
-                gstRate = 0.5;
+                gstRate = 0.05;
                 break;
             case 5:
                 cgst = 0;
@@ -320,6 +321,12 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 sgst = 0;
                 igst = 28;
                 gstRate = 0.28;
+                break;
+            case 8:
+                cgst = 0;
+                sgst = 0;
+                igst = 0;
+                gstRate = 0;
                 break;
         }
 

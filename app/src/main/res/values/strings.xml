@@ -99,7 +99,7 @@
     <string name="table_cost">Cost</string>
     <string name="table_qty">Qty</string>
     <string name="table_total">Total</string>
-    <string name="txt_subtotal">Subtotal :</string>
+    <string name="txt_subtotal">Subtotal : </string>
     <string name="txt_note">Note -</string>
     <string name="txt_done">Done</string>
     <string name="txt_app_icon">app icon</string>

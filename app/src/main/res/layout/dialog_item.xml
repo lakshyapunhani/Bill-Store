@@ -84,7 +84,7 @@
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textColor="#ffffff"
-                    android:background="@drawable/gradient_background"
+                    android:background="@drawable/btn_rounded_bg"
                     android:gravity="center"
                     android:layout_marginTop="20dp"/>
             </LinearLayout>
