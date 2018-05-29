@@ -6,47 +6,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.BillViewActivity;
 import com.fabuleux.wuntu.billstore.EditProfileActivity;
 import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
-import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.User;
-import com.fabuleux.wuntu.billstore.PreviewActivity;
 import com.fabuleux.wuntu.billstore.ProductsActivity;
 import com.fabuleux.wuntu.billstore.R;
-import com.fabuleux.wuntu.billstore.RegisterActivity;
 import com.fabuleux.wuntu.billstore.SignInActivity;
 import com.freshchat.consumer.sdk.Freshchat;
 import com.freshchat.consumer.sdk.FreshchatConfig;
 import com.freshchat.consumer.sdk.FreshchatNotificationConfig;
 import com.freshchat.consumer.sdk.FreshchatUser;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +37,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     @BindView(R.id.layout_changeLanguage)
     LinearLayout layout_changeLanguage;
@@ -95,7 +77,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_profile_new, container, false);
+        View view =  inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this,view);
 
         sessionManager = new SessionManager(context);
@@ -141,7 +123,7 @@ public class ProfileFragment extends Fragment {
                 .setNotificationSoundEnabled(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(R.mipmap.ic_launcher)
-                .launchActivityOnFinish(ProfileFragment.class.getName())
+                .launchActivityOnFinish(SettingsFragment.class.getName())
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         Freshchat.getInstance(context.getApplicationContext()).setNotificationConfig(notificationConfig);
