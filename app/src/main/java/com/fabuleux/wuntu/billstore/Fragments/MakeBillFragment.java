@@ -476,11 +476,11 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onEvent(SendItemsEvent itemsEvent)
     {
-
         if (itemsEvent.getFlag().matches("1") && flag == 1)
         {
             List<ItemSelectionPojo> arrayList = new ArrayList<>();
             arrayList = RealmManager.getSavedItems();
+            itemList.clear();
             for (int i = 0;i<arrayList.size();i++)
             {
                 int totalAmount = arrayList.get(i).getNumProducts() * Integer.parseInt(arrayList.get(i).getProductRate());

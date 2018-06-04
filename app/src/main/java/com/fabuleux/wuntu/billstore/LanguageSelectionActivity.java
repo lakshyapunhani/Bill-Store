@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.fabuleux.wuntu.billstore.Adapters.LanguageSelectableAdapter;
 import com.fabuleux.wuntu.billstore.Adapters.SelectableViewHolder;
@@ -26,11 +28,18 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
     @BindView(R.id.languageList)
     RecyclerView languageList;
 
+    @BindView(R.id.btn_done)
+    TextView btn_done;
+
+    @BindView(R.id.btn_next) TextView btn_next;
+
     LanguageSelectableAdapter adapter;
 
     SessionManager sessionManager;
 
     private String selectedLanguage = "en";
+
+    int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +47,22 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_selection);
         ButterKnife.bind(this);
+
+        if (getIntent().getExtras() != null)
+        {
+            flag = getIntent().getIntExtra("flag",0);
+        }
+
+        if (flag == 0)
+        {
+            btn_done.setVisibility(View.VISIBLE);
+            btn_next.setVisibility(View.GONE);
+        }
+        else
+        {
+            btn_done.setVisibility(View.GONE);
+            btn_next.setVisibility(View.VISIBLE);
+        }
 
         sessionManager = new SessionManager(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -122,6 +147,20 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
         sessionManager.saveLanguagePreference(selectedLanguage);
 
         Intent refresh = new Intent(LanguageSelectionActivity.this, RegisterActivity.class);
+        startActivity(refresh);
+    }
+
+    @OnClick(R.id.btn_done)
+    public void doneClick()
+    {
+        Locale locale = new Locale(selectedLanguage);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        sessionManager.saveLanguagePreference(selectedLanguage);
+        Intent refresh = new Intent(LanguageSelectionActivity.this,MainActivity.class);
+        refresh.putExtra("fragmentFlag","home");
         startActivity(refresh);
     }
 

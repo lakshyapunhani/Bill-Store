@@ -98,7 +98,9 @@ public class SettingsFragment extends Fragment {
     @OnClick(R.id.layout_changeLanguage)
     public void changeLanguage()
     {
-        startActivity(new Intent(context, LanguageSelectionActivity.class));
+        Intent intent = new Intent(context,LanguageSelectionActivity.class);
+        intent.putExtra("flag",0);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_logOut)
