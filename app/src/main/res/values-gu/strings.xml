@@ -135,6 +135,26 @@
     <string name="txt_save_bill">બિલ સાચવો</string>
     <string name="txt_discard_bill">બિલ કાઢી નાખો</string>
     <string name="text_please_provide_the_below_details">કૃપા કરીને નીચેની વિગતો આપો</string>
-    <string name="txt_profile">Profile</string>
+    <string name="txt_profile">પ્રોફાઇલ</string>
+    <string name="txt_select_language">ભાષા પસંદ કરો</string>
+    <string name="txt_next">આગળ</string>
+    <string name="txt_settings">સેટિંગ્સ</string>
+    <string name="txt_add_products">પ્રોડક્ટ્સ ઉમેરો</string>
+    <string name="txt_view_added">જુઓ ઉમેર્યું</string>
+    <string name="txt_search_product">શોધ ઉત્પાદન</string>
+    <string name="txt_products">પ્રોડક્ટ્સ</string>
+    <string name="txt_product_name">ઉત્પાદન નામ</string>
+    <string name="txt_unit_amount">એકમ રકમ</string>
+    <string name="txt_description">વર્ણન</string>
+    <string name="txt_add_product">ઉત્પાદન ઉમેરો</string>
+    <string name="txt_unit_price">એકમ ભાવ</string>
+    <string name="txt_dismiss">કાઢી નાંખો</string>
+    <string name="txt_change_language">ભાષા બદલો</string>
+    <string name="txt_faq">FAQ</string>
+    <string name="txt_chat_with_us">અમારી સાથે ચેટ કરો</string>
+    <string name="txt_invite">આમંત્રિત</string>
+    <string name="txt_edit">સંપાદિત કરો</string>
+    <string name="txt_details">વિગતો</string>
+    <string name="txt_delete">કાઢી નાંખો</string>
 </resources>
 

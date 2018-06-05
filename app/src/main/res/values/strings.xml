@@ -139,5 +139,25 @@
     <string name="freshchat_file_provider_authority">com.fabuleux.wuntu.billstore.provider</string>
     <string name="share_using">Share</string>
     <string name="invite_link">You have been invited to use Bill Store. I love using Bill Store, it\'s simple and incredible. You should try it here:<a>https://bit.ly/2qRLNJ4</a> </string>
+    <string name="txt_select_language">Select Language</string>
+    <string name="txt_next">Next</string>
+    <string name="txt_settings">Settings</string>
+    <string name="txt_add_products">Add Products</string>
+    <string name="txt_view_added">View added</string>
+    <string name="txt_search_product">Search Product</string>
+    <string name="txt_products">Products</string>
+    <string name="txt_product_name">Product Name</string>
+    <string name="txt_unit_amount">Unit Amount</string>
+    <string name="txt_description">Description</string>
+    <string name="txt_add_product">Add Product</string>
+    <string name="txt_unit_price">Unit Price</string>
+    <string name="txt_dismiss">Dismiss</string>
+    <string name="txt_change_language">Change Language</string>
+    <string name="txt_faq">FAQ</string>
+    <string name="txt_chat_with_us">Chat with us</string>
+    <string name="txt_invite">Invite</string>
+    <string name="txt_edit">Edit</string>
+    <string name="txt_details">Details</string>
+    <string name="txt_delete">Delete</string>
 </resources>
 

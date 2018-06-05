@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="Profile"
+                    android:text="@string/txt_profile"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -139,7 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="Products"
+                    android:text="@string/txt_products"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -175,7 +175,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="Change Language"
+                    android:text="@string/txt_change_language"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -211,7 +211,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="FAQ"
+                    android:text="@string/txt_faq"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -248,7 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="Chat with us"
+                    android:text="@string/txt_chat_with_us"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -284,7 +284,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_height="match_parent"
-                    android:text="Invite"
+                    android:text="@string/txt_invite"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
@@ -305,7 +305,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:text="Log Out"
+                android:text="@string/txt_log_out"
                 android:background="@drawable/edt_rounded_corner"/>
 
         </LinearLayout>

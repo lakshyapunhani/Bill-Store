@@ -141,5 +141,25 @@
     <string name="txt_discard_bill">Discard Bill</string>
     <string name="text_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_profile">Profile</string>
+    <string name="txt_select_language">Select Language</string>
+    <string name="txt_next">Next</string>
+    <string name="txt_settings">Settings</string>
+    <string name="txt_add_products">Add Products</string>
+    <string name="txt_view_added">View added</string>
+    <string name="txt_search_product">Search Product</string>
+    <string name="txt_products">Products</string>
+    <string name="txt_product_name">Product Name</string>
+    <string name="txt_unit_amount">Unit Amount</string>
+    <string name="txt_description">Description</string>
+    <string name="txt_add_product">Add Product</string>
+    <string name="txt_unit_price">Unit Price</string>
+    <string name="txt_dismiss">Dismiss</string>
+    <string name="txt_change_language">Change Language</string>
+    <string name="txt_faq">FAQ</string>
+    <string name="txt_chat_with_us">Chat with us</string>
+    <string name="txt_invite">Invite</string>
+    <string name="txt_edit">Edit</string>
+    <string name="txt_details">Details</string>
+    <string name="txt_delete">Delete</string>
 </resources>
 
