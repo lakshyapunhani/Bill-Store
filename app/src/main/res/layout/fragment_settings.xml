@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="match_parent"
-            android:text="App Settings"
+            android:text="@string/txt_app_settings"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
             android:paddingEnd="20dp"
@@ -195,6 +195,7 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
@@ -226,6 +227,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey"/>
@@ -278,7 +280,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_invite"/>
+                    app:srcCompat="@drawable/ic_invite_new"/>
 
                 <TextView
                     android:layout_width="0dp"

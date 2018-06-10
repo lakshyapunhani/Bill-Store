@@ -161,5 +161,6 @@
     <string name="txt_edit">మార్చు</string>
     <string name="txt_details">వివరాలు</string>
     <string name="txt_delete">తొలగించు</string>
+    <string name="txt_app_settings">సెట్టింగులు</string>
 </resources>
 

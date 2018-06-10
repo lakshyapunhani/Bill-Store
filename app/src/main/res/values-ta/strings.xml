@@ -161,5 +161,6 @@
     <string name="txt_edit">தொகு</string>
     <string name="txt_details">விவரங்கள்</string>
     <string name="txt_delete">அழி</string>
+    <string name="txt_app_settings">அமைப்புகள்</string>
 </resources>
 

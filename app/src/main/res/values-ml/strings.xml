@@ -160,5 +160,6 @@
     <string name="txt_edit">എഡിറ്റുചെയ്യുക</string>
     <string name="txt_details">വിശദാംശങ്ങൾ</string>
     <string name="txt_delete">ഇല്ലാതാക്കുക</string>
+    <string name="txt_app_settings">ക്രമീകരണങ്ങൾ</string>
 </resources>
 

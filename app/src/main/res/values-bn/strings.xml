@@ -159,5 +159,6 @@
     <string name="txt_edit">সম্পাদন করা</string>
     <string name="txt_details">বিস্তারিত</string>
     <string name="txt_delete">মুছে ফেলা</string>
+    <string name="txt_app_settings">সেটিংস</string>
 </resources>
 

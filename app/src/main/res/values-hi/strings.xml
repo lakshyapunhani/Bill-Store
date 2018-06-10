@@ -157,5 +157,6 @@
     <string name="txt_edit">संपादित करें</string>
     <string name="txt_details">विवरण</string>
     <string name="txt_delete">हटाना</string>
+    <string name="txt_app_settings">सेटिंग्स</string>
 </resources>
 
