@@ -16,6 +16,14 @@ public class MakeBillDetails
 
     private String billTime;
 
+    private double cgst;
+
+    private double sgst;
+
+    private double igst;
+
+    private double gstRate;
+
     private double billAmount;
 
     private String invoiceNumber;
@@ -25,9 +33,13 @@ public class MakeBillDetails
     public MakeBillDetails()
     {}
 
-    public MakeBillDetails(CustomerDetails customerDetails, String billTime, Map<String, ItemPojo> billItems,double billAmount,String invoiceNumber) {
+    public MakeBillDetails(CustomerDetails customerDetails, String billTime,double cgst,double sgst,double igst,double gstRate,  Map<String, ItemPojo> billItems,double billAmount,String invoiceNumber) {
         this.customerDetails = customerDetails;
         this.billTime = billTime;
+        this.cgst = cgst;
+        this.sgst = sgst;
+        this.igst = igst;
+        this.gstRate = gstRate;
         this.billItems = billItems;
         this.billAmount = billAmount;
         this.invoiceNumber = invoiceNumber;
@@ -51,4 +63,35 @@ public class MakeBillDetails
 
     public String getInvoiceNumber(){ return invoiceNumber;}
 
+    public double getGstRate() {
+        return gstRate;
+    }
+
+    public void setGstRate(double gstRate) {
+        this.gstRate = gstRate;
+    }
+
+    public double getIgst() {
+        return igst;
+    }
+
+    public void setIgst(double igst) {
+        this.igst = igst;
+    }
+
+    public double getSgst() {
+        return sgst;
+    }
+
+    public void setSgst(double sgst) {
+        this.sgst = sgst;
+    }
+
+    public double getCgst() {
+        return cgst;
+    }
+
+    public void setCgst(double cgst) {
+        this.cgst = cgst;
+    }
 }

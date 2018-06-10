@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
@@ -107,17 +109,34 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.invoice_total)
     TextView invoice_total;
 
+
+    @BindView(R.id.invoice_subTotal)
+    TextView invoice_subTotal;
+
     @BindView(R.id.btn_print)
     TextView btn_print;
 
-    @BindView(R.id.note)
-    TextView note;
-
-    @BindView(R.id.title_note)
-    TextView title_note;
 
     @BindView(R.id.menu_dots_preview)
     ImageView menu_dots;
+
+    @BindView(R.id.layout_cgst)
+    LinearLayout layout_cgst;
+
+    @BindView(R.id.layout_sgst)
+    LinearLayout layout_sgst;
+
+    @BindView(R.id.layout_igst)
+    LinearLayout layout_igst;
+
+    @BindView(R.id.invoice_cgst)
+    TextView invoice_cgst;
+
+    @BindView(R.id.invoice_sgst)
+    TextView invoice_sgst;
+
+    @BindView(R.id.invoice_igst)
+    TextView invoice_igst;
 
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
@@ -134,6 +153,8 @@ public class PreviewActivity extends AppCompatActivity {
     String timestampString;
 
     double totalAmount = 0;
+
+    double gstRate = 0,cgst=0,sgst = 0,igst = 0;
 
     File filePath;
 
@@ -189,7 +210,8 @@ public class PreviewActivity extends AppCompatActivity {
         DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
         profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
                 if (!documentSnapshot.exists())
                 {
                     Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
@@ -226,21 +248,20 @@ public class PreviewActivity extends AppCompatActivity {
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             showSave = getIntent().getBooleanExtra("showSave",false);
+            gstRate = getIntent().getDoubleExtra("gstValue",0.0);
+            cgst = getIntent().getDoubleExtra("cgst",0.0);
+            sgst = getIntent().getDoubleExtra("sgst",0.0);
+            igst = getIntent().getDoubleExtra("igst",0.0);
         }
     }
 
     private void setViews()
     {
-        if (itemList.get(0).getNote().matches(""))
-        {
-            note.setVisibility(View.GONE);
-            title_note.setVisibility(View.GONE);
-        }
-        else
-        {
-            note.setText(itemList.get(0).getNote());
-        }
         String amount = String.valueOf(totalAmount);
+        double subtotalGst = totalAmount * gstRate;
+        double subtotal = totalAmount + subtotalGst;
+        String subtotalAmount = String.valueOf(subtotal);
+        invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) +subtotalAmount);
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
         txt_custGstNumber.setText(customerGstNumber);
@@ -255,10 +276,27 @@ public class PreviewActivity extends AppCompatActivity {
             menu_dots.setVisibility(View.GONE);
         }
 
+        if (cgst != 0.0)
+        {
+            layout_cgst.setVisibility(View.VISIBLE);
+            invoice_cgst.setText(String.valueOf(cgst)+ " %");
+        }
+        if (sgst != 0.0)
+        {
+            layout_sgst.setVisibility(View.VISIBLE);
+            invoice_sgst.setText(String.valueOf(sgst)+ " %");
+        }
+        if (igst != 0.0)
+        {
+            layout_igst.setVisibility(View.VISIBLE);
+            invoice_igst.setText(String.valueOf(igst) + " %");
+        }
+
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
             progressDialog.dismiss();
         }
+
 
     }
 
@@ -293,15 +331,14 @@ public class PreviewActivity extends AppCompatActivity {
         }
         for (int i = 0;i<itemList.size();i++)
         {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getItemType(),itemList.get(i).getTotalAmount(),itemList.get(i).getNote());
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
         invoiceNumber = autoGenerateInvoiceNumber();
         final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
-        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,billItems,totalAmount,invoiceNumber);
-
+        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,cgst,sgst,igst,gstRate,billItems,totalAmount,invoiceNumber);
 
         customerReference.document(customerName).set(customerDetails);
         customerReference.document(customerName).collection(firebaseUser.getUid())
@@ -404,6 +441,7 @@ public class PreviewActivity extends AppCompatActivity {
             intent.setData(uri);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
+            RealmManager.addItemsInRealm(RealmManager.getItemsList());
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         } else {
@@ -412,6 +450,7 @@ public class PreviewActivity extends AppCompatActivity {
             intent = Intent.createChooser(intent, "Open File");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            RealmManager.addItemsInRealm(RealmManager.getItemsList());
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         }

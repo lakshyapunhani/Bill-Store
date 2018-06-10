@@ -1,33 +1,16 @@
-package com.fabuleux.wuntu.billstore.Fragments;
+package com.fabuleux.wuntu.billstore;
 
-
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.BillViewActivity;
-import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Pojos.User;
-import com.fabuleux.wuntu.billstore.PreviewActivity;
-import com.fabuleux.wuntu.billstore.R;
-import com.fabuleux.wuntu.billstore.RegisterActivity;
-import com.fabuleux.wuntu.billstore.SignInActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,14 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ProfileFragment extends Fragment {
-
-    @BindView(R.id.mobile_number)
-    TextView mobile_number;
-
+public class EditProfileActivity extends AppCompatActivity
+{
     @BindView(R.id.btn_profileUpdate)
     TextView btn_profileUpdate;
 
@@ -66,48 +43,25 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.edt_updatePanNumber)
     EditText edt_updatePanNumber;
 
-    @BindView(R.id.menu_dots)
-    ImageView menu_dots;
-
-    PopupMenu popup;
+    String _name ="",_shopName = "",_shopPanNumber ="",_shopGstNumber = "",_shopAddress = "";
 
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
-
-    private Context context;
-
-    String _name ="",_shopName = "",_shopPanNumber ="",_shopGstNumber = "",_shopAddress = "";
-
     ProgressDialog progressDialog;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_profile, container, false);
-        ButterKnife.bind(this,view);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_profile);
+        ButterKnife.bind(this);
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        progressDialog = new ProgressDialog(context);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Updating");
         progressDialog.setMessage("Please wait...");
-
-        mobile_number.setText(firebaseUser.getPhoneNumber());
-
-
-        popup = new PopupMenu(context, menu_dots);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.logoutmenu, popup.getMenu());
 
         DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
 
@@ -142,49 +96,7 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
-
-    @OnClick(R.id.menu_dots)
-    public void menuClick()
-    {
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                showLogOutAlert();
-                return true;
-            }
-        });
-
-        popup.show();
-    }
-
-    private void showLogOutAlert()
-    {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle("Log Out");
-        builder1.setMessage("Are you sure You want to Log out?");
-        builder1.setCancelable(true);
-        builder1.setPositiveButton(getString(R.string.alert_btn_yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent(context, SignInActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    }
-                });
-        builder1.setNegativeButton(getString(R.string.alert_btn_no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
-
 
     public void updateClick()
     {
@@ -221,7 +133,8 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.btn_profileUpdate)
     public void showUpdateAlert()
     {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Update Details");
         builder1.setMessage("Are you sure?");
         builder1.setCancelable(true);
@@ -246,18 +159,24 @@ public class ProfileFragment extends Fragment {
     {
         User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
 
-        if (firebaseUser != null ) {
-
+        if (firebaseUser != null )
+        {
             db.collection("Users")
                     .document(firebaseUser.getUid())
                     .set(user);
-            Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Data updated", Toast.LENGTH_SHORT).show();
             if (progressDialog.isShowing())
             {
                 progressDialog.dismiss();
             }
+            finish();
 
         }
     }
 
+    @OnClick(R.id.back_arrow)
+    public void backClick()
+    {
+        finish();
+    }
 }

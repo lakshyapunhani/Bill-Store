@@ -2,7 +2,6 @@ package com.fabuleux.wuntu.billstore.Fragments;
 
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,18 +20,23 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.InvoicePreviewAdapter;
 import com.fabuleux.wuntu.billstore.AddItemActivity;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.ItemToMakeBill;
-import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
+import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
+import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
+import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
+import com.fabuleux.wuntu.billstore.ProductSelectionActivity;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +65,7 @@ import butterknife.OnItemSelected;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeBillFragment extends Fragment {
+public class MakeBillFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.btn_preview)
     TextView btn_preview;
@@ -98,9 +103,18 @@ public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.edt_newCustomerGst) EditText edt_newCustomerGst;
 
+    @BindView(R.id.spinner_gst_rate)
+    Spinner spinner_gst_rate;
+
+    ArrayList<String> gstRateList;
+
+    ArrayAdapter<String> gstRateAdapter;
+
+    SessionManager sessionManager;
+
     LinearLayoutManager mLayoutManager;
 
-    ProductAdapter productAdapter;
+    InvoicePreviewAdapter invoicePreviewAdapter;
 
     private Context mContext;
 
@@ -127,6 +141,15 @@ public class MakeBillFragment extends Fragment {
     ArrayAdapter<String> spinnerAdapter;
     int customerSpinnerValue;
 
+    int flag =0;
+
+    int gstPosition;
+
+    double gstRate;
+
+    double cgst = 0,sgst = 0,igst = 0;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -152,17 +175,26 @@ public class MakeBillFragment extends Fragment {
         customerNameList = new ArrayList<>();
         customersList = new ArrayList<>();
         itemList = new ArrayList<>();
-        productAdapter = new ProductAdapter(itemList);
+        invoicePreviewAdapter = new InvoicePreviewAdapter(itemList);
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        sessionManager = new SessionManager(mContext);
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
         recycler_items.setItemAnimator(new DefaultItemAnimator());
-        recycler_items.setAdapter(productAdapter);
+        recycler_items.setAdapter(invoicePreviewAdapter);
+
+        gstRateList = new ArrayList<>();
+        gstRateList = sessionManager.getGstSlabList();
+        gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
+        spinner_gst_rate.setAdapter(gstRateAdapter);
+        spinner_gst_rate.setSelection(gstRateList.size() - 1);
+        spinner_gst_rate.setOnItemSelectedListener(this);
 
         long date = System.currentTimeMillis();
 
@@ -183,9 +215,11 @@ public class MakeBillFragment extends Fragment {
     {
         CollectionReference getCustomerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
 
-        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
             @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
+            {
                 if (e != null)
                 {
                     Toast.makeText(mContext, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
@@ -212,24 +246,98 @@ public class MakeBillFragment extends Fragment {
     @OnClick(R.id.layout_invoiced_items_header)
     public void headerClick()
     {
-        Intent intent = new Intent(mContext,AddItemActivity.class);
+        flag = 1;
+        Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(ItemToMakeBill event)
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
     {
-        ItemPojo itemPojo = new ItemPojo(event.getItemName(),event.getCostPerItem(),event.getQuantity(),event.getItemType(),event.getTotalAmount(),event.getNote());
-        itemList.add(itemPojo);
-        productAdapter.notifyDataSetChanged();
-        EventBus.getDefault().removeAllStickyEvents();
-    };
+        Spinner spinner = (Spinner) parent;
+
+        if (spinner.getId() == R.id.spinner_gst_rate)
+        {
+
+            //Toast.makeText(mContext, spinner_gst_rate.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            gstPosition = pos;
+            getGstRate();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void getGstRate()
+    {
+        switch (gstPosition)
+        {
+            case 0:
+                cgst = 2.5;
+                sgst = 2.5;
+                igst = 0;
+                gstRate = 0.05;
+                break;
+            case 1:
+                cgst = 6;
+                sgst = 6;
+                igst = 0;
+                gstRate = 0.12;
+                break;
+            case 2:
+                cgst = 9;
+                sgst = 9;
+                igst = 0;
+                gstRate = 0.18;
+                break;
+            case 3:
+                cgst = 14;
+                sgst = 14;
+                igst = 0;
+                gstRate = 0.28;
+                break;
+            case 4:
+                cgst = 0;
+                sgst = 0;
+                igst = 5;
+                gstRate = 0.05;
+                break;
+            case 5:
+                cgst = 0;
+                sgst = 0;
+                igst = 12;
+                gstRate = 0.12;
+                break;
+            case 6:
+                cgst = 0;
+                sgst = 0;
+                igst = 18;
+                gstRate = 0.18;
+                break;
+            case 7:
+                cgst = 0;
+                sgst = 0;
+                igst = 28;
+                gstRate = 0.28;
+                break;
+            case 8:
+                cgst = 0;
+                sgst = 0;
+                igst = 0;
+                gstRate = 0;
+                break;
+        }
+
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onClearEvent(EventClearBill event)
     {
         itemList.clear();
-        productAdapter.notifyDataSetChanged();
+        invoicePreviewAdapter.notifyDataSetChanged();
         edt_newCustomerName.setText("");
         edt_newCustomerAddress.setText("");
         edt_newCustomerGst.setText("");
@@ -351,6 +459,7 @@ public class MakeBillFragment extends Fragment {
             if (customerNameList.size() == 0)
             {
                 Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
+                return;
             }
             newCustomerName = customersList.get(customerSpinnerValue).getCustomerName();
             newCustomerAddress = customersList.get(customerSpinnerValue).getCustomerAddress();
@@ -364,6 +473,28 @@ public class MakeBillFragment extends Fragment {
         sendDatatoPreview();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onEvent(SendItemsEvent itemsEvent)
+    {
+        if (itemsEvent.getFlag().matches("1") && flag == 1)
+        {
+            List<ItemSelectionPojo> arrayList = new ArrayList<>();
+            arrayList = RealmManager.getSavedItems();
+            itemList.clear();
+            for (int i = 0;i<arrayList.size();i++)
+            {
+                int totalAmount = arrayList.get(i).getNumProducts() * Integer.parseInt(arrayList.get(i).getProductRate());
+                ItemPojo itemPojo = new ItemPojo(arrayList.get(i).getProductName(),arrayList.get(i).getProductRate(),String.valueOf(arrayList.get(i).getNumProducts()),String.valueOf(totalAmount));
+                itemList.add(itemPojo);
+            }
+
+            invoicePreviewAdapter.notifyDataSetChanged();
+            EventBus.getDefault().removeAllStickyEvents();
+        }
+
+    }
+
+
     private void sendDatatoPreview()
     {
         Intent intent = new Intent(mContext, PreviewActivity.class);
@@ -373,6 +504,12 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("showSave",true);
+        intent.putExtra("gstValue",gstRate);
+        intent.putExtra("cgst",cgst);
+        intent.putExtra("sgst",sgst);
+        intent.putExtra("igst",igst);
+
+
         startActivity(intent);
     }
 }

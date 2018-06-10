@@ -233,6 +233,27 @@
                 android:textSize="14sp"/>
 
             <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_select_gst_rate"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner">
+                <Spinner
+                    android:id="@+id/spinner_gst_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/layout_invoiced_items_header"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

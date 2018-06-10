@@ -141,7 +141,10 @@ public class SignInActivity extends AppCompatActivity {
                                 {
                                     progressDialog.dismiss();
                                 }
-                                startActivity(new Intent(SignInActivity.this, LanguageSelectionActivity.class));
+
+                                Intent intent = new Intent(SignInActivity.this,LanguageSelectionActivity.class);
+                                intent.putExtra("flag",0);
+                                startActivity(intent);
                                 finish();
                             }
                         }
@@ -154,7 +157,9 @@ public class SignInActivity extends AppCompatActivity {
                     });
 
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
-                } else {
+                }
+                else
+                    {
                     // User is signed out
                     Log.d("TAG", "onAuthStateChanged:signed_out");
                 }

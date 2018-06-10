@@ -29,7 +29,6 @@
     <string name="text_home">বাড়ি</string>
     <string name="text_add_bill">বিল যোগ করুন</string>
     <string name="text_make_bill">বিল তৈরি করুন</string>
-    <string name="text_profile">প্রোফাইলের</string>
     <string name="rupee_sign">&#8377;</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">বাড়ি</string>
@@ -139,5 +138,27 @@
     <string name="txt_save_bill">বিল সংরক্ষণ করুন</string>
     <string name="txt_discard_bill">বিল বাতিল করুন</string>
     <string name="text_please_provide_the_below_details">নিচে বিস্তারিত বিবরণ প্রদান করুন</string>
+    <string name="txt_profile">প্রোফাইলের</string>
+    <string name="txt_select_language">ভাষা নির্বাচন কর</string>
+    <string name="txt_next">পরবর্তী</string>
+    <string name="txt_settings">সেটিংস</string>
+    <string name="txt_add_products">পণ্য যোগ করুন</string>
+    <string name="txt_view_added">যোগ দেখুন</string>
+    <string name="txt_search_product">পণ্য অনুসন্ধান করুন</string>
+    <string name="txt_products">পণ্য</string>
+    <string name="txt_product_name">পণ্যের নাম</string>
+    <string name="txt_unit_amount">ইউনিট পরিমাণ</string>
+    <string name="txt_description">বিবরণ</string>
+    <string name="txt_add_product">পণ্য যোগ করুন</string>
+    <string name="txt_unit_price">একক দাম</string>
+    <string name="txt_dismiss">খারিজ করা</string>
+    <string name="txt_change_language">ভাষা পরিবর্তন করুন</string>
+    <string name="txt_faq">প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী</string>
+    <string name="txt_chat_with_us">আমাদের সাথে খোস গল্প কর</string>
+    <string name="txt_invite">আমন্ত্রণ করা</string>
+    <string name="txt_edit">সম্পাদন করা</string>
+    <string name="txt_details">বিস্তারিত</string>
+    <string name="txt_delete">মুছে ফেলা</string>
+    <string name="txt_app_settings">সেটিংস</string>
 </resources>
 

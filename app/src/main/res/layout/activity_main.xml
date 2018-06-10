@@ -152,13 +152,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_profile_white"/>
+                    app:srcCompat="@drawable/ic_settings_white"/>
 
                 <TextView
                     android:id="@+id/text_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_profile"
+                    android:text="@string/txt_settings"
                     android:textSize="12sp"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"

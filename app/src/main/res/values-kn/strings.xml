@@ -135,5 +135,27 @@
     <string name="txt_save_bill">ಬಿಲ್ ಉಳಿಸಿ</string>
     <string name="txt_discard_bill">ಬಿಲ್ ತ್ಯಜಿಸಿ</string>
     <string name="text_please_provide_the_below_details">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ವಿವರಗಳನ್ನು ಒದಗಿಸಿ</string>
+    <string name="txt_profile">ಪ್ರೊಫೈಲ್</string>
+    <string name="txt_select_language">ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="txt_next">ಮುಂದೆ</string>
+    <string name="txt_settings">ಸೆಟ್ಟಿಂಗ್ಗಳು</string>
+    <string name="txt_add_products">ಉತ್ಪನ್ನಗಳನ್ನು ಸೇರಿಸಿ</string>
+    <string name="txt_view_added">ವೀಕ್ಷಣೆ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="txt_search_product">ಉತ್ಪನ್ನವನ್ನು ಹುಡುಕಿ</string>
+    <string name="txt_products">ಉತ್ಪನ್ನಗಳು</string>
+    <string name="txt_product_name">ಉತ್ಪನ್ನದ ಹೆಸರು</string>
+    <string name="txt_unit_amount">ಘಟಕ ಮೊತ್ತ</string>
+    <string name="txt_description">ವಿವರಣೆ</string>
+    <string name="txt_add_product">ಉತ್ಪನ್ನ ಸೇರಿಸಿ</string>
+    <string name="txt_unit_price">ಘಟಕ ಬೆಲೆ</string>
+    <string name="txt_dismiss">ವಜಾಗೊಳಿಸಿ</string>
+    <string name="txt_change_language">ಭಾಷೆ ಬದಲಾಯಿಸಿ</string>
+    <string name="txt_faq">ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು</string>
+    <string name="txt_chat_with_us">ನಮ್ಮೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಿ</string>
+    <string name="txt_invite">ಆಹ್ವಾನಿಸಿ</string>
+    <string name="txt_edit">ಸಂಪಾದಿಸಿ</string>
+    <string name="txt_details">ವಿವರಗಳು</string>
+    <string name="txt_delete">ಅಳಿಸಿ</string>
+    <string name="txt_app_settings">ಸೆಟ್ಟಿಂಗ್ಗಳು</string>
 </resources>
 

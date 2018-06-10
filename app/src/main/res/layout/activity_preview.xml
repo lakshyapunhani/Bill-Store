@@ -294,7 +294,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="@string/txt_subtotal"
+                    android:text="Total : "
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
                     android:gravity="end" />
@@ -310,32 +310,125 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_cgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="40dp">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/title_note"
-                    android:layout_width="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:text="CGST: "
                     fontPath="fonts/DroidSansMono.ttf"
                     tools:ignore="MissingPrefix"
-                    android:text="@string/txt_note"/>
+                    android:gravity="end" />
 
                 <TextView
-                    android:id="@+id/note"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/invoice_cgst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    fontPath="fonts/DroidSansMono.ttf"
-                    tools:ignore="MissingPrefix"
-                    tools:text="Note"/>
+                    tools:text="18%" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="SGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_sgst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_igst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="IGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_igst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_subtotal"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_subTotal"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$10000" />
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

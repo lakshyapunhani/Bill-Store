@@ -140,5 +140,27 @@
     <string name="txt_save_bill">ਬਿੱਲ ਬਚਾਓ</string>
     <string name="txt_discard_bill">ਬਿੱਲ ਰੱਦ ਕਰੋ</string>
     <string name="text_please_provide_the_below_details">ਕਿਰਪਾ ਕਰਕੇ ਹੇਠਾਂ ਵੇਰਵੇ ਪ੍ਰਦਾਨ ਕਰੋ</string>
+    <string name="txt_profile">ਪ੍ਰੋਫਾਈਲ</string>
+    <string name="txt_select_language">ਭਾਸ਼ਾ ਚੁਣੋ</string>
+    <string name="txt_next">ਅਗਲਾ</string>
+    <string name="txt_settings">ਸੈਟਿੰਗਾਂ</string>
+    <string name="txt_add_products">ਉਤਪਾਦ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="txt_view_added">ਵੇਖੋ</string>
+    <string name="txt_search_product">ਖੋਜ ਉਤਪਾਦ</string>
+    <string name="txt_products">ਉਤਪਾਦ</string>
+    <string name="txt_product_name">ਉਤਪਾਦ ਦਾ ਨਾਮ</string>
+    <string name="txt_unit_amount">ਇਕਾਈ ਰਾਸ਼ੀ</string>
+    <string name="txt_description">ਵਰਣਨ</string>
+    <string name="txt_add_product">ਉਤਪਾਦ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="txt_unit_price">ਯੂਨਿਟ ਮੁੱਲ</string>
+    <string name="txt_dismiss">ਬਰਖਾਸਤ ਕਰੋ</string>
+    <string name="txt_change_language">ਭਾਸ਼ਾ ਬਦਲੋ</string>
+    <string name="txt_faq">ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ</string>
+    <string name="txt_chat_with_us">ਸਾਡੇ ਨਾਲ ਚੈਟ ਕਰੋ</string>
+    <string name="txt_invite">ਸੱਦਾ</string>
+    <string name="txt_edit">ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <string name="txt_details">ਵੇਰਵਾ</string>
+    <string name="txt_delete">ਮਿਟਾਓ</string>
+    <string name="txt_app_settings">ਸੈਟਿੰਗਾਂ</string>
 </resources>
 
