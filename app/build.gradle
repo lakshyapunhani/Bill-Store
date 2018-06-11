@@ -34,8 +34,8 @@ android {
         applicationId "com.fabuleux.wuntu.billstore"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.11"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

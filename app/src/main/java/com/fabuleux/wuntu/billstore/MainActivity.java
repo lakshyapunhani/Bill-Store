@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         unitList = new ArrayList<>();
         gstRateList = new ArrayList<>();
         itemList = new ArrayList<>();
+        saveDataToSessionManager();
 
         productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
 
@@ -199,8 +200,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         transaction.commitAllowingStateLoss();
-
-        saveDataToSessionManager();
 
     }
 
@@ -343,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveDataToSessionManager()
     {
-        CollectionReference gstReference = db.collection("GstSlabs");
+        /*CollectionReference gstReference = db.collection("GstSlabs");
 
         gstReference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -362,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Error in GST document", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
 
         CollectionReference unitReference = db.collection("Units");
 

@@ -30,6 +30,7 @@ import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.ItemToMakeBill;
 import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
+import com.fabuleux.wuntu.billstore.MainActivity;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
@@ -38,6 +39,8 @@ import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.PreviewActivity;
 import com.fabuleux.wuntu.billstore.ProductSelectionActivity;
 import com.fabuleux.wuntu.billstore.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -190,10 +193,16 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         recycler_items.setAdapter(invoicePreviewAdapter);
 
         gstRateList = new ArrayList<>();
-        gstRateList = sessionManager.getGstSlabList();
-        gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
-        spinner_gst_rate.setAdapter(gstRateAdapter);
-        spinner_gst_rate.setSelection(gstRateList.size() - 1);
+
+        getGstList();
+
+
+        //gstRateList = sessionManager.getGstSlabList();
+        /*if (gstRateList != null)
+        {
+
+        }*/
+
         spinner_gst_rate.setOnItemSelectedListener(this);
 
         long date = System.currentTimeMillis();
@@ -209,6 +218,31 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         getCustomerList();
 
         return view;
+    }
+
+    private void getGstList()
+    {
+        CollectionReference gstReference = db.collection("GstSlabs");
+
+        gstReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                gstRateList.add(document.getId());
+                            }
+
+                            gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
+                            spinner_gst_rate.setAdapter(gstRateAdapter);
+                            spinner_gst_rate.setSelection(gstRateList.size() - 1);
+
+                        } else
+                        {
+                            Toast.makeText(mContext, "Error in GST document", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void getCustomerList()
