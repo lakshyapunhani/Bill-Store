@@ -99,7 +99,7 @@ public class SettingsFragment extends Fragment {
     public void changeLanguage()
     {
         Intent intent = new Intent(context,LanguageSelectionActivity.class);
-        intent.putExtra("flag",0);
+        intent.putExtra("flag",1);
         startActivity(intent);
     }
 

@@ -518,7 +518,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
             for (int i = 0;i<arrayList.size();i++)
             {
                 int totalAmount = arrayList.get(i).getNumProducts() * Integer.parseInt(arrayList.get(i).getProductRate());
-                ItemPojo itemPojo = new ItemPojo(arrayList.get(i).getProductName(),arrayList.get(i).getProductRate(),String.valueOf(arrayList.get(i).getNumProducts()),String.valueOf(totalAmount));
+                ItemPojo itemPojo = new ItemPojo(arrayList.get(i).getProductId(),arrayList.get(i).getProductName(),arrayList.get(i).getProductRate(),String.valueOf(arrayList.get(i).getNumProducts()),String.valueOf(totalAmount));
                 itemList.add(itemPojo);
             }
 

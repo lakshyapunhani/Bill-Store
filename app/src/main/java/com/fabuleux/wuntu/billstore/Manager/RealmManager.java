@@ -49,18 +49,20 @@ public class RealmManager {
                 @Override
                 public void execute(Realm bgrealm)
                 {
-                    for (int i = 0;i<response.size();i++)
-                    {
-                        ItemRealm itemRealm = new ItemRealm(response.get(i).getProductId(),response.get(i).getProductName(),response.get(i).getProductRate()
-                                ,response.get(i).getProductDescription(),0,"N");
+                    for (int i = 0;i<response.size();i++) {
+                        if (!getItem(response.get(i).getProductId()))
+                        {
+                        ItemRealm itemRealm = new ItemRealm(response.get(i).getProductId(), response.get(i).getProductName(), response.get(i).getProductRate()
+                                , response.get(i).getProductDescription(), 0, "N");
                         bgrealm.insertOrUpdate(itemRealm);
+                    }
                     }
                 }
             });
         }
     }
 
-    public static void updateNumItem(final String id, final int products)
+    public static void updateNumItem(final String id, final int numProducts)
     {
         try(Realm realm = Realm.getDefaultInstance())
         {
@@ -70,7 +72,7 @@ public class RealmManager {
                     ItemRealm itemRealm = bgrealm.where(ItemRealm.class).equalTo("productId",id).findFirst();
                     if (itemRealm != null)
                     {
-                        itemRealm.setNumProducts(products);
+                        itemRealm.setNumProducts(numProducts);
                     }
                 }
             });
@@ -224,17 +226,17 @@ public class RealmManager {
 
 
 
-    public static ItemRealm getItem(final String id)
+    public static boolean getItem(final String id)
     {
         try(final Realm realm = Realm.getDefaultInstance())
         {
             ItemRealm itemRealm= realm.where(ItemRealm.class).equalTo("productId", id).findFirst();
             if (itemRealm != null && itemRealm.isValid())
             {
-                return itemRealm;
+                return true;
             }
             else {
-                return null;
+                return false;
             }
         }
     }

@@ -86,13 +86,6 @@ public class BillDocumentsAdapter extends RecyclerView.Adapter<RecyclerView.View
             Glide.with(context).load(url)
                     .into(((ViewHolder)holder).imageView);
         }
-
-
-
-
-
-
-
     }
 
     @NonNull

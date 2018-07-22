@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 public class ItemPojo implements Parcelable
 {
+    private String productId;
 
     private String itemName;
 
@@ -25,7 +26,8 @@ public class ItemPojo implements Parcelable
 
     public ItemPojo(){}
 
-    public ItemPojo(String itemName, String costPerItem, String quantity,String totalAmount) {
+    public ItemPojo(String productId,String itemName, String costPerItem, String quantity,String totalAmount) {
+        this.productId = productId;
         this.itemName = itemName;
         this.costPerItem = costPerItem;
         this.quantity = quantity;
@@ -35,6 +37,7 @@ public class ItemPojo implements Parcelable
     }
 
     protected ItemPojo(Parcel in) {
+        productId = in.readString();
         itemName = in.readString();
         costPerItem = in.readString();
         quantity = in.readString();
@@ -100,11 +103,20 @@ public class ItemPojo implements Parcelable
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(productId);
         parcel.writeString(itemName);
         parcel.writeString(costPerItem);
         parcel.writeString(quantity);
        // parcel.writeString(itemType);
         parcel.writeString(totalAmount);
        // parcel.writeString(note);
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

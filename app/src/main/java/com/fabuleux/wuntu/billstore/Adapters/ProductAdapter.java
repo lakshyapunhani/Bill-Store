@@ -121,109 +121,109 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         String name = arrayList.get(position).getProductName();
 
-        ((ViewHolder)holder).tv_productName.setText(name);
+        ((ViewHolder)holder).tv_productName.setText(name.toUpperCase().trim());
 
-        if (name.startsWith("a"))
+        if (name.startsWith("a") || name.startsWith("A"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_a);
         }
-        else if (name.startsWith("b"))
+        else if (name.startsWith("b") || name.startsWith("B"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_b);
         }
-        else if (name.startsWith("c"))
+        else if (name.startsWith("c") || name.startsWith("C"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_c);
         }
-        else if (name.startsWith("d"))
+        else if (name.startsWith("d") || name.startsWith("D"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_d);
         }
-        else if (name.startsWith("e"))
+        else if (name.startsWith("e") || name.startsWith("E"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_e);
         }
-        else if (name.startsWith("f"))
+        else if (name.startsWith("f") || name.startsWith("F"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_f);
         }
-        else if (name.startsWith("g"))
+        else if (name.startsWith("g") || name.startsWith("G"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_g);
         }
-        else if (name.startsWith("h"))
+        else if (name.startsWith("h") || name.startsWith("H"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_h);
         }
-        else if (name.startsWith("i"))
+        else if (name.startsWith("i") || name.startsWith("I"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_i);
         }
-        else if (name.startsWith("j"))
+        else if (name.startsWith("j") || name.startsWith("J"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_j);
         }
-        else if (name.startsWith("k"))
+        else if (name.startsWith("k") || name.startsWith("K"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_k);
         }
-        else if (name.startsWith("l"))
+        else if (name.startsWith("l") || name.startsWith("L"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_l);
         }
-        else if (name.startsWith("m"))
+        else if (name.startsWith("m") || name.startsWith("M"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_m);
         }
-        else if (name.startsWith("n"))
+        else if (name.startsWith("n") || name.startsWith("N"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_n);
         }
-        else if (name.startsWith("o"))
+        else if (name.startsWith("o") || name.startsWith("O"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_o);
         }
-        else if (name.startsWith("p"))
+        else if (name.startsWith("p") || name.startsWith("P"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_p);
         }
-        else if (name.startsWith("q"))
+        else if (name.startsWith("q") || name.startsWith("Q"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_q);
         }
-        else if (name.startsWith("r"))
+        else if (name.startsWith("r") || name.startsWith("R"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_r);
         }
-        else if (name.startsWith("s"))
+        else if (name.startsWith("s") || name.startsWith("S"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_s);
         }
-        else if (name.startsWith("t"))
+        else if (name.startsWith("t") || name.startsWith("T"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_t);
         }
-        else if (name.startsWith("u"))
+        else if (name.startsWith("u") || name.startsWith("U"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_u);
         }
-        else if (name.startsWith("v"))
+        else if (name.startsWith("v") || name.startsWith("V"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_v);
         }
-        else if (name.startsWith("w"))
+        else if (name.startsWith("w") || name.startsWith("W"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_w);
         }
-        else if (name.startsWith("x"))
+        else if (name.startsWith("x") || name.startsWith("X"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_x);
         }
-        else if (name.startsWith("y"))
+        else if (name.startsWith("y") || name.startsWith("Y"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_y);
         }
-        else if (name.startsWith("z"))
+        else if (name.startsWith("z") || name.startsWith("Z"))
         {
             ((ViewHolder) holder).iv_productImage.setImageResource(R.drawable.ic_letter_z);
         }

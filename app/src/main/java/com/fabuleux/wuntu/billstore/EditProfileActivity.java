@@ -73,27 +73,31 @@ public class EditProfileActivity extends AppCompatActivity
                 {
                     return;
                 }
-                if (documentSnapshot.contains("shop_name"))
+                if (documentSnapshot.exists())
                 {
-                    edt_updatesShopName.setText(documentSnapshot.get("shop_name").toString());
-                }
-                if (documentSnapshot.contains("shop_address"))
-                {
-                    edt_updateShopAddress.setText(documentSnapshot.get("shop_address").toString());
-                }
-                if (documentSnapshot.contains("shop_gst"))
-                {
-                    edt_updateGstNumber.setText(documentSnapshot.get("shop_gst").toString());
+                    if (documentSnapshot.contains("shop_name"))
+                    {
+                        edt_updatesShopName.setText(documentSnapshot.get("shop_name").toString());
+                    }
+                    if (documentSnapshot.contains("shop_address"))
+                    {
+                        edt_updateShopAddress.setText(documentSnapshot.get("shop_address").toString());
+                    }
+                    if (documentSnapshot.contains("shop_gst"))
+                    {
+                        edt_updateGstNumber.setText(documentSnapshot.get("shop_gst").toString());
+                    }
+
+                    if (documentSnapshot.contains("name"))
+                    {
+                        edt_updateName.setText(documentSnapshot.get("name").toString());
+                    }
+                    if (documentSnapshot.contains("shop_pan"))
+                    {
+                        edt_updatePanNumber.setText(documentSnapshot.get("shop_pan").toString());
+                    }
                 }
 
-                if (documentSnapshot.contains("name"))
-                {
-                    edt_updateName.setText(documentSnapshot.get("name").toString());
-                }
-                if (documentSnapshot.contains("shop_pan"))
-                {
-                    edt_updatePanNumber.setText(documentSnapshot.get("shop_pan").toString());
-                }
             }
         });
     }

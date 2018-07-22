@@ -92,12 +92,12 @@ public class ProductSelectionActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
         }
 
-        //itemList = RealmManager.getItemsList();
+        itemList = RealmManager.getItemsList();
 
         initialiseUI();
 
 
-        productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
+        /*productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
 
         productReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -120,7 +120,7 @@ public class ProductSelectionActivity extends AppCompatActivity {
                 RealmManager.addItemsInRealm(itemList);
                 initialiseUI();
             }
-        });
+        });*/
 
 
     }

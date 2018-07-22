@@ -53,7 +53,7 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
             flag = getIntent().getIntExtra("flag",0);
         }
 
-        if (flag == 0)
+        if (flag == 1)
         {
             btn_done.setVisibility(View.VISIBLE);
             btn_next.setVisibility(View.GONE);

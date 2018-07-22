@@ -157,16 +157,16 @@ public class ProductsActivity extends AppCompatActivity {
         final EditText edt_productAmount = (EditText) view1.findViewById(R.id.edt_productAmount);
         final EditText edt_productName = (EditText) view1.findViewById(R.id.productName);
         final EditText edt_productDescription = (EditText) view1.findViewById(R.id.edt_productDescription);
-        Button btn_createExpense = (Button) view1.findViewById(R.id.btn_addProduct);
+        Button btn_addProduct = (Button) view1.findViewById(R.id.btn_addProduct);
 
-        btn_createExpense.setOnClickListener(new View.OnClickListener()
+        btn_addProduct.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                final String productName = edt_productName.getText().toString();
-                final String productRate = edt_productAmount.getText().toString();
-                final String productDesc = edt_productDescription.getText().toString();
+                final String productName = edt_productName.getText().toString().trim();
+                final String productRate = edt_productAmount.getText().toString().trim();
+                final String productDesc = edt_productDescription.getText().toString().trim();
 
                 String productId= randomString(6);
 

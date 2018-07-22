@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.R;
 
@@ -108,7 +109,9 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return this.itemList.size();
     }
 
-    private void removeAt(int position) {
+    private void removeAt(int position)
+    {
+        RealmManager.updateNumItem(itemList.get(position).getProductId(),0);
         itemList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, itemList.size());

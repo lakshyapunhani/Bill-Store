@@ -331,7 +331,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
         for (int i = 0;i<itemList.size();i++)
         {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
