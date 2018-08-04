@@ -14,7 +14,7 @@
         android:background="#0484AE">
 
         <ImageView
-            android:id="@+id/back_arrow"
+            android:id="@+id/back_arrow_profile"
             android:contentDescription="@string/btn_back_button"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
