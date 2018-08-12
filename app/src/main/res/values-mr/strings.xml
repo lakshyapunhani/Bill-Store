@@ -162,6 +162,7 @@
     <string name="txt_details">तपशील</string>
     <string name="txt_delete">हटवा</string>
     <string name="txt_app_settings">सेटिंग्ज</string>
+    <string name="create_invoice">बिल तयार करा</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>

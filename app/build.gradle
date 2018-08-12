@@ -33,7 +33,7 @@ android {
         applicationId "com.fabuleux.wuntu.billstore"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 4
+        versionCode 5
         versionName "1.21"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

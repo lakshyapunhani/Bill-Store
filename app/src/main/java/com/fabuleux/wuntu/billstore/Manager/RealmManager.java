@@ -73,6 +73,7 @@ public class RealmManager {
                     if (itemRealm != null)
                     {
                         itemRealm.setNumProducts(numProducts);
+                        bgrealm.insertOrUpdate(itemRealm);
                     }
                 }
             });
@@ -91,26 +92,6 @@ public class RealmManager {
                     {
                         itemRealm.setIsSaved("S");
                         bgrealm.insertOrUpdate(itemRealm);
-                    }
-                }
-            });
-        }
-    }
-
-    public static void updateSavedItems(final ArrayList<ItemSelectionPojo> arrayList)
-    {
-        try(Realm realm = Realm.getDefaultInstance())
-        {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm bgrealm) {
-                    for (int i = 0;i<arrayList.size();i++) {
-                        ItemRealm itemRealm = bgrealm.where(ItemRealm.class).equalTo("productId", arrayList.get(i).getProductId()).findFirst();
-                        if (itemRealm != null) {
-                            itemRealm.setNumProducts(arrayList.get(i).getNumProducts());
-                            itemRealm.setIsSaved("S");
-                            bgrealm.insertOrUpdate(itemRealm);
-                        }
                     }
                 }
             });
@@ -192,40 +173,6 @@ public class RealmManager {
         }
     }
 
-    public static void deleteItemsRealm(final List<ItemSelectionPojo> response)
-    {
-        try(Realm realm = Realm.getDefaultInstance())
-        {
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm bgrealm) {
-                    RealmResults<ItemRealm> itemRealms = bgrealm.where(ItemRealm.class).findAll();
-                    itemRealms.deleteAllFromRealm();
-                }
-            }, new Realm.Transaction.OnSuccess() {
-                @Override
-                public void onSuccess()
-                {
-                    if (response != null)
-                    {
-                        addItemsInRealm(response);
-                    }
-
-
-                }
-            }, new Realm.Transaction.OnError() {
-                @Override
-                public void onError(Throwable error) {
-
-                }
-            });
-        }
-    }
-
-
-
-
-
     public static boolean getItem(final String id)
     {
         try(final Realm realm = Realm.getDefaultInstance())
@@ -241,15 +188,70 @@ public class RealmManager {
         }
     }
 
-    public static ItemSelectionPojo getSalesItemPojoById(final String id) {
-        try (Realm realm = Realm.getDefaultInstance()){
-            ItemRealm itemRealm = realm.where(ItemRealm.class).equalTo("productId", id).findFirst();
-            if (itemRealm != null && itemRealm.isValid()) {
-                return new ItemSelectionPojo(itemRealm);
-            } else {
-                return null;
-            }
+    public static void setItemRealmToZero()
+    {
+        try(final Realm realm = Realm.getDefaultInstance())
+        {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm bgrealm) {
+                    RealmResults<ItemRealm> itemRealms = realm.where(ItemRealm.class).greaterThan("numProducts",0).notEqualTo("isSaved","S").findAll();
+
+                    for (int i = 0;i<itemRealms.size();i++)
+                    {
+                        if (itemRealms.get(i).isValid())
+                        {
+                            ItemRealm itemRealm = itemRealms.get(i);
+                            itemRealm.setNumProducts(0);
+                            bgrealm.insertOrUpdate(itemRealm);
+                        }
+                    }
+                }
+            });
         }
     }
+
+    public static void resetItemRealm()
+    {
+        try(final Realm realm = Realm.getDefaultInstance())
+        {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm bgrealm) {
+                    RealmResults<ItemRealm> itemRealms = realm.where(ItemRealm.class).findAll();
+
+                    for (int i = 0;i<itemRealms.size();i++)
+                    {
+                        if (itemRealms.get(i).isValid())
+                        {
+                            ItemRealm itemRealm = itemRealms.get(i);
+                            itemRealm.setNumProducts(0);
+                            itemRealm.setIsSaved("N");
+                            bgrealm.insertOrUpdate(itemRealm);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public static void deleteParticularItem(final String id)
+    {
+        try(Realm realm = Realm.getDefaultInstance())
+        {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm bgrealm) {
+                    ItemRealm itemRealm = bgrealm.where(ItemRealm.class).equalTo("productId",id).findFirst();
+                    if (itemRealm != null)
+                    {
+                        itemRealm.setNumProducts(0);
+                        itemRealm.setIsSaved("N");
+                    }
+                }
+            });
+        }
+    }
+
 
 }

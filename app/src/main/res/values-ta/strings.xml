@@ -162,6 +162,7 @@
     <string name="txt_details">விவரங்கள்</string>
     <string name="txt_delete">அழி</string>
     <string name="txt_app_settings">அமைப்புகள்</string>
+    <string name="create_invoice">மசோதாவை உருவாக்கவும்</string>
 
     <string-array name="questions">
         <item>விலைப்பட்டியல் எவ்வாறு உருவாக்கப்படுகிறது?</item>

@@ -157,6 +157,7 @@
     <string name="txt_details">વિગતો</string>
     <string name="txt_delete">કાઢી નાંખો</string>
     <string name="txt_app_settings">સેટિંગ્સ</string>
+    <string name="create_invoice">બિલ બનાવો</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>

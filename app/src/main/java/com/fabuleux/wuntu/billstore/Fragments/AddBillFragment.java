@@ -789,10 +789,16 @@ public class AddBillFragment extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.dismiss();
                         submitBill();
                     }
-                });
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
+            }
+        });
         AlertDialog alert = builder.create();
         alert.show();
     }
@@ -805,14 +811,14 @@ public class AddBillFragment extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.alert_btn_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        dialog.dismiss();
                         clearData();
                     }
                 })
         .setNegativeButton(getString(R.string.alert_btn_no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                dialog.dismiss();
             }
         });
         AlertDialog alert = builder.create();

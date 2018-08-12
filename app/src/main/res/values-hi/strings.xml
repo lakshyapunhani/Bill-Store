@@ -158,6 +158,7 @@
     <string name="txt_details">विवरण</string>
     <string name="txt_delete">हटाना</string>
     <string name="txt_app_settings">सेटिंग्स</string>
+    <string name="create_invoice">बिल बनाएं</string>
 
     <string-array name="questions">
         <item>बिल कैसे बनाएं?</item>

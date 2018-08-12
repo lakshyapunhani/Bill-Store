@@ -434,6 +434,8 @@ public class PreviewActivity extends AppCompatActivity {
         File file=new File(Environment.getExternalStorageDirectory()
                 + File.separator + "Invoice.pdf");
 
+        RealmManager.resetItemRealm();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
             Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
@@ -441,7 +443,7 @@ public class PreviewActivity extends AppCompatActivity {
             intent.setData(uri);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
-            RealmManager.addItemsInRealm(RealmManager.getItemsList());
+
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         } else {
@@ -450,7 +452,6 @@ public class PreviewActivity extends AppCompatActivity {
             intent = Intent.createChooser(intent, "Open File");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            RealmManager.addItemsInRealm(RealmManager.getItemsList());
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
         }
