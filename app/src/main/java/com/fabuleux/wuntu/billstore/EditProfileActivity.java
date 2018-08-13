@@ -178,7 +178,7 @@ public class EditProfileActivity extends AppCompatActivity
         }
     }
 
-    @OnClick(R.id.back_arrow)
+    @OnClick(R.id.back_arrow_profile)
     public void backClick()
     {
         finish();

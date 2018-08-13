@@ -111,7 +111,7 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void removeAt(int position)
     {
-        RealmManager.updateNumItem(itemList.get(position).getProductId(),0);
+        RealmManager.deleteParticularItem(itemList.get(position).getProductId());
         itemList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, itemList.size());

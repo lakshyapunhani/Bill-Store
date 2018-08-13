@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:text="@string/text_make_bill"
+            android:text="@string/create_invoice"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
             android:paddingLeft="30dp"

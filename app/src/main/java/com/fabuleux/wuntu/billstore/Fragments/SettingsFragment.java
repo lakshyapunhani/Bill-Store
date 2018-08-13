@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fabuleux.wuntu.billstore.EditProfileActivity;
+import com.fabuleux.wuntu.billstore.FaqActivity;
 import com.fabuleux.wuntu.billstore.LanguageSelectionActivity;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
@@ -59,6 +60,8 @@ public class SettingsFragment extends Fragment {
 
     @BindView(R.id.layout_products)
             LinearLayout layout_products;
+
+    @BindView(R.id.layout_faq) LinearLayout layout_faq;
 
     FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
@@ -116,7 +119,7 @@ public class SettingsFragment extends Fragment {
         Freshchat.getInstance(context.getApplicationContext()).init(freshchatConfig);
 
         FreshchatUser user = Freshchat.getInstance(context.getApplicationContext()).getUser();
-        //user.setFirstName(mSessionManager.getName()).setPhone(mSessionManager.getCountryCode(), mSessionManager.getUsername());
+        user.setFirstName(firebaseUser.getUid()).setPhone("",firebaseUser.getPhoneNumber());
         Freshchat.getInstance(context.getApplicationContext()).setUser(user);
 
         Freshchat.showConversations(context.getApplicationContext());
@@ -181,6 +184,12 @@ public class SettingsFragment extends Fragment {
     public void productLayoutClick()
     {
         startActivity(new Intent(context, ProductsActivity.class));
+    }
+
+    @OnClick(R.id.layout_faq)
+    public void faqLayoutClick()
+    {
+        startActivity(new Intent(context, FaqActivity.class));
     }
 
 }

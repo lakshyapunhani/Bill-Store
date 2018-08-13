@@ -195,7 +195,7 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
-                android:visibility="gone"
+                android:id="@+id/layout_faq"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
@@ -227,7 +227,7 @@
             </LinearLayout>
 
             <View
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey"/>

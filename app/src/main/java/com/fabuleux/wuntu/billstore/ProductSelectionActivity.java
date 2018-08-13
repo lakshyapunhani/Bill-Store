@@ -226,4 +226,11 @@ public class ProductSelectionActivity extends AppCompatActivity {
         EventBus.getDefault().postSticky(new SendItemsEvent(savedList,"1"));
         finish();
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        RealmManager.setItemRealmToZero();
+        super.onDestroy();
+    }
 }
