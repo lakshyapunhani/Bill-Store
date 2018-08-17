@@ -162,6 +162,9 @@
     <string name="txt_delete">ഇല്ലാതാക്കുക</string>
     <string name="txt_app_settings">ക്രമീകരണങ്ങൾ</string>
     <string name="create_invoice">ബിൽ സൃഷ്ടിക്കുക</string>
+    <string name="contacts">Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="search_contact">Search Contact</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>

@@ -158,6 +158,42 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:id="@+id/layout_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_products"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="match_parent"
+                    android:text="@string/contacts"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="15dp"
+                    app:srcCompat="@drawable/ic_right_arrow_angle"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
                 android:id="@+id/layout_changeLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

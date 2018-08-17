@@ -163,6 +163,9 @@
     <string name="txt_delete">తొలగించు</string>
     <string name="txt_app_settings">సెట్టింగులు</string>
     <string name="create_invoice">బిల్లును సృష్టించండి</string>
+    <string name="contacts">Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="search_contact">Search Contact</string>
 
     <string-array name="questions">
         <item>ఇన్వాయిస్ ఎలా సృష్టించాలి?</item>

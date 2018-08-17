@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fabuleux.wuntu.billstore.Activity.ContactsActivity;
 import com.fabuleux.wuntu.billstore.Activity.EditProfileActivity;
 import com.fabuleux.wuntu.billstore.Activity.FaqActivity;
 import com.fabuleux.wuntu.billstore.Activity.LanguageSelectionActivity;
@@ -60,6 +61,9 @@ public class SettingsFragment extends Fragment {
 
     @BindView(R.id.layout_products)
             LinearLayout layout_products;
+
+    @BindView(R.id.layout_contacts)
+    LinearLayout layout_contacts;
 
     @BindView(R.id.layout_faq) LinearLayout layout_faq;
 
@@ -190,6 +194,12 @@ public class SettingsFragment extends Fragment {
     public void faqLayoutClick()
     {
         startActivity(new Intent(context, FaqActivity.class));
+    }
+
+    @OnClick(R.id.layout_contacts)
+    public void contactsLayoutClick()
+    {
+        startActivity(new Intent(context,ContactsActivity.class));
     }
 
 }
