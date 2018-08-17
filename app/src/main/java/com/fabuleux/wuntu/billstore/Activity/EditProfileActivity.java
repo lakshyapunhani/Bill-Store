@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Pojos.User;
+import com.fabuleux.wuntu.billstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;

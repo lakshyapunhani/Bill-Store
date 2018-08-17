@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.User;
+import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

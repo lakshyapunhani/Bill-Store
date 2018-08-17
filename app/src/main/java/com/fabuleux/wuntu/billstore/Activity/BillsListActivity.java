@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -10,6 +10,7 @@ import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Fragments.CustomerBillListFragment;
 import com.fabuleux.wuntu.billstore.Fragments.VendorBillListFragment;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 
 import org.greenrobot.eventbus.EventBus;

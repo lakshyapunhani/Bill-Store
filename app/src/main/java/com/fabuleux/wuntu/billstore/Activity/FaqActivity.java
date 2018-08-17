@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,9 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.fabuleux.wuntu.billstore.Adapters.FaqAdapter;
-import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
-
-import java.util.ArrayList;
+import com.fabuleux.wuntu.billstore.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

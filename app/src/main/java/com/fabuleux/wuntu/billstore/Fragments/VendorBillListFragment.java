@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.VendorsBillListAdapter;
-import com.fabuleux.wuntu.billstore.BillViewActivity;
+import com.fabuleux.wuntu.billstore.Activity.BillViewActivity;
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;

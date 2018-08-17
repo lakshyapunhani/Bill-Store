@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +14,7 @@ import com.fabuleux.wuntu.billstore.Adapters.SelectableViewHolder;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.Language;
 import com.fabuleux.wuntu.billstore.Pojos.SelectableLanguage;
+import com.fabuleux.wuntu.billstore.R;
 
 import java.util.ArrayList;
 import java.util.List;

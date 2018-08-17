@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_grey"
-    tools:context="com.fabuleux.wuntu.billstore.EditProfileActivity">
+    tools:context="com.fabuleux.wuntu.billstore.Activity.EditProfileActivity">
 
     <LinearLayout
         android:layout_marginBottom="10dp"

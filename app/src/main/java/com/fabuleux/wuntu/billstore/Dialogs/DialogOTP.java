@@ -3,8 +3,6 @@ package com.fabuleux.wuntu.billstore.Dialogs;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -20,14 +18,10 @@ import com.fabuleux.wuntu.billstore.EventBus.EventOTP;
 import com.fabuleux.wuntu.billstore.EventBus.EventPrintOtp;
 import com.fabuleux.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.fabuleux.wuntu.billstore.R;
-import com.fabuleux.wuntu.billstore.SignInActivity;
-import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

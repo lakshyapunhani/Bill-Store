@@ -15,10 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.CustomerListAdapter;
-import com.fabuleux.wuntu.billstore.Adapters.VendorListAdapter;
-import com.fabuleux.wuntu.billstore.BillsListActivity;
+import com.fabuleux.wuntu.billstore.Activity.BillsListActivity;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
-import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;

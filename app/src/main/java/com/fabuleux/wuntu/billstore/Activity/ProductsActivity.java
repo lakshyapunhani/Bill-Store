@@ -1,4 +1,4 @@
-package com.fabuleux.wuntu.billstore;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -21,9 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
-import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
-import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
+import com.fabuleux.wuntu.billstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
