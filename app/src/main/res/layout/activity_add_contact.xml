@@ -89,7 +89,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/edt_updateName"
+                        android:id="@+id/edt_contactName"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -105,12 +105,13 @@
 
                 </LinearLayout>
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/text_shop_company_name"
+                    android:text="Address"
                     android:textColor="@color/blue"
                     android:textSize="14sp"/>
 
@@ -121,7 +122,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/edt_updatesShopName"
+                        android:id="@+id/edt_contactAddress"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -142,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/text_shop_company_address"
+                    android:text="Phone Number"
                     android:textColor="@color/blue"
                     android:textSize="14sp"/>
 
@@ -152,15 +153,8 @@
                     android:background="@drawable/edt_rounded_corner"
                     android:orientation="horizontal">
 
-                    <!--<android.support.v7.widget.AppCompatImageView
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:background="@color/blue"
-                        app:srcCompat="@drawable/ic_house_white" />-->
-
                     <EditText
-                        android:id="@+id/edt_updateShopAddress"
+                        android:id="@+id/edt_contactPhone"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -191,16 +185,9 @@
                     android:background="@drawable/edt_rounded_corner"
                     android:orientation="horizontal">
 
-                    <!--<android.support.v7.widget.AppCompatImageView
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:background="@color/blue"
-                        app:srcCompat="@drawable/ic_house_white" />-->
-
 
                     <EditText
-                        android:id="@+id/edt_updateGstNumber"
+                        android:id="@+id/edt_contactGstNumber"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -211,46 +198,6 @@
                         android:backgroundTint="@android:color/transparent"
                         android:paddingStart="20dp"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        tools:targetApi="lollipop" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:textColor="@color/blue"
-                    android:text="@string/text_cin_pan_number"
-                    android:textSize="14sp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/edt_rounded_corner"
-                    android:orientation="horizontal">
-
-                    <!--<android.support.v7.widget.AppCompatImageView
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:background="@color/blue"
-                        app:srcCompat="@drawable/ic_house_white" />-->
-
-                    <EditText
-                        android:id="@+id/edt_updatePanNumber"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:paddingEnd="0dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingStart="20dp"
-                        android:textColor="@android:color/black"
-                        android:backgroundTint="@android:color/transparent"
                         android:textSize="16sp"
                         tools:targetApi="lollipop" />
 
