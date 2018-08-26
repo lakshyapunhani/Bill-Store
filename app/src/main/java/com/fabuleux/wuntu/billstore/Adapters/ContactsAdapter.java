@@ -167,6 +167,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             {
                 dialog.dismiss();
                 Intent intent = new Intent(context, AddContactActivity.class);
+                intent.putExtra("pojo",contactPojo);
                 context.startActivity(intent);
             }
         });
@@ -185,7 +186,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         dialog.show();
     }
 
-    public void selectLetterImage(String name,ImageView imageView)
+    private void selectLetterImage(String name,ImageView imageView)
     {
         if (name.startsWith("a") || name.startsWith("A"))
         {

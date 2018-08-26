@@ -1,11 +1,15 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
@@ -41,10 +45,20 @@ public class AddContactActivity extends AppCompatActivity
     @BindView(R.id.edt_contactGstNumber)
     EditText edt_contactGstNumber;
 
+    @BindView(R.id.add_contact_title)
+    TextView add_contact_title;
+
+    @BindView(R.id.btn_add_contact)
+    TextView btn_add_contact;
+
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
     CollectionReference contactReference;
+
+    ContactPojo contactPojo;
+
+    boolean edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,18 @@ public class AddContactActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_add_contact);
         ButterKnife.bind(this);
+
+        if (getIntent().getParcelableExtra("pojo") != null)
+        {
+            edit = true;
+            contactPojo = getIntent().getParcelableExtra("pojo");
+            edt_contactName.setText(contactPojo.getContactName());
+            edt_contactGstNumber.setText(contactPojo.getContactGstNumber());
+            edt_contactAddress.setText(contactPojo.getContactAddress());
+            edt_contactPhoneNumber.setText(contactPojo.getContactPhoneNumber());
+            add_contact_title.setText("Edit Contact");
+            edt_contactPhoneNumber.setEnabled(false);
+        }
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -64,6 +90,7 @@ public class AddContactActivity extends AppCompatActivity
     @OnClick(R.id.btn_add_contact)
     public void addContact()
     {
+        hideSoftKeyboard(AddContactActivity.this);
         String contactAddress = "";
         String contactGstNumber = "";
         if (edt_contactPhoneNumber.getText().toString().trim().isEmpty())
@@ -88,7 +115,15 @@ public class AddContactActivity extends AppCompatActivity
             contactGstNumber = edt_contactGstNumber.getText().toString().trim();
         }
 
-        String contactPhoneNumber = "+91" +edt_contactPhoneNumber.getText().toString().trim();
+        String contactPhoneNumber;
+        if (edt_contactPhoneNumber.getText().toString().startsWith("+"))
+        {
+            contactPhoneNumber = edt_contactPhoneNumber.getText().toString().trim();
+        }
+        else
+        {
+            contactPhoneNumber = "+91" + edt_contactPhoneNumber.getText().toString().trim();
+        }
         String contactName = edt_contactName.getText().toString().trim();
 
 
@@ -101,7 +136,10 @@ public class AddContactActivity extends AppCompatActivity
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists())
+
+
+
+                    if (!edit && document.exists())
                     {
                         Toast.makeText(AddContactActivity.this, "Contact already added", Toast.LENGTH_SHORT).show();
                     }
@@ -110,6 +148,7 @@ public class AddContactActivity extends AppCompatActivity
                         documentReference.set(contactPojo);
                         finish();
                     }
+
                 } else
                 {
                     Toast.makeText(AddContactActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
@@ -127,5 +166,13 @@ public class AddContactActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

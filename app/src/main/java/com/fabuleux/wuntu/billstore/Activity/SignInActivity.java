@@ -213,23 +213,25 @@ public class SignInActivity extends AppCompatActivity {
 
         ArrayList<String> permissionsToRequestFor = new ArrayList<>();
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.CAMERA);
         }
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.CALL_PHONE);
         }
-        
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.SEND_SMS);
         }
-
-
 
         if (permissionsToRequestFor.size() > 0) {
             String[] requestArray = new String[permissionsToRequestFor.size()];

@@ -32,6 +32,7 @@ import java.util.Comparator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class ContactsActivity extends AppCompatActivity {
 
@@ -116,5 +117,31 @@ public class ContactsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         contactsListRecycler.setLayoutManager(linearLayoutManager);
         contactsListRecycler.setAdapter(contactsAdapter);
+    }
+
+    @OnTextChanged(value = R.id.edt_searchContact, callback = OnTextChanged.Callback.TEXT_CHANGED)
+    public void onTextChanged(CharSequence cs)
+    {
+        updateList(filterList(cs));
+    }
+
+    private void updateList(ArrayList<ContactPojo> arrayList)
+    {
+        contactsListRecycler.setAdapter(new ContactsAdapter(arrayList));
+    }
+
+    private ArrayList<ContactPojo> filterList(CharSequence cs)
+    {
+        contactsListRecycler.removeAllViewsInLayout();
+        ArrayList<ContactPojo> filteredList = new ArrayList<>();
+        for (int i = 0; i < contactsList.size(); i++)
+        {
+            if (contactsList.get(i).getContactName().toLowerCase().contains(cs.toString().toLowerCase()) || contactsList.get(i).getContactPhoneNumber().contains(cs.toString().toLowerCase()))
+            {
+                filteredList.add(contactsList.get(i));
+            }
+        }
+        return filteredList;
+
     }
 }
