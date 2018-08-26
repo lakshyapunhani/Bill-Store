@@ -221,6 +221,10 @@ public class SignInActivity extends AppCompatActivity {
             permissionsToRequestFor.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequestFor.add(android.Manifest.permission.CALL_PHONE);
+        }
+
         if (permissionsToRequestFor.size() > 0) {
             String[] requestArray = new String[permissionsToRequestFor.size()];
             permissionsToRequestFor.toArray(requestArray);

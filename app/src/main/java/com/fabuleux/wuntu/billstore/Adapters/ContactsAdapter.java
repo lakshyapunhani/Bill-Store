@@ -1,9 +1,18 @@
 package com.fabuleux.wuntu.billstore.Adapters;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +20,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Activity.AddContactActivity;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,26 +35,23 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-{
+public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
 
     private ArrayList<ContactPojo> contactsList;
-    CollectionReference conntactsReference;
+    CollectionReference contactsReference;
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
-    public ContactsAdapter(ArrayList<ContactPojo> contactsList)
-    {
+    public ContactsAdapter(ArrayList<ContactPojo> contactsList) {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         this.contactsList = contactsList;
-        conntactsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
+        contactsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.mainLayout)
         LinearLayout mainLayout;
 
@@ -58,37 +66,34 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
 
         }
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
         String name = contactsList.get(position).getContactName();
 
         String phoneNumber = contactsList.get(position).getContactPhoneNumber();
 
-        ((ViewHolder)holder).tv_contactName.setText(name.trim());
-        ((ViewHolder)holder).tv_contactPhoneNumber.setText(phoneNumber.trim());
+        ((ViewHolder) holder).tv_contactName.setText(name.trim());
+        ((ViewHolder) holder).tv_contactPhoneNumber.setText(phoneNumber.trim());
 
-        selectLetterImage(name,((ViewHolder) holder).iv_contactImage);
+        selectLetterImage(name, ((ViewHolder) holder).iv_contactImage);
 
-        ((ViewHolder)holder).mainLayout.setOnClickListener(new View.OnClickListener() {
+        ((ViewHolder) holder).mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 contactDescriptionDialog(contactsList.get(position));
             }
         });
@@ -96,12 +101,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public void contactDescriptionDialog(ContactPojo contactPojo)
-    {
-        final Dialog dialog=new Dialog(context,R.style.ThemeWithCorners);
+    public void contactDescriptionDialog(final ContactPojo contactPojo) {
+        final Dialog dialog = new Dialog(context, R.style.ThemeWithCorners);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater layoutInflater=LayoutInflater.from(context);
-        View view1=layoutInflater.inflate(R.layout.dialog_contact_view,null);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view1 = layoutInflater.inflate(R.layout.dialog_contact_view, null);
 
         ImageView iv_dialogContactImage = view1.findViewById(R.id.iv_dialogContactImage);
 
@@ -112,15 +116,69 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ImageView img_callContact = view1.findViewById(R.id.img_callContact);
         ImageView img_messageContact = view1.findViewById(R.id.img_messageContact);
-        ImageView img_editContact= view1.findViewById(R.id.img_editContact);
-        ImageView img_deleteContact= view1.findViewById(R.id.img_deleteContact);
+        ImageView img_editContact = view1.findViewById(R.id.img_editContact);
+        ImageView img_deleteContact = view1.findViewById(R.id.img_deleteContact);
 
-        selectLetterImage(contactPojo.getContactName(),iv_dialogContactImage);
+        selectLetterImage(contactPojo.getContactName(), iv_dialogContactImage);
 
         tv_dialogContactName.setText(contactPojo.getContactName());
         tv_dialogContactAddress.setText(contactPojo.getContactAddress());
         tv_dialogContactGSTNumber.setText(contactPojo.getContactGstNumber());
         tv_dialogContactPhoneNumber.setText(contactPojo.getContactPhoneNumber());
+
+        img_callContact.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+
+                intent.setData(Uri.parse("tel:" + contactPojo.getContactPhoneNumber()));
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            1);
+                    return;
+                }
+                context.startActivity(intent);
+            }
+        });
+
+        img_messageContact.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Uri sms_uri = Uri.parse("smsto:" + contactPojo.getContactPhoneNumber());
+                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.SEND_SMS},
+                            1);
+                    return;
+                }
+                context.startActivity(sms_intent);
+            }
+        });
+
+        img_editContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+                Intent intent = new Intent(context, AddContactActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        img_deleteContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                showAlertDialog(dialog,contactPojo);
+            }
+        });
 
 
         dialog.setContentView(view1);
@@ -236,6 +294,35 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    private void showAlertDialog(final Dialog dialog, final ContactPojo contactPojo)
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setTitle("Delete Contact");
+        builder1.setMessage("This will delete all invoices linked to this contact. Are you sure?");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog1, int id)
+                    {
+                        contactsReference.document(contactPojo.getContactPhoneNumber()).delete();
+                        Toast.makeText(context, "Contact successfully deleted", Toast.LENGTH_SHORT).show();
+                        dialog1.dismiss();
+                        dialog.dismiss();
+                    }
+                });
+        builder1.setNegativeButton("No",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog1, int id)
+                    {
+                        dialog1.dismiss();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+    }
 
     @Override
     public int getItemCount()
