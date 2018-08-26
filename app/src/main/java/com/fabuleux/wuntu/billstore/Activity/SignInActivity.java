@@ -224,6 +224,12 @@ public class SignInActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             permissionsToRequestFor.add(android.Manifest.permission.CALL_PHONE);
         }
+        
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequestFor.add(android.Manifest.permission.SEND_SMS);
+        }
+
+
 
         if (permissionsToRequestFor.size() > 0) {
             String[] requestArray = new String[permissionsToRequestFor.size()];
