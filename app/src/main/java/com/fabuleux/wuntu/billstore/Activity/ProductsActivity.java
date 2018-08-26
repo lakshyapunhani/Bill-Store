@@ -91,6 +91,8 @@ public class ProductsActivity extends AppCompatActivity {
 
         products = new ArrayList<>();
 
+        productAdapter = new ProductAdapter(products);
+
         //initView();
 
         productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");

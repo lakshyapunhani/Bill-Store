@@ -64,10 +64,33 @@ public class AddContactActivity extends AppCompatActivity
     @OnClick(R.id.btn_add_contact)
     public void addContact()
     {
-        String contactPhoneNumber = edt_contactPhoneNumber.getText().toString().trim();
+        String contactAddress = "";
+        String contactGstNumber = "";
+        if (edt_contactPhoneNumber.getText().toString().trim().isEmpty())
+        {
+            Toast.makeText(this, "Please fill contact phone number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (edt_contactName.getText().toString().trim().isEmpty())
+        {
+            Toast.makeText(this, "Please fill contact name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!edt_contactAddress.getText().toString().trim().isEmpty())
+        {
+            contactAddress = edt_contactAddress.getText().toString().trim();
+        }
+
+        if (!edt_contactGstNumber.getText().toString().trim().isEmpty())
+        {
+            contactGstNumber = edt_contactGstNumber.getText().toString().trim();
+        }
+
+        String contactPhoneNumber = "+91" +edt_contactPhoneNumber.getText().toString().trim();
         String contactName = edt_contactName.getText().toString().trim();
-        String contactAddress = edt_contactAddress.getText().toString().trim();
-        String contactGstNumber = edt_contactGstNumber.getText().toString().trim();
+
 
         final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber);
 

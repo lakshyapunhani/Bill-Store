@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Adapters.ContactsAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.R;
@@ -23,6 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +52,8 @@ public class ContactsActivity extends AppCompatActivity {
 
     ArrayList<ContactPojo> contactsList;
 
+    ContactsAdapter contactsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         contactReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
-        contactReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        contactReference.orderBy("contactName").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
             {
@@ -81,14 +88,33 @@ public class ContactsActivity extends AppCompatActivity {
                     contactsList.add(itemSelectionPojo);
                 }
 
-                Toast.makeText(ContactsActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                contactsAdapter.notifyDataSetChanged();
+
             }
         });
+
+        initView();
     }
 
     @OnClick(R.id.btn_addContact)
     public void addContact()
     {
         startActivity(new Intent(this,AddContactActivity.class));
+    }
+
+    private void initView()
+    {
+
+        Collections.sort(contactsList, new Comparator<ContactPojo>() {
+            @Override
+            public int compare(ContactPojo s1, ContactPojo s2) {
+                return (s1.getContactName()).compareToIgnoreCase(s2.getContactName());
+            }
+        });
+
+        contactsAdapter = new ContactsAdapter(contactsList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        contactsListRecycler.setLayoutManager(linearLayoutManager);
+        contactsListRecycler.setAdapter(contactsAdapter);
     }
 }
