@@ -30,6 +30,7 @@ import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
@@ -78,31 +79,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @BindView(R.id.customerSpinner)
     SearchableSpinner customerSpinner;
 
-    @BindView(R.id.radio_existingCustomer)
-    RadioButton radio_existingCustomer;
-
-    @BindView(R.id.radio_newCustomer)
-    RadioButton radio_newCustomer;
-
-    @BindView(R.id.innerView_existingCustomer)
-    LinearLayout innerView_existingCustomer;
-
-    @BindView(R.id.innerView_newCustomer)
-    LinearLayout innerView_newCustomer;
-
-    @BindView(R.id.outerView_newCustomer)
-    LinearLayout outerView_newCustomer;
-
-    @BindView(R.id.outerView_existingCustomer)
-    LinearLayout outerView_existingCustomer;
-
-    @BindView(R.id.edt_newCustomerName)
-    EditText edt_newCustomerName;
-
-    @BindView(R.id.edt_newCustomerAddress) EditText edt_newCustomerAddress;
-
-    @BindView(R.id.edt_newCustomerGst) EditText edt_newCustomerGst;
-
     @BindView(R.id.spinner_gst_rate)
     Spinner spinner_gst_rate;
 
@@ -126,7 +102,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     boolean customerView;
 
-    ArrayList<CustomerDetails> customersList;
+    ArrayList<ContactPojo> customersList;
     ArrayList<String> customerNameList;
 
     private FirebaseFirestore db;
@@ -209,7 +185,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
         spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        customerSpinner.setTitle("Select Customer");
+        customerSpinner.setTitle("Select Contact");
         customerSpinner.setAdapter(spinnerAdapter);
 
         getCustomerList();
@@ -244,9 +220,9 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     private void getCustomerList()
     {
-        CollectionReference getCustomerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        CollectionReference contactReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
-        getCustomerReference.addSnapshotListener(new EventListener<QuerySnapshot>()
+        contactReference.orderBy("contactName").addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
@@ -260,14 +236,13 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 customerNameList.clear();
                 if (documentSnapshots.isEmpty())
                 {
-                    newCustomerViewClick();
                     return;
                 }
                 for (DocumentSnapshot documentSnapshot : documentSnapshots)
                 {
-                    CustomerDetails customerDetails = documentSnapshot.toObject(CustomerDetails.class);
-                    customersList.add(customerDetails);
-                    customerNameList.add(customerDetails.getCustomerName());
+                    ContactPojo contactDetails = documentSnapshot.toObject(ContactPojo.class);
+                    customersList.add(contactDetails);
+                    customerNameList.add(contactDetails.getContactName());
                 }
                 spinnerAdapter.notifyDataSetChanged();
             }
@@ -369,9 +344,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     {
         itemList.clear();
         invoicePreviewAdapter.notifyDataSetChanged();
-        edt_newCustomerName.setText("");
-        edt_newCustomerAddress.setText("");
-        edt_newCustomerGst.setText("");
         EventBus.getDefault().removeAllStickyEvents();
     }
 
@@ -413,26 +385,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     };
 
-    @OnClick({R.id.view_existingCustomer,R.id.radio_existingCustomer})
-    public void existingCustomerViewClick()
-    {
-        customerView = false;
-        radio_existingCustomer.setChecked(true);
-        radio_newCustomer.setChecked(false);
-        innerView_existingCustomer.setVisibility(View.VISIBLE);
-        innerView_newCustomer.setVisibility(View.GONE);
-
-    }
-
-    @OnClick({R.id.view_newCustomer,R.id.radio_newCustomer})
-    public void newCustomerViewClick()
-    {
-        customerView = true;
-        radio_newCustomer.setChecked(true);
-        radio_existingCustomer.setChecked(false);
-        innerView_existingCustomer.setVisibility(View.GONE);
-        innerView_newCustomer.setVisibility(View.VISIBLE);
-    }
 
 
     @OnItemSelected(value = R.id.customerSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
@@ -460,45 +412,17 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         invoiceDate = invoice_date.getText().toString().trim();
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
-        if (customerView)
-        {
-            if (edt_newCustomerName.getText().toString().trim().isEmpty())
-            {
-                Toast.makeText(mContext, "Please fill customer name", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else
-            {
-                newCustomerName = edt_newCustomerName.getText().toString().trim();
-            }
-            if (edt_newCustomerAddress.getText().toString().trim().isEmpty())
-            {
-                Toast.makeText(mContext, "Please fill customer address", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else
-            {
-                newCustomerAddress = edt_newCustomerAddress.getText().toString().trim();
-            }
-            if (!edt_newCustomerGst.getText().toString().trim().isEmpty())
-            {
-                newCustomerGstNumber = edt_newCustomerGst.getText().toString().trim();
-            }
-        }
-        else
-        {
-            if (customerNameList.size() == 0)
-            {
-                Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            newCustomerName = customersList.get(customerSpinnerValue).getCustomerName();
-            newCustomerAddress = customersList.get(customerSpinnerValue).getCustomerAddress();
-            if (!customersList.get(customerSpinnerValue).getCustomerGstNumber().isEmpty())
-            {
-                newCustomerGstNumber = customersList.get(customerSpinnerValue).getCustomerGstNumber();
-            }
 
+        if (customerNameList.size() == 0)
+        {
+            Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        newCustomerName = customersList.get(customerSpinnerValue).getContactName();
+        newCustomerAddress = customersList.get(customerSpinnerValue).getContactAddress();
+        if (!customersList.get(customerSpinnerValue).getContactGstNumber().isEmpty())
+        {
+            newCustomerGstNumber = customersList.get(customerSpinnerValue).getContactGstNumber();
         }
 
         sendDatatoPreview();

@@ -59,166 +59,38 @@
             android:layout_marginStart="25dp"
             android:paddingTop="5dp">
 
-            <RadioGroup
-                android:layout_marginTop="20dp"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/txt_select_customer"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
 
-                <LinearLayout
-                    android:id="@+id/outerView_existingCustomer"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_rounded_corner">
+
+                <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
+                    android:id="@+id/customerSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="40dp">
+                </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
 
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/view_existingCustomer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radio_existingCustomer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:buttonTint="@color/blue"
-                            tools:targetApi="lollipop" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="@color/blue"
-                            android:text="@string/txt_select_customer"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/innerView_existingCustomer"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edt_rounded_corner">
-
-                        <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
-                            android:id="@+id/customerSpinner"
-                            android:layout_width="250dp"
-                            android:layout_height="40dp">
-                        </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="@string/text_or"
-                    android:textSize="16sp"
-                    android:textColor="@color/blue"/>
-
-                <LinearLayout
-                    android:id="@+id/outerView_newCustomer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:id="@+id/view_newCustomer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radio_newCustomer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/blue"
-                            tools:targetApi="lollipop" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/txt_add_new_customer"
-                            android:textSize="16sp"
-                            android:textColor="@color/blue"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/innerView_newCustomer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:visibility="gone"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-
-                        <EditText
-                            android:id="@+id/edt_newCustomerName"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:scrollHorizontally="true"
-                            android:background="@drawable/edt_rounded_corner"
-                            android:hint="@string/txt_customer_name"
-                            android:inputType="text"
-                            android:paddingStart="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingEnd="10dp"/>
-
-                        <EditText
-                            android:id="@+id/edt_newCustomerAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@drawable/edt_rounded_corner"
-                            android:layout_marginTop="15dp"
-                            android:inputType="text"
-                            android:hint="@string/txt_customer_address"
-                            android:paddingStart="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingEnd="10dp" />
-
-                        <EditText
-                            android:id="@+id/edt_newCustomerGst"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@drawable/edt_rounded_corner"
-                            android:layout_marginTop="14dp"
-                            android:inputType="text"
-                            android:hint="@string/txt_customer_gst_number_if_any"
-                            android:paddingStart="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingEnd="10dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </RadioGroup>
 
             <TextView
                 android:id="@+id/txt_delivery_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/txt_invoice_date"
                 android:textColor="@color/blue"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/invoice_date"
@@ -238,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/txt_select_gst_rate"
                 android:textColor="@color/blue"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginBottom="5dp"/>
 
             <LinearLayout
