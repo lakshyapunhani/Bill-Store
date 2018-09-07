@@ -1,0 +1,287 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#e6e4e4"
+    tools:context="com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/blue">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/create_invoice"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="30dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:id="@+id/btn_preview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="4dp"
+            android:text="@string/txt_preview"
+            android:textAllCaps="true"
+            android:background="@drawable/btn_rounded_bg"
+            android:textColor="@android:color/white"
+            fontPath = "fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix" />
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:background="@drawable/bg_rounded_gray_top_corners">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Invoice Details"
+                            android:textColor="@android:color/white"
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/txt_select_customer"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edt_rounded_corner">
+
+                            <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
+                                android:id="@+id/customerSpinner"
+                                android:layout_width="match_parent"
+                                app:hintText="Select Customer"
+                                android:layout_height="40dp">
+                            </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/txt_delivery_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/txt_invoice_date"
+                                        android:textSize="12sp"/>
+
+                                    <TextView
+                                        android:id="@+id/invoice_date"
+                                        android:layout_width="match_parent"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="2018-08-08"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp"/>
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="match_parent"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/ic_calendar"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:gravity="center">
+
+                                <View
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/grey"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/txt_due_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/txt_invoice_date"
+                                        android:textSize="12sp"/>
+
+                                    <TextView
+                                        android:id="@+id/due_date"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="2018-08-08"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp"/>
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="match_parent"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/ic_calendar"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:background="@drawable/bg_rounded_gray_top_corners">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Item Details"
+                            android:textColor="@android:color/white"
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                    <include layout="@layout/product_header"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_items"
+                        android:layout_width="match_parent"
+                        android:minHeight="50dp"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

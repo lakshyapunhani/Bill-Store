@@ -79,7 +79,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @BindView(R.id.customerSpinner)
     SearchableSpinner customerSpinner;
 
-    @BindView(R.id.spinner_gst_rate)
+    //@BindView(R.id.spinner_gst_rate)
     Spinner spinner_gst_rate;
 
     ArrayList<String> gstRateList;
@@ -145,7 +145,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_make_bill, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_invoice, container, false);
         ButterKnife.bind(this,view);
 
         customerNameList = new ArrayList<>();
@@ -167,7 +167,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
         gstRateList = new ArrayList<>();
 
-        getGstList();
+        //getGstList();
 
 
         //gstRateList = sessionManager.getGstSlabList();
@@ -176,12 +176,12 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
         }*/
 
-        spinner_gst_rate.setOnItemSelectedListener(this);
+//        spinner_gst_rate.setOnItemSelectedListener(this);
 
         long date = System.currentTimeMillis();
 
         String dateString = convertDf.format(date);
-        invoice_date.setText(dateString);
+        //invoice_date.setText(dateString);
 
         spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -249,13 +249,13 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         });
     }
 
-    @OnClick(R.id.layout_invoiced_items_header)
+    /*@OnClick(R.id.layout_invoiced_items_header)
     public void headerClick()
     {
         flag = 1;
         Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
