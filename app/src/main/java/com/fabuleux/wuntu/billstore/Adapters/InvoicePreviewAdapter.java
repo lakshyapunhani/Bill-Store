@@ -106,7 +106,7 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount()
     {
-        return 3;
+        return 1;
     }
 
     private void removeAt(int position)
