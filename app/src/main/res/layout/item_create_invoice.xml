@@ -7,6 +7,7 @@
     android:paddingRight="10dp">
 
     <TextView
+        android:id="@+id/itemName"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:layout_height="match_parent"
@@ -15,6 +16,7 @@
         android:text="Apple Iphone 6s"/>
 
     <TextView
+        android:id="@+id/itemQty"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
@@ -23,6 +25,7 @@
         android:text="1"/>
 
     <TextView
+        android:id="@+id/itemUnitPrice"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"

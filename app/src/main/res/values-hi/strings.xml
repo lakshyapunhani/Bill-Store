@@ -162,6 +162,7 @@
     <string name="contacts">Contacts</string>
     <string name="add_contact">Add Contact</string>
     <string name="search_contact">Search Contact</string>
+    <string name="due_date">Due Date</string>
 
     <string-array name="questions">
         <item>बिल कैसे बनाएं?</item>

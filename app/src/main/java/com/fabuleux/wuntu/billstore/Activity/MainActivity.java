@@ -166,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        RealmManager.resetItemRealm();
+
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

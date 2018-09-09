@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -76,8 +77,13 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     @BindView(R.id.invoice_date) TextView invoice_date;
 
+    @BindView(R.id.due_date) TextView due_date;
+
     @BindView(R.id.customerSpinner)
     SearchableSpinner customerSpinner;
+
+    @BindView(R.id.img_addItems)
+    ImageView img_addItems;
 
     //@BindView(R.id.spinner_gst_rate)
     Spinner spinner_gst_rate;
@@ -98,7 +104,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     Calendar myCalendar = Calendar.getInstance();
 
-    SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
+    SimpleDateFormat convertDf = new SimpleDateFormat("yyyy-MM-dd");
 
     boolean customerView;
 
@@ -249,13 +255,13 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         });
     }
 
-    /*@OnClick(R.id.layout_invoiced_items_header)
+    @OnClick(R.id.img_addItems)
     public void headerClick()
     {
         flag = 1;
         Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
-    }*/
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -359,17 +365,27 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick(R.id.invoice_date)
-    public void onClickPickDate()
+    @OnClick(R.id.layout_invoiceDate)
+    public void onClickInvoiceDate()
     {
-        DatePickerDialog datePickerDialog = new  DatePickerDialog(mContext, R.style.DatePickerTheme, mDateListener, myCalendar
+        DatePickerDialog datePickerDialog = new  DatePickerDialog(mContext, R.style.DatePickerTheme, mDateListenerInvoice, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
 
         datePickerDialog.show();
     }
 
-    DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
+    @OnClick(R.id.layout_dueDate)
+    public void onClickDueDate()
+    {
+        DatePickerDialog datePickerDialog = new  DatePickerDialog(mContext, R.style.DatePickerTheme, mDateListenerDue, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.show();
+    }
+
+    DatePickerDialog.OnDateSetListener mDateListenerInvoice = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int selectedYear, int selectedMonth,
                               int selectedDay) {
@@ -378,6 +394,21 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
             try {
                 Date reportDate = df.parse(selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay);
                 invoice_date.setText((convertDf.format(reportDate)));
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+    };
+    DatePickerDialog.OnDateSetListener mDateListenerDue = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth,
+                              int selectedDay) {
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                Date reportDate = df.parse(selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay);
+                due_date.setText((convertDf.format(reportDate)));
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
