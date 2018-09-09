@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical"
+    tools:context=".Activity.ExtraTaxesActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/blue">
+
+        <ImageView
+            android:id="@+id/back_arrow_extras"
+            android:contentDescription="@string/btn_back_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_back_arrow"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="Extras"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="30dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="CGST"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="true"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5%"
+                        android:background="@drawable/five_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="12%"
+                        android:background="@drawable/twelve_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="18%"
+                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="28%"
+                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="SGST"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5%"
+                        android:background="@drawable/five_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="12%"
+                        android:background="@drawable/twelve_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="18%"
+                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="28%"
+                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="IGST"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5%"
+                        android:background="@drawable/five_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="12%"
+                        android:background="@drawable/twelve_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="18%"
+                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="28%"
+                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="UTGST"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5%"
+                        android:background="@drawable/five_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="12%"
+                        android:background="@drawable/twelve_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="18%"
+                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="28%"
+                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Shipping charges"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:hint="Enter shipping charges"/>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Discount"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edt_rounded_corner"
+                android:hint="Enter discounted rate"/>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="Rounding off"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

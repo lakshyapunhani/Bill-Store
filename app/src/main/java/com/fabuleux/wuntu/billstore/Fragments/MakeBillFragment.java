@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Activity.ExtraTaxesActivity;
 import com.fabuleux.wuntu.billstore.Adapters.InvoicePreviewAdapter;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
@@ -496,6 +497,13 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         intent.putExtra("igst",igst);
 
 
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.img_editTaxes)
+    public void editTaxes()
+    {
+        Intent intent = new Intent(mContext, ExtraTaxesActivity.class);
         startActivity(intent);
     }
 }

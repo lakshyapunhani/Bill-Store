@@ -91,15 +91,19 @@
             android:name=".Activity.ProductSelectionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activity.FaqActivity"
+        <activity
+            android:name=".Activity.FaqActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".Activity.ContactsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activity.ContactsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".Activity.AddContactActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activity.AddContactActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Activity.ExtraTaxesActivity"></activity>
     </application>
 
 </manifest>
