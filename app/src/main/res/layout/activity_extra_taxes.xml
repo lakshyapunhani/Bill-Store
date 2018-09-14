@@ -70,6 +70,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_cgst"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -82,6 +83,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_cgst"
                 android:visibility="visible"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -94,35 +96,39 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/cgst_five"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="5%"
-                        android:background="@drawable/five_percent_textview_border"
+                        android:background="@drawable/textview_border_five_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/cgst_twelve"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="12%"
-                        android:background="@drawable/twelve_percent_textview_border"
+                        android:background="@drawable/textview_border_twelve_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/cgst_eighteen"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="18%"
-                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:background="@drawable/textview_border_eighteen_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/cgst_twentyEight"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="28%"
-                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:background="@drawable/textview_border_twentyeight_percent"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -152,6 +158,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_sgst"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -164,6 +171,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_sgst"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -176,35 +184,39 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/sgst_five"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="5%"
-                        android:background="@drawable/five_percent_textview_border"
+                        android:background="@drawable/textview_border_five_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/sgst_twelve"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="12%"
-                        android:background="@drawable/twelve_percent_textview_border"
+                        android:background="@drawable/textview_border_twelve_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/sgst_eighteen"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="18%"
-                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:background="@drawable/textview_border_eighteen_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/sgst_twentyEight"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="28%"
-                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:background="@drawable/textview_border_twentyeight_percent"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -234,6 +246,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_igst"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -246,6 +259,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_igst"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -258,35 +272,39 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/igst_five"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="5%"
-                        android:background="@drawable/five_percent_textview_border"
+                        android:background="@drawable/textview_border_five_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/igst_twelve"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="12%"
-                        android:background="@drawable/twelve_percent_textview_border"
+                        android:background="@drawable/textview_border_twelve_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/igst_eighteen"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="18%"
-                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:background="@drawable/textview_border_eighteen_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/igst_twentyEight"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="28%"
-                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:background="@drawable/textview_border_twentyeight_percent"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -316,6 +334,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_utgst"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -328,6 +347,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_utgst"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -340,35 +360,39 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/utgst_five"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="5%"
-                        android:background="@drawable/five_percent_textview_border"
+                        android:background="@drawable/textview_border_five_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/utgst_twelve"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="12%"
-                        android:background="@drawable/twelve_percent_textview_border"
+                        android:background="@drawable/textview_border_twelve_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/utgst_eighteen"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="18%"
-                        android:background="@drawable/eighteen_percent_textview_border"
+                        android:background="@drawable/textview_border_eighteen_percent"
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/utgst_twentyEight"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="28%"
-                        android:background="@drawable/twentyeight_percent_textview_order"
+                        android:background="@drawable/textview_border_twentyeight_percent"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -398,6 +422,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_shipping"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -410,6 +435,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/edt_shippingCharges"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -444,6 +470,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_discount"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -456,6 +483,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/edt_discount"
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -490,6 +518,7 @@
                     android:textColor="@android:color/black"/>
 
                 <ToggleButton
+                    android:id="@+id/toggle_roundOff"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
