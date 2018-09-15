@@ -2,21 +2,12 @@ package com.fabuleux.wuntu.billstore.Pojos;
 
 public class ExtraDetailsPojo
 {
-    int cgst;
     int sgst;
     int igst;
     int utgst;
     int shipping_charges;
     int discount;
     boolean roundOff;
-
-    public int getCgst() {
-        return cgst;
-    }
-
-    public void setCgst(int cgst) {
-        this.cgst = cgst;
-    }
 
     public int getSgst() {
         return sgst;

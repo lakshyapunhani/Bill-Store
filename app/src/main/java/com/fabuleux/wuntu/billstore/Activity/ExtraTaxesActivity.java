@@ -26,26 +26,8 @@ import butterknife.OnClick;
 
 public class ExtraTaxesActivity extends AppCompatActivity
 {
-    //////////////CGST
-    @BindView(R.id.toggle_cgst)
-    ToggleButton toggle_cgst;
 
-    @BindView(R.id.card_cgst)
-    CardView card_cgst;
-
-    @BindView(R.id.cgst_twentyEight)
-    TextView cgst_twentyEight;
-
-    @BindView(R.id.cgst_eighteen)
-    TextView cgst_eighteen;
-
-    @BindView(R.id.cgst_twelve)
-    TextView cgst_twelve;
-
-    @BindView(R.id.cgst_five)
-    TextView cgst_five;
-
-    //////////////SGST
+    //////////////CGST + SGST
     @BindView(R.id.toggle_sgst)
     ToggleButton toggle_sgst;
 
@@ -83,7 +65,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
     @BindView(R.id.igst_five)
     TextView igst_five;
 
-    //////////////UTGST
+    //////////////CGST + UTGST
     @BindView(R.id.toggle_utgst)
     ToggleButton toggle_utgst;
 
@@ -120,7 +102,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
     @BindView(R.id.toggle_roundOff)
     ToggleButton toggle_roundOff;
 
-    boolean cgstFive,cgstTwelve,cgstEighteen,cgstTwentyEight;
+    //boolean cgstFive,cgstTwelve,cgstEighteen,cgstTwentyEight;
 
     boolean sgstFive,sgstTwelve,sgstEighteen,sgstTwentyEight;
 
@@ -133,27 +115,21 @@ public class ExtraTaxesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extra_taxes);
         ButterKnife.bind(this);
-        cgstFive = true;
-    }
-
-    @OnClick(R.id.toggle_cgst)
-    public void toggleCGST()
-    {
-        if (toggle_cgst.isChecked())
-        {
-            TransitionManager.beginDelayedTransition(card_cgst);
-            card_cgst.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            TransitionManager.beginDelayedTransition(card_cgst);
-            card_cgst.setVisibility(View.GONE);
-        }
+        sgstFive = true;
     }
 
     @OnClick(R.id.toggle_sgst)
     public void toggleSGST()
     {
+        toggle_utgst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_utgst);
+        card_utgst.setVisibility(View.GONE);
+
+        toggle_igst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_igst);
+        card_igst.setVisibility(View.GONE);
+
+
         if (toggle_sgst.isChecked())
         {
             TransitionManager.beginDelayedTransition(card_sgst);
@@ -161,7 +137,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
         }
         else
         {
-            TransitionManager.beginDelayedTransition(card_cgst);
+            TransitionManager.beginDelayedTransition(card_sgst);
             card_sgst.setVisibility(View.GONE);
         }
     }
@@ -169,6 +145,14 @@ public class ExtraTaxesActivity extends AppCompatActivity
     @OnClick(R.id.toggle_igst)
     public void toggleIGST()
     {
+        toggle_utgst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_utgst);
+        card_utgst.setVisibility(View.GONE);
+
+        toggle_sgst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_sgst);
+        card_sgst.setVisibility(View.GONE);
+
         if (toggle_igst.isChecked())
         {
             TransitionManager.beginDelayedTransition(card_igst);
@@ -184,6 +168,14 @@ public class ExtraTaxesActivity extends AppCompatActivity
     @OnClick(R.id.toggle_utgst)
     public void toggleUTGST()
     {
+        toggle_sgst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_sgst);
+        card_sgst.setVisibility(View.GONE);
+
+        toggle_igst.setChecked(false);
+        TransitionManager.beginDelayedTransition(card_igst);
+        card_igst.setVisibility(View.GONE);
+
         if (toggle_utgst.isChecked())
         {
             TransitionManager.beginDelayedTransition(card_utgst);
@@ -223,131 +215,6 @@ public class ExtraTaxesActivity extends AppCompatActivity
         {
             //TransitionManager.beginDelayedTransition(edt_shippingCharges);
             edt_discount.setVisibility(View.GONE);
-        }
-    }
-
-    @OnClick(R.id.cgst_five)
-    public void changeCgstFiveStroke()
-    {
-
-        cgstTwentyEight = false;
-        cgst_twentyEight.setBackground(getResources().getDrawable(R.drawable.textview_border_twentyeight_percent));
-        cgst_twentyEight.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstEighteen = false;
-        cgst_eighteen.setBackground(getResources().getDrawable(R.drawable.textview_border_eighteen_percent));
-        cgst_eighteen.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstTwelve = false;
-        cgst_twelve.setBackground(getResources().getDrawable(R.drawable.textview_border_twelve_percent));
-        cgst_twelve.setTextColor(getResources().getColor(R.color.grey));
-
-        if (cgstFive)
-        {
-            cgstFive = false;
-            cgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent));
-            cgst_five.setTextColor(getResources().getColor(R.color.grey));
-
-        }
-        else
-        {
-            cgstFive = true;
-            cgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent_blue));
-            cgst_five.setTextColor(getResources().getColor(R.color.white));
-
-        }
-
-    }
-
-    @OnClick(R.id.cgst_twelve)
-    public void changeCgstTwelveStroke()
-    {
-        cgstFive = false;
-        cgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent));
-        cgst_five.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstTwentyEight = false;
-        cgst_twentyEight.setBackground(getResources().getDrawable(R.drawable.textview_border_twentyeight_percent));
-        cgst_twentyEight.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstEighteen = false;
-        cgst_eighteen.setBackground(getResources().getDrawable(R.drawable.textview_border_eighteen_percent));
-        cgst_eighteen.setTextColor(getResources().getColor(R.color.grey));
-
-        if (cgstTwelve)
-        {
-            cgstTwelve = false;
-            cgst_twelve.setBackground(getResources().getDrawable(R.drawable.textview_border_twelve_percent));
-            cgst_twelve.setTextColor(getResources().getColor(R.color.grey));
-
-        }
-        else
-        {
-            cgstTwelve = true;
-            cgst_twelve.setBackground(getResources().getDrawable(R.drawable.textview_border_twelve_percent_blue));
-            cgst_twelve.setTextColor(getResources().getColor(R.color.white));
-
-        }
-    }
-
-    @OnClick(R.id.cgst_eighteen)
-    public void changeCgstEighteenStroke()
-    {
-        cgstTwelve = false;
-        cgst_twelve.setBackground(getResources().getDrawable(R.drawable.textview_border_twelve_percent));
-        cgst_twelve.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstFive = false;
-        cgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent));
-        cgst_five.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstTwentyEight = false;
-        cgst_twentyEight.setBackground(getResources().getDrawable(R.drawable.textview_border_twentyeight_percent));
-        cgst_twentyEight.setTextColor(getResources().getColor(R.color.grey));
-
-        if (cgstEighteen)
-        {
-            cgstEighteen = false;
-            cgst_eighteen.setBackground(getResources().getDrawable(R.drawable.textview_border_eighteen_percent));
-            cgst_eighteen.setTextColor(getResources().getColor(R.color.grey));
-
-        }
-        else
-        {
-            cgstEighteen = true;
-            cgst_eighteen.setBackground(getResources().getDrawable(R.drawable.textview_border_eighteen_percent_blue));
-            cgst_eighteen.setTextColor(getResources().getColor(R.color.white));
-
-        }
-    }
-
-    @OnClick(R.id.cgst_twentyEight)
-    public void changeCgstTwentyEightStroke()
-    {
-
-        cgstEighteen = false;
-        cgst_eighteen.setBackground(getResources().getDrawable(R.drawable.textview_border_eighteen_percent));
-        cgst_eighteen.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstTwelve = false;
-        cgst_twelve.setBackground(getResources().getDrawable(R.drawable.textview_border_twelve_percent));
-        cgst_twelve.setTextColor(getResources().getColor(R.color.grey));
-
-        cgstFive = false;
-        cgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent));
-        cgst_five.setTextColor(getResources().getColor(R.color.grey));
-
-        if (cgstTwentyEight)
-        {
-            cgstTwentyEight = false;
-            cgst_twentyEight.setBackground(getResources().getDrawable(R.drawable.textview_border_twentyeight_percent));
-            cgst_twentyEight.setTextColor(getResources().getColor(R.color.grey));
-        }
-        else
-        {
-            cgstTwentyEight = true;
-            cgst_twentyEight.setBackground(getResources().getDrawable(R.drawable.textview_border_twentyeight_percent_blue));
-            cgst_twentyEight.setTextColor(getResources().getColor(R.color.white));
         }
     }
 
@@ -735,54 +602,25 @@ public class ExtraTaxesActivity extends AppCompatActivity
     @OnClick(R.id.btn_extra_done)
     public void addTaxes()
     {
-
         ExtraDetailsPojo extraDetailsPojo = new ExtraDetailsPojo();
-
-        if (toggle_cgst.isChecked())
-        {
-            if (cgstFive)
-            {
-                extraDetailsPojo.setCgst(5);
-                //Toast.makeText(this, "cgst 5 checked", Toast.LENGTH_SHORT).show();
-            }
-            else if (cgstTwelve)
-            {
-                extraDetailsPojo.setCgst(12);
-                //Toast.makeText(this, "cgst 12 checked", Toast.LENGTH_SHORT).show();
-            }
-            else if (cgstEighteen)
-            {
-                extraDetailsPojo.setCgst(18);
-                //Toast.makeText(this, "cgst 18 checked", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                extraDetailsPojo.setCgst(28);
-               // Toast.makeText(this, "cgst 28 checked", Toast.LENGTH_SHORT).show();
-            }
-        }
 
         if (toggle_sgst.isChecked())
         {
             if (sgstFive)
             {
                 extraDetailsPojo.setSgst(5);
-               // Toast.makeText(this, "sgst five checked", Toast.LENGTH_SHORT).show();
             }
             else if (sgstTwelve)
             {
                 extraDetailsPojo.setSgst(12);
-                //Toast.makeText(this, "sgst 12 checked", Toast.LENGTH_SHORT).show();
             }
             else if (sgstEighteen)
             {
                 extraDetailsPojo.setSgst(18);
-                //Toast.makeText(this, "sgst 18 checked", Toast.LENGTH_SHORT).show();
             }
             else
             {
                 extraDetailsPojo.setSgst(28);
-               // Toast.makeText(this, "sgst 28 checked", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -791,22 +629,18 @@ public class ExtraTaxesActivity extends AppCompatActivity
             if (igstFive)
             {
                 extraDetailsPojo.setIgst(5);
-               // Toast.makeText(this, "igst five checked", Toast.LENGTH_SHORT).show();
             }
             else if (igstTwelve)
             {
                 extraDetailsPojo.setIgst(12);
-                //Toast.makeText(this, "igst 12 checked", Toast.LENGTH_SHORT).show();
             }
             else if (igstEighteen)
             {
                 extraDetailsPojo.setIgst(18);
-               // Toast.makeText(this, "igst 18 checked", Toast.LENGTH_SHORT).show();
             }
             else
             {
                 extraDetailsPojo.setIgst(28);
-                //Toast.makeText(this, "igst 28 checked", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -815,22 +649,18 @@ public class ExtraTaxesActivity extends AppCompatActivity
             if (utgstFive)
             {
                 extraDetailsPojo.setUtgst(5);
-                //Toast.makeText(this, "utgst five checked", Toast.LENGTH_SHORT).show();
             }
             else if (utgstTwelve)
             {
-                extraDetailsPojo.setUtgst(5);
-                //Toast.makeText(this, "utgst 12 checked", Toast.LENGTH_SHORT).show();
+                extraDetailsPojo.setUtgst(12);
             }
             else if (utgstEighteen)
             {
-                extraDetailsPojo.setUtgst(5);
-                //Toast.makeText(this, "utgst 18 checked", Toast.LENGTH_SHORT).show();
+                extraDetailsPojo.setUtgst(18);
             }
             else
             {
-                extraDetailsPojo.setUtgst(5);
-                //Toast.makeText(this, "utgst 28 checked", Toast.LENGTH_SHORT).show();
+                extraDetailsPojo.setUtgst(28);
             }
         }
 
@@ -844,7 +674,6 @@ public class ExtraTaxesActivity extends AppCompatActivity
             else
             {
                 extraDetailsPojo.setShipping_charges(Integer.parseInt(edt_shippingCharges.getText().toString().trim()));
-                //Toast.makeText(this, edt_shippingCharges.getText().toString().trim(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -858,22 +687,18 @@ public class ExtraTaxesActivity extends AppCompatActivity
             else
             {
                 extraDetailsPojo.setDiscount(Integer.parseInt(edt_discount.getText().toString().trim()));
-                //Toast.makeText(this, edt_discount.getText().toString().trim(), Toast.LENGTH_SHORT).show();
             }
         }
 
         if (toggle_roundOff.isChecked())
         {
             extraDetailsPojo.setRoundOff(true);
-           // Toast.makeText(this, "Round off checked", Toast.LENGTH_SHORT).show();
         }
         else
         {
             extraDetailsPojo.setRoundOff(false);
-            //Toast.makeText(this, "Round off unchecked", Toast.LENGTH_SHORT).show();
         }
-
-
+        
         EventBus.getDefault().postSticky(new SendExtraDetails(extraDetailsPojo,"1"));
         finish();
     }

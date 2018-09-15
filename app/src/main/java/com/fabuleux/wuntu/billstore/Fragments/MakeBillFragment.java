@@ -272,7 +272,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
         if (spinner.getId() == R.id.spinner_gst_rate)
         {
-
             //Toast.makeText(mContext, spinner_gst_rate.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             gstPosition = pos;
             getGstRate();
@@ -515,6 +514,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         if (taxDetails.getFlag().matches("1") && taxesFlag == 1)
         {
             Toast.makeText(mContext, "success", Toast.LENGTH_SHORT).show();
+
         }
     }
 }

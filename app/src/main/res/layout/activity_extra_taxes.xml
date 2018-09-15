@@ -83,96 +83,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="CGST"
-                    android:textSize="17sp"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"/>
-
-                <ToggleButton
-                    android:id="@+id/toggle_cgst"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:button="@null"
-                    android:textOff=""
-                    android:textOn=""
-                    android:checked="true"
-                    android:background="@drawable/switch_circle_selector_background"/>
-
-            </LinearLayout>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/card_cgst"
-                android:visibility="visible"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:cardCornerRadius="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cgst_five"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="5%"
-                        android:textColor="@color/white"
-                        android:background="@drawable/textview_border_five_percent_blue"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/cgst_twelve"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="12%"
-                        android:background="@drawable/textview_border_twelve_percent"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/cgst_eighteen"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="18%"
-                        android:background="@drawable/textview_border_eighteen_percent"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/cgst_twentyEight"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="28%"
-                        android:background="@drawable/textview_border_twentyeight_percent"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="SGST"
+                    android:text="GST (CGST + SGST)"
                     android:textSize="17sp"
                     android:gravity="center_vertical"
                     android:textColor="@android:color/black"/>
@@ -185,14 +96,14 @@
                     android:button="@null"
                     android:textOff=""
                     android:textOn=""
-                    android:checked="false"
+                    android:checked="true"
                     android:background="@drawable/switch_circle_selector_background"/>
 
             </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_sgst"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -209,7 +120,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="5%"
-                        android:background="@drawable/textview_border_five_percent"
+                        android:textColor="@color/white"
+                        android:background="@drawable/textview_border_five_percent_blue"
                         android:gravity="center"/>
 
                     <TextView
@@ -260,7 +172,95 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="IGST"
+                    android:text="GST (CGST + UTGST)"
+                    android:textSize="17sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+
+                <ToggleButton
+                    android:id="@+id/toggle_utgst"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:button="@null"
+                    android:textOff=""
+                    android:textOn=""
+                    android:checked="false"
+                    android:background="@drawable/switch_circle_selector_background"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_utgst"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/utgst_five"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="5%"
+                        android:background="@drawable/textview_border_five_percent"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/utgst_twelve"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="12%"
+                        android:background="@drawable/textview_border_twelve_percent"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/utgst_eighteen"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="18%"
+                        android:background="@drawable/textview_border_eighteen_percent"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/utgst_twentyEight"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="28%"
+                        android:background="@drawable/textview_border_twentyeight_percent"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="GST (IGST)"
                     android:textSize="17sp"
                     android:gravity="center_vertical"
                     android:textColor="@android:color/black"/>
@@ -338,93 +338,6 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="UTGST"
-                    android:textSize="17sp"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"/>
-
-                <ToggleButton
-                    android:id="@+id/toggle_utgst"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:button="@null"
-                    android:textOff=""
-                    android:textOn=""
-                    android:checked="false"
-                    android:background="@drawable/switch_circle_selector_background"/>
-
-            </LinearLayout>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/card_utgst"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:cardCornerRadius="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/utgst_five"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="5%"
-                        android:background="@drawable/textview_border_five_percent"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/utgst_twelve"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="12%"
-                        android:background="@drawable/textview_border_twelve_percent"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/utgst_eighteen"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="18%"
-                        android:background="@drawable/textview_border_eighteen_percent"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/utgst_twentyEight"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="28%"
-                        android:background="@drawable/textview_border_twentyeight_percent"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
