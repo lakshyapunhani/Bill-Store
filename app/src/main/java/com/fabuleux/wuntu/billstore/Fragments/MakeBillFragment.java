@@ -29,6 +29,7 @@ import com.fabuleux.wuntu.billstore.Activity.ExtraTaxesActivity;
 import com.fabuleux.wuntu.billstore.Adapters.InvoicePreviewAdapter;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
+import com.fabuleux.wuntu.billstore.EventBus.SendExtraDetails;
 import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
@@ -124,7 +125,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     ArrayAdapter<String> spinnerAdapter;
     int customerSpinnerValue;
 
-    int flag =0;
+    int itemFlag =0,taxesFlag = 0;
 
     int gstPosition;
 
@@ -259,7 +260,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @OnClick(R.id.img_addItems)
     public void headerClick()
     {
-        flag = 1;
+        itemFlag = 1;
         Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
     }
@@ -463,7 +464,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onEvent(SendItemsEvent itemsEvent)
     {
-        if (itemsEvent.getFlag().matches("1") && flag == 1)
+        if (itemsEvent.getFlag().matches("1") && itemFlag == 1)
         {
             List<ItemSelectionPojo> arrayList = new ArrayList<>();
             arrayList = RealmManager.getSavedItems();
@@ -503,7 +504,17 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @OnClick(R.id.img_editTaxes)
     public void editTaxes()
     {
+        taxesFlag = 1;
         Intent intent = new Intent(mContext, ExtraTaxesActivity.class);
         startActivity(intent);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onEvent(SendExtraDetails taxDetails)
+    {
+        if (taxDetails.getFlag().matches("1") && taxesFlag == 1)
+        {
+            Toast.makeText(mContext, "success", Toast.LENGTH_SHORT).show();
+        }
     }
 }
