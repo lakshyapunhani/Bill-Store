@@ -110,12 +110,53 @@ public class ExtraTaxesActivity extends AppCompatActivity
 
     boolean utgstFive,utgstTwelve,utgstEighteen,utgstTwentyEight;
 
+    ExtraDetailsPojo extraDetailsPojo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extra_taxes);
         ButterKnife.bind(this);
         sgstFive = true;
+        igstFive = true;
+        utgstFive = true;
+        if (getIntent().getParcelableExtra("ExtraTaxes") != null)
+        {
+            extraDetailsPojo = getIntent().getParcelableExtra("ExtraTaxes");
+            if (extraDetailsPojo.getSgst() != 0)
+            {
+                toggle_sgst.setChecked(true);
+                card_sgst.setVisibility(View.VISIBLE);
+                toggle_igst.setChecked(false);
+                card_igst.setVisibility(View.GONE);
+                toggle_utgst.setChecked(false);
+                card_utgst.setVisibility(View.GONE);
+            }
+            else if (extraDetailsPojo.getIgst() != 0)
+            {
+                toggle_igst.setChecked(true);
+                card_igst.setVisibility(View.VISIBLE);
+                toggle_sgst.setChecked(false);
+                card_sgst.setVisibility(View.GONE);
+                toggle_utgst.setChecked(false);
+                card_utgst.setVisibility(View.GONE);
+            }
+            else if (extraDetailsPojo.getUtgst() != 0)
+            {
+                toggle_utgst.setChecked(true);
+                card_utgst.setVisibility(View.VISIBLE);
+                toggle_sgst.setChecked(false);
+                card_sgst.setVisibility(View.GONE);
+                toggle_igst.setChecked(false);
+                card_igst.setVisibility(View.GONE);
+            }
+            else
+            {
+                toggle_utgst.setChecked(false);
+                toggle_igst.setChecked(false);
+                toggle_sgst.setChecked(false);
+            }
+        }
     }
 
     @OnClick(R.id.toggle_sgst)
@@ -698,7 +739,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
         {
             extraDetailsPojo.setRoundOff(false);
         }
-        
+
         EventBus.getDefault().postSticky(new SendExtraDetails(extraDetailsPojo,"1"));
         finish();
     }

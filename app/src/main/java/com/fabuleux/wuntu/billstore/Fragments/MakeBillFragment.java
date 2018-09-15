@@ -35,6 +35,7 @@ import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
+import com.fabuleux.wuntu.billstore.Pojos.ExtraDetailsPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Activity.PreviewActivity;
@@ -86,6 +87,46 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     @BindView(R.id.img_addItems)
     ImageView img_addItems;
+
+    SendExtraDetails sendExtraDetails;
+
+    ExtraDetailsPojo extraDetailsPojo;
+
+    //////////////////////Billing details
+    @BindView(R.id.invoice_total) TextView invoice_total;
+
+    @BindView(R.id.layout_gst) LinearLayout layout_gst;
+
+    @BindView(R.id.rate_gst) TextView rate_gst;
+
+    @BindView(R.id.layout_create_cgst) LinearLayout layout_create_cgst;
+
+    @BindView(R.id.rate_cgst) TextView rate_cgst;
+
+    @BindView(R.id.layout_create_sgst) LinearLayout layout_create_sgst;
+
+    @BindView(R.id.rate_sgst) TextView rate_sgst;
+
+    @BindView(R.id.layout_create_utgst) LinearLayout layout_create_utgst;
+
+    @BindView(R.id.rate_utgst) TextView rate_utgst;
+
+    @BindView(R.id.layout_create_igst) LinearLayout layout_create_igst;
+
+    @BindView(R.id.rate_igst) TextView rate_igst;
+
+    @BindView(R.id.layout_create_shipping) LinearLayout layout_create_shipping;
+
+    @BindView(R.id.txt_shipping_charges) TextView txt_shipping_charges;
+
+    @BindView(R.id.layout_create_discount) LinearLayout layout_create_discount;
+
+    @BindView(R.id.txt_discount_charges) TextView txt_discount_charges;
+
+    @BindView(R.id.layout_create_roundoff) LinearLayout layout_create_roundoff;
+
+    @BindView(R.id.txt_roundOff) TextView txt_roundOff;
+
 
     //@BindView(R.id.spinner_gst_rate)
     Spinner spinner_gst_rate;
@@ -355,7 +396,8 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         EventBus.getDefault().register(this);
     }
@@ -505,6 +547,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     {
         taxesFlag = 1;
         Intent intent = new Intent(mContext, ExtraTaxesActivity.class);
+        intent.putExtra("ExtraTaxes",extraDetailsPojo);
         startActivity(intent);
     }
 
@@ -513,8 +556,52 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     {
         if (taxDetails.getFlag().matches("1") && taxesFlag == 1)
         {
-            Toast.makeText(mContext, "success", Toast.LENGTH_SHORT).show();
+            extraDetailsPojo = taxDetails.getExtraDetailsPojo();
+            if (taxDetails.getExtraDetailsPojo().getSgst() != 0)
+            {
+                layout_gst.setVisibility(View.VISIBLE);
+                layout_create_cgst.setVisibility(View.VISIBLE);
+                layout_create_sgst.setVisibility(View.VISIBLE);
+                layout_create_utgst.setVisibility(View.GONE);
+                layout_create_igst.setVisibility(View.GONE);
+                rate_gst.setText(taxDetails.getExtraDetailsPojo().getSgst() + "%");
+                double cgstTax = taxDetails.getExtraDetailsPojo().getSgst() / 2.0;
+                rate_cgst.setText(cgstTax + "%");
+                rate_sgst.setText(cgstTax + "%");
+            }
+            else if (taxDetails.getExtraDetailsPojo().getUtgst() != 0)
+            {
+                layout_gst.setVisibility(View.VISIBLE);
+                layout_create_cgst.setVisibility(View.VISIBLE);
+                layout_create_utgst.setVisibility(View.VISIBLE);
+                layout_create_igst.setVisibility(View.GONE);
+                layout_create_sgst.setVisibility(View.GONE);
+                rate_gst.setText(taxDetails.getExtraDetailsPojo().getUtgst()+ "%");
+                double cgstTax = taxDetails.getExtraDetailsPojo().getUtgst() / 2.0;
+                rate_cgst.setText(cgstTax + "%");
+                rate_utgst.setText(cgstTax + "%");
+            }
+            else if (taxDetails.getExtraDetailsPojo().getIgst() != 0)
+            {
+                layout_gst.setVisibility(View.VISIBLE);
+                layout_create_igst.setVisibility(View.VISIBLE);
+                layout_create_sgst.setVisibility(View.GONE);
+                layout_create_utgst.setVisibility(View.GONE);
+                layout_create_cgst.setVisibility(View.GONE);
+                rate_gst.setText(taxDetails.getExtraDetailsPojo().getIgst()+ "%");
+                rate_igst.setText(taxDetails.getExtraDetailsPojo().getIgst()+ "%");
+            }
+            else
+            {
+                layout_gst.setVisibility(View.GONE);
+                layout_create_cgst.setVisibility(View.GONE);
+                layout_create_sgst.setVisibility(View.GONE);
+                layout_create_utgst.setVisibility(View.GONE);
+                layout_create_igst.setVisibility(View.GONE);
+            }
 
         }
     }
+
+
 }
