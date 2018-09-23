@@ -126,7 +126,24 @@ public class ExtraTaxesActivity extends AppCompatActivity
             if (extraDetailsPojo.getSgst() != 0)
             {
                 toggle_sgst.setChecked(true);
+                sgstFive = false;
                 card_sgst.setVisibility(View.VISIBLE);
+                if (extraDetailsPojo.getSgst() == 5)
+                {
+                    changeSgstFiveStroke();
+                }
+                else if (extraDetailsPojo.getSgst() == 12)
+                {
+                    changeSgstTwelveStroke();
+                }
+                else if (extraDetailsPojo.getSgst() == 18)
+                {
+                    changeSgstEighteenStroke();
+                }
+                else if (extraDetailsPojo.getSgst() == 28)
+                {
+                    changeSgstTwentyEightStroke();
+                }
                 toggle_igst.setChecked(false);
                 card_igst.setVisibility(View.GONE);
                 toggle_utgst.setChecked(false);
@@ -134,6 +151,24 @@ public class ExtraTaxesActivity extends AppCompatActivity
             }
             else if (extraDetailsPojo.getIgst() != 0)
             {
+                igstFive = false;
+                if (extraDetailsPojo.getIgst() == 5)
+                {
+                    changeIgstFiveStroke();
+                }
+                else if (extraDetailsPojo.getIgst() == 12)
+                {
+                    changeIgstTwelveStroke();
+                }
+                else if (extraDetailsPojo.getIgst() == 18)
+                {
+                    changeIgstEighteenStroke();
+                }
+                else if (extraDetailsPojo.getIgst() == 28)
+                {
+                    changeIgstTwentyEightStroke();
+                }
+
                 toggle_igst.setChecked(true);
                 card_igst.setVisibility(View.VISIBLE);
                 toggle_sgst.setChecked(false);
@@ -145,6 +180,23 @@ public class ExtraTaxesActivity extends AppCompatActivity
             {
                 toggle_utgst.setChecked(true);
                 card_utgst.setVisibility(View.VISIBLE);
+                utgstFive = false;
+                if (extraDetailsPojo.getUtgst() == 5)
+                {
+                    changeUTgstFiveStroke();
+                }
+                else if (extraDetailsPojo.getUtgst() == 12)
+                {
+                    changeUTgstTwelveStroke();
+                }
+                else if (extraDetailsPojo.getUtgst() == 18)
+                {
+                    changeSgstEighteenStroke();
+                }
+                else if (extraDetailsPojo.getUtgst() == 28)
+                {
+                    changeUTgstTwentyEightStroke();
+                }
                 toggle_sgst.setChecked(false);
                 card_sgst.setVisibility(View.GONE);
                 toggle_igst.setChecked(false);
@@ -155,6 +207,30 @@ public class ExtraTaxesActivity extends AppCompatActivity
                 toggle_utgst.setChecked(false);
                 toggle_igst.setChecked(false);
                 toggle_sgst.setChecked(false);
+            }
+
+            if (extraDetailsPojo.getShipping_charges() != 0)
+            {
+                toggle_shipping.setChecked(true);
+                edt_shippingCharges.setVisibility(View.VISIBLE);
+                edt_shippingCharges.setText("" +extraDetailsPojo.getShipping_charges());
+            }
+            else
+            {
+                toggle_shipping.setChecked(false);
+                edt_shippingCharges.setVisibility(View.GONE);
+            }
+
+            if (extraDetailsPojo.getDiscount() != 0)
+            {
+                toggle_discount.setChecked(true);
+                edt_discount.setVisibility(View.VISIBLE);
+                edt_discount.setText("" +extraDetailsPojo.getDiscount());
+            }
+            else
+            {
+                toggle_discount.setChecked(false);
+                edt_discount.setVisibility(View.GONE);
             }
         }
     }
@@ -287,7 +363,6 @@ public class ExtraTaxesActivity extends AppCompatActivity
             sgstFive = true;
             sgst_five.setBackground(getResources().getDrawable(R.drawable.textview_border_five_percent_blue));
             sgst_five.setTextColor(getResources().getColor(R.color.white));
-
         }
 
     }

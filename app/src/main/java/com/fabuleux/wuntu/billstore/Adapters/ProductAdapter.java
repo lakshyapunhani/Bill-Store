@@ -315,7 +315,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onClick(View v)
             {
-                showAlertDialog(itemSelectionPojo.getProductName());
+                showAlertDialog(itemSelectionPojo.getProductId());
             }
         });
 

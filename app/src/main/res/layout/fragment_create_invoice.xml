@@ -356,7 +356,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="$10000"
+                            tools:text="$10000"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -385,7 +385,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="18%"
+                            tools:text="18%"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -415,7 +415,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="9%"
+                            tools:text="9%"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -445,7 +445,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="9%"
+                            tools:text="9%"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -475,7 +475,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="9%"
+                            tools:text="9%"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -505,7 +505,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="9%"
+                            tools:text="9%"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -534,7 +534,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="$50"
+                            tools:text="$50"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -563,7 +563,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="$50"
+                            tools:text="$50"
                             android:gravity="end"/>
                     </LinearLayout>
 
@@ -592,10 +592,9 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="$0.5"
+                            tools:text="$0.5"
                             android:gravity="end"/>
                     </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
@@ -631,7 +630,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="$10000"
+                            tools:text="$10000"
                             android:gravity="end"/>
                     </LinearLayout>
                 </LinearLayout>

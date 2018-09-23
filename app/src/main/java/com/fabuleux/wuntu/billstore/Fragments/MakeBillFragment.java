@@ -17,15 +17,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Activity.ExtraTaxesActivity;
+import com.fabuleux.wuntu.billstore.Activity.PreviewActivity;
+import com.fabuleux.wuntu.billstore.Activity.ProductSelectionActivity;
 import com.fabuleux.wuntu.billstore.Adapters.InvoicePreviewAdapter;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
@@ -34,15 +33,10 @@ import com.fabuleux.wuntu.billstore.EventBus.SendItemsEvent;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
-import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ExtraDetailsPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
-import com.fabuleux.wuntu.billstore.Activity.PreviewActivity;
-import com.fabuleux.wuntu.billstore.Activity.ProductSelectionActivity;
 import com.fabuleux.wuntu.billstore.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -70,7 +64,7 @@ import butterknife.OnItemSelected;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MakeBillFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MakeBillFragment extends Fragment {
 
     @BindView(R.id.btn_preview)
     TextView btn_preview;
@@ -87,8 +81,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     @BindView(R.id.img_addItems)
     ImageView img_addItems;
-
-    SendExtraDetails sendExtraDetails;
 
     ExtraDetailsPojo extraDetailsPojo;
 
@@ -127,13 +119,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     @BindView(R.id.txt_roundOff) TextView txt_roundOff;
 
-
-    //@BindView(R.id.spinner_gst_rate)
-    Spinner spinner_gst_rate;
-
-    ArrayList<String> gstRateList;
-
-    ArrayAdapter<String> gstRateAdapter;
+    @BindView(R.id.invoice_subTotal) TextView invoice_subTotal;
 
     SessionManager sessionManager;
 
@@ -149,8 +135,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     SimpleDateFormat convertDf = new SimpleDateFormat("yyyy-MM-dd");
 
-    boolean customerView;
-
     ArrayList<ContactPojo> customersList;
     ArrayList<String> customerNameList;
 
@@ -158,7 +142,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     FirebaseUser firebaseUser;
 
     String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="";
-    String invoiceDate = "";
+    String invoiceDate = "",dueDate = "";
 
     long timestamp;
     String timestampString;
@@ -166,13 +150,17 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     ArrayAdapter<String> spinnerAdapter;
     int customerSpinnerValue;
 
-    int itemFlag =0,taxesFlag = 0;
-
-    int gstPosition;
+    int itemFlag = 0,taxesFlag = 0;
 
     double gstRate;
 
-    double cgst = 0,sgst = 0,igst = 0;
+    double sgst = 0,igst = 0,utgst = 0;
+
+    double totalAmount = 0;
+
+    double subTotal = 0;
+
+    double shipping_charges = 0,discount = 0;
 
 
     @Override
@@ -214,24 +202,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         recycler_items.setItemAnimator(new DefaultItemAnimator());
         recycler_items.setAdapter(invoicePreviewAdapter);
 
-        gstRateList = new ArrayList<>();
-
-        //getGstList();
-
-
-        //gstRateList = sessionManager.getGstSlabList();
-        /*if (gstRateList != null)
-        {
-
-        }*/
-
-//        spinner_gst_rate.setOnItemSelectedListener(this);
-
-        long date = System.currentTimeMillis();
-
-        String dateString = convertDf.format(date);
-        //invoice_date.setText(dateString);
-
         spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         customerSpinner.setTitle("Select Contact");
@@ -240,31 +210,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         getCustomerList();
 
         return view;
-    }
-
-    private void getGstList()
-    {
-        CollectionReference gstReference = db.collection("GstSlabs");
-
-        gstReference.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                gstRateList.add(document.getId());
-                            }
-
-                            gstRateAdapter = new ArrayAdapter<String>(mContext,android.R.layout.simple_spinner_dropdown_item,gstRateList);
-                            spinner_gst_rate.setAdapter(gstRateAdapter);
-                            spinner_gst_rate.setSelection(gstRateList.size() - 1);
-
-                        } else
-                        {
-                            Toast.makeText(mContext, "Error in GST document", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     private void getCustomerList()
@@ -304,86 +249,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         itemFlag = 1;
         Intent intent = new Intent(mContext,ProductSelectionActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-    {
-        Spinner spinner = (Spinner) parent;
-
-        if (spinner.getId() == R.id.spinner_gst_rate)
-        {
-            //Toast.makeText(mContext, spinner_gst_rate.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-            gstPosition = pos;
-            getGstRate();
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-    private void getGstRate()
-    {
-        switch (gstPosition)
-        {
-            case 0:
-                cgst = 2.5;
-                sgst = 2.5;
-                igst = 0;
-                gstRate = 0.05;
-                break;
-            case 1:
-                cgst = 6;
-                sgst = 6;
-                igst = 0;
-                gstRate = 0.12;
-                break;
-            case 2:
-                cgst = 9;
-                sgst = 9;
-                igst = 0;
-                gstRate = 0.18;
-                break;
-            case 3:
-                cgst = 14;
-                sgst = 14;
-                igst = 0;
-                gstRate = 0.28;
-                break;
-            case 4:
-                cgst = 0;
-                sgst = 0;
-                igst = 5;
-                gstRate = 0.05;
-                break;
-            case 5:
-                cgst = 0;
-                sgst = 0;
-                igst = 12;
-                gstRate = 0.12;
-                break;
-            case 6:
-                cgst = 0;
-                sgst = 0;
-                igst = 18;
-                gstRate = 0.18;
-                break;
-            case 7:
-                cgst = 0;
-                sgst = 0;
-                igst = 28;
-                gstRate = 0.28;
-                break;
-            case 8:
-                cgst = 0;
-                sgst = 0;
-                igst = 0;
-                gstRate = 0;
-                break;
-        }
-
     }
 
 
@@ -459,8 +324,6 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
     };
 
-
-
     @OnItemSelected(value = R.id.customerSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
     void selectVehicle(AdapterView<?> adapterView, int newVal) {
         if (customersList.size()>0)
@@ -484,6 +347,7 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         }
 
         invoiceDate = invoice_date.getText().toString().trim();
+        dueDate = due_date.getText().toString().trim();
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
 
@@ -519,10 +383,12 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
 
             invoicePreviewAdapter.notifyDataSetChanged();
             EventBus.getDefault().removeAllStickyEvents();
+            totalAmount = 0;
+            subTotal = 0;
+            setTaxValues();
         }
 
     }
-
 
     private void sendDatatoPreview()
     {
@@ -532,12 +398,15 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
         intent.putExtra("Customer Address",newCustomerAddress);
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
         intent.putExtra("Invoice Date",invoiceDate);
+        intent.putExtra("Due Date",dueDate);
         intent.putExtra("showSave",true);
-        intent.putExtra("gstValue",gstRate);
-        intent.putExtra("cgst",cgst);
         intent.putExtra("sgst",sgst);
         intent.putExtra("igst",igst);
-
+        intent.putExtra("utgst",utgst);
+        intent.putExtra("shipping charge",shipping_charges);
+        intent.putExtra("discount",discount);
+        intent.putExtra("subTotal",subTotal);
+        intent.putExtra("totalAmount",totalAmount);
 
         startActivity(intent);
     }
@@ -554,9 +423,10 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onEvent(SendExtraDetails taxDetails)
     {
-        if (taxDetails.getFlag().matches("1") && taxesFlag == 1)
+        if (taxDetails.getFlag().matches("1") && taxesFlag == 1 && itemList.size() > 0)
         {
             extraDetailsPojo = taxDetails.getExtraDetailsPojo();
+
             if (taxDetails.getExtraDetailsPojo().getSgst() != 0)
             {
                 layout_gst.setVisibility(View.VISIBLE);
@@ -564,6 +434,9 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 layout_create_sgst.setVisibility(View.VISIBLE);
                 layout_create_utgst.setVisibility(View.GONE);
                 layout_create_igst.setVisibility(View.GONE);
+                sgst = taxDetails.getExtraDetailsPojo().getSgst();
+                utgst = 0;
+                igst = 0;
                 rate_gst.setText(taxDetails.getExtraDetailsPojo().getSgst() + "%");
                 double cgstTax = taxDetails.getExtraDetailsPojo().getSgst() / 2.0;
                 rate_cgst.setText(cgstTax + "%");
@@ -576,6 +449,9 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 layout_create_utgst.setVisibility(View.VISIBLE);
                 layout_create_igst.setVisibility(View.GONE);
                 layout_create_sgst.setVisibility(View.GONE);
+                utgst = taxDetails.getExtraDetailsPojo().getUtgst();
+                sgst = 0;
+                igst = 0;
                 rate_gst.setText(taxDetails.getExtraDetailsPojo().getUtgst()+ "%");
                 double cgstTax = taxDetails.getExtraDetailsPojo().getUtgst() / 2.0;
                 rate_cgst.setText(cgstTax + "%");
@@ -590,6 +466,9 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 layout_create_cgst.setVisibility(View.GONE);
                 rate_gst.setText(taxDetails.getExtraDetailsPojo().getIgst()+ "%");
                 rate_igst.setText(taxDetails.getExtraDetailsPojo().getIgst()+ "%");
+                igst = taxDetails.getExtraDetailsPojo().getIgst();
+                sgst = 0;
+                utgst = 0;
             }
             else
             {
@@ -598,10 +477,79 @@ public class MakeBillFragment extends Fragment implements AdapterView.OnItemSele
                 layout_create_sgst.setVisibility(View.GONE);
                 layout_create_utgst.setVisibility(View.GONE);
                 layout_create_igst.setVisibility(View.GONE);
+                sgst = 0;
+                igst = 0;
+                utgst = 0;
             }
 
+            if (taxDetails.getExtraDetailsPojo().getShipping_charges() != 0)
+            {
+                layout_create_shipping.setVisibility(View.VISIBLE);
+                txt_shipping_charges.setText("+ "+getResources().getString(R.string.rupee_sign) +String.valueOf(taxDetails.getExtraDetailsPojo().getShipping_charges()));
+                shipping_charges = taxDetails.getExtraDetailsPojo().getShipping_charges();
+            }
+            else
+            {
+                layout_create_shipping.setVisibility(View.GONE);
+                shipping_charges = 0;
+            }
+
+            if (taxDetails.getExtraDetailsPojo().getDiscount() != 0)
+            {
+                layout_create_discount.setVisibility(View.VISIBLE);
+                txt_discount_charges.setText("- " +getResources().getString(R.string.rupee_sign) + String.valueOf(taxDetails.getExtraDetailsPojo().getDiscount()));
+                discount = taxDetails.getExtraDetailsPojo().getDiscount();
+            }
+            else
+            {
+                layout_create_discount.setVisibility(View.GONE);
+                discount = 0;
+            }
+
+            totalAmount = 0;
+            subTotal = 0;
+            setTaxValues();
         }
     }
 
+    private void setTaxValues()
+    {
+
+
+        for (int i = 0;i<itemList.size();i++)
+        {
+            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
+        }
+        invoice_total.setText(getResources().getString(R.string.rupee_sign) + String.valueOf(totalAmount));
+
+        if (sgst != 0)
+        {
+            subTotal = totalAmount + (totalAmount * (sgst/100));
+        }
+        else if (igst != 0)
+        {
+            subTotal = totalAmount + (totalAmount *(igst/100));
+        }
+        else if (utgst != 0)
+        {
+            subTotal = totalAmount + (totalAmount * (utgst/100));
+        }
+        else
+        {
+            subTotal = totalAmount;
+        }
+
+        if (shipping_charges != 0)
+        {
+            subTotal = subTotal + shipping_charges;
+        }
+
+        if (discount != 0)
+        {
+            subTotal = subTotal - discount;
+        }
+
+        invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) + String.valueOf(subTotal));
+    }
 
 }

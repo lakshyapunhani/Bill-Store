@@ -114,6 +114,9 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.menu_dots_preview)
     ImageView menu_dots;
 
+    @BindView(R.id.layout_gst)
+    LinearLayout layout_gst;
+
     @BindView(R.id.layout_cgst)
     LinearLayout layout_cgst;
 
@@ -123,6 +126,12 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.layout_igst)
     LinearLayout layout_igst;
 
+    @BindView(R.id.layout_utgst)
+    LinearLayout layout_utgst;
+
+    @BindView(R.id.rate_gst)
+    TextView rate_gst;
+
     @BindView(R.id.invoice_cgst)
     TextView invoice_cgst;
 
@@ -131,6 +140,21 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.invoice_igst)
     TextView invoice_igst;
+
+    @BindView(R.id.invoice_utgst)
+    TextView invoice_utgst;
+
+    @BindView(R.id.layout_shipping) LinearLayout layout_create_shipping;
+
+    @BindView(R.id.txt_shipping_charges) TextView txt_shipping_charges;
+
+    @BindView(R.id.layout_discount) LinearLayout layout_create_discount;
+
+    @BindView(R.id.txt_discount_charges) TextView txt_discount_charges;
+
+    @BindView(R.id.layout_roundoff) LinearLayout layout_create_roundoff;
+
+    @BindView(R.id.txt_roundOff) TextView txt_roundOff;
 
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
@@ -146,9 +170,13 @@ public class PreviewActivity extends AppCompatActivity {
     long timestamp;
     String timestampString;
 
+    double sgst = 0,igst = 0,utgst = 0;
+
     double totalAmount = 0;
 
-    double gstRate = 0,cgst=0,sgst = 0,igst = 0;
+    double subTotal = 0;
+
+    double shipping_charges = 0,discount = 0;
 
     File filePath;
 
@@ -242,20 +270,20 @@ public class PreviewActivity extends AppCompatActivity {
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             showSave = getIntent().getBooleanExtra("showSave",false);
-            gstRate = getIntent().getDoubleExtra("gstValue",0.0);
-            cgst = getIntent().getDoubleExtra("cgst",0.0);
-            sgst = getIntent().getDoubleExtra("sgst",0.0);
-            igst = getIntent().getDoubleExtra("igst",0.0);
+            utgst = getIntent().getDoubleExtra("utgst",0);
+            sgst = getIntent().getDoubleExtra("sgst",0);
+            igst = getIntent().getDoubleExtra("igst",0);
+            shipping_charges = getIntent().getDoubleExtra("shipping charge",0);
+            discount = getIntent().getDoubleExtra("discount",0);
+            subTotal = getIntent().getDoubleExtra("subTotal",0);
+            totalAmount = getIntent().getDoubleExtra("totalAmount",0);
         }
     }
 
     private void setViews()
     {
         String amount = String.valueOf(totalAmount);
-        double subtotalGst = totalAmount * gstRate;
-        double subtotal = totalAmount + subtotalGst;
-        String subtotalAmount = String.valueOf(subtotal);
-        invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) +subtotalAmount);
+        invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) + String.valueOf(subTotal));
         txt_custName.setText(customerName);
         txt_custAddress.setText(customerAddress);
         txt_custGstNumber.setText(customerGstNumber);
@@ -270,20 +298,78 @@ public class PreviewActivity extends AppCompatActivity {
             menu_dots.setVisibility(View.GONE);
         }
 
-        if (cgst != 0.0)
+        if (sgst != 0)
         {
+            layout_gst.setVisibility(View.VISIBLE);
             layout_cgst.setVisibility(View.VISIBLE);
-            invoice_cgst.setText(String.valueOf(cgst)+ " %");
-        }
-        if (sgst != 0.0)
-        {
             layout_sgst.setVisibility(View.VISIBLE);
-            invoice_sgst.setText(String.valueOf(sgst)+ " %");
+            layout_utgst.setVisibility(View.GONE);
+            layout_igst.setVisibility(View.GONE);
+            utgst = 0;
+            igst = 0;
+            rate_gst.setText(sgst + "%");
+            double cgstTax = sgst / 2.0;
+            invoice_cgst.setText(cgstTax + "%");
+            invoice_sgst.setText(cgstTax + "%");
         }
-        if (igst != 0.0)
+        else if (utgst != 0)
         {
+            layout_gst.setVisibility(View.VISIBLE);
+            layout_cgst.setVisibility(View.VISIBLE);
+            layout_utgst.setVisibility(View.VISIBLE);
+            layout_igst.setVisibility(View.GONE);
+            layout_sgst.setVisibility(View.GONE);
+            sgst = 0;
+            igst = 0;
+            rate_gst.setText(utgst + "%");
+            double cgstTax = utgst / 2.0;
+            invoice_cgst.setText(cgstTax + "%");
+            invoice_utgst.setText(cgstTax + "%");
+        }
+        else if (igst != 0)
+        {
+            layout_gst.setVisibility(View.VISIBLE);
             layout_igst.setVisibility(View.VISIBLE);
-            invoice_igst.setText(String.valueOf(igst) + " %");
+            layout_sgst.setVisibility(View.GONE);
+            layout_utgst.setVisibility(View.GONE);
+            layout_cgst.setVisibility(View.GONE);
+            rate_gst.setText(igst + "%");
+            invoice_igst.setText(igst + "%");
+            sgst = 0;
+            utgst = 0;
+        }
+        else
+        {
+            layout_gst.setVisibility(View.GONE);
+            layout_cgst.setVisibility(View.GONE);
+            layout_sgst.setVisibility(View.GONE);
+            layout_utgst.setVisibility(View.GONE);
+            layout_igst.setVisibility(View.GONE);
+            sgst = 0;
+            igst = 0;
+            utgst = 0;
+        }
+
+        if (shipping_charges != 0)
+        {
+            layout_create_shipping.setVisibility(View.VISIBLE);
+            txt_shipping_charges.setText("+ "+getResources().getString(R.string.rupee_sign) +String.valueOf(shipping_charges));
+        }
+        else
+        {
+            layout_create_shipping.setVisibility(View.GONE);
+            shipping_charges = 0;
+        }
+
+        if (discount != 0)
+        {
+            layout_create_discount.setVisibility(View.VISIBLE);
+            txt_discount_charges.setText("- " +getResources().getString(R.string.rupee_sign) + String.valueOf(discount));
+        }
+        else
+        {
+            layout_create_discount.setVisibility(View.GONE);
+            discount = 0;
         }
 
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
@@ -298,7 +384,6 @@ public class PreviewActivity extends AppCompatActivity {
     {
         for (int i = 0; i < itemList.size(); i++)
         {
-            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
 
             ItemPojo itemPojo = itemList.get(i);
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
@@ -330,13 +415,13 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         invoiceNumber = autoGenerateInvoiceNumber();
-        final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        /*final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
         CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
         final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,cgst,sgst,igst,gstRate,billItems,totalAmount,invoiceNumber);
 
         customerReference.document(customerName).set(customerDetails);
         customerReference.document(customerName).collection(firebaseUser.getUid())
-                .document(invoiceDate + " && " + timestampString).set(makeBillDetails);
+                .document(invoiceDate + " && " + timestampString).set(makeBillDetails);*/
 
         Toast.makeText(this, "Invoice Saved", Toast.LENGTH_SHORT).show();
         if (printClicked)
