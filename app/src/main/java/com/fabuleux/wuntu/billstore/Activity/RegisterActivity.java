@@ -76,9 +76,11 @@ public class RegisterActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
 
-        HashMap<String,String> map = new HashMap<>();
+       /* HashMap<String,String> map = new HashMap<>();
         map.put("UID",firebaseUser.getUid());
-        db.collection("Users").document(firebaseUser.getUid()).set(map);
+        map.put("userMobile",firebaseUser.getPhoneNumber());*/
+        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber,firebaseUser.getUid(),firebaseUser.getPhoneNumber());
+        db.collection("Users").document(firebaseUser.getUid()).set(user);
     }
 
     @OnClick(R.id.btn_profileSubmit)
@@ -145,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void writeDataToFirebase()
     {
-        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
+        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber,firebaseUser.getUid(),firebaseUser.getPhoneNumber());
 
         if (firebaseUser != null ) {
 

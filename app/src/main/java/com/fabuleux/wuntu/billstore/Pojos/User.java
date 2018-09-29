@@ -11,15 +11,19 @@ public class User
     private String shop_address;
     private String shop_gst;
     private String shop_pan;
+    private String uid;
+    private String mobileNumber;
 
     public User() {}
 
-    public User(String name, String shop_name,String shop_address,String shop_gst,String shop_pan) {
+    public User(String name, String shop_name,String shop_address,String shop_gst,String shop_pan, String uid, String mobileNumber) {
         this.name = name;
         this.shop_name = shop_name;
         this.shop_address = shop_address;
         this.shop_gst = shop_gst;
         this.shop_pan = shop_pan;
+        this.uid = uid;
+        this.mobileNumber = mobileNumber;
     }
 
     public String getShop_address() {
@@ -42,5 +46,20 @@ public class User
         return shop_name;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 }
 
