@@ -1,10 +1,11 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
+import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +25,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,9 +63,21 @@ public class AddContactActivity extends AppCompatActivity
 
     CollectionReference contactReference;
 
+    CollectionReference usersReference;
+
     ContactPojo contactPojo;
 
+    String contactUID = "";
+    String contactAddress = "";
+    String contactGstNumber = "";
+    String contactPhoneNumber = "";
+    String contactName = "";
+
+    SessionManager sessionManager;
+
     boolean edit;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,20 +98,30 @@ public class AddContactActivity extends AppCompatActivity
             edt_contactPhoneNumber.setEnabled(false);
         }
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+
+        sessionManager = new SessionManager(AddContactActivity.this);
+
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         contactReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
+        usersReference = db.collection("Users");
+
 
     }
 
     @OnClick(R.id.btn_add_contact)
-    public void addContact()
+    public void checkContact()
     {
         hideSoftKeyboard(AddContactActivity.this);
-        String contactAddress = "";
-        String contactGstNumber = "";
+        if (!progressDialog.isShowing() && !AddContactActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
+
         if (edt_contactPhoneNumber.getText().toString().trim().isEmpty())
         {
             Toast.makeText(this, "Please fill contact phone number", Toast.LENGTH_SHORT).show();
@@ -115,7 +144,7 @@ public class AddContactActivity extends AppCompatActivity
             contactGstNumber = edt_contactGstNumber.getText().toString().trim();
         }
 
-        String contactPhoneNumber;
+
         if (edt_contactPhoneNumber.getText().toString().startsWith("+"))
         {
             contactPhoneNumber = edt_contactPhoneNumber.getText().toString().trim();
@@ -124,55 +153,88 @@ public class AddContactActivity extends AppCompatActivity
         {
             contactPhoneNumber = "+91" + edt_contactPhoneNumber.getText().toString().trim();
         }
-        String contactName = edt_contactName.getText().toString().trim();
+
+        contactName = edt_contactName.getText().toString().trim();
 
 
-        final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber);
-
-        final DocumentReference documentReference = contactReference.document(contactPhoneNumber);
-
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        usersReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-
-
-
-                    if (!edit && document.exists())
+                    for (DocumentSnapshot document : task.getResult())
                     {
-                        Toast.makeText(AddContactActivity.this, "Contact already added", Toast.LENGTH_SHORT).show();
+                        if (document.exists() && document.contains("mobileNumber"))
+                        {
+                            if (document.get("mobileNumber").equals(contactPhoneNumber))
+                            {
+                                contactUID = document.getId();
+                                addContactToRegisteredUser(document);
+                            }
+                        }
                     }
-                    else
-                    {
-                        documentReference.set(contactPojo);
-                        finish();
-                    }
-
-                } else
-                {
-                    Toast.makeText(AddContactActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
+                    addContact();
                 }
             }
         });
     }
 
-    @OnClick(R.id.back_arrow_contacts)
-    public void backArrowClick()
-    {
+    private void addContactToRegisteredUser(DocumentSnapshot document) {
+        CollectionReference collectionReference = db.collection("Users").document(document.getId()).collection("Contacts");
+        final DocumentReference documentReference = collectionReference.document(firebaseUser.getPhoneNumber());
+        final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),sessionManager.getShop_address(),sessionManager.getShop_gst(),firebaseUser.getPhoneNumber(), firebaseUser.getUid());
+        documentReference.set(contactPojo);
+    }
+
+        private void addContact()
+        {
+            final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber, contactUID);
+
+            final DocumentReference documentReference = contactReference.document(contactPhoneNumber);
+
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (progressDialog.isShowing() && !AddContactActivity.this.isDestroyed())
+                        {
+                            progressDialog.dismiss();
+                        }
+
+                        if (!edit && document.exists())
+                        {
+                            Toast.makeText(AddContactActivity.this, "Contact already added", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            documentReference.set(contactPojo);
+                            finish();
+                        }
+
+                    } else
+                    {
+                        Toast.makeText(AddContactActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+        @OnClick(R.id.back_arrow_contacts)
+        public void backArrowClick()
+        {
+            finish();
+        }
+
+        @Override
+        public void onBackPressed() {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    public static void hideSoftKeyboard(Activity activity) {
+        public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
-}
+    }

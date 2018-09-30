@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -384,6 +385,42 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        DocumentReference userDetails = db.collection("Users").document(firebaseUser.getUid());
+        userDetails.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.contains("name"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("name").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_address"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("shop_address").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_gst"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("shop_gst").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_name"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("shop_name").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_pan"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("shop_pan").toString());
+                    }
+                }
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

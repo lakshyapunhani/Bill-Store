@@ -13,14 +13,17 @@ public class ContactPojo implements Parcelable
 
     private String contactPhoneNumber;
 
+    private String contactUID;
+
     public ContactPojo() {
     }
 
-    public ContactPojo(String contactName, String contactAddress, String contactGstNumber, String contactPhoneNumber) {
+    public ContactPojo(String contactName, String contactAddress, String contactGstNumber, String contactPhoneNumber, String contactUID) {
         this.contactPhoneNumber = contactPhoneNumber;
         this.contactName = contactName;
         this.contactAddress = contactAddress;
         this.contactGstNumber = contactGstNumber;
+        this.contactUID = contactUID;
     }
 
     protected ContactPojo(Parcel in) {
@@ -28,6 +31,7 @@ public class ContactPojo implements Parcelable
         contactAddress = in.readString();
         contactGstNumber = in.readString();
         contactPhoneNumber = in.readString();
+        this.contactUID = in.readString();
     }
 
     public static final Creator<ContactPojo> CREATOR = new Creator<ContactPojo>() {
@@ -62,6 +66,14 @@ public class ContactPojo implements Parcelable
         this.contactPhoneNumber = contactPhoneNumber;
     }
 
+    public String getContactUID() {
+        return contactUID;
+    }
+
+    public void setContactUID(String contactUID) {
+        this.contactUID = contactUID;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -73,5 +85,6 @@ public class ContactPojo implements Parcelable
         dest.writeString(contactAddress);
         dest.writeString(contactGstNumber);
         dest.writeString(contactPhoneNumber);
+        dest.writeString(contactUID);
     }
 }
