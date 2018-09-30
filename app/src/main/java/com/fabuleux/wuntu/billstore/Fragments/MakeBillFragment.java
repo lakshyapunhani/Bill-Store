@@ -141,7 +141,7 @@ public class MakeBillFragment extends Fragment {
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
-    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="";
+    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="",newCustomerMobileNumber = "",newCustomerUID = "";
     String invoiceDate = "",dueDate = "";
 
     long timestamp;
@@ -196,6 +196,7 @@ public class MakeBillFragment extends Fragment {
         sessionManager = new SessionManager(mContext);
 
         firebaseUser = firebaseAuth.getCurrentUser();
+
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
@@ -362,7 +363,8 @@ public class MakeBillFragment extends Fragment {
         {
             newCustomerGstNumber = customersList.get(customerSpinnerValue).getContactGstNumber();
         }
-
+        newCustomerMobileNumber = customersList.get(customerSpinnerValue).getContactPhoneNumber();
+        newCustomerUID = customersList.get(customerSpinnerValue).getContactUID();
         sendDatatoPreview();
     }
 
@@ -397,6 +399,8 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer Name",newCustomerName);
         intent.putExtra("Customer Address",newCustomerAddress);
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
+        intent.putExtra("Customer Mobile Number",newCustomerMobileNumber);
+        intent.putExtra("Customer UID",newCustomerUID);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("Due Date",dueDate);
         intent.putExtra("showSave",true);

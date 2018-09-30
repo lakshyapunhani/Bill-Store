@@ -36,16 +36,16 @@ import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
+import com.fabuleux.wuntu.billstore.Pojos.GstPojo;
+import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
-import com.fabuleux.wuntu.billstore.Pojos.MakeBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,6 +59,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,6 +76,8 @@ public class PreviewActivity extends AppCompatActivity {
     Bitmap bitmap;
 
     PopupMenu popup;
+
+    Map<String,String> billImages;
 
     @BindView(R.id.txt_shopName)
     TextView txt_shopName;
@@ -159,8 +162,8 @@ public class PreviewActivity extends AppCompatActivity {
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
     private String customerAddress = "";
-    private String customerGstNumber = "";
-    private String invoiceDate = "";
+    private String customerGstNumber = "",newCustomerMobileNumber = "",newCustomerUID = "";
+    private String invoiceDate = "",dueDate = "";
 
     HashMap<String,ItemPojo> billItems;
 
@@ -197,6 +200,8 @@ public class PreviewActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
+
+        billImages = new HashMap<>();
 
         billItems = new HashMap<>();
         itemList = new ArrayList<>();
@@ -268,7 +273,10 @@ public class PreviewActivity extends AppCompatActivity {
             customerName = getIntent().getStringExtra("Customer Name");
             customerAddress = getIntent().getStringExtra("Customer Address");
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
+            newCustomerUID = getIntent().getStringExtra("Customer UID");
+            newCustomerMobileNumber= getIntent().getStringExtra("Customer Mobile Number");
             invoiceDate = getIntent().getStringExtra("Invoice Date");
+            dueDate = getIntent().getStringExtra("Due Date");
             showSave = getIntent().getBooleanExtra("showSave",false);
             utgst = getIntent().getDoubleExtra("utgst",0);
             sgst = getIntent().getDoubleExtra("sgst",0);
@@ -403,7 +411,6 @@ public class PreviewActivity extends AppCompatActivity {
 
     public void saveButton()
     {
-
         if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
             progressDialog.show();
@@ -422,6 +429,16 @@ public class PreviewActivity extends AppCompatActivity {
         customerReference.document(customerName).set(customerDetails);
         customerReference.document(customerName).collection(firebaseUser.getUid())
                 .document(invoiceDate + " && " + timestampString).set(makeBillDetails);*/
+
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(newCustomerMobileNumber);
+        ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
+                newCustomerMobileNumber,newCustomerUID);
+        GstPojo gstPojo = new GstPojo(sgst,igst,utgst);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,totalAmount,billItems,
+                invoiceDate, dueDate, gstPojo,"","created",timestampString,billImages);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
         Toast.makeText(this, "Invoice Saved", Toast.LENGTH_SHORT).show();
         if (printClicked)
