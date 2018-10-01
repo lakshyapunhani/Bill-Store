@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -163,6 +164,7 @@ public class PreviewActivity extends AppCompatActivity {
     private String customerName = "";
     private String customerAddress = "";
     private String customerGstNumber = "",newCustomerMobileNumber = "",newCustomerUID = "";
+    int newCustomerNumberInvoices;
     private String invoiceDate = "",dueDate = "";
 
     HashMap<String,ItemPojo> billItems;
@@ -275,6 +277,7 @@ public class PreviewActivity extends AppCompatActivity {
             customerGstNumber = getIntent().getStringExtra("Customer GST Number");
             newCustomerUID = getIntent().getStringExtra("Customer UID");
             newCustomerMobileNumber= getIntent().getStringExtra("Customer Mobile Number");
+            newCustomerNumberInvoices = getIntent().getIntExtra("Customer Number Invoices", 0);
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             dueDate = getIntent().getStringExtra("Due Date");
             showSave = getIntent().getBooleanExtra("showSave",false);
@@ -422,25 +425,26 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         invoiceNumber = autoGenerateInvoiceNumber();
-        /*final CollectionReference customerReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
-        CustomerDetails customerDetails = new CustomerDetails(customerName,customerAddress,customerGstNumber);
-        final MakeBillDetails makeBillDetails = new MakeBillDetails(customerDetails, invoiceDate,cgst,sgst,igst,gstRate,billItems,totalAmount,invoiceNumber);
-
-        customerReference.document(customerName).set(customerDetails);
-        customerReference.document(customerName).collection(firebaseUser.getUid())
-                .document(invoiceDate + " && " + timestampString).set(makeBillDetails);*/
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(newCustomerMobileNumber);
         ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
-                newCustomerMobileNumber,newCustomerUID);
+                newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
         GstPojo gstPojo = new GstPojo(sgst,igst,utgst);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,totalAmount,billItems,
-                invoiceDate, dueDate, gstPojo,"","created",timestampString,billImages);
+
+        documentReference.set(contactPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(invoiceNumber,subTotal,billItems,
+                invoiceDate, dueDate, gstPojo,"","due","created",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
         Toast.makeText(this, "Invoice Saved", Toast.LENGTH_SHORT).show();
+
+        if (!newCustomerUID.isEmpty())
+        {
+            addInvoiceToSelectedUser();
+        }
+
         if (printClicked)
         {
             if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
@@ -459,6 +463,23 @@ public class PreviewActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    private void addInvoiceToSelectedUser()
+    {
+        DocumentReference documentReference = db.collection("Users").document(newCustomerUID).
+                collection("Contacts").document(firebaseUser.getPhoneNumber());
+        final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),
+                sessionManager.getShop_address(),sessionManager.getShop_gst(),
+                firebaseUser.getPhoneNumber(), firebaseUser.getUid(),newCustomerNumberInvoices + 1,invoiceDate);
+
+        documentReference.set(contactPojo);
+
+        GstPojo gstPojo = new GstPojo(sgst,igst,utgst);
+        InvoicePojo invoicePojo = new InvoicePojo(invoiceNumber,totalAmount,billItems,
+                invoiceDate, dueDate, gstPojo,"","due","recieved",timestampString,billImages);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
     }
 
     @OnClick(R.id.btn_print)

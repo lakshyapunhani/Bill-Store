@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.R;
 
@@ -20,9 +21,9 @@ import butterknife.ButterKnife;
 
 public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    private ArrayList<CustomerDetails> customerDetailsList;
+    private ArrayList<ContactPojo> customerDetailsList;
 
-    public CustomerListAdapter(ArrayList<CustomerDetails> customerDetailsList) {
+    public CustomerListAdapter(ArrayList<ContactPojo> customerDetailsList) {
         this.customerDetailsList = customerDetailsList;
     }
 
@@ -41,16 +42,18 @@ public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_customer_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_new_customers, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
-            CustomerDetails customerDetails = customerDetailsList.get(position);
-            ((ViewHolder) holder).traderName.setText(customerDetails.getCustomerName());
-            ((ViewHolder) holder).traderAddress.setText(customerDetails.getCustomerAddress());
+            ContactPojo contactPojo = customerDetailsList.get(position);
+            ((ViewHolder) holder).traderName.setText(contactPojo.getContactName());
+            ((ViewHolder) holder).traderAddress.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_house_black, 0, 0, 0);
+            ((ViewHolder) holder).traderAddress.setText(contactPojo.getContactAddress());
         }
     }
 

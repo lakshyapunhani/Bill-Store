@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
+import com.fabuleux.wuntu.billstore.Fragments.CustomersFragment;
 import com.fabuleux.wuntu.billstore.Fragments.HomeFragment;
 import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.SettingsFragment;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
 
-    Fragment homeFragment;
+    Fragment customerFragment;
     Fragment addBillFragment;
     Fragment makeBillFragment;
     Fragment profileFragment;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
-        homeFragment = new HomeFragment();
+        customerFragment = new CustomersFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
         profileFragment = new SettingsFragment();
@@ -172,32 +173,32 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add( R.id.layout_mainFrame,homeFragment,"home");
+        transaction.add( R.id.layout_mainFrame,customerFragment,"home");
         transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,makeBillFragment,"make_bill");
         transaction.add( R.id.layout_mainFrame,profileFragment,"profile");
 
         switch (selectedFragmentTag) {
             case "home":
-                transaction.show(homeFragment);
+                transaction.show(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "add_bill":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.show(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "make_bill":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.show(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "profile":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.show(profileFragment);

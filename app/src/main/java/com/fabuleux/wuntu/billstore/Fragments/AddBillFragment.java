@@ -41,6 +41,10 @@ import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
+import com.fabuleux.wuntu.billstore.Pojos.GstPojo;
+import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
+import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.MarshMallowPermission;
@@ -50,6 +54,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -93,33 +98,11 @@ public class AddBillFragment extends Fragment {
     @BindView(R.id.vendorSpinner)
     SearchableSpinner vendorSpinner;
 
-    @BindView(R.id.radio_existingVendor)
-    RadioButton radio_existingVendor;
-
-    @BindView(R.id.radio_newVendor)
-    RadioButton radio_newVendor;
-
     @BindView(R.id.innerView_existingVendor)
     LinearLayout innerView_existingVendor;
 
-    @BindView(R.id.innerView_newVendor)
-    LinearLayout innerView_newVendor;
-
-    @BindView(R.id.outerView_newVendor)
-    LinearLayout outerView_newVendor;
-
-    @BindView(R.id.outerView_existingVendor)
-    LinearLayout outerView_existingVendor;
-
     @BindView(R.id.text_pickDate)
     TextView text_pickDate;
-
-    @BindView(R.id.edt_newVendorName)
-    EditText edt_newVendorName;
-
-    @BindView(R.id.edt_newVendorAddress) EditText edt_newVendorAddress;
-
-    @BindView(R.id.edt_newVendorGst) EditText edt_newVendorGst;
 
     @BindView(R.id.edt_billAmount) EditText edt_billAmount;
 
@@ -139,10 +122,6 @@ public class AddBillFragment extends Fragment {
 
     String timestampString;
 
-    ArrayList<VendorDetails> vendorsList;
-
-    ArrayList<String> vendorNameList;
-
     ArrayList<String> imagesList;
 
     private int REQUEST_CAMERA = 0;
@@ -155,7 +134,9 @@ public class AddBillFragment extends Fragment {
 
     boolean vendorView, statusView;
 
-    String newVendorName,newVendorAddress,newVendorGst = " ";
+    String newVendorName,newVendorAddress,newVendorGst = "",newVendorPhoneNumber = "",newVendorUID = "";
+
+    int vendorNumberInvoices;
 
     String billAmount,billDescription,billDate;
     String billStatus = "Due";
@@ -174,7 +155,12 @@ public class AddBillFragment extends Fragment {
 
     String dateString;
     String billNumber = "";
-    SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
+    SimpleDateFormat convertDf = new SimpleDateFormat("yyyy-MM-dd");
+
+    ArrayList<ContactPojo> customersList;
+    ArrayList<String> customerNameList;
+
+    HashMap<String,ItemPojo> billItems;
 
     public AddBillFragment() {
         // Required empty public constructor
@@ -197,6 +183,11 @@ public class AddBillFragment extends Fragment {
         marshMallowPermission = new MarshMallowPermission(getActivity());
         billImages = new HashMap<>();
 
+        customerNameList = new ArrayList<>();
+        customersList = new ArrayList<>();
+
+        billItems = new HashMap<>();
+
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Saving");
         progressDialog.setMessage("Please wait...");
@@ -218,9 +209,6 @@ public class AddBillFragment extends Fragment {
                 .inflate(R.menu.add_bill_menu, popup.getMenu());
 
         imagesList = new ArrayList<>();
-        vendorsList = new ArrayList<>();
-
-        vendorNameList = new ArrayList<>();
 
         long date = System.currentTimeMillis();
 
@@ -313,50 +301,42 @@ public class AddBillFragment extends Fragment {
 
                     }
                 }));
-        spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, vendorNameList);
+        spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vendorSpinner.setTitle("Select Vendor");
         vendorSpinner.setAdapter(spinnerAdapter);
 
-        getVendorsList();
+        getCustomerList();
 
         return view;
     }
 
-    private void getVendorsList()
+    private void getCustomerList()
     {
-        CollectionReference billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors");
+        CollectionReference contactReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
-        billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        contactReference.orderBy("contactName").addSnapshotListener(new EventListener<QuerySnapshot>()
+        {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
             {
-                if (e != null) {
-                    Toast.makeText(context, "Bills Request Failed", Toast.LENGTH_SHORT).show();
+                if (e != null)
+                {
+                    Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                vendorsList.clear();
-                vendorNameList.clear();
-
+                customersList.clear();
+                customerNameList.clear();
                 if (documentSnapshots.isEmpty())
                 {
-                    newVendorViewClick();
                     return;
                 }
-                else
+                for (DocumentSnapshot documentSnapshot : documentSnapshots)
                 {
-                    existingVendorViewClick();
+                    ContactPojo contactDetails = documentSnapshot.toObject(ContactPojo.class);
+                    customersList.add(contactDetails);
+                    customerNameList.add(contactDetails.getContactName());
                 }
-
-                for (DocumentSnapshot doc : documentSnapshots) {
-                    if (doc.exists())
-                    {
-                        VendorDetails vendorDetails = doc.toObject(VendorDetails.class);
-                        vendorsList.add(vendorDetails);
-                        vendorNameList.add(vendorDetails.getVendorName());
-                    }
-                }
-
                 spinnerAdapter.notifyDataSetChanged();
             }
         });
@@ -440,7 +420,6 @@ public class AddBillFragment extends Fragment {
                               int selectedDay) {
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-            SimpleDateFormat convertDf = new SimpleDateFormat("MMMM dd, yyyy");
             try {
                 Date reportDate = df.parse(selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay);
                 text_pickDate.setText((convertDf.format(reportDate)));
@@ -451,29 +430,6 @@ public class AddBillFragment extends Fragment {
 
     };
 
-    @OnClick({R.id.view_existingVendor,R.id.radio_existingVendor})
-    public void existingVendorViewClick()
-    {
-        vendorView = false;
-        radio_existingVendor.setChecked(true);
-        radio_newVendor.setChecked(false);
-        TransitionManager.beginDelayedTransition(outerView_newVendor);
-        innerView_newVendor.setVisibility(View.GONE);
-        TransitionManager.beginDelayedTransition(outerView_existingVendor);
-        innerView_existingVendor.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick({R.id.view_newVendor,R.id.radio_newVendor})
-    public void newVendorViewClick()
-    {
-        vendorView = true;
-        radio_newVendor.setChecked(true);
-        radio_existingVendor.setChecked(false);
-        TransitionManager.beginDelayedTransition(outerView_newVendor);
-        innerView_newVendor.setVisibility(View.VISIBLE);
-        TransitionManager.beginDelayedTransition(outerView_existingVendor);
-        innerView_existingVendor.setVisibility(View.GONE);
-    }
 
     @OnClick(R.id.text_pickDate)
     public void onClickPickDate()
@@ -540,7 +496,7 @@ public class AddBillFragment extends Fragment {
 
     @OnItemSelected(value = R.id.vendorSpinner, callback = OnItemSelected.Callback.ITEM_SELECTED)
     void selectVehicle(AdapterView<?> adapterView, int newVal) {
-        if (vendorsList.size()>0)
+        if (customersList.size()>0)
         {
             spinnerValue = newVal;
         }
@@ -556,40 +512,13 @@ public class AddBillFragment extends Fragment {
 
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
-        if (vendorView)
-        {
-            if (edt_newVendorName.getText().toString().trim().isEmpty())
-            {
-                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                {
-                    progressDialog.dismiss();
-                }
-                Toast.makeText(context, "Fill Vendor Name", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (edt_newVendorAddress.getText().toString().trim().isEmpty())
-            {
-                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                {
-                    progressDialog.dismiss();
-                }
-                Toast.makeText(context, "Fill Vendor Address", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            newVendorName = edt_newVendorName.getText().toString();
-            newVendorAddress = edt_newVendorAddress.getText().toString();
-            if (!edt_newVendorGst.getText().toString().trim().isEmpty())
-            {
-                newVendorGst = edt_newVendorGst.getText().toString().trim();
-            }
-        }
-        else
-        {
-            newVendorName = vendorNameList.get(spinnerValue);
-            newVendorAddress = vendorsList.get(spinnerValue).getVendorAddress();
-        }
-
+        newVendorName = customerNameList.get(spinnerValue);
+        newVendorAddress = customersList.get(spinnerValue).getContactAddress();
+        newVendorGst = customersList.get(spinnerValue).getContactGstNumber();
+        newVendorPhoneNumber = customersList.get(spinnerValue).getContactPhoneNumber();
+        newVendorUID = customersList.get(spinnerValue).getContactUID();
+        vendorNumberInvoices = customersList.get(spinnerValue).getNumberInvoices();
 
         if (!text_pickDate.getText().toString().trim().equals("Select Bill Date"))
         {
@@ -646,7 +575,6 @@ public class AddBillFragment extends Fragment {
                 progressDialog.dismiss();
             }
             showNoInternetDialog();
-            //Toast.makeText(context, "Please connect to Internet", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -713,7 +641,46 @@ public class AddBillFragment extends Fragment {
 
     private void writeDataToFirebase()
     {
-        VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress,newVendorGst);
+        double totalAmount = 0;
+        if (!billAmount.isEmpty())
+        {
+            totalAmount = Double.parseDouble(billAmount);
+        }
+        billNumber = autoGenerateInvoiceNumber();
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(newVendorPhoneNumber);
+        ContactPojo contactPojo = new ContactPojo(newVendorName,newVendorAddress,newVendorGst,
+                newVendorPhoneNumber,newVendorUID,vendorNumberInvoices + 1,billDate);
+        documentReference.set(contactPojo);
+        GstPojo gstPojo = new GstPojo(0,0,0);
+        InvoicePojo invoicePojo = new InvoicePojo(billNumber,totalAmount,billItems,
+                billDate, "", gstPojo,"","due","added",timestampString,billImages);
+
+        documentReference.collection("Invoices").document(billDate + " && " + timestampString)
+                .set(invoicePojo).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                {
+                    progressDialog.dismiss();
+                }
+                clearData();
+                Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                {
+                    progressDialog.dismiss();
+                }
+                Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress,newVendorGst);
 
         billNumber = autoGenerateInvoiceNumber();
 
@@ -721,53 +688,46 @@ public class AddBillFragment extends Fragment {
 
         final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors");
 
-            vendorReference.document(newVendorName).set(vendorDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid)
-                {
-                    vendorReference.document(newVendorName)
-                            .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(addBillDetails)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                                    {
-                                        progressDialog.dismiss();
-                                    }
-                                    clearData();
-                                    Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
-                                    EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
+        vendorReference.document(newVendorName).set(vendorDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+                vendorReference.document(newVendorName)
+                        .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(addBillDetails)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                                {
+                                    progressDialog.dismiss();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                            {
-                                progressDialog.dismiss();
+                                clearData();
+                                Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
+                                EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
                             }
-                            Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+                        {
+                            progressDialog.dismiss();
                         }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                    {
-                        progressDialog.dismiss();
+                        Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });*/
     }
 
     private void clearData()
     {
         imagesList.clear();
         addDocumentsAdapter.notifyDataSetChanged();
-        edt_newVendorName.setText("");
-        edt_newVendorAddress.setText("");
-        edt_newVendorGst.setText("");
         edt_billAmount.setText("");
         edt_billDescription.setText("");
         text_pickDate.setText(dateString);
@@ -815,12 +775,12 @@ public class AddBillFragment extends Fragment {
                         clearData();
                     }
                 })
-        .setNegativeButton(getString(R.string.alert_btn_no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+                .setNegativeButton(getString(R.string.alert_btn_no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
     }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class InvoicePojo
 {
-    private ContactPojo contactPojo;
+    //private ContactPojo contactPojo;
 
     private String invoiceNumber;
 
@@ -22,17 +22,19 @@ public class InvoicePojo
 
     private String billStatus;
 
+    private String billType;
+
     private String billTime;
 
     private Map<String,String> billImages;
 
 
-    public InvoicePojo(ContactPojo contactPojo, String invoiceNumber,
+    public InvoicePojo( String invoiceNumber,
                        double billAmount, Map<String, ItemPojo> billItems, String invoiceDate,
-                       String dueDate, GstPojo gstPojo, String billDescription, String billStatus, String billTime,
-                       Map<String, String> billImages)
+                       String dueDate, GstPojo gstPojo, String billDescription, String billStatus,String billType
+                        ,String billTime, Map<String, String> billImages)
     {
-        this.contactPojo = contactPojo;
+        //this.contactPojo = contactPojo;
         this.invoiceNumber = invoiceNumber;
         this.billAmount = billAmount;
         this.billItems = billItems;
@@ -41,17 +43,18 @@ public class InvoicePojo
         this.gstPojo = gstPojo;
         this.billDescription = billDescription;
         this.billStatus = billStatus;
+        this.billType = billType;
         this.billTime = billTime;
         this.billImages = billImages;
     }
 
-    public ContactPojo getContactPojo() {
+   /* public ContactPojo getContactPojo() {
         return contactPojo;
     }
 
     public void setContactPojo(ContactPojo contactPojo) {
         this.contactPojo = contactPojo;
-    }
+    }*/
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -131,5 +134,13 @@ public class InvoicePojo
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getBillType() {
+        return billType;
+    }
+
+    public void setBillType(String billType) {
+        this.billType = billType;
     }
 }

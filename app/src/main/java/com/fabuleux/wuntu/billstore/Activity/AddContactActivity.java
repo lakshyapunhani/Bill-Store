@@ -110,7 +110,6 @@ public class AddContactActivity extends AppCompatActivity
 
         usersReference = db.collection("Users");
 
-
     }
 
     @OnClick(R.id.btn_add_contact)
@@ -181,13 +180,15 @@ public class AddContactActivity extends AppCompatActivity
     private void addContactToRegisteredUser(DocumentSnapshot document) {
         CollectionReference collectionReference = db.collection("Users").document(document.getId()).collection("Contacts");
         final DocumentReference documentReference = collectionReference.document(firebaseUser.getPhoneNumber());
-        final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),sessionManager.getShop_address(),sessionManager.getShop_gst(),firebaseUser.getPhoneNumber(), firebaseUser.getUid());
+        final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),sessionManager.getShop_address(),
+                sessionManager.getShop_gst(),firebaseUser.getPhoneNumber(),
+                firebaseUser.getUid(),0,"");
         documentReference.set(contactPojo);
     }
 
         private void addContact()
         {
-            final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber, contactUID);
+            final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber, contactUID,0,"");
 
             final DocumentReference documentReference = contactReference.document(contactPhoneNumber);
 

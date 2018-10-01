@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.CustomerListAdapter;
 import com.fabuleux.wuntu.billstore.Activity.BillsListActivity;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -45,7 +46,7 @@ public class CustomersFragment extends Fragment {
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
 
-    ArrayList<CustomerDetails> customerDetailsList;
+    ArrayList<ContactPojo> customerDetailsList;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
@@ -85,7 +86,7 @@ public class CustomersFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(context, BillsListActivity.class);
                         intent.putExtra("fragment","customer");
-                        intent.putExtra("VendorName",customerDetailsList.get(position).getCustomerName());
+                        intent.putExtra("VendorName",customerDetailsList.get(position).getContactName());
                         startActivity(intent);
                     }
 
@@ -96,7 +97,7 @@ public class CustomersFragment extends Fragment {
                 })
         );
 
-        billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
         billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -109,8 +110,11 @@ public class CustomersFragment extends Fragment {
                 customerDetailsList.clear();
 
                 for (DocumentSnapshot doc : documentSnapshots) {
-                    CustomerDetails customerDetails = doc.toObject(CustomerDetails.class);
-                    customerDetailsList.add(customerDetails);
+                    ContactPojo customerDetails = doc.toObject(ContactPojo.class);
+                    if (customerDetails.getNumberInvoices() > 0)
+                    {
+                        customerDetailsList.add(customerDetails);
+                    }
                 }
 
                 if (customerDetailsList.isEmpty())

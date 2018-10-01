@@ -15,15 +15,23 @@ public class ContactPojo implements Parcelable
 
     private String contactUID;
 
+    private int numberInvoices;
+
+    private String lastInvoiceDate;
+
     public ContactPojo() {
     }
 
-    public ContactPojo(String contactName, String contactAddress, String contactGstNumber, String contactPhoneNumber, String contactUID) {
+    public ContactPojo(String contactName, String contactAddress, String contactGstNumber,
+                       String contactPhoneNumber, String contactUID,
+                       int numberInvoices,String lastInvoiceDate) {
         this.contactPhoneNumber = contactPhoneNumber;
         this.contactName = contactName;
         this.contactAddress = contactAddress;
         this.contactGstNumber = contactGstNumber;
         this.contactUID = contactUID;
+        this.numberInvoices = numberInvoices;
+        this.lastInvoiceDate = lastInvoiceDate;
     }
 
     protected ContactPojo(Parcel in) {
@@ -86,5 +94,21 @@ public class ContactPojo implements Parcelable
         dest.writeString(contactGstNumber);
         dest.writeString(contactPhoneNumber);
         dest.writeString(contactUID);
+    }
+
+    public int getNumberInvoices() {
+        return numberInvoices;
+    }
+
+    public void setNumberInvoices(int numberInvoices) {
+        this.numberInvoices = numberInvoices;
+    }
+
+    public String getLastInvoiceDate() {
+        return lastInvoiceDate;
+    }
+
+    public void setLastInvoiceDate(String lastInvoiceDate) {
+        this.lastInvoiceDate = lastInvoiceDate;
     }
 }

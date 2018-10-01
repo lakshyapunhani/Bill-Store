@@ -141,7 +141,10 @@ public class MakeBillFragment extends Fragment {
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
-    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="",newCustomerMobileNumber = "",newCustomerUID = "";
+    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="",
+            newCustomerMobileNumber = "",newCustomerUID = "";
+    int customerNumberInvoices;
+
     String invoiceDate = "",dueDate = "";
 
     long timestamp;
@@ -161,6 +164,8 @@ public class MakeBillFragment extends Fragment {
     double subTotal = 0;
 
     double shipping_charges = 0,discount = 0;
+
+    String dateString;
 
 
     @Override
@@ -207,6 +212,12 @@ public class MakeBillFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         customerSpinner.setTitle("Select Contact");
         customerSpinner.setAdapter(spinnerAdapter);
+
+        long date = System.currentTimeMillis();
+
+        dateString = convertDf.format(date);
+        invoice_date.setText(dateString);
+        due_date.setText(dateString);
 
         getCustomerList();
 
@@ -365,6 +376,7 @@ public class MakeBillFragment extends Fragment {
         }
         newCustomerMobileNumber = customersList.get(customerSpinnerValue).getContactPhoneNumber();
         newCustomerUID = customersList.get(customerSpinnerValue).getContactUID();
+        customerNumberInvoices = customersList.get(customerSpinnerValue).getNumberInvoices();
         sendDatatoPreview();
     }
 
@@ -401,6 +413,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer GST Number",newCustomerGstNumber);
         intent.putExtra("Customer Mobile Number",newCustomerMobileNumber);
         intent.putExtra("Customer UID",newCustomerUID);
+        intent.putExtra("Customer Number Invoices",customerNumberInvoices);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("Due Date",dueDate);
         intent.putExtra("showSave",true);
