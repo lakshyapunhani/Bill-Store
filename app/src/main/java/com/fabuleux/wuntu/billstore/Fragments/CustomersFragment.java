@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Activity.InvoiceListActivity;
 import com.fabuleux.wuntu.billstore.Adapters.CustomerListAdapter;
-import com.fabuleux.wuntu.billstore.Activity.BillsListActivity;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.R;
@@ -84,9 +84,8 @@ public class CustomersFragment extends Fragment {
                 new RecyclerViewListener(context, customersList, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(context, BillsListActivity.class);
-                        intent.putExtra("fragment","customer");
-                        intent.putExtra("VendorName",customerDetailsList.get(position).getContactName());
+                        Intent intent = new Intent(context, InvoiceListActivity.class);
+                        intent.putExtra("VendorName",customerDetailsList.get(position).getContactPhoneNumber());
                         startActivity(intent);
                     }
 

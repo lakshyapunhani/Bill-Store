@@ -1,26 +1,27 @@
-/*
-package com.fabuleux.wuntu.billstore.Fragments;
+package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.CustomerBillListAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
+import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.Pojos.MakeBillDetails;
-import com.fabuleux.wuntu.billstore.Activity.PreviewActivity;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,8 +38,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CustomerBillListFragment extends Fragment {
-
+public class InvoiceListActivity extends AppCompatActivity {
 
     @BindView(R.id.customerRecyclerView)
     RecyclerView recyclerView;
@@ -48,7 +48,7 @@ public class CustomerBillListFragment extends Fragment {
 
     LinearLayoutManager mLayoutManager;
 
-    ArrayList<MakeBillDetails> billsList;
+    ArrayList<InvoicePojo> billsList;
 
     CustomerBillListAdapter customerBillListAdapter;
 
@@ -71,19 +71,18 @@ public class CustomerBillListFragment extends Fragment {
     double cgst = 0,sgst = 0,igst = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_customer_bill_list, container, false);
-        ButterKnife.bind(this,view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_invoice_list);
+        ButterKnife.bind(this);
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (getArguments() != null)
+        if (getIntent().getStringExtra("VendorName") != null)
         {
-            vendorName = getArguments().getString("VendorName");
+            vendorName = getIntent().getStringExtra("VendorName");
             txt_vendorName.setText(vendorName);
         }
 
@@ -104,13 +103,13 @@ public class CustomerBillListFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        itemList.clear();
-                        MakeBillDetails makeBillDetails = new MakeBillDetails();
+                       /* itemList.clear();
+                        InvoicePojo makeBillDetails = new InvoicePojo();
                         makeBillDetails = billsList.get(position);
                         Double billAmount = makeBillDetails.getBillAmount();
                         billTime = makeBillDetails.getBillTime();
-                        cgst = makeBillDetails.getCgst();
-                        sgst = makeBillDetails.getSgst();
+                        cgst = makeBillDetails.getGstPojo().getSgst();
+                        *//*sgst = makeBillDetails.getSgst();
                         igst = makeBillDetails.getIgst();
                         gstRate = makeBillDetails.getGstRate();
                         CustomerDetails customerDetails = new CustomerDetails();
@@ -119,9 +118,9 @@ public class CustomerBillListFragment extends Fragment {
                         customerAddress = customerDetails.getCustomerAddress();
                         customerGst = customerDetails.getCustomerGstNumber();
                         billItems = makeBillDetails.getBillItems();
-                        itemList.addAll(billItems.values());
+                        itemList.addAll(billItems.values());*//*
                         sendDatatoPreview();
-
+*/
                     }
 
                     @Override
@@ -133,8 +132,8 @@ public class CustomerBillListFragment extends Fragment {
         );
 
 
-        CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers")
-                .document(vendorName).collection(firebaseUser.getUid());
+        CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts")
+                .document(vendorName).collection("Invoices");
 
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -149,14 +148,13 @@ public class CustomerBillListFragment extends Fragment {
                 billsList.clear();
                 for (DocumentSnapshot doc : documentSnapshots)
                 {
-                    MakeBillDetails makeBillDetails = doc.toObject(MakeBillDetails.class);
+                    InvoicePojo makeBillDetails = doc.toObject(InvoicePojo.class);
                     billsList.add(makeBillDetails);
                 }
                 customerBillListAdapter.notifyDataSetChanged();
             }
         });
 
-        return view;
     }
 
     private void sendDatatoPreview()
@@ -175,15 +173,4 @@ public class CustomerBillListFragment extends Fragment {
 
         startActivity(intent);
     }
-
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-
-    }
-
 }
-*/

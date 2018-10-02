@@ -8,6 +8,9 @@ public class GstPojo
 
     private double utgst;
 
+    public GstPojo() {
+    }
+
     public GstPojo(double sgst, double igst, double utgst) {
         this.sgst = sgst;
         this.igst = igst;

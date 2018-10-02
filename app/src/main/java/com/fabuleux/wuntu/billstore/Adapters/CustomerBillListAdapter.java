@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
+import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.MakeBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 
@@ -22,12 +23,12 @@ import butterknife.ButterKnife;
 
 public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    private ArrayList<MakeBillDetails> billsList= new ArrayList<>();
+    private ArrayList<InvoicePojo> billsList= new ArrayList<>();
 
-    private MakeBillDetails makeBillDetails;
+    private InvoicePojo makeBillDetails;
 
 
-    public CustomerBillListAdapter(ArrayList<MakeBillDetails> billsList)
+    public CustomerBillListAdapter(ArrayList<InvoicePojo> billsList)
     {
         this.billsList = billsList;
     }
@@ -60,10 +61,8 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         makeBillDetails = billsList.get(position);
-        CustomerDetails customerDetails = new CustomerDetails();
-        customerDetails = makeBillDetails.getCustomerDetails();
         ((ViewHolder)holder).invoice_number.setText("Invoice Number : " + makeBillDetails.getInvoiceNumber());
-        ((ViewHolder)holder).bill_date.setText(makeBillDetails.getBillTime());
+        ((ViewHolder)holder).bill_date.setText(makeBillDetails.getInvoiceDate());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
 
     }

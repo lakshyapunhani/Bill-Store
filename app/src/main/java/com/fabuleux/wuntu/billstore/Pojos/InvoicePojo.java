@@ -4,8 +4,6 @@ import java.util.Map;
 
 public class InvoicePojo
 {
-    //private ContactPojo contactPojo;
-
     private String invoiceNumber;
 
     private double billAmount;
@@ -28,13 +26,14 @@ public class InvoicePojo
 
     private Map<String,String> billImages;
 
+    public InvoicePojo() {
+    }
 
-    public InvoicePojo( String invoiceNumber,
+    public InvoicePojo(String invoiceNumber,
                        double billAmount, Map<String, ItemPojo> billItems, String invoiceDate,
-                       String dueDate, GstPojo gstPojo, String billDescription, String billStatus,String billType
-                        ,String billTime, Map<String, String> billImages)
+                       String dueDate, GstPojo gstPojo, String billDescription, String billStatus, String billType
+                        , String billTime, Map<String, String> billImages)
     {
-        //this.contactPojo = contactPojo;
         this.invoiceNumber = invoiceNumber;
         this.billAmount = billAmount;
         this.billItems = billItems;
@@ -47,14 +46,6 @@ public class InvoicePojo
         this.billTime = billTime;
         this.billImages = billImages;
     }
-
-   /* public ContactPojo getContactPojo() {
-        return contactPojo;
-    }
-
-    public void setContactPojo(ContactPojo contactPojo) {
-        this.contactPojo = contactPojo;
-    }*/
 
     public String getInvoiceNumber() {
         return invoiceNumber;

@@ -1,3 +1,4 @@
+/*
 package com.fabuleux.wuntu.billstore.Fragments;
 
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.VendorListAdapter;
-import com.fabuleux.wuntu.billstore.Activity.BillsListActivity;
 import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -32,9 +32,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * A simple {@link Fragment} subclass.
- */
+ *//*
+
 public class VendorFragment extends Fragment {
 
     @BindView(R.id.vendorsList)
@@ -125,3 +127,4 @@ public class VendorFragment extends Fragment {
     }
 
 }
+*/

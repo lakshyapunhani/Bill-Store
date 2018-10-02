@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class SessionManager
 {
+    public static final int FCM_NOTIFICATION_ID = 123456;
     static SharedPreferences pref;
     static SharedPreferences.Editor editor;
     Context _context;

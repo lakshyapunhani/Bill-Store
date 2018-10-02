@@ -23,7 +23,6 @@ import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.CustomersFragment;
-import com.fabuleux.wuntu.billstore.Fragments.HomeFragment;
 import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.SettingsFragment;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
