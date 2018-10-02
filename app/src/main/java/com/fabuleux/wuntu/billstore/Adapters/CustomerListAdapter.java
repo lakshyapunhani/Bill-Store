@@ -34,6 +34,12 @@ public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.traderAddress)
         TextView traderAddress;
 
+        @BindView(R.id.totalNumberInvoices)
+        TextView totalNumberInvoices;
+
+        @BindView(R.id.last_invoice_date)
+        TextView last_invoice_date;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -54,6 +60,11 @@ public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ViewHolder) holder).traderAddress.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_house_black, 0, 0, 0);
             ((ViewHolder) holder).traderAddress.setText(contactPojo.getContactAddress());
+            if (contactPojo.getNumberInvoices() > 0)
+            {
+                ((ViewHolder)holder).totalNumberInvoices.setText(String.valueOf(contactPojo.getNumberInvoices()));
+            }
+            ((ViewHolder)holder).last_invoice_date.setText(contactPojo.getLastInvoiceDate());
         }
     }
 

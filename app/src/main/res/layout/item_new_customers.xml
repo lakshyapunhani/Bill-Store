@@ -11,7 +11,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -25,12 +24,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:gravity="center_horizontal|center"
                 android:orientation="vertical">
 
@@ -57,8 +57,51 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
+                android:gravity="end|center"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalNumberInvoices"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="17"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:padding="3dp"
+                    android:textColor="@color/blue"
+                    android:background="@drawable/textview_background"/>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Last Invoice"
+                    android:textAllCaps="true"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/last_invoice_background"/>
+
+                <TextView
+                    android:id="@+id/last_invoice_date"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="2 Oct 2018"
+                    android:textAllCaps="true"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
 
