@@ -176,7 +176,7 @@ public class EditProfileActivity extends AppCompatActivity
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            if (progressDialog.isShowing() && EditProfileActivity.this.isDestroyed())
+                            if (progressDialog.isShowing() && !EditProfileActivity.this.isDestroyed())
                             {
                                 progressDialog.dismiss();
                             }
@@ -191,7 +191,6 @@ public class EditProfileActivity extends AppCompatActivity
             });
 
             finish();
-
         }
     }
 
