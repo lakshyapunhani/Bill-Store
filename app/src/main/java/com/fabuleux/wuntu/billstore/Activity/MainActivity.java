@@ -407,22 +407,22 @@ public class MainActivity extends AppCompatActivity {
 
                     if (documentSnapshot.contains("shop_address"))
                     {
-                        sessionManager.setName(documentSnapshot.get("shop_address").toString());
+                        sessionManager.setShop_address(documentSnapshot.get("shop_address").toString());
                     }
 
                     if (documentSnapshot.contains("shop_gst"))
                     {
-                        sessionManager.setName(documentSnapshot.get("shop_gst").toString());
+                        sessionManager.setShop_gst(documentSnapshot.get("shop_gst").toString());
                     }
 
                     if (documentSnapshot.contains("shop_name"))
                     {
-                        sessionManager.setName(documentSnapshot.get("shop_name").toString());
+                        sessionManager.setShop_name(documentSnapshot.get("shop_name").toString());
                     }
 
                     if (documentSnapshot.contains("shop_pan"))
                     {
-                        sessionManager.setName(documentSnapshot.get("shop_pan").toString());
+                        sessionManager.setShop_pan(documentSnapshot.get("shop_pan").toString());
                     }
                 }
             }

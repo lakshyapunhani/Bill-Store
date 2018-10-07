@@ -69,8 +69,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PreviewActivity extends AppCompatActivity {
 
-    @BindView(R.id.pdflayout)
-    NestedScrollView scrollView;
+    @BindView(R.id.pdflayout) NestedScrollView scrollView;
 
     public static int REQUEST_PERMISSIONS = 1;
     boolean boolean_permission;
@@ -80,73 +79,49 @@ public class PreviewActivity extends AppCompatActivity {
 
     Map<String,String> billImages;
 
-    @BindView(R.id.txt_shopName)
-    TextView txt_shopName;
+    @BindView(R.id.txt_shopName) TextView txt_shopName;
 
-    @BindView(R.id.txt_shopAddress)
-    TextView txt_shopAddress;
+    @BindView(R.id.txt_shopAddress) TextView txt_shopAddress;
 
-    @BindView(R.id.txt_gstNumber)
-    TextView txt_gstNumber;
+    @BindView(R.id.txt_gstNumber) TextView txt_gstNumber;
 
-    @BindView(R.id.txt_invoiceDate)
-    TextView txt_invoiceDate;
+    @BindView(R.id.txt_invoiceDate) TextView txt_invoiceDate;
 
-    @BindView(R.id.txt_custName)
-    TextView txt_custName;
+    @BindView(R.id.txt_custName) TextView txt_custName;
 
-    @BindView(R.id.txt_custAddress)
-    TextView txt_custAddress;
+    @BindView(R.id.txt_custAddress) TextView txt_custAddress;
 
-    @BindView(R.id.txt_custGstNumber)
-    TextView txt_custGstNumber;
+    @BindView(R.id.txt_custGstNumber) TextView txt_custGstNumber;
 
-    @BindView(R.id.tableLayoutItems)
-    TableLayout tableLayoutItems;
+    @BindView(R.id.tableLayoutItems) TableLayout tableLayoutItems;
 
-    @BindView(R.id.invoice_total)
-    TextView invoice_total;
+    @BindView(R.id.invoice_total) TextView invoice_total;
 
+    @BindView(R.id.invoice_subTotal) TextView invoice_subTotal;
 
-    @BindView(R.id.invoice_subTotal)
-    TextView invoice_subTotal;
+    @BindView(R.id.btn_print) TextView btn_print;
 
-    @BindView(R.id.btn_print)
-    TextView btn_print;
+    @BindView(R.id.menu_dots_preview) ImageView menu_dots;
 
+    @BindView(R.id.layout_gst) LinearLayout layout_gst;
 
-    @BindView(R.id.menu_dots_preview)
-    ImageView menu_dots;
+    @BindView(R.id.layout_cgst) LinearLayout layout_cgst;
 
-    @BindView(R.id.layout_gst)
-    LinearLayout layout_gst;
+    @BindView(R.id.layout_sgst) LinearLayout layout_sgst;
 
-    @BindView(R.id.layout_cgst)
-    LinearLayout layout_cgst;
+    @BindView(R.id.layout_igst) LinearLayout layout_igst;
 
-    @BindView(R.id.layout_sgst)
-    LinearLayout layout_sgst;
+    @BindView(R.id.layout_utgst) LinearLayout layout_utgst;
 
-    @BindView(R.id.layout_igst)
-    LinearLayout layout_igst;
+    @BindView(R.id.rate_gst) TextView rate_gst;
 
-    @BindView(R.id.layout_utgst)
-    LinearLayout layout_utgst;
+    @BindView(R.id.invoice_cgst) TextView invoice_cgst;
 
-    @BindView(R.id.rate_gst)
-    TextView rate_gst;
+    @BindView(R.id.invoice_sgst) TextView invoice_sgst;
 
-    @BindView(R.id.invoice_cgst)
-    TextView invoice_cgst;
+    @BindView(R.id.invoice_igst) TextView invoice_igst;
 
-    @BindView(R.id.invoice_sgst)
-    TextView invoice_sgst;
-
-    @BindView(R.id.invoice_igst)
-    TextView invoice_igst;
-
-    @BindView(R.id.invoice_utgst)
-    TextView invoice_utgst;
+    @BindView(R.id.invoice_utgst) TextView invoice_utgst;
 
     @BindView(R.id.layout_shipping) LinearLayout layout_create_shipping;
 
@@ -287,7 +262,6 @@ public class PreviewActivity extends AppCompatActivity {
             shipping_charges = getIntent().getDoubleExtra("shipping charge",0);
             discount = getIntent().getDoubleExtra("discount",0);
             subTotal = getIntent().getDoubleExtra("subTotal",0);
-            totalAmount = getIntent().getDoubleExtra("totalAmount",0);
         }
     }
 
@@ -396,6 +370,8 @@ public class PreviewActivity extends AppCompatActivity {
         for (int i = 0; i < itemList.size(); i++)
         {
 
+            totalAmount = totalAmount + Double.parseDouble(itemList.get(i).getTotalAmount());
+
             ItemPojo itemPojo = itemList.get(i);
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.invoice_row, tableLayoutItems, false);
             TextView itemName = row.findViewById(R.id.tv0);
@@ -430,11 +406,11 @@ public class PreviewActivity extends AppCompatActivity {
                 collection("Contacts").document(newCustomerMobileNumber);
         ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
                 newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
-        GstPojo gstPojo = new GstPojo(sgst,igst,utgst);
+        GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
         documentReference.set(contactPojo);
-        InvoicePojo invoicePojo = new InvoicePojo(invoiceNumber,subTotal,billItems,
-                invoiceDate, dueDate, gstPojo,"","due","created",timestampString,billImages);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+                invoiceDate, dueDate, gstPojo,"","due","Sent",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
@@ -475,9 +451,9 @@ public class PreviewActivity extends AppCompatActivity {
 
         documentReference.set(contactPojo);
 
-        GstPojo gstPojo = new GstPojo(sgst,igst,utgst);
-        InvoicePojo invoicePojo = new InvoicePojo(invoiceNumber,totalAmount,billItems,
-                invoiceDate, dueDate, gstPojo,"","due","recieved",timestampString,billImages);
+        GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+                invoiceDate, dueDate, gstPojo,"","due","Recieved",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
     }
