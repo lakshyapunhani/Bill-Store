@@ -1,0 +1,263 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/blue">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/txt_preview"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:id="@+id/btn_print"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="@string/txt_print"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAllCaps="true"
+            android:background="@drawable/btn_rounded_bg"
+            android:textColor="@android:color/white"
+            fontPath = "fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix" />
+
+        <ImageView
+            android:id="@+id/menu_dots_preview"
+            android:contentDescription="@string/txt_menu"
+            android:layout_width="0dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            app:srcCompat="@drawable/ic_menu"/>
+
+    </LinearLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pdflayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:scrollbars="none">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:background="#8292A2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="INVOICE"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:text="#1234567890"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:gravity="end|center"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="Roadcast Tech Solutions Pvt. Ltd."/>
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="Shalimar Bagh,New Delhi"/>
+
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="GSTIN : 123456789012"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dip"
+                        android:text="Billed To:"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:id="@+id/txt_custName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Velocity Concepts"
+                            fontPath="fonts/DroidSansMono.ttf"
+                            tools:ignore="MissingPrefix"
+                            android:textColor="@android:color/black" />
+                        <TextView
+                            android:id="@+id/txt_custAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            fontPath="fonts/DroidSansMono.ttf"
+                            tools:ignore="MissingPrefix"
+                            tools:text="Shalimar Bagh,Delhi (111111)"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:textColor="@android:color/black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/txt_gst_no"
+                                fontPath="fonts/DroidSansMono.ttf"
+                                tools:ignore="MissingPrefix"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_custGstNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                tools:text="1234567890 "/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        android:text="Date of Issue"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/txt_invoiceDate"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        android:textColor="@android:color/black"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
+                        tools:text="09/05/10" />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        android:text="@string/txt_date"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/txt_dueDate"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:padding="3dip"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
+                        android:textColor="@android:color/black"
+                        tools:text="09/05/10" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +22,6 @@ import com.fabuleux.wuntu.billstore.Adapters.BillDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
-import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
-import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -32,10 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -243,14 +238,8 @@ public class BillViewActivity extends AppCompatActivity {
 
     private void setUiFields()
     {
-        //ContactPojo  vendorDetails = new VendorDetails();
-        //vendorDetails = addBillDetails.getVendorDetails();
         wholeSellerName.setText(customerName);
         wholeSellerAddress.setText(customerAddress);
-        /*if (vendorDetails.getVendorGst().matches(""))
-        {
-            vendorGst = vendorDetails.getVendorGst();
-        }*/
 
         wholeSellerGst.setText("(GST Number - " + customerGstNumber+ ")");
         wholeSellerBillAmount.setText("" + subTotal);

@@ -529,7 +529,14 @@ public class PreviewActivity extends AppCompatActivity {
 
         RealmManager.resetItemRealm();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
+        Intent share = new Intent();
+        share.setAction(Intent.ACTION_SEND);
+        share.setType("application/pdf");
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(share, "Please choose app"));
+
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
             Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
             intent = new Intent(Intent.ACTION_VIEW);
@@ -547,7 +554,7 @@ public class PreviewActivity extends AppCompatActivity {
             startActivity(intent);
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
-        }
+        }*/
     }
 
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
@@ -647,6 +654,17 @@ public class PreviewActivity extends AppCompatActivity {
                 {
                     EventBus.getDefault().postSticky(new EventClearBill());
                     finish();
+                }
+                else if (item.getItemId() == R.id.share_bill)
+                {
+                    printClicked = true;
+                    if (boolean_permission) {
+                        bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+                        createPdf();
+                    } else
+                    {
+                        fn_permission();
+                    }
                 }
                 return true;
             }

@@ -167,6 +167,7 @@
     <string name="add_contact">Add Contact</string>
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
+    <string name="txt_share_bill">Share Invoice</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>

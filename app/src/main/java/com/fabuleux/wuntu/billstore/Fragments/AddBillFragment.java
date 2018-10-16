@@ -679,49 +679,6 @@ public class AddBillFragment extends Fragment {
                 Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*VendorDetails vendorDetails = new VendorDetails(newVendorName,newVendorAddress,newVendorGst);
-
-        billNumber = autoGenerateInvoiceNumber();
-
-        final AddBillDetails addBillDetails = new AddBillDetails(vendorDetails,billAmount,billDescription,billDate,billStatus,billImages,timestampString,billNumber);
-
-        final CollectionReference vendorReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors");
-
-        vendorReference.document(newVendorName).set(vendorDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid)
-            {
-                vendorReference.document(newVendorName)
-                        .collection(firebaseUser.getUid()).document(billDate + "&&" + timestampString).set(addBillDetails)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                                {
-                                    progressDialog.dismiss();
-                                }
-                                clearData();
-                                Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
-                                EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
-                        {
-                            progressDialog.dismiss();
-                        }
-                        Toast.makeText(context, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });*/
     }
 
     private void clearData()

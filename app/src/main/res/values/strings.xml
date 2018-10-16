@@ -133,7 +133,7 @@
     <string name="txt_mark_paid">Mark Paid</string>
     <string name="txt_delete_bill">Delete Bill</string>
     <string name="txt_save_bill">Save Bill</string>
-    <string name="txt_discard_bill">Discard Bill</string>
+    <string name="txt_discard_bill">Discard Invoice</string>
     <string name="text_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_profile">Profile</string>
     <string name="freshchat_file_provider_authority">com.fabuleux.wuntu.billstore.provider</string>
@@ -165,6 +165,7 @@
     <string name="add_contact">Add Contact</string>
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
+    <string name="txt_share_bill">Share Invoice</string>
 
     <string-array name="questions">
         <item>How to generate invoice?</item>
