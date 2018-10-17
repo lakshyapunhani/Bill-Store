@@ -110,6 +110,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_shopName"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,6 +118,7 @@
                         android:text="Roadcast Tech Solutions Pvt. Ltd."/>
 
                     <TextView
+                        android:id="@+id/txt_shopAddress"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -124,6 +126,7 @@
                         android:text="Shalimar Bagh,New Delhi"/>
 
                     <TextView
+                        android:id="@+id/txt_gstNumber"
                         android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,7 +147,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
@@ -239,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="3dip"
-                        android:text="@string/txt_date"
+                        android:text="Due Date"
                         fontPath="fonts/DroidSansMono.ttf"
                         tools:ignore="MissingPrefix" />
 
@@ -254,6 +257,362 @@
                         tools:text="09/05/10" />
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#808080"/>
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/tableLayoutItems"
+                android:minHeight="200dp"
+                android:stretchColumns="1">
+                <!-- invoice item labels -->
+                <TableRow>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:text="Description"
+                        android:textSize="12sp"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Unit Cost"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/table_qty"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dip"
+                        android:text="Amount"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        fontPath="fonts/DroidSansMono.ttf"
+                        tools:ignore="MissingPrefix"/>
+                </TableRow>
+                <!-- end invoice item labels -->
+                <!-- invoice items -->
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Total : "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_total"
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$10000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_gst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="GST"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:id="@+id/rate_gst"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_cgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="CGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_cgst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_sgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="SGST :"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:id="@+id/invoice_sgst"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="9%"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_utgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="UTGST :"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:id="@+id/invoice_utgst"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="9%"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_igst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="IGST: "
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_igst"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/layout_shipping"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="Shipping Charges :"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"/>
+
+                <TextView
+                    android:id="@+id/txt_shipping_charges"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_discount"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Discount :"
+                    android:gravity="end"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"/>
+
+                <TextView
+                    android:id="@+id/txt_discount_charges"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$50"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_roundoff"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    android:text="Round off :" />
+
+                <TextView
+                    android:id="@+id/txt_roundOff"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$10000"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_subtotal"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end" />
+
+                <TextView
+                    android:id="@+id/invoice_subTotal"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$10000" />
             </LinearLayout>
 
         </LinearLayout>

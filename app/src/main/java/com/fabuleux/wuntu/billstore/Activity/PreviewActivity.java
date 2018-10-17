@@ -172,7 +172,7 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preview);
+        setContentView(R.layout.activity_preview_new);
         ButterKnife.bind(this);
 
         sessionManager = new SessionManager(this);
