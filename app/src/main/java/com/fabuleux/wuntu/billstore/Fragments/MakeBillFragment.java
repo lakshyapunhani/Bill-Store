@@ -423,7 +423,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("shipping charge",shipping_charges);
         intent.putExtra("discount",discount);
         intent.putExtra("subTotal",subTotal);
-
+        intent.putExtra("invoiceNumber","");
         startActivity(intent);
     }
 

@@ -135,6 +135,14 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.txt_roundOff) TextView txt_roundOff;
 
+    @BindView(R.id.txt_dueDate) TextView txt_dueDate;
+
+    @BindView(R.id.txt_invoiceNumber) TextView txt_invoiceNumber;
+
+    @BindView(R.id.line_extra) View line_extra;
+
+    @BindView(R.id.line_gst) View line_gst;
+
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
     private String customerAddress = "";
@@ -161,6 +169,8 @@ public class PreviewActivity extends AppCompatActivity {
     File filePath;
 
     String invoiceNumber= "";
+
+    int extraTaxLayout = 2;
 
     boolean printClicked = false;
     boolean showSave = true;
@@ -262,6 +272,7 @@ public class PreviewActivity extends AppCompatActivity {
             shipping_charges = getIntent().getDoubleExtra("shipping charge",0);
             discount = getIntent().getDoubleExtra("discount",0);
             subTotal = getIntent().getDoubleExtra("subTotal",0);
+            invoiceNumber = getIntent().getStringExtra("invoiceNumber");
         }
     }
 
@@ -273,7 +284,14 @@ public class PreviewActivity extends AppCompatActivity {
         txt_custAddress.setText(customerAddress);
         txt_custGstNumber.setText(customerGstNumber);
         txt_invoiceDate.setText(invoiceDate);
+        txt_dueDate.setText(dueDate);
         invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
+        if (invoiceNumber.matches(""))
+        {
+            invoiceNumber = autoGenerateInvoiceNumber();
+        }
+
+        txt_invoiceNumber.setText("#" + invoiceNumber);
         if (showSave)
         {
             menu_dots.setVisibility(View.VISIBLE);
@@ -325,6 +343,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
         else
         {
+            line_gst.setVisibility(View.GONE);
             layout_gst.setVisibility(View.GONE);
             layout_cgst.setVisibility(View.GONE);
             layout_sgst.setVisibility(View.GONE);
@@ -337,24 +356,37 @@ public class PreviewActivity extends AppCompatActivity {
 
         if (shipping_charges != 0)
         {
+            extraTaxLayout++;
             layout_create_shipping.setVisibility(View.VISIBLE);
             txt_shipping_charges.setText("+ "+getResources().getString(R.string.rupee_sign) +String.valueOf(shipping_charges));
         }
         else
         {
+            extraTaxLayout--;
             layout_create_shipping.setVisibility(View.GONE);
             shipping_charges = 0;
         }
 
         if (discount != 0)
         {
+            extraTaxLayout++;
             layout_create_discount.setVisibility(View.VISIBLE);
             txt_discount_charges.setText("- " +getResources().getString(R.string.rupee_sign) + String.valueOf(discount));
         }
         else
         {
+            extraTaxLayout--;
             layout_create_discount.setVisibility(View.GONE);
             discount = 0;
+        }
+
+        if (extraTaxLayout > 0)
+        {
+            line_extra.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            line_extra.setVisibility(View.GONE);
         }
 
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
@@ -400,7 +432,7 @@ public class PreviewActivity extends AppCompatActivity {
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
-        invoiceNumber = autoGenerateInvoiceNumber();
+
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(newCustomerMobileNumber);
@@ -599,10 +631,14 @@ public class PreviewActivity extends AppCompatActivity {
     private String autoGenerateInvoiceNumber()
     {
         double doublea = (Math.random() * 46656);
+        double doubleb = (Math.random() * 46656);
         String a = String.valueOf(doublea);
+        String b = String.valueOf(doubleb);
         String firstPart = "000" + a;
-        firstPart = firstPart.substring(a.length() - 4,a.length());
-        return firstPart;
+        String secondPart = "000" + b;
+        String result;
+        result = firstPart.substring(a.length() - 4,a.length()) + secondPart.substring(b.length() - 4,b.length());
+        return result;
     }
 
     @Override

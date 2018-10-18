@@ -68,6 +68,8 @@ public class InvoiceListActivity extends AppCompatActivity {
             newCustomerMobileNumber = "",newCustomerUID = "";
     int customerNumberInvoices;
 
+    String invoiceNumber = "";
+
     String invoiceDate = "",dueDate = "";
     Map<String,ItemPojo> billItems;
 
@@ -142,6 +144,7 @@ public class InvoiceListActivity extends AppCompatActivity {
                             dueDate = makeBillDetails.getDueDate();
                             subTotal = makeBillDetails.getBillAmount();
                             billStatus = makeBillDetails.getBillStatus();
+                            invoiceNumber = makeBillDetails.getInvoiceNumber();
                             sendDatatoPreview();
                         }
                         else
@@ -224,6 +227,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("shipping charge", shipping_charges);
         intent.putExtra("discount", discount);
         intent.putExtra("subTotal", subTotal);
+        intent.putExtra("invoiceNumber",invoiceNumber);
         startActivity(intent);
     }
 

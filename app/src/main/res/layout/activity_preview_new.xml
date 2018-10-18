@@ -81,19 +81,21 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:text="INVOICE"
                         android:textColor="@color/white"
                         android:textSize="28sp"
                         android:gravity="center"/>
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/txt_invoiceNumber"
+                        android:layout_width="130dp"
                         android:layout_height="20dp"
-                        android:text="#1234567890"
+                        tools:text="#1234567890"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:gravity="center"/>
+                        android:gravity="start"/>
 
                 </LinearLayout>
 
@@ -116,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:gravity="end"
-                        android:text="Roadcast Tech Solutions Pvt. Ltd."/>
+                        tools:text="Roadcast Tech Solutions Pvt. Ltd."/>
 
                     <TextView
                         android:id="@+id/txt_shopAddress"
@@ -125,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:gravity="end"
-                        android:text="Shalimar Bagh,New Delhi"/>
+                        tools:text="Shalimar Bagh,New Delhi"/>
 
                     <TextView
                         android:id="@+id/txt_gstNumber"
@@ -134,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:gravity="end"
-                        android:text="GSTIN : 123456789012"/>
+                        tools:text="GSTIN : 123456789012"/>
 
                 </LinearLayout>
 
@@ -517,6 +519,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/line_gst"
                         android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -531,18 +534,18 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:textSize="12sp"
-                            android:layout_width="0dp"
-                            android:layout_weight="2"
-                            android:layout_height="wrap_content"
-                            android:text="Shipping Charges"
-                            android:gravity="center"
                             fontPath="fonts/DroidSansMono.ttf"
-                            tools:ignore="MissingPrefix"/>
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Shipping Charges"
+                            android:textSize="14sp"
+                            tools:ignore="MissingPrefix" />
 
                         <TextView
                             android:id="@+id/txt_shipping_charges"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:layout_width="0dp"
                             android:layout_weight="2"
                             android:gravity="center"
@@ -559,7 +562,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:layout_width="0dp"
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
@@ -570,7 +573,7 @@
 
                         <TextView
                             android:id="@+id/txt_discount_charges"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             android:layout_width="0dp"
                             android:gravity="center"
                             android:layout_weight="2"
@@ -605,6 +608,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/line_extra"
                         android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
