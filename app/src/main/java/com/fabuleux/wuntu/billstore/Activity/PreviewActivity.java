@@ -2,6 +2,7 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -11,18 +12,17 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
+import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
@@ -42,11 +43,12 @@ import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,7 +66,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PreviewActivity extends AppCompatActivity {
@@ -99,9 +100,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.invoice_subTotal) TextView invoice_subTotal;
 
-    @BindView(R.id.btn_print) TextView btn_print;
+    //@BindView(R.id.btn_print) TextView btn_print;
 
-    @BindView(R.id.menu_dots_preview) ImageView menu_dots;
+    //@BindView(R.id.menu_dots_preview) ImageView menu_dots;
 
     @BindView(R.id.layout_gst) LinearLayout layout_gst;
 
@@ -143,6 +144,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.line_gst) View line_gst;
 
+    @BindView(R.id.createInvoiceFAB)
+    FloatingActionsMenu createInvoiceFAB;
+
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
     private String customerAddress = "";
@@ -179,6 +183,9 @@ public class PreviewActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
 
+    private FloatingActionButton sendInvoice;
+    private FloatingActionButton printInvoice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,10 +206,9 @@ public class PreviewActivity extends AppCompatActivity {
         progressDialog.setTitle("Saving");
         progressDialog.setMessage("Please wait...");
 
-        popup = new PopupMenu(this, menu_dots);
+        //popup = new PopupMenu(this, menu_dots);
         //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.preview_menu, popup.getMenu());
+        //popup.getMenuInflater().inflate(R.menu.preview_menu, popup.getMenu());
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -212,11 +218,48 @@ public class PreviewActivity extends AppCompatActivity {
         billItems.clear();
         itemList.clear();
 
+        setFloatingActionMenu();
+
         getIntentItems();
         getShopDetails();
-        fn_permission();
         initTable();
         setViews();
+    }
+
+    private void setFloatingActionMenu()
+    {
+        sendInvoice = new FloatingActionButton(this);
+        sendInvoice.setTag("sendInvoice");
+        sendInvoice.setTitle("Send Invoice");
+        sendInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        sendInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        printInvoice = new FloatingActionButton(this);
+        printInvoice.setTag("shareInvoice");
+        printInvoice.setTitle("Share Invoice");
+        printInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        printInvoice.setImageResource(android.R.drawable.ic_menu_share);
+
+        createInvoiceFAB.addButton(sendInvoice);
+        createInvoiceFAB.addButton(printInvoice);
+
+        sendInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                //saveButton();
+                sendInvoiceToSelectedUser();
+            }
+        });
+
+        printInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                //saveButton();
+                printButton();
+            }
+        });
     }
 
     private void getShopDetails()
@@ -292,13 +335,22 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         txt_invoiceNumber.setText("#" + invoiceNumber);
-        if (showSave)
+        /*if (showSave)
         {
             menu_dots.setVisibility(View.VISIBLE);
         }
         else
         {
             menu_dots.setVisibility(View.GONE);
+        }*/
+
+        if (showSave)
+        {
+            createInvoiceFAB.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            createInvoiceFAB.setVisibility(View.GONE);
         }
 
         if (sgst != 0)
@@ -420,7 +472,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-    public void saveButton()
+    /*public void saveButton()
     {
         if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
@@ -432,7 +484,129 @@ public class PreviewActivity extends AppCompatActivity {
             billItems.put(itemList.get(i).getItemName(),itemPojo);
         }
 
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(newCustomerMobileNumber);
+        ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
+                newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
+        GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
+        documentReference.set(contactPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+                invoiceDate, dueDate, gstPojo,"","Shared","Sent",timestampString,billImages);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+
+
+        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        {
+            progressDialog.dismiss();
+        }
+
+      *//*  if (printClicked)
+        {
+
+            openPdf();
+        }*//*
+
+        *//*else
+        {
+            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+            {
+                progressDialog.dismiss();
+            }
+
+            finish();
+        }*//*
+
+    }*/
+
+
+    private void sendInvoiceToSelectedUser()
+    {
+            if (newCustomerUID != null && !newCustomerUID.isEmpty())
+            {
+                //////////////////////////// Bill added to own DB
+                for (int i = 0;i<itemList.size();i++)
+                {
+                    ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
+                    billItems.put(itemList.get(i).getItemName(),itemPojo);
+                }
+
+                final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                        collection("Contacts").document(newCustomerMobileNumber);
+                ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
+                        newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
+                GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
+
+                documentReference.set(contactPojo);
+                InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+                        invoiceDate, dueDate, gstPojo,"","Due","Sent",timestampString,billImages);
+
+                documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+
+
+                //////////////////////////////////Bill added to customer DB
+
+                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(newCustomerUID).
+                        collection("Contacts").document(firebaseUser.getPhoneNumber());
+                final ContactPojo contactPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
+                        sessionManager.getShop_address(), sessionManager.getShop_gst(),
+                        firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);
+
+                documentReferenceAnotherUser.set(contactPojoAnotherUser);
+
+                GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
+                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(contactPojo, invoiceNumber, subTotal, billItems,
+                        invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
+
+                documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
+                Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("It seems customer is not on Bill Store")
+                        .setCancelable(true)
+                        .setPositiveButton("Invite", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                invite();
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton("Share Invoice", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        printButton();
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }
+
+
+    public void invite()
+    {
+        String shareBody = getString(R.string.invite_link);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "I love using Bill Store");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+    }
+
+    public void printButton()
+    {
+
+        if (!progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
+        {
+            progressDialog.show();
+        }
+        for (int i = 0;i<itemList.size();i++)
+        {
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
+            billItems.put(itemList.get(i).getItemName(),itemPojo);
+        }
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(newCustomerMobileNumber);
@@ -442,58 +616,16 @@ public class PreviewActivity extends AppCompatActivity {
 
         documentReference.set(contactPojo);
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
-                invoiceDate, dueDate, gstPojo,"","due","Sent",timestampString,billImages);
+                invoiceDate, dueDate, gstPojo,"","Shared","Sent",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
-        Toast.makeText(this, "Invoice Saved", Toast.LENGTH_SHORT).show();
 
-        if (!newCustomerUID.isEmpty())
+        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
-            addInvoiceToSelectedUser();
+            progressDialog.dismiss();
         }
 
-        if (printClicked)
-        {
-            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-            {
-                progressDialog.dismiss();
-            }
-            openPdf();
-        }
-        else
-        {
-            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-            {
-                progressDialog.dismiss();
-            }
-            EventBus.getDefault().postSticky(new EventClearBill());
-            finish();
-        }
-
-    }
-
-    private void addInvoiceToSelectedUser()
-    {
-        DocumentReference documentReference = db.collection("Users").document(newCustomerUID).
-                collection("Contacts").document(firebaseUser.getPhoneNumber());
-        final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),
-                sessionManager.getShop_address(),sessionManager.getShop_gst(),
-                firebaseUser.getPhoneNumber(), firebaseUser.getUid(),newCustomerNumberInvoices + 1,invoiceDate);
-
-        documentReference.set(contactPojo);
-
-        GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
-                invoiceDate, dueDate, gstPojo,"","due","Recieved",timestampString,billImages);
-
-        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
-    }
-
-    @OnClick(R.id.btn_print)
-    public void printButton()
-    {
-        printClicked = true;
         if (boolean_permission) {
             bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
             createPdf();
@@ -503,7 +635,8 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-    private void createPdf(){
+    private void createPdf()
+    {
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -535,14 +668,7 @@ public class PreviewActivity extends AppCompatActivity {
         filePath = new File(targetPdf);
         try {
             document.writeTo(new FileOutputStream(filePath));
-            if (showSave)
-            {
-                saveButton();
-            }
-            else
-            {
-                openPdf();
-            }
+            openPdf();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -567,6 +693,8 @@ public class PreviewActivity extends AppCompatActivity {
         share.setType("application/pdf");
         share.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(share, "Please choose app"));
+        EventBus.getDefault().postSticky(new EventClearBill());
+        finish();
 
       /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
@@ -620,6 +748,7 @@ public class PreviewActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 boolean_permission = true;
+                printButton();
 
             } else if (permissions.length > 0)
             {
@@ -677,7 +806,7 @@ public class PreviewActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @OnClick(R.id.menu_dots_preview)
+    /*@OnClick(R.id.menu_dots_preview)
     public void menuClick()
     {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -707,5 +836,5 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
         popup.show();
-    }
+    }*/
 }

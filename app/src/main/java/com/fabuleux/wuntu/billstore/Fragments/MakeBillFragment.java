@@ -202,7 +202,6 @@ public class MakeBillFragment extends Fragment {
 
         firebaseUser = firebaseAuth.getCurrentUser();
 
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         recycler_items.setLayoutManager(mLayoutManager);
         recycler_items.setItemAnimator(new DefaultItemAnimator());
@@ -268,6 +267,22 @@ public class MakeBillFragment extends Fragment {
     public void onClearEvent(EventClearBill event)
     {
         itemList.clear();
+        invoice_total.setText("");
+        rate_gst.setText("");
+        rate_cgst.setText("");
+        rate_sgst.setText("");
+        rate_utgst.setText("");
+        rate_igst.setText("");
+        txt_shipping_charges.setText("");
+        txt_discount_charges.setText("");
+        invoice_subTotal.setText("");
+        layout_gst.setVisibility(View.GONE);
+        layout_create_cgst.setVisibility(View.GONE);
+        layout_create_igst.setVisibility(View.GONE);
+        layout_create_sgst.setVisibility(View.GONE);
+        layout_create_utgst.setVisibility(View.GONE);
+        layout_create_discount.setVisibility(View.GONE);
+        layout_create_shipping.setVisibility(View.GONE);
         invoicePreviewAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();
     }

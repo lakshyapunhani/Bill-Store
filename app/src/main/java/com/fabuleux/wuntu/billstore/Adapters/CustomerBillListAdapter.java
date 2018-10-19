@@ -68,7 +68,7 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         makeBillDetails = billsList.get(position);
-        ((ViewHolder)holder).invoice_number.setText("Invoice Number : " + makeBillDetails.getInvoiceNumber());
+        ((ViewHolder)holder).invoice_number.setText("Invoice No : " + makeBillDetails.getInvoiceNumber());
         ((ViewHolder)holder).bill_date.setText(makeBillDetails.getInvoiceDate());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
         ((ViewHolder)holder).txt_typeInvoice.setText(makeBillDetails.getBillType());
