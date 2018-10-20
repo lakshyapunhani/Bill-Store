@@ -37,6 +37,7 @@ import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.GstPojo;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
@@ -545,6 +546,21 @@ public class PreviewActivity extends AppCompatActivity {
                 documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
 
+
+                ////////////////////////////Notification send
+
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("deviceId",newCustomerUID);
+                HashMap<String,Object> objectHashMap = new HashMap<>();
+                HashMap<String,Object> stringHashMap = new HashMap<>();
+                stringHashMap.put("score","Sent you an invoice");
+                stringHashMap.put("time","Invoice Recieved");
+                objectHashMap.put("data",stringHashMap);
+                hashMap.put("payload",objectHashMap);
+
+                CommonRequest.getInstance(this).sendNotification(hashMap);
+
+
                 //////////////////////////////////Bill added to customer DB
 
                 DocumentReference documentReferenceAnotherUser = db.collection("Users").document(newCustomerUID).
@@ -559,8 +575,10 @@ public class PreviewActivity extends AppCompatActivity {
                 InvoicePojo invoicePojoAnotherUser = new InvoicePojo(contactPojo, invoiceNumber, subTotal, billItems,
                         invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
 
-                documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
+                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
                 Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().postSticky(new EventClearBill());
+                finish();
             }
             else
             {
@@ -593,6 +611,8 @@ public class PreviewActivity extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "I love using Bill Store");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+        EventBus.getDefault().postSticky(new EventClearBill());
+        finish();
     }
 
     public void printButton()
@@ -684,8 +704,6 @@ public class PreviewActivity extends AppCompatActivity {
         Intent intent;
         File file=new File(Environment.getExternalStorageDirectory()
                 + File.separator + "Invoice.pdf");
-
-        RealmManager.resetItemRealm();
 
         Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
         Intent share = new Intent();

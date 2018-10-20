@@ -22,6 +22,7 @@ public class SessionManager
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String LANGUAGE_PREFERENCE = "language_preference";
 
+    private String DEVICE_TOKEN = "device_token";
     private String NAME = "name";
     private String SHOP_ADDRESS= "shop_address";
     private String SHOP_GST = "shop_gst";
@@ -66,6 +67,7 @@ public class SessionManager
         return gstSlabList;
     }
 
+
     public void saveUnitList(String arraylistString) {
         editor.putString(UNITS_LIST,arraylistString);
         editor.commit();
@@ -97,6 +99,17 @@ public class SessionManager
     public String getLanguagePreference()
     {
         return pref.getString(LANGUAGE_PREFERENCE, "en");
+    }
+
+    public String getDeviceToken()
+    {
+        return pref.getString(DEVICE_TOKEN,"");
+    }
+
+    public void setDeviceToken(String token)
+    {
+        editor.putString(DEVICE_TOKEN,token);
+        editor.commit();
     }
 
     public String getName() {

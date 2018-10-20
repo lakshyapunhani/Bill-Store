@@ -27,6 +27,7 @@ import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.SettingsFragment;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.R;
@@ -142,7 +143,13 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        Log.d("Firebase", "token "+ FirebaseInstanceId.getInstance().getToken());
+        //Log.d("Firebase", "token "+ FirebaseInstanceId.getInstance().getToken());
+
+        if (!sessionManager.getDeviceToken().isEmpty())
+        {
+            CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
+        }
+
 
         unitList = new ArrayList<>();
         gstRateList = new ArrayList<>();

@@ -35,7 +35,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d("TAG","MESSAGE RECIEVED");
+        Log.d("FCM TAG","MESSAGE RECIEVED");
         Map data = remoteMessage.getData();
         String score = data.containsKey("score") ? data.get("score").toString() : "" ;
         String time = data.containsKey("time") ? data.get("time").toString() : "" ;

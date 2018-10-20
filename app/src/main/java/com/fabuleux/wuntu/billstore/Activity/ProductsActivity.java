@@ -165,7 +165,17 @@ public class ProductsActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 final String productName = edt_productName.getText().toString().trim();
+                if (productName.isEmpty())
+                {
+                    Toast.makeText(ProductsActivity.this, "Please fill product name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String productRate = edt_productAmount.getText().toString().trim();
+                if(productRate.isEmpty())
+                {
+                    Toast.makeText(ProductsActivity.this, "Please fill product rate", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String productDesc = edt_productDescription.getText().toString().trim();
 
                 String productId= randomString(6);

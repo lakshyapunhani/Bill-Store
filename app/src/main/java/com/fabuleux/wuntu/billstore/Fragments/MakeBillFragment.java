@@ -285,6 +285,7 @@ public class MakeBillFragment extends Fragment {
         layout_create_shipping.setVisibility(View.GONE);
         invoicePreviewAdapter.notifyDataSetChanged();
         EventBus.getDefault().removeAllStickyEvents();
+        RealmManager.resetItemRealm();
     }
 
     @Override

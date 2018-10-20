@@ -22,5 +22,5 @@ public interface ApiInterface
     Call<ResponseBody> registerDevice(@Body HashMap<String,String> hashMap);
 
     @POST("deviceNotification")
-    Call<ResponseBody> sendNotification(@Body HashMap<String,String> hashMap);
+    Call<ResponseBody> sendNotification(@Body HashMap<String,Object> hashMap);
 }
