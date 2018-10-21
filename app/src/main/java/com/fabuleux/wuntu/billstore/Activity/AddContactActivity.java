@@ -17,6 +17,7 @@ import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
+import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -182,13 +183,31 @@ public class AddContactActivity extends AppCompatActivity
     private void addContactToRegisteredUser(DocumentSnapshot document)
     {
 
+        String message ;
+        if (!sessionManager.getShop_name().isEmpty())
+        {
+            message = sessionManager.getShop_name() + " added you as contact";
+        }
+        else
+        {
+            message = firebaseUser.getPhoneNumber() + " added you as contact";
+        }
+
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("deviceId",document.getId());
         HashMap<String,Object> objectHashMap = new HashMap<>();
-        HashMap<String,Object> stringHashMap = new HashMap<>();
-        stringHashMap.put("score","Added you contact");
-        stringHashMap.put("time","Contact Added");
-        objectHashMap.put("data",stringHashMap);
+
+
+        /*HashMap<String,Object> stringHashMap = new HashMap<>();
+        stringHashMap.put("message",message);
+        stringHashMap.put("title","New Contact");
+        stringHashMap.put("time","" + System.currentTimeMillis());*/
+
+        NotificationPojo notificationPojo = new
+                NotificationPojo("New contact added",message,
+                ""+ System.currentTimeMillis());
+
+        objectHashMap.put("data",notificationPojo);
         hashMap.put("payload",objectHashMap);
 
         CommonRequest.getInstance(this).sendNotification(hashMap);

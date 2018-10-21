@@ -10,10 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/header"
+        android:orientation="horizontal"
         android:background="#0484AE">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="Invoices"
             android:gravity="center_vertical"
@@ -22,6 +24,15 @@
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
+
+        <ImageView
+            android:id="@+id/img_notifications"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_bell"
+            android:layout_marginRight="20dp"/>
 
     </LinearLayout>
 

@@ -49,19 +49,16 @@ public class CommonRequest
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response)
             {
-                if (response.code() == ApiInterface.RESPONSE_SUCCESS || response.code() == ApiInterface.NO_DATA_ON_SERVER)
+                /*if (response.code() == ApiInterface.RESPONSE_SUCCESS || response.code() == ApiInterface.NO_DATA_ON_SERVER)
                 {
-                    Toast.makeText(context, "Device Token Working correctly", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(context, "Device Token Not working", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, "Device Token Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -75,19 +72,19 @@ public class CommonRequest
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == ApiInterface.RESPONSE_SUCCESS || response.code() == ApiInterface.NO_DATA_ON_SERVER)
+                /*if (response.code() == ApiInterface.RESPONSE_SUCCESS || response.code() == ApiInterface.NO_DATA_ON_SERVER)
                 {
                     Toast.makeText(context, "Send notification Working correctly", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     Toast.makeText(context, "Send notification Not working", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, "Send notification Failure", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Send notification Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }

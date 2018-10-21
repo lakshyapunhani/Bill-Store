@@ -42,6 +42,7 @@ import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.GstPojo;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
+import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -549,13 +550,31 @@ public class PreviewActivity extends AppCompatActivity {
 
                 ////////////////////////////Notification send
 
+                String message ;
+                if (!sessionManager.getShop_name().isEmpty())
+                {
+                    message = sessionManager.getShop_name() + " sent you an invoice";
+                }
+                else
+                {
+                    message = firebaseUser.getPhoneNumber() + " sent you an invoice";
+                }
+
                 HashMap<String,Object> hashMap = new HashMap<>();
                 hashMap.put("deviceId",newCustomerUID);
                 HashMap<String,Object> objectHashMap = new HashMap<>();
-                HashMap<String,Object> stringHashMap = new HashMap<>();
-                stringHashMap.put("score","Sent you an invoice");
-                stringHashMap.put("time","Invoice Recieved");
-                objectHashMap.put("data",stringHashMap);
+
+
+               /* HashMap<String,Object> stringHashMap = new HashMap<>();
+                stringHashMap.put("message",message);
+                stringHashMap.put("title","Invoice Received");
+                stringHashMap.put("time","" +System.currentTimeMillis());*/
+
+                NotificationPojo notificationPojo = new
+                        NotificationPojo("Invoice Received",message,
+                        ""+ System.currentTimeMillis());
+
+                objectHashMap.put("data",notificationPojo);
                 hashMap.put("payload",objectHashMap);
 
                 CommonRequest.getInstance(this).sendNotification(hashMap);

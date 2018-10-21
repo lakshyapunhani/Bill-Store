@@ -17,13 +17,21 @@ import android.util.Log;
 
 import com.fabuleux.wuntu.billstore.Activity.MainActivity;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
+import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,14 +41,32 @@ import java.util.Map;
 public class MyFcmListenerService extends FirebaseMessagingService {
 
 
+    private FirebaseFirestore db;
+    FirebaseUser firebaseUser;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("FCM TAG","MESSAGE RECIEVED");
         Map data = remoteMessage.getData();
-        String score = data.containsKey("score") ? data.get("score").toString() : "" ;
+        String message = data.containsKey("message") ? data.get("message").toString() : "" ;
+        String title = data.containsKey("title") ? data.get("title").toString() : "" ;
         String time = data.containsKey("time") ? data.get("time").toString() : "" ;
 
-        sendNotification(score,time);
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Notifications");
+        final DocumentReference documentReference = collectionReference.document(time);
+        /*HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("message",message);
+        hashMap.put("title",title);
+        hashMap.put("time",time);*/
+
+        NotificationPojo notificationPojo = new NotificationPojo(title,message,time);
+        documentReference.set(notificationPojo);
+
+        sendNotification(message,title);
     }
 
     public void sendNotification(String message, String title) {

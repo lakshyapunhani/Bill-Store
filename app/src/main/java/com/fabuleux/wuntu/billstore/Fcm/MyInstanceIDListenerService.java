@@ -5,9 +5,11 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Network.ApiClient;
 import com.fabuleux.wuntu.billstore.Network.ApiInterface;
+import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.freshchat.consumer.sdk.Freshchat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -41,8 +43,15 @@ public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
 
     private void registerDevice(String token)
     {
+        FirebaseUser firebaseUser;
         SessionManager sessionManager = new SessionManager(MyInstanceIDListenerService.this);
         sessionManager.setDeviceToken(token);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null)
+        {
+            CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
+        }
     }
 
 
