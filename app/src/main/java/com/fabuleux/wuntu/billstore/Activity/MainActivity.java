@@ -30,9 +30,12 @@ import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
+import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -119,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver networkReceiver;
     Gson gson;
 
+    String shopName = "",shopAddress = "",shopGstNumber = "",name = "",shopPanNumber;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -149,6 +155,70 @@ public class MainActivity extends AppCompatActivity {
         {
             CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
         }
+
+        /////////////////////////////////////// Just for saving user mobile number to db
+        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+
+
+        profileReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e)
+            {
+                if (e != null)
+                {
+                    return;
+                }
+                if (documentSnapshot.exists())
+                {
+                    if (documentSnapshot.contains("shop_name"))
+                    {
+                        shopName = documentSnapshot.get("shop_name").toString();
+                    }
+                    if (documentSnapshot.contains("shop_address"))
+                    {
+                        shopAddress = documentSnapshot.get("shop_address").toString();
+                    }
+                    if (documentSnapshot.contains("shop_gst"))
+                    {
+                        shopGstNumber = documentSnapshot.get("shop_gst").toString();
+                    }
+
+                    if (documentSnapshot.contains("name"))
+                    {
+                        name = documentSnapshot.get("name").toString();
+                    }
+                    if (documentSnapshot.contains("shop_pan"))
+                    {
+                        shopPanNumber = documentSnapshot.get("shop_pan").toString();
+                    }
+                }
+
+            }
+        });
+
+        User user = new User(name, shopName,shopAddress,shopGstNumber,shopPanNumber,
+                firebaseUser.getUid(),firebaseUser.getPhoneNumber());
+
+        if (firebaseUser != null )
+        {
+            db.collection("Users")
+                    .document(firebaseUser.getUid())
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+
+            finish();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
 
 
         unitList = new ArrayList<>();

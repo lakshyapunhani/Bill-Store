@@ -169,7 +169,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_products"/>
+                    app:srcCompat="@drawable/ic_phone_book"/>
 
                 <TextView
                     android:layout_width="0dp"

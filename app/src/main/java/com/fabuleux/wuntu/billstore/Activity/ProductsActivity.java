@@ -178,7 +178,7 @@ public class ProductsActivity extends AppCompatActivity {
                 }
                 final String productDesc = edt_productDescription.getText().toString().trim();
 
-                String productId= randomString(6);
+                String productId= productName + productRate;
 
                 final ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productId,productName,productRate,productDesc,0);
 
@@ -196,14 +196,16 @@ public class ProductsActivity extends AppCompatActivity {
                             else
                             {
                                 documentReference.set(itemSelectionPojo);
+                                dialog.dismiss();
                             }
                         } else
                         {
+                            dialog.dismiss();
                             Toast.makeText(ProductsActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                dialog.dismiss();
+
             }
         });
         dialog.setContentView(view1);

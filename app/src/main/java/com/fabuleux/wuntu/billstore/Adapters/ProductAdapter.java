@@ -283,6 +283,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 final EditText edt_productDescription = (EditText) view1.findViewById(R.id.edt_productDescription);
                 Button btn_createExpense = (Button) view1.findViewById(R.id.btn_addProduct);
                 edt_productName.setEnabled(false);
+                edt_productAmount.setEnabled(false);
                 edt_productAmount.setText(itemSelectionPojo.getProductRate());
                 edt_productName.setText(itemSelectionPojo.getProductName());
                 edt_productDescription.setText(itemSelectionPojo.getProductDescription());
