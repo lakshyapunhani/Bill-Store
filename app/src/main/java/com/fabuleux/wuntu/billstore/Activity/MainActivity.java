@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver networkReceiver;
     Gson gson;
 
-    String shopName = "",shopAddress = "",shopGstNumber = "",name = "",shopPanNumber;
+    String shopName = "",shopAddress = "",shopGstNumber = "",name = "",shopPanNumber="";
 
 
     @Override
