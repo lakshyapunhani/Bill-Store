@@ -152,7 +152,9 @@ public class PreviewActivity extends AppCompatActivity {
     private ArrayList<ItemPojo> itemList;
     private String customerName = "";
     private String customerAddress = "";
-    private String customerGstNumber = "",newCustomerMobileNumber = "",newCustomerUID = "";
+    private String customerGstNumber = "";
+    private String newCustomerMobileNumber = "";
+    private String newCustomerUID = "";
     int newCustomerNumberInvoices;
     private String invoiceDate = "",dueDate = "";
 
@@ -177,6 +179,8 @@ public class PreviewActivity extends AppCompatActivity {
     String invoiceNumber= "";
 
     int extraTaxLayout = 2;
+
+    String billType = "";
 
     boolean printClicked = false;
     boolean showSave = true;
@@ -266,35 +270,85 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void getShopDetails()
     {
-        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
-        profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot)
+
+        if (billType.matches("Recieved"))
+        {
+            if (customerName == null || customerName.isEmpty())
             {
-                if (!documentSnapshot.exists())
+                txt_shopName.setText("Contact shop name");
+            }
+            else
+            {
+                txt_shopName.setText(customerName);
+            }
+
+            if (customerAddress == null || customerAddress.isEmpty())
+            {
+                txt_shopAddress.setText("Contact shop address");
+            }
+            else
+            {
+                txt_shopAddress.setText(customerAddress);
+            }
+
+
+            if (customerGstNumber == null || customerGstNumber.isEmpty())
+            {
+                txt_gstNumber.setText("GSTIN: " + "NA");
+            }
+            else
+            {
+                txt_gstNumber.setText("GSTIN: " + customerGstNumber);
+            }
+
+
+        }
+        else
+        {
+            DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+            profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
                 {
+                    if (!documentSnapshot.exists())
+                    {
+                        Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (documentSnapshot.contains("shop_name") && !documentSnapshot.get("shop_name").toString().isEmpty())
+                    {
+                        txt_shopName.setText(documentSnapshot.get("shop_name").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "Your shop name", Toast.LENGTH_SHORT).show();
+                    }
+                    if (documentSnapshot.contains("shop_address") && !documentSnapshot.get("shop_address").toString().isEmpty())
+                    {
+                        txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "Your shop address", Toast.LENGTH_SHORT).show();
+                    }
+                    if (documentSnapshot.contains("shop_gst") && !documentSnapshot.get("shop_gst").toString().isEmpty())
+                    {
+                        txt_gstNumber.setText("GSTIN: " + documentSnapshot.get("shop_gst").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "NA", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                     Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-                if (documentSnapshot.contains("shop_name"))
-                {
-                    txt_shopName.setText(documentSnapshot.get("shop_name").toString());
-                }
-                if (documentSnapshot.contains("shop_address"))
-                {
-                    txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
-                }
-                if (documentSnapshot.contains("shop_gst"))
-                {
-                    txt_gstNumber.setText(documentSnapshot.get("shop_gst").toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        }
+
+
     }
 
     private void getIntentItems()
@@ -318,6 +372,7 @@ public class PreviewActivity extends AppCompatActivity {
             discount = getIntent().getDoubleExtra("discount",0);
             subTotal = getIntent().getDoubleExtra("subTotal",0);
             invoiceNumber = getIntent().getStringExtra("invoiceNumber");
+            billType = getIntent().getStringExtra("billType");
         }
     }
 

@@ -440,6 +440,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("discount",discount);
         intent.putExtra("subTotal",subTotal);
         intent.putExtra("invoiceNumber","");
+        intent.putExtra("billType","");
         startActivity(intent);
     }
 
