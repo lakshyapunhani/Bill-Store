@@ -195,6 +195,9 @@ public class PreviewActivity extends AppCompatActivity {
     private FloatingActionButton sendInvoice;
     private FloatingActionButton printInvoice;
 
+    ContactPojo receiverPojo;
+    ContactPojo senderPojo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -354,10 +357,13 @@ public class PreviewActivity extends AppCompatActivity {
 
     }
 
+
     private void getIntentItems()
     {
         if (getIntent() != null)
         {
+            itemList.clear();
+            tableLayoutItems.removeAllViews();
             itemList = getIntent().getParcelableArrayListExtra("ItemList");
 
             receiverName = getIntent().getStringExtra("receiverName");
@@ -386,8 +392,8 @@ public class PreviewActivity extends AppCompatActivity {
             senderName = getIntent().getStringExtra("senderName");
             senderAddress = getIntent().getStringExtra("senderAddress");
             senderGstNumber = getIntent().getStringExtra("senderGSTNumber");
-            senderUID = getIntent().getStringExtra("senderMobileNumber");
-            senderMobileNumber = getIntent().getStringExtra("senderUID");
+            senderMobileNumber= getIntent().getStringExtra("senderMobileNumber");
+            senderUID  = getIntent().getStringExtra("senderUID");
         }
     }
 
@@ -569,6 +575,7 @@ public class PreviewActivity extends AppCompatActivity {
             totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
 
             tableLayoutItems.addView(row);
+
         }
     }
 
@@ -634,12 +641,12 @@ public class PreviewActivity extends AppCompatActivity {
 
                 final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                         collection("Contacts").document(receiverMobileNumber);
-                ContactPojo receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
                         receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
 
 
-                ContactPojo senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
-                        senderUID,newCustomerNumberInvoices,invoiceDate);
+                senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
+                        senderUID,newCustomerNumberInvoices + 1,invoiceDate);
 
                 GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
@@ -687,16 +694,16 @@ public class PreviewActivity extends AppCompatActivity {
 
                 DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
                         collection("Contacts").document(firebaseUser.getPhoneNumber());
-                final ContactPojo receiverPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
+                /*final ContactPojo receiverPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
                         sessionManager.getShop_address(), sessionManager.getShop_gst(),
-                        firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);
+                        firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);*/
 
-                documentReferenceAnotherUser.set(receiverPojoAnotherUser);
+                documentReferenceAnotherUser.set(senderPojo);
 
-                ContactPojo senderPojoAnotherUser = new ContactPojo()
+                //ContactPojo senderPojoAnotherUser = new ContactPojo()
 
                 GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
-                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojoAnotherUser, invoiceNumber, subTotal, billItems,
+                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
                         invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
 
                 documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
@@ -754,12 +761,12 @@ public class PreviewActivity extends AppCompatActivity {
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(receiverMobileNumber);
-        ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
+        /*ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);*/
         GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
-        documentReference.set(contactPojo);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+        documentReference.set(receiverPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
                 invoiceDate, dueDate, gstPojo,"","Shared","Sent",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);

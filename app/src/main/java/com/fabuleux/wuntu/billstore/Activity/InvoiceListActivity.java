@@ -62,6 +62,8 @@ public class InvoiceListActivity extends AppCompatActivity {
             receiverMobileNumber = "", receiverUID = "";
     int customerNumberInvoices;
 
+    String senderName = "",senderAddress = "",senderGSTNumber = "",senderMobileNumber = "",senderUID = "";
+
     String invoiceNumber = "";
     String billType = "";
 
@@ -125,14 +127,27 @@ public class InvoiceListActivity extends AppCompatActivity {
                             utgst = makeBillDetails.getGstPojo().getUtgst();
                             shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
                             discount = makeBillDetails.getGstPojo().getDiscount();
-                            ContactPojo contactPojo = new ContactPojo();
-                            contactPojo = makeBillDetails.getContactPojo();
-                            receiverName = contactPojo.getContactName();
-                            receiverAddress = contactPojo.getContactAddress();
-                            receiverGSTNumber = contactPojo.getContactGstNumber();
-                            receiverMobileNumber = contactPojo.getContactPhoneNumber();
-                            receiverUID = contactPojo.getContactUID();
-                            customerNumberInvoices = contactPojo.getNumberInvoices();
+
+                            ContactPojo receiverPojo = new ContactPojo();
+                            receiverPojo = makeBillDetails.getReceiverPojo();
+                            receiverName = receiverPojo.getContactName();
+                            receiverAddress = receiverPojo.getContactAddress();
+                            receiverGSTNumber = receiverPojo.getContactGstNumber();
+                            receiverMobileNumber = receiverPojo.getContactPhoneNumber();
+                            receiverUID = receiverPojo.getContactUID();
+                            customerNumberInvoices = receiverPojo.getNumberInvoices();
+
+                            ContactPojo senderPojo = new ContactPojo();
+                            senderPojo = makeBillDetails.getSenderPojo();
+                            senderName = senderPojo.getContactName();
+                            senderAddress = senderPojo.getContactAddress();
+                            senderGSTNumber = senderPojo.getContactGstNumber();
+                            senderMobileNumber = senderPojo.getContactPhoneNumber();
+                            senderUID = senderPojo.getContactUID();
+
+                            itemList.clear();
+
+                            billItems = new HashMap<>();
                             billItems = makeBillDetails.getBillItems();
                             itemList.addAll(billItems.values());
                             invoiceDate = makeBillDetails.getInvoiceDate();
@@ -152,14 +167,19 @@ public class InvoiceListActivity extends AppCompatActivity {
                             shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
                             discount = makeBillDetails.getGstPojo().getDiscount();
                             ContactPojo contactPojo = new ContactPojo();
-                            contactPojo = makeBillDetails.getContactPojo();
+                            contactPojo = makeBillDetails.getReceiverPojo();
                             receiverName = contactPojo.getContactName();
                             receiverAddress = contactPojo.getContactAddress();
                             receiverGSTNumber = contactPojo.getContactGstNumber();
                             receiverMobileNumber = contactPojo.getContactPhoneNumber();
                             receiverUID = contactPojo.getContactUID();
                             customerNumberInvoices = contactPojo.getNumberInvoices();
+
+                            billItems = new HashMap<>();
+
                             billItems = makeBillDetails.getBillItems();
+
+                            itemList.clear();
                             itemList.addAll(billItems.values());
                             invoiceDate = makeBillDetails.getInvoiceDate();
                             dueDate = makeBillDetails.getDueDate();
@@ -168,8 +188,6 @@ public class InvoiceListActivity extends AppCompatActivity {
                             billStatus = makeBillDetails.getBillStatus();
                             sendDatatoBillView();
                         }
-
-
                     }
 
                     @Override
@@ -179,7 +197,6 @@ public class InvoiceListActivity extends AppCompatActivity {
                     }
                 })
         );
-
 
         CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts")
                 .document(contactNumber).collection("Invoices");
@@ -226,11 +243,11 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("subTotal", subTotal);
         intent.putExtra("invoiceNumber",invoiceNumber);
         intent.putExtra("billType",billType);
-        intent.putExtra("senderName","");
-        intent.putExtra("senderAddress","");
-        intent.putExtra("senderGSTNumber","");
-        intent.putExtra("senderMobileNumber","");
-        intent.putExtra("senderUID","");
+        intent.putExtra("senderName",senderName);
+        intent.putExtra("senderAddress",senderAddress);
+        intent.putExtra("senderGSTNumber",senderGSTNumber);
+        intent.putExtra("senderMobileNumber",senderMobileNumber);
+        intent.putExtra("senderUID",senderUID);
         startActivity(intent);
     }
 

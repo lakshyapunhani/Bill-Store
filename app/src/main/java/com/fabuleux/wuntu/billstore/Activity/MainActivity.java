@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (documentSnapshot.exists())
                 {
-
                     if(!documentSnapshot.contains("mobileNumber"))
                     {
                         if (documentSnapshot.contains("shop_name"))
@@ -509,6 +508,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
