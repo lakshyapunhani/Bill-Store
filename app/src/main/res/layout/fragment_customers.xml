@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="@string/txt_you_haven_t_added_any_customer_yet"
+            android:text="@string/no_invoice"
             android:gravity="center_horizontal"
             android:textSize="20sp"/>
 

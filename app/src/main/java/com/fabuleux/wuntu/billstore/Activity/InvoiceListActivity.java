@@ -94,7 +94,15 @@ public class InvoiceListActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("contactNumber") != null)
         {
             contactNumber = getIntent().getStringExtra("contactNumber");
-            txt_vendorName.setText(contactNumber);
+            String contactName = getIntent().getStringExtra("contactName");
+            if (contactName != null && !contactName.isEmpty())
+            {
+                txt_vendorName.setText(contactName);
+            }
+            else
+            {
+                txt_vendorName.setText(contactNumber);
+            }
         }
 
         billImages = new HashMap<>();

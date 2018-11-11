@@ -241,8 +241,16 @@ public class BillViewActivity extends AppCompatActivity {
         wholeSellerName.setText(customerName);
         wholeSellerAddress.setText(customerAddress);
 
-        wholeSellerGst.setText("(GST Number - " + customerGstNumber+ ")");
-        wholeSellerBillAmount.setText("" + subTotal);
+        if (customerGstNumber != null && !customerGstNumber.isEmpty())
+        {
+            wholeSellerGst.setText("(GST Number - " + customerGstNumber+ ")");
+        }
+        else
+        {
+            wholeSellerGst.setText("(GST Number - NA)");
+        }
+
+        wholeSellerBillAmount.setText(getResources().getString(R.string.rupee_sign)  + subTotal);
         wholeSellerBillDate.setText(invoiceDate);
         billStatus.setText(status);
 

@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
+        RealmManager.deleteAllRealm();
+
         customerFragment = new CustomersFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
@@ -260,8 +262,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add( R.id.layout_mainFrame,customerFragment,"home");
-        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,makeBillFragment,"make_bill");
+        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,profileFragment,"profile");
 
         switch (selectedFragmentTag) {

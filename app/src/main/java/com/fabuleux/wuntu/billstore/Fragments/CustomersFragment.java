@@ -92,6 +92,8 @@ public class CustomersFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(context, InvoiceListActivity.class);
                         intent.putExtra("contactNumber",customerDetailsList.get(position).getContactPhoneNumber());
+                        intent.putExtra("contactName",customerDetailsList.get(position).getContactName());
+
                         startActivity(intent);
                     }
 

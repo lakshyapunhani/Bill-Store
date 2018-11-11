@@ -166,6 +166,8 @@
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
     <string name="txt_share_bill">Share Invoice</string>
+    <string name="please_add_contact">Please add a contact first</string>
+    <string name="no_invoice">No Invoice</string>
 
     <string-array name="questions">
         <item>How to generate invoice?</item>

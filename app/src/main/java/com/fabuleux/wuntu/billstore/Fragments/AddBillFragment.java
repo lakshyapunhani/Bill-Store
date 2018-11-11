@@ -513,6 +513,17 @@ public class AddBillFragment extends Fragment {
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
 
+        if (customersList.size() == 0)
+        {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.dismiss();
+            }
+            Toast.makeText(context, R.string.please_add_contact, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         newVendorName = customerNameList.get(spinnerValue);
         newVendorAddress = customersList.get(spinnerValue).getContactAddress();
         newVendorGst = customersList.get(spinnerValue).getContactGstNumber();

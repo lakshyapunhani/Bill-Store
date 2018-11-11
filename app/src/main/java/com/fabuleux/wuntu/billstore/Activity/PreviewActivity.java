@@ -403,7 +403,15 @@ public class PreviewActivity extends AppCompatActivity {
         invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) + String.valueOf(subTotal));
         txt_custName.setText(receiverName);
         txt_custAddress.setText(receiverAddress);
-        txt_custGstNumber.setText(receiverGstNumber);
+        if (receiverGstNumber != null && !receiverGstNumber.isEmpty())
+        {
+            txt_custGstNumber.setText(receiverGstNumber);
+        }
+        else
+        {
+            txt_custGstNumber.setText("NA");
+        }
+
         txt_invoiceDate.setText(invoiceDate);
         txt_dueDate.setText(dueDate);
         invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
