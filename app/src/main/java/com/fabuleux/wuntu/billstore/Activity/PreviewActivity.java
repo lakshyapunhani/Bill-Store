@@ -363,7 +363,6 @@ public class PreviewActivity extends AppCompatActivity {
         if (getIntent() != null)
         {
             itemList.clear();
-            tableLayoutItems.removeAllViews();
             itemList = getIntent().getParcelableArrayListExtra("ItemList");
 
             receiverName = getIntent().getStringExtra("receiverName");
@@ -716,8 +715,9 @@ public class PreviewActivity extends AppCompatActivity {
 
                 documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
                 Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().postSticky(new EventClearBill());
+                //EventBus.getDefault().postSticky(new EventClearBill());
                 finish();
+                startActivity(new Intent(PreviewActivity.this,MainActivity.class));
             }
             else
             {
