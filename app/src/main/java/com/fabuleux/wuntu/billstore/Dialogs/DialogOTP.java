@@ -60,7 +60,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
 
     String number = "";
 
-    ProgressDialog progressDialog;
+   // ProgressDialog progressDialog;
 
 
     public DialogOTP(@NonNull Context context) {
@@ -74,9 +74,9 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
         setContentView(R.layout.dialog_otp);
         ButterKnife.bind(this);
 
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Verifying");
-        progressDialog.setMessage("Please wait...");
+        //progressDialog = new ProgressDialog(getContext());
+       // progressDialog.setTitle("Verifying");
+       // progressDialog.setMessage("Please wait...");
 
         verification_message.setText("You will get an SMS with a verification number to this number +91" + number);
         setListeners();
@@ -110,7 +110,7 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
     public void submit()
     {
 
-        progressDialog.show();
+       // progressDialog.show();
         if (!editcode1.getText().toString().equals("") &&
                 !editcode2.getText().toString().equals("") &&
                 !editcode3.getText().toString().equals("") &&
@@ -122,16 +122,16 @@ public class DialogOTP extends Dialog implements TextWatcher,View.OnKeyListener,
                     + editcode3.getText().toString() + editcode4.getText().toString()
                     + editcode5.getText().toString() + editcode6.getText().toString();
 
-            if (progressDialog.isShowing())
+            /*if (progressDialog.isShowing())
             {
                 progressDialog.dismiss();
-            }
+            }*/
             EventBus.getDefault().post(new EventOTP(mCode));
         }else {
-            if (progressDialog.isShowing())
+            /*if (progressDialog.isShowing())
             {
                 progressDialog.dismiss();
-            }
+            }*/
             Toast.makeText(getContext(), "Please fill OTP", Toast.LENGTH_SHORT).show();
         }
     }
