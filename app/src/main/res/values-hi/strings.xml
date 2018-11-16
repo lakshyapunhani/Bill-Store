@@ -170,7 +170,7 @@
     <string name="log_out">लोग आउट</string>
     <string name="are_you_sure">क्या आपको यकीन है?</string>
     <string name="shop_company_mobile_number">दुकान / कंपनी मोबाइल नंबर</string>
-    <string name="invoices">Invoices</string>
+    <string name="invoices">बिल</string>
 
     <string-array name="questions">
         <item>बिल कैसे बनाएं?</item>
@@ -191,6 +191,14 @@
         <item>नीचे मेनू से सेटिंग्स का चयन करें और प्रोफ़ाइल का चयन करें। फ़ील्ड संपादित करें और अपडेट पर टैप करें।</item>
         <item>मान लें कि आपको एक मुद्रित बिल मिला है और आप इसे डिजिटलीकृत करना चाहते हैं, इसलिए उस बिल को बिल राशि, बिल तिथि, बिल का भुगतान या बिल की तस्वीर के साथ पूरी जानकारी के साथ जोड़ें। अब आप होम स्क्रीन पर विक्रेताओं के तहत बिल स्टोर में अपने बिल तक पहुंच सकते हैं मान लीजिए कि आपको एक मुद्रित बिल मिला है और आप इसे डिजिटलीकृत करना चाहते हैं, इसलिए बिल को बिल राशि, बिल तिथि, बिल का भुगतान या बिल की तस्वीर के साथ पूरी तरह से बिल जोड़ें। अब आप होम स्क्रीन पर विक्रेताओं के तहत बिल स्टोर में अपने बिल तक पहुंच सकते हैं।</item>
     </string-array>
+    <string name="title_home">होम</string>
+    <string name="title_dashboard">डैशबोर्ड</string>
+    <string name="title_notifications">सूचनाएं</string>
+    <string name="invoice_details">Invoice Details</string>
+    <string name="item_details">आइटम विवरण</string>
+    <string name="billing_details">बिलिंग विवरण</string>
+    <string name="total">योग</string>
+    <string name="subtotal">उप-योग</string>
 
 </resources>
 

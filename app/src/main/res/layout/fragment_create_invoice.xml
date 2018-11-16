@@ -86,7 +86,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Invoice Details"
+                            android:text="@string/invoice_details"
                             android:textColor="@android:color/white"
                             android:gravity="center_vertical"/>
 
@@ -266,7 +266,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Item Details"
+                            android:text="@string/item_details"
                             android:textColor="@android:color/white"
                             android:gravity="center_vertical"/>
 
@@ -320,7 +320,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Billing Details"
+                            android:text="@string/billing_details"
                             android:textColor="@android:color/white"
                             android:gravity="center_vertical"/>
 
@@ -347,7 +347,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="3"
                             android:layout_height="wrap_content"
-                            android:text="Total " />
+                            android:text="@string/total" />
 
                         <TextView
                             android:id="@+id/invoice_total"
@@ -620,7 +620,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="3"
                             android:layout_height="wrap_content"
-                            android:text="SubTotal" />
+                            android:text="@string/subtotal" />
 
                         <TextView
                             android:textColor="@android:color/black"

@@ -31,7 +31,6 @@
     <string name="text_make_bill">बिल तयार करा</string>
     <string name="text_profile">प्रोफाइल</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">घर</string>
     <string name="title_dashboard">डॅशबोर्ड</string>
     <string name="title_notifications">सूचना</string>
@@ -174,7 +173,12 @@
     <string name="log_out">बाहेर पडणे</string>
     <string name="are_you_sure">तुला खात्री आहे?</string>
     <string name="shop_company_mobile_number">दुकान / कंपनी मोबाइल नंबर</string>
-    <string name="invoices">Invoices</string>
+    <string name="invoices">बिल</string>
+    <string name="invoice_details">चलन तपशील</string>
+    <string name="item_details">आयटम तपशील</string>
+    <string name="billing_details">पावतीचा तपशील</string>
+    <string name="total">एकूण</string>
+    <string name="subtotal">सबटोटल</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>

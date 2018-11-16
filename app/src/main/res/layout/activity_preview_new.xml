@@ -1,4 +1,5 @@
-<RelativeLayout android:layout_width="match_parent"
+<RelativeLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
@@ -670,9 +671,10 @@
         android:focusable="true"
         android:translationZ="5dp"
         android:visibility="visible"
+        fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_addButtonColorNormal="@color/colorPrimary"
         fab:fab_addButtonColorPressed="@color/colorPrimary"
         fab:fab_addButtonPlusIconColor="@color/white"
-        fab:fab_labelsPosition="left"/>
+        />
 
 </RelativeLayout>

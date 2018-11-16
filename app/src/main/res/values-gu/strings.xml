@@ -30,7 +30,6 @@
     <string name="text_make_bill">બિલ બનાવો</string>
     <string name="text_profile">પ્રોફાઇલ</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="txt_skip"><u>સ્કિપ</u></string>
     <string name="alert_btn_continue">ચાલુ રાખો</string>
     <string name="alert_btn_yes">હા</string>
@@ -169,7 +168,7 @@
     <string name="log_out">લૉગ આઉટ</string>
     <string name="are_you_sure">શું તમે ખાતરી કરો છો?</string>
     <string name="shop_company_mobile_number">દુકાન / કંપની મોબાઇલ નંબર</string>
-    <string name="invoices">Invoices</string>
+    <string name="invoices">ઇન્વૉઇસેસ</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>
@@ -190,5 +189,14 @@
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોફાઇલ પસંદ કરો. ક્ષેત્રો સંપાદિત કરો અને અપડેટ પર ટેપ કરો.</item>
         <item>ધારો કે તમને મુદ્રિત બિલ મળ્યું છે અને તમે તેને ડિજિટાઇઝ કરવા માંગો છો તેથી બિલની રકમ, બિલની તારીખ, બિલ પેઇડ અથવા બિલની ચિત્ર સાથેની સંપૂર્ણ માહિતી સાથે તે બિલ ઉમેરો. હવે તમે હોમ સ્ક્રિન પર વેન્ડર્સ હેઠળ બિલ સ્ટોર્સમાં તમારા બિલને ઍક્સેસ કરી શકો છોજો તમે મુદ્રિત બિલ મેળવ્યું હોય અને તમે તેને ડિજિટાઇઝ કરવા માંગો છો, તો બિલની બિલ, બિલની તારીખ, બિલની ચૂકવણી અથવા બિલની ચિત્ર સહિત સંપૂર્ણ માહિતી સાથે તે બિલ ઉમેરો. હવે તમે હોમ સ્ક્રીન પર વિક્રેતાઓ હેઠળ બિલ સ્ટોરમાં તમારા બિલને ઍક્સેસ કરી શકો છો.</item>
     </string-array>
+    <string name="title_home">ઘર</string>
+    <string name="title_dashboard">ડેશબોર્ડ</string>
+    <string name="title_notifications">સૂચનાઓ</string>
+    <string name="txt_please_provide_the_below_details">કૃપા કરીને વિગતો પૂરી પાડો</string>
+    <string name="invoice_details">ભરતિયું વિગતો</string>
+    <string name="item_details">આઇટમ વિગતો</string>
+    <string name="billing_details">બિલિંગ વિગતો</string>
+    <string name="total">કુલ</string>
+    <string name="subtotal">સબટોટલ</string>
 </resources>
 

@@ -167,11 +167,11 @@
     <string name="txt_share_bill">চালান শেয়ার করুন</string>
     <string name="please_add_contact">প্রথমে একটি যোগাযোগ যোগ করুন</string>
     <string name="no_invoice">কোন চালান</string>
-    <string name="notifications">কোন চালান...</string>
+    <string name="notifications">বিজ্ঞপ্তিগুলি</string>
     <string name="log_out">প্রস্থান</string>
     <string name="are_you_sure">তুমি কি নিশ্চিত?</string>
     <string name="shop_company_mobile_number">দোকান / কোম্পানি মোবাইল নম্বর</string>
-    <string name="invoices">Invoices</string>
+    <string name="invoices">চালান</string>
 
     <string-array name="questions">
         <item>চালান কিভাবে উৎপন্ন?</item>
@@ -192,5 +192,12 @@
         <item>নীচে মেনু থেকে সেটিংস নির্বাচন করুন এবং প্রোফাইল নির্বাচন করুন ক্ষেত্রগুলি সম্পাদনা করুন এবং আপডেটে আলতো চাপুন।</item>
         <item>ধরুন আপনি একটি মুদ্রিত বিল পেয়েছেন এবং আপনি এটি ডিজিটালাইজ করতে চান তাই বিল এর মত সম্পূর্ণ তথ্য, বিল তারিখ, বিল পরিশোধ বা বিলটির ছবির সাথে বিলটি যোগ করুন। এখন আপনি বিলের দোকানে আপনার বিলটি হোম স্ক্রীনে বিক্রেতার মাধ্যমে অ্যাক্সেস করতে পারেনআপনি একটি মুদ্রিত বিল পেয়েছেন এবং আপনি এটি ডিজিটালাইজ করতে চান তাই বিল পরিমাণ, বিলের তারিখ, বিল পরিশোধ বা বিলবোর্ডের মতো পূর্ণ তথ্য সহ বিলটি যোগ করুন। এখন আপনি হোম স্ক্রীনে বিক্রেতার অধীনে বিল স্টোরে আপনার বিল অ্যাক্সেস করতে পারেন।</item>
     </string-array>
+    <string name="text_profile">প্রোফাইলের</string>
+    <string name="txt_please_provide_the_below_details">বিস্তারিত নীচের প্রদান করুন</string>
+    <string name="invoice_details">চালান বিবরণ</string>
+    <string name="item_details">আইটেম বিবরণ</string>
+    <string name="billing_details">পূর্ণ রূপ প্রকাশ</string>
+    <string name="total">মোট</string>
+    <string name="subtotal">উপ মোট</string>
 </resources>
 

@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -242,13 +243,13 @@ public class PreviewActivity extends AppCompatActivity {
     {
         sendInvoice = new FloatingActionButton(this);
         sendInvoice.setTag("sendInvoice");
-        sendInvoice.setTitle("Send Invoice");
+        sendInvoice.setTitle("Send");
         sendInvoice.setSize(FloatingActionButton.SIZE_MINI);
         sendInvoice.setImageResource(android.R.drawable.ic_menu_send);
 
         printInvoice = new FloatingActionButton(this);
         printInvoice.setTag("shareInvoice");
-        printInvoice.setTitle("Share Invoice");
+        printInvoice.setTitle("Share");
         printInvoice.setSize(FloatingActionButton.SIZE_MINI);
         printInvoice.setImageResource(android.R.drawable.ic_menu_share);
 
@@ -622,7 +623,7 @@ public class PreviewActivity extends AppCompatActivity {
             openPdf();
         }*//*
 
-        *//*else
+     *//*else
         {
             if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
             {
@@ -635,51 +636,53 @@ public class PreviewActivity extends AppCompatActivity {
     }*/
 
 
+
+
     private void sendInvoiceToSelectedUser()
     {
-            if (receiverUID != null && !receiverUID.isEmpty())
+        if (receiverUID != null && !receiverUID.isEmpty())
+        {
+            //////////////////////////// Bill added to own DB
+            for (int i = 0;i<itemList.size();i++)
             {
-                //////////////////////////// Bill added to own DB
-                for (int i = 0;i<itemList.size();i++)
-                {
-                    ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
-                    billItems.put(itemList.get(i).getItemName(),itemPojo);
-                }
+                ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
+                billItems.put(itemList.get(i).getItemName(),itemPojo);
+            }
 
-                final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                        collection("Contacts").document(receiverMobileNumber);
-                receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                        receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
+            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                    collection("Contacts").document(receiverMobileNumber);
+            receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                    receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
 
 
-                senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
-                        senderUID,newCustomerNumberInvoices + 1,invoiceDate);
+            senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
+                    senderUID,newCustomerNumberInvoices + 1,invoiceDate);
 
-                GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
+            GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
-                documentReference.set(receiverPojo);
-                InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
-                        invoiceDate, dueDate, gstPojo,"","Due","Sent",timestampString,billImages);
+            documentReference.set(receiverPojo);
+            InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
+                    invoiceDate, dueDate, gstPojo,"","Due","Sent",timestampString,billImages);
 
-                documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
 
 
-                ////////////////////////////Notification send
+            ////////////////////////////Notification send
 
-                String message ;
-                if (!sessionManager.getShop_name().isEmpty())
-                {
-                    message = sessionManager.getShop_name() + " sent you an invoice";
-                }
-                else
-                {
-                    message = firebaseUser.getPhoneNumber() + " sent you an invoice";
-                }
+            String message ;
+            if (!sessionManager.getShop_name().isEmpty())
+            {
+                message = sessionManager.getShop_name() + " sent you an invoice";
+            }
+            else
+            {
+                message = firebaseUser.getPhoneNumber() + " sent you an invoice";
+            }
 
-                HashMap<String,Object> hashMap = new HashMap<>();
-                hashMap.put("deviceId", receiverUID);
-                HashMap<String,Object> objectHashMap = new HashMap<>();
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("deviceId", receiverUID);
+            HashMap<String,Object> objectHashMap = new HashMap<>();
 
 
                /* HashMap<String,Object> stringHashMap = new HashMap<>();
@@ -687,59 +690,59 @@ public class PreviewActivity extends AppCompatActivity {
                 stringHashMap.put("title","Invoice Received");
                 stringHashMap.put("time","" +System.currentTimeMillis());*/
 
-                NotificationPojo notificationPojo = new
-                        NotificationPojo("Invoice Received",message,
-                        ""+ System.currentTimeMillis());
+            NotificationPojo notificationPojo = new
+                    NotificationPojo("Invoice Received",message,
+                    ""+ System.currentTimeMillis());
 
-                objectHashMap.put("data",notificationPojo);
-                hashMap.put("payload",objectHashMap);
+            objectHashMap.put("data",notificationPojo);
+            hashMap.put("payload",objectHashMap);
 
-                CommonRequest.getInstance(this).sendNotification(hashMap);
+            CommonRequest.getInstance(this).sendNotification(hashMap);
 
 
-                //////////////////////////////////Bill added to customer DB
+            //////////////////////////////////Bill added to customer DB
 
-                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
-                        collection("Contacts").document(firebaseUser.getPhoneNumber());
+            DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
+                    collection("Contacts").document(firebaseUser.getPhoneNumber());
                 /*final ContactPojo receiverPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
                         sessionManager.getShop_address(), sessionManager.getShop_gst(),
                         firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);*/
 
-                documentReferenceAnotherUser.set(senderPojo);
+            documentReferenceAnotherUser.set(senderPojo);
 
-                //ContactPojo senderPojoAnotherUser = new ContactPojo()
+            //ContactPojo senderPojoAnotherUser = new ContactPojo()
 
-                GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
-                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
-                        invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
+            GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
+            InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
+                    invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
 
-                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
-                Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
-                //EventBus.getDefault().postSticky(new EventClearBill());
-                finish();
-                startActivity(new Intent(PreviewActivity.this,MainActivity.class));
-            }
-            else
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("It seems customer is not on Bill Store")
-                        .setCancelable(true)
-                        .setPositiveButton("Invite", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                invite();
-                                dialog.dismiss();
-                            }
-                        }).setNegativeButton("Share Invoice", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        printButton();
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
+            documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
+            Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
+            //EventBus.getDefault().postSticky(new EventClearBill());
+            finish();
+            startActivity(new Intent(PreviewActivity.this,MainActivity.class));
         }
+        else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("It seems customer is not on Bill Store")
+                    .setCancelable(true)
+                    .setPositiveButton("Invite", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            invite();
+                            dialog.dismiss();
+                        }
+                    }).setNegativeButton("Share Invoice", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    printButton();
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
 
 
     public void invite()
@@ -761,36 +764,44 @@ public class PreviewActivity extends AppCompatActivity {
         {
             progressDialog.show();
         }
-        for (int i = 0;i<itemList.size();i++)
+
+        if (receiverUID != null && !receiverUID.isEmpty())
         {
-            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
-            billItems.put(itemList.get(i).getItemName(),itemPojo);
-        }
+            for (int i = 0; i < itemList.size(); i++) {
+                ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
+                billItems.put(itemList.get(i).getItemName(), itemPojo);
+            }
 
-        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                collection("Contacts").document(receiverMobileNumber);
-        /*ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);*/
-        GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
+            receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
 
-        documentReference.set(receiverPojo);
-        InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
-                invoiceDate, dueDate, gstPojo,"","Shared","Sent",timestampString,billImages);
+            senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
+                    senderUID, newCustomerNumberInvoices + 1, invoiceDate);
 
-        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                    collection("Contacts").document(receiverMobileNumber);
+            ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+            GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
+
+            documentReference.set(contactPojo);
+            InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
+                    invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+
+            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
 
-        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
-        {
-            progressDialog.dismiss();
-        }
+            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed()) {
+                progressDialog.dismiss();
+            }
 
-        if (boolean_permission) {
-            bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
-            createPdf();
-        } else
-        {
-            fn_permission();
+            if (boolean_permission) {
+                bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+                createPdf();
+            } else {
+                fn_permission();
+            }
+
         }
     }
 
@@ -844,16 +855,16 @@ public class PreviewActivity extends AppCompatActivity {
         File file=new File(Environment.getExternalStorageDirectory()
                 + File.separator + "Invoice.pdf");
 
-        Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
+        /*Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
         Intent share = new Intent();
         share.setAction(Intent.ACTION_SEND);
         share.setType("application/pdf");
         share.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(share, "Please choose app"));
         EventBus.getDefault().postSticky(new EventClearBill());
-        finish();
+        finish();*/
 
-      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
             Uri uri = FileProvider.getUriForFile(PreviewActivity.this, getPackageName() + ".provider", file);
             intent = new Intent(Intent.ACTION_VIEW);
@@ -871,7 +882,7 @@ public class PreviewActivity extends AppCompatActivity {
             startActivity(intent);
             EventBus.getDefault().postSticky(new EventClearBill());
             finish();
-        }*/
+        }
     }
 
     public static Bitmap loadBitmapFromView(View v, int width, int height) {

@@ -30,7 +30,6 @@
     <string name="text_make_bill">ബിൽ ചെയ്യുക</string>
     <string name="text_profile">പ്രൊഫൈൽ</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">വീട്</string>
     <string name="title_dashboard">ഡാഷ്ബോർഡ്</string>
     <string name="title_notifications">അറിയിപ്പുകൾ</string>
@@ -173,7 +172,12 @@
     <string name="log_out">ലോഗ് ഔട്ട്</string>
     <string name="are_you_sure">നിങ്ങള്ക്ക് ഉറപ്പാണോ?</string>
     <string name="shop_company_mobile_number">ഷോപ്പ് / കമ്പനി മൊബൈൽ നമ്പർ</string>
-    <string name="invoices">Invoices</string>
+    <string name="invoices">ബിൽ</string>
+    <string name="invoice_details">Invoice Details</string>
+    <string name="item_details">ഇനം വിശദാംശങ്ങൾ</string>
+    <string name="billing_details">ബില്ലിംഗ് വിശദാംശങ്ങൾ</string>
+    <string name="total">ആകെ</string>
+    <string name="subtotal">സബ് മൊത്തം</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>
