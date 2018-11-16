@@ -162,17 +162,21 @@
     <string name="txt_delete">ഇല്ലാതാക്കുക</string>
     <string name="txt_app_settings">ക്രമീകരണങ്ങൾ</string>
     <string name="create_invoice">ബിൽ സൃഷ്ടിക്കുക</string>
-    <string name="contacts">Contacts</string>
-    <string name="add_contact">Add Contact</string>
-    <string name="search_contact">Search Contact</string>
-    <string name="due_date">Due Date</string>
-    <string name="txt_share_bill">Share Invoice</string>
-    <string name="please_add_contact">Please add a contact first</string>
-    <string name="no_invoice">No Invoice</string>
+    <string name="contacts">ബന്ധങ്ങൾ</string>
+    <string name="add_contact">കോൺടാക്റ്റ് ചേർക്കുക</string>
+    <string name="search_contact">കോൺടാക്റ്റ് തിരയുക</string>
+    <string name="due_date">അവസാന തീയതി</string>
+    <string name="txt_share_bill">ഇൻവോയ്സ് പങ്കിടുക</string>
+    <string name="please_add_contact">ആദ്യം ഒരു കോൺടാക്റ്റ് ചേർക്കുക</string>
+    <string name="no_invoice">ഇൻവോയ്സ് ഇല്ല</string>
+    <string name="notifications">അറിയിപ്പുകൾ</string>
+    <string name="log_out">ലോഗ് ഔട്ട്</string>
+    <string name="are_you_sure">നിങ്ങള്ക്ക് ഉറപ്പാണോ?</string>
+    <string name="shop_company_mobile_number">ഷോപ്പ് / കമ്പനി മൊബൈൽ നമ്പർ</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>
-        <item>How to add customers?</item>
+        <item>ഉപഭോക്താക്കളെ എങ്ങനെയാണ് ചേർക്കേണ്ടത്?</item>
         <item>എങ്ങനെ ഉൽപ്പന്നങ്ങൾ ചേർക്കാം?</item>
         <item>ഉൽപ്പന്നം എങ്ങനെ എഡിറ്റുചെയ്യാം / ഇല്ലാതാക്കാം?</item>
         <item>ഭാഷ എങ്ങിനെ മാറ്റാം?</item>
@@ -182,7 +186,7 @@
 
     <string-array name="answers">
         <item>കസ്റ്റമർ നാമം, കസ്റ്റമർ വിലാസം, കസ്റ്റമർ ജിഎസ്എസ് നമ്പർ തുടങ്ങിയവ ചേർത്താൽ കസ്റ്റമർ മെയിലിൻറെ ബിൽഡ് എടുത്ത് ഒരു ഉപഭോക്താവിനെ തിരഞ്ഞെടുത്ത് പുതിയ ഉപഭോക്താവിനെ ചേർക്കാൻ തിരഞ്ഞെടുക്കുക. ഇൻവോയിസ് ഇനങ്ങളിൽ ടാപ്പുചെയ്തുകൊണ്ട് ഇൻവോയ്സിൽ ചേർക്കാൻ ഇനങ്ങൾ തിരഞ്ഞെടുക്കുക, തുടർന്ന് ബിൽ പ്രിവ്യൂചെയ്യുക. ബിൽ പ്രിന്റ് ചെയ്താൽ മതി. ഹോം സ്ക്രീനിൽ ഉപഭോക്താവിന്റെ കീഴിൽ സൃഷ്ടിക്കപ്പെട്ട ആ ബില്ലും നിങ്ങൾക്ക് കാണാൻ കഴിയും.</item>
-        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
+        <item>ചുവടെയുള്ള മെനുവിൽ നിന്നും ക്രമീകരണങ്ങൾ തിരഞ്ഞെടുത്ത് കോൺടാക്റ്റുകൾ തിരഞ്ഞെടുക്കുക. ചുവടെ വലതുകോണിലെ പ്ലസ് ബട്ടൺ ടാപ്പുചെയ്ത് കോൺടാക്ട് നാമം, വിലാസം, മൊബൈൽ നമ്പർ എന്നിവയുമായി സമ്പർക്കം കൂട്ടിച്ചേർക്കുക.</item>
         <item>ചുവടെയുള്ള മെനുവിൽ നിന്നും ക്രമീകരണങ്ങൾ തിരഞ്ഞെടുത്ത് ഉൽപ്പന്നങ്ങൾ തിരഞ്ഞെടുക്കുക. ചുവടെ വലതുകോണിലെ പ്ലസ് ബട്ടൺ ടാപ്പുചെയ്ത് ഉൽപന്ന നാമം, യൂണിറ്റ് തുക, വിവരണം എന്നിവ ഉപയോഗിച്ച് ഉൽപ്പന്നം ചേർക്കുക.</item>
         <item>ചുവടെയുള്ള മെനുവിൽ നിന്നും ക്രമീകരണങ്ങൾ തിരഞ്ഞെടുത്ത് ഉൽപ്പന്നങ്ങൾ തിരഞ്ഞെടുക്കുക. ഉൽപ്പന്നത്തിൽ ടാപ്പുചെയ്ത് തുറക്കുന്ന മെനുവിൽ എഡിറ്റ് അല്ലെങ്കിൽ ഇല്ലാതാക്കുക തിരഞ്ഞെടുക്കുക.</item>
         <item>ചുവടെയുള്ള മെനുവിൽ നിന്നും ക്രമീകരണങ്ങൾ തിരഞ്ഞെടുത്ത് ഭാഷ മാറ്റുക തിരഞ്ഞെടുക്കുക. ഭാഷ തിരഞ്ഞെടുത്ത് ടാപ്പുചെയ്യുക</item>

@@ -168,6 +168,10 @@
     <string name="txt_share_bill">Share Invoice</string>
     <string name="please_add_contact">Please add a contact first</string>
     <string name="no_invoice">No Invoice</string>
+    <string name="notifications">Notifications</string>
+    <string name="log_out">Log out</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="shop_company_mobile_number">Shop/Company Mobile Number</string>
 
     <string-array name="questions">
         <item>How to generate invoice?</item>

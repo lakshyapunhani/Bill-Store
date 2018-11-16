@@ -159,8 +159,8 @@ public class SettingsFragment extends Fragment {
     private void showLogOutAlert()
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle("Log Out");
-        builder1.setMessage("Are you sure You want to Log out?");
+        builder1.setTitle(R.string.log_out);
+        builder1.setMessage(R.string.are_you_sure);
         builder1.setCancelable(true);
         builder1.setPositiveButton(getString(R.string.alert_btn_yes),
                 new DialogInterface.OnClickListener() {

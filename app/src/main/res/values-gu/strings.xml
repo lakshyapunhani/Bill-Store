@@ -158,17 +158,21 @@
     <string name="txt_delete">કાઢી નાંખો</string>
     <string name="txt_app_settings">સેટિંગ્સ</string>
     <string name="create_invoice">બિલ બનાવો</string>
-    <string name="contacts">Contacts</string>
-    <string name="add_contact">Add Contact</string>
-    <string name="search_contact">Search Contact</string>
-    <string name="due_date">Due Date</string>
-    <string name="txt_share_bill">Share Invoice</string>
-    <string name="please_add_contact">Please add a contact first</string>
-    <string name="no_invoice">No Invoice</string>
+    <string name="contacts">સંપર્કો</string>
+    <string name="add_contact">સંપર્ક ઉમેરો</string>
+    <string name="search_contact">સંપર્ક સંપર્ક કરો</string>
+    <string name="due_date">નિયત તારીખ</string>
+    <string name="txt_share_bill">શેર ભરતિયું</string>
+    <string name="please_add_contact">કૃપા કરીને પહેલા સંપર્ક ઉમેરો</string>
+    <string name="no_invoice">કોઈ ભરતિયું નહીં</string>
+    <string name="notifications">સૂચનાઓ</string>
+    <string name="log_out">લૉગ આઉટ</string>
+    <string name="are_you_sure">શું તમે ખાતરી કરો છો?</string>
+    <string name="shop_company_mobile_number">દુકાન / કંપની મોબાઇલ નંબર</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>
-        <item>How to add customers?</item>
+        <item>ગ્રાહકોને કેવી રીતે ઉમેરવું?</item>
         <item>ઉત્પાદનો કેવી રીતે ઉમેરવું?</item>
         <item>કેવી રીતે સંપાદિત / કાઢી નાખો ઉત્પાદન?</item>
         <item>ભાષા કેવી રીતે બદલવી?</item>
@@ -178,7 +182,7 @@
 
     <string-array name="answers">
         <item>ગ્રાહકના નામ, ગ્રાહક સરનામું અને ગ્રાહક નંબર જીસ્ટ જો કોઈ હોય તો ગ્રાહકને ઉમેરાતા નહી તો નીચે મેનુમાંથી બિલ બનાવવાનું પસંદ કરો અથવા ગ્રાહકને પસંદ કરો અથવા નવો ગ્રાહક ઉમેરો. ઇનવોઇસ વસ્તુઓ પર ટેપ કરીને ભરતિયું ઉમેરવા માટે વસ્તુઓ પસંદ કરો અને તે પછી બિલનું પૂર્વાવલોકન કરો ફક્ત બિલ છાપો. તમે હોમ સ્ક્રીન પરના ગ્રાહકો હેઠળ જનરેટ કરવામાં આવેલું બિલ જોઈ શકો છો.</item>
-        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
+        <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને સંપર્કો પસંદ કરો. નીચે જમણે ખૂણે પ્લસ બટનને ટેપ કરો અને સંપર્ક નામ, સરનામું અને મોબાઇલ નંબર સાથે સંપર્ક ઉમેરો.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. તળિયે જમણા ખૂણામાં વત્તા બટન ટેપ કરો અને ઉત્પાદન નામ, એકમ રકમ અને વર્ણન સાથે ઉત્પાદન ઉમેરો.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. પ્રોડક્ટ પર ટેપ કરો અને મેનૂમાં સંપાદન અથવા કાઢી નાંખો પસંદ કરીને ખુલેલા.</item>
         <item>નીચે મેનુ માંથી સેટિંગ્સ પસંદ કરો અને ભાષા બદલો પસંદ કરો. ભાષા પસંદ કરો અને ટેપ કરો</item>

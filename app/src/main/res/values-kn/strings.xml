@@ -158,17 +158,21 @@
     <string name="txt_delete">ಅಳಿಸಿ</string>
     <string name="txt_app_settings">ಸೆಟ್ಟಿಂಗ್ಗಳು</string>
     <string name="create_invoice">ಬಿಲ್ ರಚಿಸಿ</string>
-    <string name="contacts">Contacts</string>
-    <string name="add_contact">Add Contact</string>
-    <string name="search_contact">Search Contact</string>
-    <string name="due_date">Due Date</string>
-    <string name="txt_share_bill">Share Invoice</string>
-    <string name="please_add_contact">Please add a contact first</string>
-    <string name="no_invoice">No Invoice</string>
+    <string name="contacts">ಸಂಪರ್ಕಗಳು</string>
+    <string name="add_contact">ಸಂಪರ್ಕ ಸೇರಿಸಿ</string>
+    <string name="search_contact">ಸಂಪರ್ಕವನ್ನು ಹುಡುಕಿ</string>
+    <string name="due_date">ಕಾರಣ ದಿನಾಂಕ</string>
+    <string name="txt_share_bill">ಸರಕುಪಟ್ಟಿ ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="please_add_contact">ದಯವಿಟ್ಟು ಮೊದಲು ಸಂಪರ್ಕವನ್ನು ಸೇರಿಸಿ</string>
+    <string name="no_invoice">ಸರಕುಪಟ್ಟಿ ಇಲ್ಲ</string>
+    <string name="notifications">ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="log_out">ಲಾಗ್ ಔಟ್</string>
+    <string name="are_you_sure">ನೀವು ಖಚಿತವಾಗಿರುವಿರಾ?</string>
+    <string name="shop_company_mobile_number">ಮಳಿಗೆ / ಕಂಪನಿ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
 
     <string-array name="questions">
         <item>ಸರಕುಪಟ್ಟಿ ಉತ್ಪಾದಿಸುವುದು ಹೇಗೆ?</item>
-        <item>How to add customers?</item>
+        <item>ಗ್ರಾಹಕರನ್ನು ಹೇಗೆ ಸೇರಿಸುವುದು?</item>
         <item>ಉತ್ಪನ್ನಗಳನ್ನು ಹೇಗೆ ಸೇರಿಸುವುದು?</item>
         <item>ಉತ್ಪನ್ನವನ್ನು ಸಂಪಾದಿಸಲು / ಅಳಿಸಲು ಹೇಗೆ?</item>
         <item>ಭಾಷೆ ಬದಲಾಯಿಸುವುದು ಹೇಗೆ?</item>
@@ -178,7 +182,7 @@
 
     <string-array name="answers">
         <item>ಗ್ರಾಹಕರ ಹೆಸರು, ಗ್ರಾಹಕರ ವಿಳಾಸ ಮತ್ತು ಗ್ರಾಹಕರ ಜಿಎಸ್ಟಿ ಸಂಖ್ಯೆಯನ್ನು ಯಾವುದಾದರೂ ಸೇರಿಸುವ ಮೂಲಕ ಯಾವುದೇ ಗ್ರಾಹಕರು ಇನ್ನೂ ಸೇರಿಸದಿದ್ದರೆ ಕೆಳಗೆ ಮೆನುವಿನಿಂದ ತಯಾರಿಸಲು ಬಿಲ್ ಅನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಗ್ರಾಹಕರನ್ನು ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸ ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ. ಇನ್ವಾಯ್ಸ್ ಮಾಡಲಾದ ಐಟಂಗಳ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ನಂತರ ಬಿಲ್ ಅನ್ನು ಪೂರ್ವವೀಕ್ಷಿಸಿ ಇನ್ವಾಯ್ಸ್ನಲ್ಲಿ ಸೇರಿಸಲು ಐಟಂಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ. ಬಿಲ್ ಅನ್ನು ಮುದ್ರಿಸು. ಹೋಮ್ ಪರದೆಯ ಮೇಲೆ ಗ್ರಾಹಕರು ರಚಿಸಿದ ಬಿಲ್ ಅನ್ನು ಸಹ ನೀವು ನೋಡಬಹುದು.</item>
-        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
+        <item>ಕೆಳಗಿನ ಮೆನುವಿನಿಂದ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಸಂಪರ್ಕಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಕೆಳಗಿನ ಬಲ ಮೂಲೆಯಲ್ಲಿರುವ ಪ್ಲಸ್ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಸಂಪರ್ಕ ಹೆಸರು, ವಿಳಾಸ ಮತ್ತು ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯೊಂದಿಗೆ ಸಂಪರ್ಕವನ್ನು ಸೇರಿಸಿ</item>
         <item>ಕೆಳಗಿನ ಮೆನುವಿನಿಂದ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಉತ್ಪನ್ನಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಕೆಳಗಿನ ಬಲ ಮೂಲೆಯಲ್ಲಿರುವ ಪ್ಲಸ್ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಉತ್ಪನ್ನದ ಹೆಸರು, ಘಟಕ ಪ್ರಮಾಣ ಮತ್ತು ವಿವರಣೆಗಳೊಂದಿಗೆ ಉತ್ಪನ್ನವನ್ನು ಸೇರಿಸಿ.</item>
         <item>ಕೆಳಗಿನ ಮೆನುವಿನಿಂದ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಉತ್ಪನ್ನಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಉತ್ಪನ್ನವನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಮೆನು ತೆರೆಯಲು ಸಂಪಾದಿಸಿ ಅಥವಾ ಅಳಿಸಿ ಅನ್ನು ಆಯ್ಕೆಮಾಡಿ.</item>
         <item>ಕೆಳಗಿನ ಮೆನುವಿನಿಂದ ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಭಾಷೆಯನ್ನು ಬದಲಾಯಿಸಿ ಆಯ್ಕೆಮಾಡಿ. ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ಟ್ಯಾಪ್ ಮಾಡಿ</item>
