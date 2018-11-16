@@ -25,7 +25,6 @@ import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -34,8 +33,6 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.EventBus.EventClearBill;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
-import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
-import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
@@ -150,11 +147,19 @@ public class PreviewActivity extends AppCompatActivity {
     FloatingActionsMenu createInvoiceFAB;
 
     private ArrayList<ItemPojo> itemList;
-    private String customerName = "";
-    private String customerAddress = "";
-    private String customerGstNumber = "",newCustomerMobileNumber = "",newCustomerUID = "";
+    private String receiverName = "";
+    private String receiverAddress = "";
+    private String receiverGstNumber = "";
+    private String receiverMobileNumber = "";
+    private String receiverUID = "";
     int newCustomerNumberInvoices;
     private String invoiceDate = "",dueDate = "";
+
+    private String senderName = "";
+    private String senderAddress = "";
+    private String senderGstNumber = "";
+    private String senderMobileNumber = "";
+    private String senderUID = "";
 
     HashMap<String,ItemPojo> billItems;
 
@@ -178,6 +183,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     int extraTaxLayout = 2;
 
+    String billType = "";
+
     boolean printClicked = false;
     boolean showSave = true;
     ProgressDialog progressDialog;
@@ -187,6 +194,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     private FloatingActionButton sendInvoice;
     private FloatingActionButton printInvoice;
+
+    ContactPojo receiverPojo;
+    ContactPojo senderPojo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,7 +233,7 @@ public class PreviewActivity extends AppCompatActivity {
         setFloatingActionMenu();
 
         getIntentItems();
-        getShopDetails();
+        //getShopDetails();
         initTable();
         setViews();
     }
@@ -266,58 +276,123 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void getShopDetails()
     {
-        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
-        profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot)
+
+        if (billType.matches("Recieved"))
+        {
+            if (receiverName == null || receiverName.isEmpty())
             {
-                if (!documentSnapshot.exists())
+                txt_shopName.setText("Contact shop name");
+            }
+            else
+            {
+                txt_shopName.setText(receiverName);
+            }
+
+            if (receiverAddress == null || receiverAddress.isEmpty())
+            {
+                txt_shopAddress.setText("Contact shop address");
+            }
+            else
+            {
+                txt_shopAddress.setText(receiverAddress);
+            }
+
+
+            if (receiverGstNumber == null || receiverGstNumber.isEmpty())
+            {
+                txt_gstNumber.setText("GSTIN: " + "NA");
+            }
+            else
+            {
+                txt_gstNumber.setText("GSTIN: " + receiverGstNumber);
+            }
+
+
+        }
+        else
+        {
+            DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+            profileReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
                 {
+                    if (!documentSnapshot.exists())
+                    {
+                        Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (documentSnapshot.contains("shop_name") && !documentSnapshot.get("shop_name").toString().isEmpty())
+                    {
+                        txt_shopName.setText(documentSnapshot.get("shop_name").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "Your shop name", Toast.LENGTH_SHORT).show();
+                    }
+                    if (documentSnapshot.contains("shop_address") && !documentSnapshot.get("shop_address").toString().isEmpty())
+                    {
+                        txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "Your shop address", Toast.LENGTH_SHORT).show();
+                    }
+                    if (documentSnapshot.contains("shop_gst") && !documentSnapshot.get("shop_gst").toString().isEmpty())
+                    {
+                        txt_gstNumber.setText("GSTIN: " + documentSnapshot.get("shop_gst").toString());
+                    }
+                    else
+                    {
+                        Toast.makeText(PreviewActivity.this, "NA", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                     Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-                if (documentSnapshot.contains("shop_name"))
-                {
-                    txt_shopName.setText(documentSnapshot.get("shop_name").toString());
-                }
-                if (documentSnapshot.contains("shop_address"))
-                {
-                    txt_shopAddress.setText(documentSnapshot.get("shop_address").toString());
-                }
-                if (documentSnapshot.contains("shop_gst"))
-                {
-                    txt_gstNumber.setText(documentSnapshot.get("shop_gst").toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PreviewActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        }
+
+
     }
+
 
     private void getIntentItems()
     {
         if (getIntent() != null)
         {
+            itemList.clear();
             itemList = getIntent().getParcelableArrayListExtra("ItemList");
-            customerName = getIntent().getStringExtra("Customer Name");
-            customerAddress = getIntent().getStringExtra("Customer Address");
-            customerGstNumber = getIntent().getStringExtra("Customer GST Number");
-            newCustomerUID = getIntent().getStringExtra("Customer UID");
-            newCustomerMobileNumber= getIntent().getStringExtra("Customer Mobile Number");
+
+            receiverName = getIntent().getStringExtra("receiverName");
+            receiverAddress = getIntent().getStringExtra("receiverAddress");
+            receiverGstNumber = getIntent().getStringExtra("receiverGSTNumber");
+            receiverUID = getIntent().getStringExtra("receiverUID");
+            receiverMobileNumber = getIntent().getStringExtra("receiverMobileNumber");
+
             newCustomerNumberInvoices = getIntent().getIntExtra("Customer Number Invoices", 0);
+
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             dueDate = getIntent().getStringExtra("Due Date");
+
             showSave = getIntent().getBooleanExtra("showSave",false);
+
             utgst = getIntent().getDoubleExtra("utgst",0);
             sgst = getIntent().getDoubleExtra("sgst",0);
             igst = getIntent().getDoubleExtra("igst",0);
             shipping_charges = getIntent().getDoubleExtra("shipping charge",0);
             discount = getIntent().getDoubleExtra("discount",0);
+
             subTotal = getIntent().getDoubleExtra("subTotal",0);
             invoiceNumber = getIntent().getStringExtra("invoiceNumber");
+            billType = getIntent().getStringExtra("billType");
+
+            senderName = getIntent().getStringExtra("senderName");
+            senderAddress = getIntent().getStringExtra("senderAddress");
+            senderGstNumber = getIntent().getStringExtra("senderGSTNumber");
+            senderMobileNumber= getIntent().getStringExtra("senderMobileNumber");
+            senderUID  = getIntent().getStringExtra("senderUID");
         }
     }
 
@@ -325,9 +400,17 @@ public class PreviewActivity extends AppCompatActivity {
     {
         String amount = String.valueOf(totalAmount);
         invoice_subTotal.setText(getResources().getString(R.string.rupee_sign) + String.valueOf(subTotal));
-        txt_custName.setText(customerName);
-        txt_custAddress.setText(customerAddress);
-        txt_custGstNumber.setText(customerGstNumber);
+        txt_custName.setText(receiverName);
+        txt_custAddress.setText(receiverAddress);
+        if (receiverGstNumber != null && !receiverGstNumber.isEmpty())
+        {
+            txt_custGstNumber.setText(receiverGstNumber);
+        }
+        else
+        {
+            txt_custGstNumber.setText("NA");
+        }
+
         txt_invoiceDate.setText(invoiceDate);
         txt_dueDate.setText(dueDate);
         invoice_total.setText(getResources().getString(R.string.rupee_sign) + amount);
@@ -443,6 +526,34 @@ public class PreviewActivity extends AppCompatActivity {
             line_extra.setVisibility(View.GONE);
         }
 
+        if (senderName == null || senderName.isEmpty())
+        {
+            txt_shopName.setText("Contact shop name");
+        }
+        else
+        {
+            txt_shopName.setText(senderName);
+        }
+
+        if (senderAddress == null || senderAddress.isEmpty())
+        {
+            txt_shopAddress.setText("Contact shop address");
+        }
+        else
+        {
+            txt_shopAddress.setText(senderAddress);
+        }
+
+
+        if (senderGstNumber == null || senderGstNumber.isEmpty())
+        {
+            txt_gstNumber.setText("GSTIN: " + "NA");
+        }
+        else
+        {
+            txt_gstNumber.setText("GSTIN: " + senderGstNumber);
+        }
+
         if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed())
         {
             progressDialog.dismiss();
@@ -471,6 +582,7 @@ public class PreviewActivity extends AppCompatActivity {
             totalAmount.setText(getResources().getString(R.string.rupee_sign) + itemPojo.getTotalAmount());
 
             tableLayoutItems.addView(row);
+
         }
     }
 
@@ -487,9 +599,9 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                collection("Contacts").document(newCustomerMobileNumber);
-        ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
-                newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
+                collection("Contacts").document(receiverMobileNumber);
+        ContactPojo contactPojo = new ContactPojo(receiverName,receiverAddress,receiverGstNumber,
+                receiverMobileNumber,receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
         GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
         documentReference.set(contactPojo);
@@ -525,7 +637,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void sendInvoiceToSelectedUser()
     {
-            if (newCustomerUID != null && !newCustomerUID.isEmpty())
+            if (receiverUID != null && !receiverUID.isEmpty())
             {
                 //////////////////////////// Bill added to own DB
                 for (int i = 0;i<itemList.size();i++)
@@ -535,13 +647,18 @@ public class PreviewActivity extends AppCompatActivity {
                 }
 
                 final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                        collection("Contacts").document(newCustomerMobileNumber);
-                ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
-                        newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
+                        collection("Contacts").document(receiverMobileNumber);
+                receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                        receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
+
+
+                senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
+                        senderUID,newCustomerNumberInvoices + 1,invoiceDate);
+
                 GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
-                documentReference.set(contactPojo);
-                InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+                documentReference.set(receiverPojo);
+                InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
                         invoiceDate, dueDate, gstPojo,"","Due","Sent",timestampString,billImages);
 
                 documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
@@ -561,7 +678,7 @@ public class PreviewActivity extends AppCompatActivity {
                 }
 
                 HashMap<String,Object> hashMap = new HashMap<>();
-                hashMap.put("deviceId",newCustomerUID);
+                hashMap.put("deviceId", receiverUID);
                 HashMap<String,Object> objectHashMap = new HashMap<>();
 
 
@@ -582,22 +699,25 @@ public class PreviewActivity extends AppCompatActivity {
 
                 //////////////////////////////////Bill added to customer DB
 
-                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(newCustomerUID).
+                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
                         collection("Contacts").document(firebaseUser.getPhoneNumber());
-                final ContactPojo contactPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
+                /*final ContactPojo receiverPojoAnotherUser = new ContactPojo(sessionManager.getShop_name(),
                         sessionManager.getShop_address(), sessionManager.getShop_gst(),
-                        firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);
+                        firebaseUser.getPhoneNumber(), firebaseUser.getUid(), newCustomerNumberInvoices + 1, invoiceDate);*/
 
-                documentReferenceAnotherUser.set(contactPojoAnotherUser);
+                documentReferenceAnotherUser.set(senderPojo);
+
+                //ContactPojo senderPojoAnotherUser = new ContactPojo()
 
                 GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
-                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(contactPojo, invoiceNumber, subTotal, billItems,
+                InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
                         invoiceDate, dueDate, gstPojoAnotherUser, "", "due", "Recieved", timestampString, billImages);
 
                 documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
                 Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().postSticky(new EventClearBill());
+                //EventBus.getDefault().postSticky(new EventClearBill());
                 finish();
+                startActivity(new Intent(PreviewActivity.this,MainActivity.class));
             }
             else
             {
@@ -648,13 +768,13 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                collection("Contacts").document(newCustomerMobileNumber);
-        ContactPojo contactPojo = new ContactPojo(customerName,customerAddress,customerGstNumber,
-                newCustomerMobileNumber,newCustomerUID,newCustomerNumberInvoices + 1,invoiceDate);
+                collection("Contacts").document(receiverMobileNumber);
+        /*ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);*/
         GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
-        documentReference.set(contactPojo);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,invoiceNumber,subTotal,billItems,
+        documentReference.set(receiverPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
                 invoiceDate, dueDate, gstPojo,"","Shared","Sent",timestampString,billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);

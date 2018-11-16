@@ -168,9 +168,12 @@
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
     <string name="txt_share_bill">Share Invoice</string>
+    <string name="please_add_contact">Please add a contact first</string>
+    <string name="no_invoice">No Invoice</string>
 
     <string-array name="questions">
         <item>ਇਨਵੌਇਸ ਕਿਵੇਂ ਤਿਆਰ ਕਰੀਏ?</item>
+        <item>How to add customers?</item>
         <item>ਉਤਪਾਦਾਂ ਨੂੰ ਕਿਵੇਂ ਜੋੜਿਆ ਜਾਏ?</item>
         <item>ਉਤਪਾਦ ਕਿਵੇਂ ਸੰਪਾਦਿਤ / ਮਿਟਾ ਸਕਦਾ ਹੈ?</item>
         <item>ਭਾਸ਼ਾ ਨੂੰ ਕਿਵੇਂ ਬਦਲਣਾ ਹੈ?</item>
@@ -180,6 +183,7 @@
 
     <string-array name="answers">
         <item>ਗਾਹਕਾਂ ਦੇ ਨਾਂ, ਗਾਹਕ ਦਾ ਪਤਾ ਅਤੇ ਗ੍ਰਾਹਕ ਨੰਬਰ, ਜੇ ਕੋਈ ਹੈ ਤਾਂ ਜੋੜ ਕੇ ਕੋਈ ਵੀ ਗਾਹਕ ਜੋੜਿਆ ਨਾ ਹੋਵੇ ਤਾਂ ਤਲ ਮੇਨੂ ਤੋਂ ਬਿਲ ਬਣਾਓ ਅਤੇ ਗਾਹਕ ਦੀ ਚੋਣ ਕਰੋ ਜਾਂ ਨਵਾਂ ਗਾਹਕ ਜੋੜੋ. ਇਨਵੌਇਸ ਕੀਤੀਆਂ ਆਈਟਮਾਂ ਤੇ ਟੈਪ ਕਰਕੇ ਇਨਵੌਇਸ ਵਿੱਚ ਜੋੜਨ ਲਈ ਆਈਟਮਾਂ ਚੁਣੋ ਅਤੇ ਫਿਰ ਬਿਲ ਦਾ ਪੂਰਵਦਰਸ਼ਨ ਕਰੋ. ਬਸ ਬਿਲ ਨੂੰ ਪ੍ਰਿੰਟ ਕਰੋ ਤੁਸੀਂ ਇਹ ਵੀ ਦੇਖ ਸਕਦੇ ਹੋ ਕਿ ਹੋਮ ਸਕ੍ਰੀਨ ਤੇ ਗ੍ਰਾਹਕਾਂ ਦੇ ਅਧੀਨ ਤਿਆਰ ਕੀਤਾ ਗਿਆ ਬਿਲ.</item>
+        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
         <item>ਤਲ ਮੇਨੂ ਤੋਂ ਸੈਟਿੰਗਜ਼ ਚੁਣੋ ਅਤੇ ਉਤਪਾਦਾਂ ਦੀ ਚੋਣ ਕਰੋ. ਹੇਠਾਂ ਸੱਜੇ ਕੋਨੇ ਵਿੱਚ ਪਲੱਸ ਬਟਨ ਟੈਪ ਕਰੋ ਅਤੇ ਉਤਪਾਦ ਦਾ ਨਾਮ, ਯੂਨਿਟ ਦੀ ਰਕਮ ਅਤੇ ਵੇਰਵੇ ਦੇ ਨਾਲ ਉਤਪਾਦ ਜੋੜੋ.</item>
         <item>ਤਲ ਮੇਨੂ ਤੋਂ ਸੈਟਿੰਗਜ਼ ਚੁਣੋ ਅਤੇ ਉਤਪਾਦਾਂ ਦੀ ਚੋਣ ਕਰੋ. ਉਤਪਾਦ ਤੇ ਟੈਪ ਕਰੋ ਅਤੇ ਮੀਨੂ ਵਿੱਚ ਸੰਪਾਦਨ ਜਾਂ ਮਿਟਾਓ ਨੂੰ ਚੁਣੋ, ਖੋਲ੍ਹਿਆ.</item>
         <item>ਹੇਠਾਂ ਮੀਨੂ ਵਿੱਚੋਂ ਸੈਟਿੰਗ ਚੁਣੋ ਅਤੇ ਭਾਸ਼ਾ ਬਦਲੋ ਚੁਣੋ. ਭਾਸ਼ਾ ਚੁਣੋ ਅਤੇ ਪੂਰੀ ਹੋਈ ਟੈਪ ਕਰੋ</item>

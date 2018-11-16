@@ -36,6 +36,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Activity.MainActivity;
 import com.fabuleux.wuntu.billstore.Adapters.AddDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
@@ -513,6 +514,17 @@ public class AddBillFragment extends Fragment {
         timestamp = System.currentTimeMillis();
         timestampString = String.valueOf(timestamp);
 
+        if (customersList.size() == 0)
+        {
+            if (progressDialog.isShowing() && AddBillFragment.this.isVisible())
+            {
+                progressDialog.dismiss();
+            }
+            Toast.makeText(context, R.string.please_add_contact, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         newVendorName = customerNameList.get(spinnerValue);
         newVendorAddress = customersList.get(spinnerValue).getContactAddress();
         newVendorGst = customersList.get(spinnerValue).getContactGstNumber();
@@ -653,7 +665,8 @@ public class AddBillFragment extends Fragment {
                 newVendorPhoneNumber,newVendorUID,vendorNumberInvoices + 1,billDate);
         documentReference.set(contactPojo);
         GstPojo gstPojo = new GstPojo(0,0,0,0,0);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,billNumber,totalAmount,billItems,
+        ContactPojo senderPojo = new ContactPojo();
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo,senderPojo,billNumber,totalAmount,billItems,
                 billDate, "", gstPojo,"","Due","Added",timestampString,billImages);
 
         documentReference.collection("Invoices").document(billDate + " && " + timestampString)
@@ -665,9 +678,10 @@ public class AddBillFragment extends Fragment {
                 {
                     progressDialog.dismiss();
                 }
-                clearData();
+                //clearData();
                 Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
+                startActivity(new Intent(context,MainActivity.class));
+                //EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -693,10 +707,14 @@ public class AddBillFragment extends Fragment {
     private String autoGenerateInvoiceNumber()
     {
         double doublea = (Math.random() * 46656);
+        double doubleb = (Math.random() * 46656);
         String a = String.valueOf(doublea);
+        String b = String.valueOf(doubleb);
         String firstPart = "000" + a;
-        firstPart = firstPart.substring(a.length() - 4,a.length());
-        return firstPart;
+        String secondPart = "000" + b;
+        String result;
+        result = firstPart.substring(a.length() - 4,a.length()) + secondPart.substring(b.length() - 4,b.length());
+        return result;
     }
 
     private void showNoInternetDialog()

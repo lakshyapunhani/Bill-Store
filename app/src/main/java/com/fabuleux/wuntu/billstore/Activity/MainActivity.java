@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
+        RealmManager.deleteAllRealm();
+
         customerFragment = new CustomersFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
@@ -170,53 +172,57 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (documentSnapshot.exists())
                 {
-                    if (documentSnapshot.contains("shop_name"))
+                    if(!documentSnapshot.contains("mobileNumber"))
                     {
-                        shopName = documentSnapshot.get("shop_name").toString();
-                    }
-                    if (documentSnapshot.contains("shop_address"))
-                    {
-                        shopAddress = documentSnapshot.get("shop_address").toString();
-                    }
-                    if (documentSnapshot.contains("shop_gst"))
-                    {
-                        shopGstNumber = documentSnapshot.get("shop_gst").toString();
+                        if (documentSnapshot.contains("shop_name"))
+                        {
+                            shopName = documentSnapshot.get("shop_name").toString();
+                        }
+                        if (documentSnapshot.contains("shop_address"))
+                        {
+                            shopAddress = documentSnapshot.get("shop_address").toString();
+                        }
+                        if (documentSnapshot.contains("shop_gst"))
+                        {
+                            shopGstNumber = documentSnapshot.get("shop_gst").toString();
+                        }
+
+                        if (documentSnapshot.contains("name"))
+                        {
+                            name = documentSnapshot.get("name").toString();
+                        }
+                        if (documentSnapshot.contains("shop_pan"))
+                        {
+                            shopPanNumber = documentSnapshot.get("shop_pan").toString();
+                        }
+
+                        User user = new User(name, shopName,shopAddress,shopGstNumber,shopPanNumber,
+                                firebaseUser.getUid(),firebaseUser.getPhoneNumber());
+
+                        if (firebaseUser != null )
+                        {
+                            db.collection("Users")
+                                    .document(firebaseUser.getUid())
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        }
                     }
 
-                    if (documentSnapshot.contains("name"))
-                    {
-                        name = documentSnapshot.get("name").toString();
-                    }
-                    if (documentSnapshot.contains("shop_pan"))
-                    {
-                        shopPanNumber = documentSnapshot.get("shop_pan").toString();
-                    }
                 }
 
             }
         });
 
-        User user = new User(name, shopName,shopAddress,shopGstNumber,shopPanNumber,
-                firebaseUser.getUid(),firebaseUser.getPhoneNumber());
 
-        if (firebaseUser != null )
-        {
-            db.collection("Users")
-                    .document(firebaseUser.getUid())
-                    .set(user)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
-
-            finish();
-        }
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -256,8 +262,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add( R.id.layout_mainFrame,customerFragment,"home");
-        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,makeBillFragment,"make_bill");
+        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,profileFragment,"profile");
 
         switch (selectedFragmentTag) {
@@ -504,6 +510,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

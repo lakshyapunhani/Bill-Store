@@ -2,27 +2,21 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.CustomerBillListAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
-import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
-import com.fabuleux.wuntu.billstore.Pojos.MakeBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -64,11 +58,14 @@ public class InvoiceListActivity extends AppCompatActivity {
     private ArrayList<ItemPojo> itemList;
 
     String billTime ="";
-    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="",
-            newCustomerMobileNumber = "",newCustomerUID = "";
+    String receiverName ="", receiverAddress = "", receiverGSTNumber ="",
+            receiverMobileNumber = "", receiverUID = "";
     int customerNumberInvoices;
 
+    String senderName = "",senderAddress = "",senderGSTNumber = "",senderMobileNumber = "",senderUID = "";
+
     String invoiceNumber = "";
+    String billType = "";
 
     String invoiceDate = "",dueDate = "";
     Map<String,ItemPojo> billItems;
@@ -97,7 +94,15 @@ public class InvoiceListActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("contactNumber") != null)
         {
             contactNumber = getIntent().getStringExtra("contactNumber");
-            txt_vendorName.setText(contactNumber);
+            String contactName = getIntent().getStringExtra("contactName");
+            if (contactName != null && !contactName.isEmpty())
+            {
+                txt_vendorName.setText(contactName);
+            }
+            else
+            {
+                txt_vendorName.setText(contactNumber);
+            }
         }
 
         billImages = new HashMap<>();
@@ -130,14 +135,27 @@ public class InvoiceListActivity extends AppCompatActivity {
                             utgst = makeBillDetails.getGstPojo().getUtgst();
                             shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
                             discount = makeBillDetails.getGstPojo().getDiscount();
-                            ContactPojo contactPojo = new ContactPojo();
-                            contactPojo = makeBillDetails.getContactPojo();
-                            newCustomerName = contactPojo.getContactName();
-                            newCustomerAddress = contactPojo.getContactAddress();
-                            newCustomerGstNumber = contactPojo.getContactGstNumber();
-                            newCustomerMobileNumber = contactPojo.getContactPhoneNumber();
-                            newCustomerUID = contactPojo.getContactUID();
-                            customerNumberInvoices = contactPojo.getNumberInvoices();
+
+                            ContactPojo receiverPojo = new ContactPojo();
+                            receiverPojo = makeBillDetails.getReceiverPojo();
+                            receiverName = receiverPojo.getContactName();
+                            receiverAddress = receiverPojo.getContactAddress();
+                            receiverGSTNumber = receiverPojo.getContactGstNumber();
+                            receiverMobileNumber = receiverPojo.getContactPhoneNumber();
+                            receiverUID = receiverPojo.getContactUID();
+                            customerNumberInvoices = receiverPojo.getNumberInvoices();
+
+                            ContactPojo senderPojo = new ContactPojo();
+                            senderPojo = makeBillDetails.getSenderPojo();
+                            senderName = senderPojo.getContactName();
+                            senderAddress = senderPojo.getContactAddress();
+                            senderGSTNumber = senderPojo.getContactGstNumber();
+                            senderMobileNumber = senderPojo.getContactPhoneNumber();
+                            senderUID = senderPojo.getContactUID();
+
+                            itemList.clear();
+
+                            billItems = new HashMap<>();
                             billItems = makeBillDetails.getBillItems();
                             itemList.addAll(billItems.values());
                             invoiceDate = makeBillDetails.getInvoiceDate();
@@ -145,6 +163,7 @@ public class InvoiceListActivity extends AppCompatActivity {
                             subTotal = makeBillDetails.getBillAmount();
                             billStatus = makeBillDetails.getBillStatus();
                             invoiceNumber = makeBillDetails.getInvoiceNumber();
+                            billType = makeBillDetails.getBillType();
                             sendDatatoPreview();
                         }
                         else
@@ -156,14 +175,19 @@ public class InvoiceListActivity extends AppCompatActivity {
                             shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
                             discount = makeBillDetails.getGstPojo().getDiscount();
                             ContactPojo contactPojo = new ContactPojo();
-                            contactPojo = makeBillDetails.getContactPojo();
-                            newCustomerName = contactPojo.getContactName();
-                            newCustomerAddress = contactPojo.getContactAddress();
-                            newCustomerGstNumber = contactPojo.getContactGstNumber();
-                            newCustomerMobileNumber = contactPojo.getContactPhoneNumber();
-                            newCustomerUID = contactPojo.getContactUID();
+                            contactPojo = makeBillDetails.getReceiverPojo();
+                            receiverName = contactPojo.getContactName();
+                            receiverAddress = contactPojo.getContactAddress();
+                            receiverGSTNumber = contactPojo.getContactGstNumber();
+                            receiverMobileNumber = contactPojo.getContactPhoneNumber();
+                            receiverUID = contactPojo.getContactUID();
                             customerNumberInvoices = contactPojo.getNumberInvoices();
+
+                            billItems = new HashMap<>();
+
                             billItems = makeBillDetails.getBillItems();
+
+                            itemList.clear();
                             itemList.addAll(billItems.values());
                             invoiceDate = makeBillDetails.getInvoiceDate();
                             dueDate = makeBillDetails.getDueDate();
@@ -172,8 +196,6 @@ public class InvoiceListActivity extends AppCompatActivity {
                             billStatus = makeBillDetails.getBillStatus();
                             sendDatatoBillView();
                         }
-
-
                     }
 
                     @Override
@@ -183,7 +205,6 @@ public class InvoiceListActivity extends AppCompatActivity {
                     }
                 })
         );
-
 
         CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts")
                 .document(contactNumber).collection("Invoices");
@@ -213,10 +234,11 @@ public class InvoiceListActivity extends AppCompatActivity {
     private void sendDatatoPreview() {
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
-        intent.putExtra("Customer Name", newCustomerName);
-        intent.putExtra("Customer Address", newCustomerAddress);
-        intent.putExtra("Customer Mobile Number", newCustomerMobileNumber);
-        intent.putExtra("Customer UID", newCustomerUID);
+        intent.putExtra("receiverName", receiverName);
+        intent.putExtra("receiverAddress", receiverAddress);
+        intent.putExtra("receiverGSTNumber", receiverGSTNumber);
+        intent.putExtra("receiverMobileNumber", receiverMobileNumber);
+        intent.putExtra("receiverUID", receiverUID);
         intent.putExtra("Customer Number Invoices", customerNumberInvoices);
         intent.putExtra("Invoice Date", invoiceDate);
         intent.putExtra("Due Date", dueDate);
@@ -228,16 +250,22 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("discount", discount);
         intent.putExtra("subTotal", subTotal);
         intent.putExtra("invoiceNumber",invoiceNumber);
+        intent.putExtra("billType",billType);
+        intent.putExtra("senderName",senderName);
+        intent.putExtra("senderAddress",senderAddress);
+        intent.putExtra("senderGSTNumber",senderGSTNumber);
+        intent.putExtra("senderMobileNumber",senderMobileNumber);
+        intent.putExtra("senderUID",senderUID);
         startActivity(intent);
     }
 
     private void sendDatatoBillView() {
         Intent intent = new Intent(this, BillViewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
-        intent.putExtra("Customer Name", newCustomerName);
-        intent.putExtra("Customer Address", newCustomerAddress);
-        intent.putExtra("Customer Mobile Number", newCustomerMobileNumber);
-        intent.putExtra("Customer UID", newCustomerUID);
+        intent.putExtra("Customer Name", receiverName);
+        intent.putExtra("Customer Address", receiverAddress);
+        intent.putExtra("Customer Mobile Number", receiverMobileNumber);
+        intent.putExtra("Customer UID", receiverUID);
         intent.putExtra("Customer Number Invoices", customerNumberInvoices);
         intent.putExtra("Invoice Date", invoiceDate);
         intent.putExtra("Due Date", dueDate);

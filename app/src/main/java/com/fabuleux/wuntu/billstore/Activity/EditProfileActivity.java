@@ -130,7 +130,7 @@ public class EditProfileActivity extends AppCompatActivity
         }
         if (!edt_updateGstNumber.getText().toString().trim().isEmpty())
         {
-            _shopGstNumber = edt_updateShopAddress.getText().toString();
+            _shopGstNumber = edt_updateGstNumber.getText().toString();
         }
         if (!edt_updatePanNumber.getText().toString().trim().isEmpty())
         {

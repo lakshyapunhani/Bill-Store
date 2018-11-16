@@ -163,9 +163,12 @@
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
     <string name="txt_share_bill">Share Invoice</string>
+    <string name="please_add_contact">Please add a contact first</string>
+    <string name="no_invoice">No Invoice</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>
+        <item>How to add customers?</item>
         <item>ઉત્પાદનો કેવી રીતે ઉમેરવું?</item>
         <item>કેવી રીતે સંપાદિત / કાઢી નાખો ઉત્પાદન?</item>
         <item>ભાષા કેવી રીતે બદલવી?</item>
@@ -175,6 +178,7 @@
 
     <string-array name="answers">
         <item>ગ્રાહકના નામ, ગ્રાહક સરનામું અને ગ્રાહક નંબર જીસ્ટ જો કોઈ હોય તો ગ્રાહકને ઉમેરાતા નહી તો નીચે મેનુમાંથી બિલ બનાવવાનું પસંદ કરો અથવા ગ્રાહકને પસંદ કરો અથવા નવો ગ્રાહક ઉમેરો. ઇનવોઇસ વસ્તુઓ પર ટેપ કરીને ભરતિયું ઉમેરવા માટે વસ્તુઓ પસંદ કરો અને તે પછી બિલનું પૂર્વાવલોકન કરો ફક્ત બિલ છાપો. તમે હોમ સ્ક્રીન પરના ગ્રાહકો હેઠળ જનરેટ કરવામાં આવેલું બિલ જોઈ શકો છો.</item>
+        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. તળિયે જમણા ખૂણામાં વત્તા બટન ટેપ કરો અને ઉત્પાદન નામ, એકમ રકમ અને વર્ણન સાથે ઉત્પાદન ઉમેરો.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. પ્રોડક્ટ પર ટેપ કરો અને મેનૂમાં સંપાદન અથવા કાઢી નાંખો પસંદ કરીને ખુલેલા.</item>
         <item>નીચે મેનુ માંથી સેટિંગ્સ પસંદ કરો અને ભાષા બદલો પસંદ કરો. ભાષા પસંદ કરો અને ટેપ કરો</item>

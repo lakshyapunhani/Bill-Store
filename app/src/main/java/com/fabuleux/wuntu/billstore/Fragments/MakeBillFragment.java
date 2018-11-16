@@ -141,8 +141,8 @@ public class MakeBillFragment extends Fragment {
     private FirebaseFirestore db;
     FirebaseUser firebaseUser;
 
-    String newCustomerName ="",newCustomerAddress = "",newCustomerGstNumber ="",
-            newCustomerMobileNumber = "",newCustomerUID = "";
+    String receiverName ="", receiverAddress = "", receiverGSTNumber ="",
+            receiverMobileNumber = "", receiverUID = "";
     int customerNumberInvoices;
 
     String invoiceDate = "",dueDate = "";
@@ -384,14 +384,14 @@ public class MakeBillFragment extends Fragment {
             Toast.makeText(mContext, "Please add new customer", Toast.LENGTH_SHORT).show();
             return;
         }
-        newCustomerName = customersList.get(customerSpinnerValue).getContactName();
-        newCustomerAddress = customersList.get(customerSpinnerValue).getContactAddress();
+        receiverName = customersList.get(customerSpinnerValue).getContactName();
+        receiverAddress = customersList.get(customerSpinnerValue).getContactAddress();
         if (!customersList.get(customerSpinnerValue).getContactGstNumber().isEmpty())
         {
-            newCustomerGstNumber = customersList.get(customerSpinnerValue).getContactGstNumber();
+            receiverGSTNumber = customersList.get(customerSpinnerValue).getContactGstNumber();
         }
-        newCustomerMobileNumber = customersList.get(customerSpinnerValue).getContactPhoneNumber();
-        newCustomerUID = customersList.get(customerSpinnerValue).getContactUID();
+        receiverMobileNumber = customersList.get(customerSpinnerValue).getContactPhoneNumber();
+        receiverUID = customersList.get(customerSpinnerValue).getContactUID();
         customerNumberInvoices = customersList.get(customerSpinnerValue).getNumberInvoices();
         sendDatatoPreview();
     }
@@ -424,11 +424,11 @@ public class MakeBillFragment extends Fragment {
     {
         Intent intent = new Intent(mContext, PreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList",itemList);
-        intent.putExtra("Customer Name",newCustomerName);
-        intent.putExtra("Customer Address",newCustomerAddress);
-        intent.putExtra("Customer GST Number",newCustomerGstNumber);
-        intent.putExtra("Customer Mobile Number",newCustomerMobileNumber);
-        intent.putExtra("Customer UID",newCustomerUID);
+        intent.putExtra("receiverName", receiverName);
+        intent.putExtra("receiverAddress", receiverAddress);
+        intent.putExtra("receiverGSTNumber", receiverGSTNumber);
+        intent.putExtra("receiverMobileNumber", receiverMobileNumber);
+        intent.putExtra("receiverUID", receiverUID);
         intent.putExtra("Customer Number Invoices",customerNumberInvoices);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("Due Date",dueDate);
@@ -440,6 +440,12 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("discount",discount);
         intent.putExtra("subTotal",subTotal);
         intent.putExtra("invoiceNumber","");
+        intent.putExtra("billType","");
+        intent.putExtra("senderName",sessionManager.getShop_name());
+        intent.putExtra("senderAddress",sessionManager.getShop_address());
+        intent.putExtra("senderGSTNumber",sessionManager.getShop_gst());
+        intent.putExtra("senderMobileNumber",firebaseUser.getPhoneNumber());
+        intent.putExtra("senderUID",firebaseUser.getUid());
         startActivity(intent);
     }
 

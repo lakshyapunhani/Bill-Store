@@ -4,7 +4,9 @@ import java.util.Map;
 
 public class InvoicePojo
 {
-    private ContactPojo contactPojo;
+    private ContactPojo receiverPojo;
+
+    private ContactPojo senderPojo;
 
     private String invoiceNumber;
 
@@ -31,12 +33,13 @@ public class InvoicePojo
     public InvoicePojo() {
     }
 
-    public InvoicePojo(ContactPojo contactPojo, String invoiceNumber,
+    public InvoicePojo(ContactPojo receiverPojo,ContactPojo senderPojo, String invoiceNumber,
                        double billAmount, Map<String, ItemPojo> billItems, String invoiceDate,
                        String dueDate, GstPojo gstPojo, String billDescription, String billStatus, String billType
                         , String billTime, Map<String, String> billImages)
     {
-        this.contactPojo = contactPojo;
+        this.receiverPojo = receiverPojo;
+        this.senderPojo = senderPojo;
         this.invoiceNumber = invoiceNumber;
         this.billAmount = billAmount;
         this.billItems = billItems;
@@ -138,11 +141,19 @@ public class InvoicePojo
         this.billType = billType;
     }
 
-    public ContactPojo getContactPojo() {
-        return contactPojo;
+    public ContactPojo getReceiverPojo() {
+        return receiverPojo;
     }
 
-    public void setContactPojo(ContactPojo contactPojo) {
-        this.contactPojo = contactPojo;
+    public void setReceiverPojo(ContactPojo receiverPojo) {
+        this.receiverPojo = receiverPojo;
+    }
+
+    public ContactPojo getSenderPojo() {
+        return senderPojo;
+    }
+
+    public void setSenderPojo(ContactPojo senderPojo) {
+        this.senderPojo = senderPojo;
     }
 }

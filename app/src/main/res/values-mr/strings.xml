@@ -168,9 +168,12 @@
     <string name="search_contact">Search Contact</string>
     <string name="due_date">Due Date</string>
     <string name="txt_share_bill">Share Invoice</string>
+    <string name="please_add_contact">Please add a contact first</string>
+    <string name="no_invoice">No Invoice</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>
+        <item>How to add customers?</item>
         <item>उत्पादने कशी जोडावीत?</item>
         <item>उत्पादन संपादित / हटवा कसे?</item>
         <item>भाषा कशी बदलायची?</item>
@@ -180,6 +183,7 @@
 
     <string-array name="answers">
         <item>जर ग्राहकाचा ग्राहक, ग्राहक पत्ता आणि ग्राहकाची कोणतीही जीएसटी क्रमांक जोडून ग्राहक जोडला नाही तर तळाशी मेन तयार करा व ग्राहक निवडा किंवा नवीन ग्राहक जोडा. इनवॉइस केलेल्या आयटम्सवर टॅप करून बीजकमध्ये जोडण्यासाठी आयटम निवडा आणि नंतर बिलचे पूर्वावलोकन करा. फक्त बिल प्रिंट करा होम स्क्रीनवरील ग्राहकांनुसार व्युत्पन्न केलेला बिल देखील आपण पाहू शकता.</item>
+        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
         <item>तळाशी मेनू आणि सेटिंग्ज निवडा उत्पादने निवडा. तळाशी उजव्या कोपर्यात प्लस बटण टॅप करा आणि उत्पादन नाव, युनिट रक्कम आणि वर्णनसह उत्पादन जोडा.</item>
         <item>तळाशी मेनू आणि सेटिंग्ज निवडा उत्पादने निवडा. उत्पादनावर टॅप करा आणि मेनूमध्ये संपादित किंवा हटवा निवडलेला उघडला.</item>
         <item>तळाशी मेनूमधून सेटिंग्ज निवडा आणि भाषा बदला निवडा. भाषा निवडा आणि पूर्ण झाल्यावर टॅप करा</item>
