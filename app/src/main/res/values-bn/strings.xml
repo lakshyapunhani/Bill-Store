@@ -171,6 +171,7 @@
     <string name="log_out">প্রস্থান</string>
     <string name="are_you_sure">তুমি কি নিশ্চিত?</string>
     <string name="shop_company_mobile_number">দোকান / কোম্পানি মোবাইল নম্বর</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>চালান কিভাবে উৎপন্ন?</item>

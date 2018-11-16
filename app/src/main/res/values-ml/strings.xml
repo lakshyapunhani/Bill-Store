@@ -173,6 +173,7 @@
     <string name="log_out">ലോഗ് ഔട്ട്</string>
     <string name="are_you_sure">നിങ്ങള്ക്ക് ഉറപ്പാണോ?</string>
     <string name="shop_company_mobile_number">ഷോപ്പ് / കമ്പനി മൊബൈൽ നമ്പർ</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>

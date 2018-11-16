@@ -169,6 +169,7 @@
     <string name="log_out">ಲಾಗ್ ಔಟ್</string>
     <string name="are_you_sure">ನೀವು ಖಚಿತವಾಗಿರುವಿರಾ?</string>
     <string name="shop_company_mobile_number">ಮಳಿಗೆ / ಕಂಪನಿ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>ಸರಕುಪಟ್ಟಿ ಉತ್ಪಾದಿಸುವುದು ಹೇಗೆ?</item>

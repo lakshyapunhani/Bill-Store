@@ -172,6 +172,7 @@
     <string name="log_out">Log out</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="shop_company_mobile_number">Shop/Company Mobile Number</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>How to generate invoice?</item>

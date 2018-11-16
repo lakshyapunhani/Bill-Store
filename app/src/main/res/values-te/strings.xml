@@ -172,6 +172,7 @@
     <string name="log_out">లాగ్ అవుట్</string>
     <string name="are_you_sure">మీరు చెప్పేది నిజమా?</string>
     <string name="shop_company_mobile_number">షాప్ / కంపెనీ మొబైల్ నంబర్</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>ఇన్వాయిస్ ఎలా సృష్టించాలి?</item>

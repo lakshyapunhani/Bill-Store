@@ -170,6 +170,7 @@
     <string name="log_out">लोग आउट</string>
     <string name="are_you_sure">क्या आपको यकीन है?</string>
     <string name="shop_company_mobile_number">दुकान / कंपनी मोबाइल नंबर</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>बिल कैसे बनाएं?</item>

@@ -169,6 +169,7 @@
     <string name="log_out">લૉગ આઉટ</string>
     <string name="are_you_sure">શું તમે ખાતરી કરો છો?</string>
     <string name="shop_company_mobile_number">દુકાન / કંપની મોબાઇલ નંબર</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>
