@@ -17,7 +17,6 @@
             android:text="@string/txt_preview"
             android:gravity="center_vertical"
             android:paddingStart="30dp"
-            android:paddingEnd="20dp"
             style="@style/standard_title_text_style"
             fontPath="fonts/OpenSans-Regular.ttf"
             tools:ignore="MissingPrefix"/>
@@ -53,7 +52,8 @@
     </LinearLayout>
 
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pdflayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -282,15 +282,13 @@
             <!-- invoice notes -->
 
             <LinearLayout
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@android:color/black"
                     android:textSize="14sp"
-                    android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -302,11 +300,37 @@
                 <TextView
                     android:id="@+id/invoice_total"
                     android:textSize="14sp"
-                    android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     tools:text="$10000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_gst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="GST"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:id="@+id/rate_gst"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="18%" />
             </LinearLayout>
 
             <LinearLayout
@@ -318,8 +342,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="3"
@@ -348,26 +371,55 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="3"
+                    android:layout_marginLeft="20dp"
                     android:layout_height="wrap_content"
-                    android:text="SGST: "
-                    fontPath="fonts/DroidSansMono.ttf"
-                    tools:ignore="MissingPrefix"
-                    android:gravity="end" />
+                    android:text="SGST :"
+                    android:gravity="end"/>
 
                 <TextView
                     android:id="@+id/invoice_sgst"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    tools:text="18%" />
+                    tools:text="9%"
+                    />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_utgst"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="UTGST :"
+                    android:gravity="end"/>
+
+                <TextView
+                    android:id="@+id/invoice_utgst"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="9%"
+                    />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/layout_igst"
@@ -378,7 +430,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@android:color/black"
                     android:textSize="14sp"
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
@@ -397,6 +448,94 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     tools:text="18%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/layout_shipping"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="Shipping Charges :"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"/>
+
+                <TextView
+                    android:id="@+id/txt_shipping_charges"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_discount"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:text="Discount :"
+                    android:gravity="end"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"/>
+
+                <TextView
+                    android:id="@+id/txt_discount_charges"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$50"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_roundoff"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    fontPath="fonts/DroidSansMono.ttf"
+                    tools:ignore="MissingPrefix"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    android:text="Round off :" />
+
+                <TextView
+                    android:id="@+id/txt_roundOff"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="$10000"/>
             </LinearLayout>
 
             <LinearLayout

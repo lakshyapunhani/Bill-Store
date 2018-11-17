@@ -30,7 +30,6 @@
     <string name="text_add_bill">বিল যোগ করুন</string>
     <string name="text_make_bill">বিল তৈরি করুন</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">বাড়ি</string>
     <string name="title_dashboard">ড্যাশবোর্ড</string>
     <string name="title_notifications">বিজ্ঞপ্তিগুলি</string>
@@ -161,9 +160,22 @@
     <string name="txt_delete">মুছে ফেলা</string>
     <string name="txt_app_settings">সেটিংস</string>
     <string name="create_invoice">বিল তৈরি করুন</string>
+    <string name="contacts">যোগাযোগ</string>
+    <string name="add_contact">পরিচিতি যোগ করুন</string>
+    <string name="search_contact">যোগাযোগ অনুসন্ধান করুন</string>
+    <string name="due_date">নির্দিষ্ট তারিখ</string>
+    <string name="txt_share_bill">চালান শেয়ার করুন</string>
+    <string name="please_add_contact">প্রথমে একটি যোগাযোগ যোগ করুন</string>
+    <string name="no_invoice">কোন চালান</string>
+    <string name="notifications">বিজ্ঞপ্তিগুলি</string>
+    <string name="log_out">প্রস্থান</string>
+    <string name="are_you_sure">তুমি কি নিশ্চিত?</string>
+    <string name="shop_company_mobile_number">দোকান / কোম্পানি মোবাইল নম্বর</string>
+    <string name="invoices">চালান</string>
 
     <string-array name="questions">
         <item>চালান কিভাবে উৎপন্ন?</item>
+        <item>কিভাবে গ্রাহকদের যোগ করুন?</item>
         <item>পণ্য যোগ করুন কিভাবে?</item>
         <item>কিভাবে সম্পাদনা / পণ্য মুছে ফেলবেন?</item>
         <item>ভাষা কিভাবে বদলাবে?</item>
@@ -173,11 +185,21 @@
 
     <string-array name="answers">
         <item>নীচের মেনু থেকে বিল তৈরি করুন এবং গ্রাহককে নির্বাচন করুন বা নতুন গ্রাহক যোগ করবেন না যদি না গ্রাহক গ্রাহক নাম, গ্রাহক ঠিকানা এবং গ্রাহক সংখ্যা gst যোগ করে এখনো যোগ না করে। ইনভয়েসেড আইটেমগুলির উপর ট্যাপ করে ইনভয়েস যোগ করতে আইটেমগুলি নির্বাচন করুন এবং তারপরে বিলটির পূর্বরূপ দেখুন। শুধু বিল মুদ্রণ হোম স্ক্রিনে গ্রাহকদের অধীনে আপনি তৈরি করা বিলটি দেখতে পারেন।</item>
+        <item>নিচের মেনু থেকে সেটিংস নির্বাচন করুন এবং পরিচিতি নির্বাচন করুন। নীচে ডান কোণায় প্লাস বোতামটি আলতো চাপুন এবং পরিচিতি নাম, ঠিকানা এবং মোবাইল নম্বরের সাথে যোগাযোগ যুক্ত করুন.</item>
         <item>নীচে মেনু থেকে সেটিংস নির্বাচন করুন এবং পণ্যগুলি নির্বাচন করুন। নীচে ডানদিকের কোণে প্লাস বোতামটি আলতো চাপুন এবং পণ্যের নাম, একক পরিমাণ এবং বিবরণ সহ পণ্য জুড়ুন।</item>
         <item>নীচে মেনু থেকে সেটিংস নির্বাচন করুন এবং পণ্যগুলি নির্বাচন করুন। পণ্যটিতে আলতো চাপুন এবং মেনুতে সম্পাদনা বা মুছে ফেলুন নির্বাচন করুন।</item>
         <item>নীচে মেনু থেকে সেটিংস নির্বাচন করুন এবং ভাষা পরিবর্তন করুন নির্বাচন করুন ভাষা নির্বাচন করুন এবং সম্পন্ন করুন</item>
         <item>নীচে মেনু থেকে সেটিংস নির্বাচন করুন এবং প্রোফাইল নির্বাচন করুন ক্ষেত্রগুলি সম্পাদনা করুন এবং আপডেটে আলতো চাপুন।</item>
         <item>ধরুন আপনি একটি মুদ্রিত বিল পেয়েছেন এবং আপনি এটি ডিজিটালাইজ করতে চান তাই বিল এর মত সম্পূর্ণ তথ্য, বিল তারিখ, বিল পরিশোধ বা বিলটির ছবির সাথে বিলটি যোগ করুন। এখন আপনি বিলের দোকানে আপনার বিলটি হোম স্ক্রীনে বিক্রেতার মাধ্যমে অ্যাক্সেস করতে পারেনআপনি একটি মুদ্রিত বিল পেয়েছেন এবং আপনি এটি ডিজিটালাইজ করতে চান তাই বিল পরিমাণ, বিলের তারিখ, বিল পরিশোধ বা বিলবোর্ডের মতো পূর্ণ তথ্য সহ বিলটি যোগ করুন। এখন আপনি হোম স্ক্রীনে বিক্রেতার অধীনে বিল স্টোরে আপনার বিল অ্যাক্সেস করতে পারেন।</item>
     </string-array>
+    <string name="text_profile">প্রোফাইলের</string>
+    <string name="txt_please_provide_the_below_details">বিস্তারিত নীচের প্রদান করুন</string>
+    <string name="invoice_details">চালান বিবরণ</string>
+    <string name="item_details">আইটেম বিবরণ</string>
+    <string name="billing_details">পূর্ণ রূপ প্রকাশ</string>
+    <string name="total">মোট</string>
+    <string name="subtotal">উপ মোট</string>
+    <string name="sendInvoice">চালান পাঠান</string>
+    <string name="shareInvoice">চালান শেয়ার করুন</string>
 </resources>
 

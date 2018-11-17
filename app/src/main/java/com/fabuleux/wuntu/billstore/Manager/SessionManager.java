@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class SessionManager
 {
+    public static final int FCM_NOTIFICATION_ID = 123456;
     static SharedPreferences pref;
     static SharedPreferences.Editor editor;
     Context _context;
@@ -20,6 +21,13 @@ public class SessionManager
     private String IS_INTERNET_AVAILABLE ="isinternetavailable";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String LANGUAGE_PREFERENCE = "language_preference";
+
+    private String DEVICE_TOKEN = "device_token";
+    private String NAME = "name";
+    private String SHOP_ADDRESS= "shop_address";
+    private String SHOP_GST = "shop_gst";
+    private String SHOP_NAME = "shop_name";
+    private String SHOP_PAN = "shop_pan";
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -59,6 +67,7 @@ public class SessionManager
         return gstSlabList;
     }
 
+
     public void saveUnitList(String arraylistString) {
         editor.putString(UNITS_LIST,arraylistString);
         editor.commit();
@@ -90,5 +99,61 @@ public class SessionManager
     public String getLanguagePreference()
     {
         return pref.getString(LANGUAGE_PREFERENCE, "en");
+    }
+
+    public String getDeviceToken()
+    {
+        return pref.getString(DEVICE_TOKEN,"");
+    }
+
+    public void setDeviceToken(String token)
+    {
+        editor.putString(DEVICE_TOKEN,token);
+        editor.commit();
+    }
+
+    public String getName() {
+        return pref.getString(NAME, "");
+    }
+
+    public void setName(String name) {
+        editor.putString(NAME, name);
+        editor.commit();
+    }
+
+    public String getShop_address() {
+        return pref.getString(SHOP_ADDRESS, "");
+    }
+
+    public void setShop_address(String shop_address) {
+        editor.putString(SHOP_ADDRESS, shop_address);
+        editor.commit();
+    }
+
+    public String getShop_gst() {
+        return pref.getString(SHOP_GST, "");
+    }
+
+    public void setShop_gst(String shop_gst) {
+        editor.putString(SHOP_GST, shop_gst);
+        editor.commit();
+    }
+
+    public String getShop_name() {
+        return pref.getString(SHOP_NAME, "");
+    }
+
+    public void setShop_name(String shop_name) {
+        editor.putString(SHOP_NAME, shop_name);
+        editor.commit();
+    }
+
+    public String getShop_pan() {
+        return pref.getString(SHOP_PAN, "");
+    }
+
+    public void setShop_pan(String shop_pan) {
+        editor.putString(SHOP_PAN, shop_pan);
+        editor.commit();
     }
 }

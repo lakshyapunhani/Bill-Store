@@ -3,13 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_grey"
     tools:context="com.fabuleux.wuntu.billstore.Fragments.CustomersFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/header"
+        android:orientation="horizontal"
+        android:background="#0484AE">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/invoices"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="20dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+        <ImageView
+            android:id="@+id/img_notifications"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_bell"
+            android:layout_marginRight="20dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_below="@+id/header"
         android:visibility="gone"
         android:orientation="vertical">
 
@@ -25,7 +57,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="@string/txt_you_haven_t_added_any_customer_yet"
+            android:text="@string/no_invoice"
             android:gravity="center_horizontal"
             android:textSize="20sp"/>
 
@@ -33,6 +65,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/customersList"
+        android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>

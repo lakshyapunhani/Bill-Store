@@ -31,7 +31,6 @@
     <string name="text_make_bill">ਬਿਲ ਬਣਾਉ</string>
     <string name="text_profile">ਪ੍ਰੋਫਾਈਲ</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">ਘਰ</string>
     <string name="title_dashboard">ਡੈਸ਼ਬੋਰਡ</string>
     <string name="title_notifications">ਸੂਚਨਾਵਾਂ</string>
@@ -163,9 +162,29 @@
     <string name="txt_delete">ਮਿਟਾਓ</string>
     <string name="txt_app_settings">ਸੈਟਿੰਗਾਂ</string>
     <string name="create_invoice">ਬਿਲ ਬਣਾਉਣਾ</string>
+    <string name="contacts">ਸੰਪਰਕ</string>
+    <string name="add_contact">ਸੰਪਰਕ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="search_contact">ਸੰਪਰਕ ਲੱਭੋ</string>
+    <string name="due_date">ਅਦਾਇਗੀ ਤਾਰੀਖ</string>
+    <string name="txt_share_bill">ਇਨਵੌਇਸ ਸ਼ੇਅਰ ਕਰੋ</string>
+    <string name="please_add_contact">ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਕੋਈ ਸੰਪਰਕ ਜੋੜੋ</string>
+    <string name="no_invoice">ਕੋਈ ਵੀ ਇਨਵੌਇਸ ਨਹੀਂ</string>
+    <string name="notifications">ਸੂਚਨਾਵਾਂ</string>
+    <string name="log_out">ਲਾੱਗ ਆਊਟ, ਬਾਹਰ ਆਉਣਾ</string>
+    <string name="are_you_sure">ਤੁਹਾਨੂੰ ਪੂਰਾ ਵਿਸ਼ਵਾਸ ਹੈ?</string>
+    <string name="shop_company_mobile_number">ਦੁਕਾਨ / ਕੰਪਨੀ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ</string>
+    <string name="invoices">ਬਿਲ</string>
+    <string name="invoice_details">ਇਨਵੌਇਸ ਵੇਰਵੇ</string>
+    <string name="item_details">ਆਈਟਮ ਵੇਰਵੇ</string>
+    <string name="billing_details">ਬਿਲਿੰਗ ਵੇਰਵਾ</string>
+    <string name="total">ਕੁੱਲ</string>
+    <string name="subtotal">ਉਪ-ਕੁੱਲ</string>
+    <string name="sendInvoice">ਇਨਵੌਇਸ ਭੇਜੋ</string>
+    <string name="shareInvoice">ਇਨਵੌਇਸ ਸ਼ੇਅਰ ਕਰੋ</string>
 
     <string-array name="questions">
         <item>ਇਨਵੌਇਸ ਕਿਵੇਂ ਤਿਆਰ ਕਰੀਏ?</item>
+        <item>ਗਾਹਕਾਂ ਨੂੰ ਕਿਵੇਂ ਜੋੜਿਆ ਜਾਏ?</item>
         <item>ਉਤਪਾਦਾਂ ਨੂੰ ਕਿਵੇਂ ਜੋੜਿਆ ਜਾਏ?</item>
         <item>ਉਤਪਾਦ ਕਿਵੇਂ ਸੰਪਾਦਿਤ / ਮਿਟਾ ਸਕਦਾ ਹੈ?</item>
         <item>ਭਾਸ਼ਾ ਨੂੰ ਕਿਵੇਂ ਬਦਲਣਾ ਹੈ?</item>
@@ -175,6 +194,7 @@
 
     <string-array name="answers">
         <item>ਗਾਹਕਾਂ ਦੇ ਨਾਂ, ਗਾਹਕ ਦਾ ਪਤਾ ਅਤੇ ਗ੍ਰਾਹਕ ਨੰਬਰ, ਜੇ ਕੋਈ ਹੈ ਤਾਂ ਜੋੜ ਕੇ ਕੋਈ ਵੀ ਗਾਹਕ ਜੋੜਿਆ ਨਾ ਹੋਵੇ ਤਾਂ ਤਲ ਮੇਨੂ ਤੋਂ ਬਿਲ ਬਣਾਓ ਅਤੇ ਗਾਹਕ ਦੀ ਚੋਣ ਕਰੋ ਜਾਂ ਨਵਾਂ ਗਾਹਕ ਜੋੜੋ. ਇਨਵੌਇਸ ਕੀਤੀਆਂ ਆਈਟਮਾਂ ਤੇ ਟੈਪ ਕਰਕੇ ਇਨਵੌਇਸ ਵਿੱਚ ਜੋੜਨ ਲਈ ਆਈਟਮਾਂ ਚੁਣੋ ਅਤੇ ਫਿਰ ਬਿਲ ਦਾ ਪੂਰਵਦਰਸ਼ਨ ਕਰੋ. ਬਸ ਬਿਲ ਨੂੰ ਪ੍ਰਿੰਟ ਕਰੋ ਤੁਸੀਂ ਇਹ ਵੀ ਦੇਖ ਸਕਦੇ ਹੋ ਕਿ ਹੋਮ ਸਕ੍ਰੀਨ ਤੇ ਗ੍ਰਾਹਕਾਂ ਦੇ ਅਧੀਨ ਤਿਆਰ ਕੀਤਾ ਗਿਆ ਬਿਲ.</item>
+        <item>ਤਲ ਮੇਨੂ ਤੋਂ ਸੈਟਿੰਗਾਂ ਚੁਣੋ ਅਤੇ ਸੰਪਰਕ ਚੁਣੋ. ਹੇਠਾਂ ਸੱਜੇ ਕੋਨੇ ਤੇ ਪਲੱਸ ਬਟਨ ਟੈਪ ਕਰੋ ਅਤੇ ਸੰਪਰਕ ਨਾਂ, ਪਤਾ ਅਤੇ ਮੋਬਾਈਲ ਨੰਬਰ ਦੇ ਨਾਲ ਸੰਪਰਕ ਜੋੜੋ.</item>
         <item>ਤਲ ਮੇਨੂ ਤੋਂ ਸੈਟਿੰਗਜ਼ ਚੁਣੋ ਅਤੇ ਉਤਪਾਦਾਂ ਦੀ ਚੋਣ ਕਰੋ. ਹੇਠਾਂ ਸੱਜੇ ਕੋਨੇ ਵਿੱਚ ਪਲੱਸ ਬਟਨ ਟੈਪ ਕਰੋ ਅਤੇ ਉਤਪਾਦ ਦਾ ਨਾਮ, ਯੂਨਿਟ ਦੀ ਰਕਮ ਅਤੇ ਵੇਰਵੇ ਦੇ ਨਾਲ ਉਤਪਾਦ ਜੋੜੋ.</item>
         <item>ਤਲ ਮੇਨੂ ਤੋਂ ਸੈਟਿੰਗਜ਼ ਚੁਣੋ ਅਤੇ ਉਤਪਾਦਾਂ ਦੀ ਚੋਣ ਕਰੋ. ਉਤਪਾਦ ਤੇ ਟੈਪ ਕਰੋ ਅਤੇ ਮੀਨੂ ਵਿੱਚ ਸੰਪਾਦਨ ਜਾਂ ਮਿਟਾਓ ਨੂੰ ਚੁਣੋ, ਖੋਲ੍ਹਿਆ.</item>
         <item>ਹੇਠਾਂ ਮੀਨੂ ਵਿੱਚੋਂ ਸੈਟਿੰਗ ਚੁਣੋ ਅਤੇ ਭਾਸ਼ਾ ਬਦਲੋ ਚੁਣੋ. ਭਾਸ਼ਾ ਚੁਣੋ ਅਤੇ ਪੂਰੀ ਹੋਈ ਟੈਪ ਕਰੋ</item>

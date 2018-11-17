@@ -1,3 +1,4 @@
+/*
 package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.IntentFilter;
@@ -24,6 +25,7 @@ public class BillsListActivity extends AppCompatActivity {
 
     @BindView(R.id.listContainer)
     FrameLayout listContainer;
+
     CustomerBillListFragment customerBillListFragment;
     VendorBillListFragment sellerBillListFragment;
     String string = "",vendorName = "";
@@ -87,3 +89,4 @@ public class BillsListActivity extends AppCompatActivity {
         }
     }
 }
+*/

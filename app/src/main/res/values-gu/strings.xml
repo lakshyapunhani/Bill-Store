@@ -30,7 +30,6 @@
     <string name="text_make_bill">બિલ બનાવો</string>
     <string name="text_profile">પ્રોફાઇલ</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="txt_skip"><u>સ્કિપ</u></string>
     <string name="alert_btn_continue">ચાલુ રાખો</string>
     <string name="alert_btn_yes">હા</string>
@@ -158,9 +157,22 @@
     <string name="txt_delete">કાઢી નાંખો</string>
     <string name="txt_app_settings">સેટિંગ્સ</string>
     <string name="create_invoice">બિલ બનાવો</string>
+    <string name="contacts">સંપર્કો</string>
+    <string name="add_contact">સંપર્ક ઉમેરો</string>
+    <string name="search_contact">સંપર્ક સંપર્ક કરો</string>
+    <string name="due_date">નિયત તારીખ</string>
+    <string name="txt_share_bill">શેર ભરતિયું</string>
+    <string name="please_add_contact">કૃપા કરીને પહેલા સંપર્ક ઉમેરો</string>
+    <string name="no_invoice">કોઈ ભરતિયું નહીં</string>
+    <string name="notifications">સૂચનાઓ</string>
+    <string name="log_out">લૉગ આઉટ</string>
+    <string name="are_you_sure">શું તમે ખાતરી કરો છો?</string>
+    <string name="shop_company_mobile_number">દુકાન / કંપની મોબાઇલ નંબર</string>
+    <string name="invoices">ઇન્વૉઇસેસ</string>
 
     <string-array name="questions">
         <item>ભરતિયું કેવી રીતે બનાવવું?</item>
+        <item>ગ્રાહકોને કેવી રીતે ઉમેરવું?</item>
         <item>ઉત્પાદનો કેવી રીતે ઉમેરવું?</item>
         <item>કેવી રીતે સંપાદિત / કાઢી નાખો ઉત્પાદન?</item>
         <item>ભાષા કેવી રીતે બદલવી?</item>
@@ -170,11 +182,23 @@
 
     <string-array name="answers">
         <item>ગ્રાહકના નામ, ગ્રાહક સરનામું અને ગ્રાહક નંબર જીસ્ટ જો કોઈ હોય તો ગ્રાહકને ઉમેરાતા નહી તો નીચે મેનુમાંથી બિલ બનાવવાનું પસંદ કરો અથવા ગ્રાહકને પસંદ કરો અથવા નવો ગ્રાહક ઉમેરો. ઇનવોઇસ વસ્તુઓ પર ટેપ કરીને ભરતિયું ઉમેરવા માટે વસ્તુઓ પસંદ કરો અને તે પછી બિલનું પૂર્વાવલોકન કરો ફક્ત બિલ છાપો. તમે હોમ સ્ક્રીન પરના ગ્રાહકો હેઠળ જનરેટ કરવામાં આવેલું બિલ જોઈ શકો છો.</item>
+        <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને સંપર્કો પસંદ કરો. નીચે જમણે ખૂણે પ્લસ બટનને ટેપ કરો અને સંપર્ક નામ, સરનામું અને મોબાઇલ નંબર સાથે સંપર્ક ઉમેરો.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. તળિયે જમણા ખૂણામાં વત્તા બટન ટેપ કરો અને ઉત્પાદન નામ, એકમ રકમ અને વર્ણન સાથે ઉત્પાદન ઉમેરો.</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોડક્ટ્સ પસંદ કરો. પ્રોડક્ટ પર ટેપ કરો અને મેનૂમાં સંપાદન અથવા કાઢી નાંખો પસંદ કરીને ખુલેલા.</item>
         <item>નીચે મેનુ માંથી સેટિંગ્સ પસંદ કરો અને ભાષા બદલો પસંદ કરો. ભાષા પસંદ કરો અને ટેપ કરો</item>
         <item>નીચે મેનુમાંથી સેટિંગ્સ પસંદ કરો અને પ્રોફાઇલ પસંદ કરો. ક્ષેત્રો સંપાદિત કરો અને અપડેટ પર ટેપ કરો.</item>
         <item>ધારો કે તમને મુદ્રિત બિલ મળ્યું છે અને તમે તેને ડિજિટાઇઝ કરવા માંગો છો તેથી બિલની રકમ, બિલની તારીખ, બિલ પેઇડ અથવા બિલની ચિત્ર સાથેની સંપૂર્ણ માહિતી સાથે તે બિલ ઉમેરો. હવે તમે હોમ સ્ક્રિન પર વેન્ડર્સ હેઠળ બિલ સ્ટોર્સમાં તમારા બિલને ઍક્સેસ કરી શકો છોજો તમે મુદ્રિત બિલ મેળવ્યું હોય અને તમે તેને ડિજિટાઇઝ કરવા માંગો છો, તો બિલની બિલ, બિલની તારીખ, બિલની ચૂકવણી અથવા બિલની ચિત્ર સહિત સંપૂર્ણ માહિતી સાથે તે બિલ ઉમેરો. હવે તમે હોમ સ્ક્રીન પર વિક્રેતાઓ હેઠળ બિલ સ્ટોરમાં તમારા બિલને ઍક્સેસ કરી શકો છો.</item>
     </string-array>
+    <string name="title_home">ઘર</string>
+    <string name="title_dashboard">ડેશબોર્ડ</string>
+    <string name="title_notifications">સૂચનાઓ</string>
+    <string name="txt_please_provide_the_below_details">કૃપા કરીને વિગતો પૂરી પાડો</string>
+    <string name="invoice_details">ભરતિયું વિગતો</string>
+    <string name="item_details">આઇટમ વિગતો</string>
+    <string name="billing_details">બિલિંગ વિગતો</string>
+    <string name="total">કુલ</string>
+    <string name="subtotal">સબટોટલ</string>
+    <string name="sendInvoice">ભરતિયું મોકલો</string>
+    <string name="shareInvoice">શેર ભરતિયું</string>
 </resources>
 

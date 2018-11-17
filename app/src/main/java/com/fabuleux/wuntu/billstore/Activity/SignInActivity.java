@@ -159,7 +159,7 @@ public class SignInActivity extends AppCompatActivity {
                     Log.d("TAG", "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
                 }
                 else
-                    {
+                {
                     // User is signed out
                     Log.d("TAG", "onAuthStateChanged:signed_out");
                 }
@@ -185,7 +185,7 @@ public class SignInActivity extends AppCompatActivity {
                 {
                     progressDialog.dismiss();
                 }
-                Toast.makeText(SignInActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.d("MESSAGE",e.getMessage());
             }
 
@@ -197,9 +197,13 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 super.onCodeSent(verification_id, forceResendingToken);
 
-                otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                otpDialog.changeMessage(phone_number);
-                otpDialog.show();
+                //otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+               /* otpDialog.changeMessage(phone_number);
+                if (!otpDialog.isShowing()  && !SignInActivity.this.isDestroyed())
+                {
+                    otpDialog.show();
+                }*/
+
 
                 mVerificationCode = verification_id;
                 token = forceResendingToken;
@@ -213,12 +217,24 @@ public class SignInActivity extends AppCompatActivity {
 
         ArrayList<String> permissionsToRequestFor = new ArrayList<>();
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.CAMERA);
         }
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
             permissionsToRequestFor.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissionsToRequestFor.add(android.Manifest.permission.CALL_PHONE);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissionsToRequestFor.add(android.Manifest.permission.SEND_SMS);
         }
 
         if (permissionsToRequestFor.size() > 0) {
@@ -249,13 +265,19 @@ public class SignInActivity extends AppCompatActivity {
         String country_code = "+91";
         String phone_number1 = country_code + phone_number;
 
-        progressDialog.show();
+        if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+            progressDialog.show();
+        }
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number1, 60, TimeUnit.SECONDS, SignInActivity.this, callbacks);
     }
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
-        otpDialog.dismiss();
+       /* if (otpDialog.isShowing() && !SignInActivity.this.isDestroyed())
+        {
+            otpDialog.dismiss();
+        }*/
+
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         // [END verify_with_code]
@@ -290,7 +312,9 @@ public class SignInActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSendOTPEvent(EventOTP event)
     {
-        progressDialog.show();
+        if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+            progressDialog.show();
+        }
         verifyPhoneNumberWithCode(mVerificationCode, event.getCode());
     };
 
@@ -357,7 +381,9 @@ public class SignInActivity extends AppCompatActivity {
                     if (strMessage.contains("verification")) {
                         String otpSms;
                         try {
-                            progressDialog.show();
+                            if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+                                progressDialog.show();
+                            }
                             otpSms = strMessage.substring(0, 6);
                             String otpSms1 = strMessage.substring(0,1);
                             String otpSms2 = strMessage.substring(1,2);
@@ -378,7 +404,9 @@ public class SignInActivity extends AppCompatActivity {
                                     new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     1);
                         } else {
-                            progressDialog.dismiss();
+                            if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+                                progressDialog.dismiss();
+                            }
                         }
                     }
                 }

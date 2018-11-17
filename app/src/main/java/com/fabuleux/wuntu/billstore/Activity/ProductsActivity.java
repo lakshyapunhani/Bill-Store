@@ -20,7 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.ProductAdapter;
+import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
+import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +40,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,6 +93,8 @@ public class ProductsActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         products = new ArrayList<>();
+
+        productAdapter = new ProductAdapter(products);
 
         //initView();
 
@@ -163,10 +168,20 @@ public class ProductsActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 final String productName = edt_productName.getText().toString().trim();
+                if (productName.isEmpty())
+                {
+                    Toast.makeText(ProductsActivity.this, "Please fill product name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String productRate = edt_productAmount.getText().toString().trim();
+                if(productRate.isEmpty())
+                {
+                    Toast.makeText(ProductsActivity.this, "Please fill product rate", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String productDesc = edt_productDescription.getText().toString().trim();
 
-                String productId= randomString(6);
+                String productId= productName + productRate;
 
                 final ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productId,productName,productRate,productDesc,0);
 
@@ -184,14 +199,16 @@ public class ProductsActivity extends AppCompatActivity {
                             else
                             {
                                 documentReference.set(itemSelectionPojo);
+                                dialog.dismiss();
                             }
                         } else
                         {
+                            dialog.dismiss();
                             Toast.makeText(ProductsActivity.this, "Some error occured. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                dialog.dismiss();
+
             }
         });
         dialog.setContentView(view1);
@@ -220,5 +237,38 @@ public class ProductsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         productsListRecycler.setLayoutManager(linearLayoutManager);
         productsListRecycler.setAdapter(productAdapter);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        RealmManager.deleteAllRealm();
+        productReference = db.collection("Users").document(firebaseUser.getUid()).collection("Products");
+        final List<ItemSelectionPojo> itemList = new ArrayList<>();;
+
+        productReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
+            {
+                if (e != null)
+                {
+                    Toast.makeText(ProductsActivity.this, "Not able to show products. Please try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                itemList.clear();
+
+                for (DocumentSnapshot doc : documentSnapshots)
+                {
+                    ProductModel productModel = doc.toObject(ProductModel.class);
+                    ItemSelectionPojo itemSelectionPojo = new ItemSelectionPojo(productModel.getProductId(),productModel.getProductName(),productModel.getProductRate(),productModel.getProductDescription(),0);
+                    itemList.add(itemSelectionPojo);
+                }
+                RealmManager.addItemsInRealm(itemList);
+            }
+        });
+
+        RealmManager.resetItemRealm();
+        super.onDestroy();
     }
 }

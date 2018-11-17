@@ -1,3 +1,4 @@
+/*
 package com.fabuleux.wuntu.billstore.Fragments;
 
 
@@ -19,9 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * A simple {@link Fragment} subclass.
- */
+ *//*
+
 public class HomeFragment extends Fragment {
 
     @BindView(R.id.viewPager)
@@ -85,3 +88,4 @@ public class HomeFragment extends Fragment {
     }
 
 }
+*/

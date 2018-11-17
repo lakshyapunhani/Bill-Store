@@ -2,8 +2,10 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,25 +22,31 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
-import com.fabuleux.wuntu.billstore.Fragments.HomeFragment;
+import com.fabuleux.wuntu.billstore.Fragments.CustomersFragment;
 import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.SettingsFragment;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
+import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ItemSelectionPojo;
 import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
+import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
 
-    Fragment homeFragment;
+    Fragment customerFragment;
     Fragment addBillFragment;
     Fragment makeBillFragment;
     Fragment profileFragment;
@@ -113,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver networkReceiver;
     Gson gson;
 
+    String shopName = "",shopAddress = "",shopGstNumber = "",name = "",shopPanNumber="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -128,7 +140,9 @@ public class MainActivity extends AppCompatActivity {
         networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
-        homeFragment = new HomeFragment();
+        RealmManager.deleteAllRealm();
+
+        customerFragment = new CustomersFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
         profileFragment = new SettingsFragment();
@@ -136,6 +150,82 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        //Log.d("Firebase", "token "+ FirebaseInstanceId.getInstance().getToken());
+
+        if (!sessionManager.getDeviceToken().isEmpty())
+        {
+            CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
+        }
+
+        /////////////////////////////////////// Just for saving user mobile number to db
+        DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
+
+
+        profileReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e)
+            {
+                if (e != null)
+                {
+                    return;
+                }
+                if (documentSnapshot.exists())
+                {
+                    if(!documentSnapshot.contains("mobileNumber"))
+                    {
+                        if (documentSnapshot.contains("shop_name"))
+                        {
+                            shopName = documentSnapshot.get("shop_name").toString();
+                        }
+                        if (documentSnapshot.contains("shop_address"))
+                        {
+                            shopAddress = documentSnapshot.get("shop_address").toString();
+                        }
+                        if (documentSnapshot.contains("shop_gst"))
+                        {
+                            shopGstNumber = documentSnapshot.get("shop_gst").toString();
+                        }
+
+                        if (documentSnapshot.contains("name"))
+                        {
+                            name = documentSnapshot.get("name").toString();
+                        }
+                        if (documentSnapshot.contains("shop_pan"))
+                        {
+                            shopPanNumber = documentSnapshot.get("shop_pan").toString();
+                        }
+
+                        User user = new User(name, shopName,shopAddress,shopGstNumber,shopPanNumber,
+                                firebaseUser.getUid(),firebaseUser.getPhoneNumber());
+
+                        if (firebaseUser != null )
+                        {
+                            db.collection("Users")
+                                    .document(firebaseUser.getUid())
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        }
+                    }
+
+                }
+
+            }
+        });
+
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+
 
         unitList = new ArrayList<>();
         gstRateList = new ArrayList<>();
@@ -166,35 +256,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        RealmManager.resetItemRealm();
+
 
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add( R.id.layout_mainFrame,homeFragment,"home");
-        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
+        transaction.add( R.id.layout_mainFrame,customerFragment,"home");
         transaction.add( R.id.layout_mainFrame,makeBillFragment,"make_bill");
+        transaction.add( R.id.layout_mainFrame,addBillFragment,"add_bill");
         transaction.add( R.id.layout_mainFrame,profileFragment,"profile");
 
         switch (selectedFragmentTag) {
             case "home":
-                transaction.show(homeFragment);
+                transaction.show(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "add_bill":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.show(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "make_bill":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.show(makeBillFragment);
                 transaction.hide(profileFragment);
                 break;
             case "profile":
-                transaction.hide(homeFragment);
+                transaction.hide(customerFragment);
                 transaction.hide(addBillFragment);
                 transaction.hide(makeBillFragment);
                 transaction.show(profileFragment);
@@ -382,6 +474,43 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        DocumentReference userDetails = db.collection("Users").document(firebaseUser.getUid());
+        userDetails.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.contains("name"))
+                    {
+                        sessionManager.setName(documentSnapshot.get("name").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_address"))
+                    {
+                        sessionManager.setShop_address(documentSnapshot.get("shop_address").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_gst"))
+                    {
+                        sessionManager.setShop_gst(documentSnapshot.get("shop_gst").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_name"))
+                    {
+                        sessionManager.setShop_name(documentSnapshot.get("shop_name").toString());
+                    }
+
+                    if (documentSnapshot.contains("shop_pan"))
+                    {
+                        sessionManager.setShop_pan(documentSnapshot.get("shop_pan").toString());
+                    }
+                }
+            }
+        });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

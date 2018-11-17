@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,6 @@ import com.fabuleux.wuntu.billstore.Adapters.BillDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
-import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -31,10 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -104,6 +100,15 @@ public class BillViewActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
 
+    private String customerName = "";
+    private String customerAddress = "";
+    private String customerGstNumber = "",newCustomerMobileNumber = "",newCustomerUID = "";
+    int newCustomerNumberInvoices;
+    private String invoiceDate = "",dueDate = "";
+    private String status;
+
+    double subTotal = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +132,8 @@ public class BillViewActivity extends AppCompatActivity {
         keyList = new ArrayList<>();
         valuesList = new ArrayList<>();
 
+
+
         popup = new PopupMenu(BillViewActivity.this, menu_dots);
         //Inflating the Popup using xml file
         popup.getMenuInflater()
@@ -139,7 +146,11 @@ public class BillViewActivity extends AppCompatActivity {
         wholeSellerBillDocuments.setItemAnimator(new DefaultItemAnimator());
         wholeSellerBillDocuments.setAdapter(billDocumentsAdapter);
 
-        if (getIntent() != null)
+        getIntentItems();
+
+        setUiFields();
+
+       /* if (getIntent() != null)
         {
             vendorName = getIntent().getStringExtra("VendorName");
             billDate = getIntent().getStringExtra("BillDate");
@@ -167,7 +178,7 @@ public class BillViewActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
         wholeSellerBillDocuments.addOnItemTouchListener(
                 new RecyclerViewListener(BillViewActivity.this, wholeSellerBillDocuments, new RecyclerViewListener.OnItemClickListener() {
@@ -182,6 +193,24 @@ public class BillViewActivity extends AppCompatActivity {
                     public void onLongItemClick(View view, int position)
                     {}
                 }));
+    }
+
+    private void getIntentItems()
+    {
+        if (getIntent() != null)
+        {
+            //invoicePojo = getIntent().getParcelableExtra("invoicePojo");
+            customerName = getIntent().getStringExtra("Customer Name");
+            customerAddress = getIntent().getStringExtra("Customer Address");
+            customerGstNumber = getIntent().getStringExtra("Customer GST Number");
+            newCustomerUID = getIntent().getStringExtra("Customer UID");
+            newCustomerMobileNumber= getIntent().getStringExtra("Customer Mobile Number");
+            newCustomerNumberInvoices = getIntent().getIntExtra("Customer Number Invoices", 0);
+            invoiceDate = getIntent().getStringExtra("Invoice Date");
+            billImages = (HashMap<String, String>) getIntent().getSerializableExtra("billImages");
+            subTotal = getIntent().getDoubleExtra("subTotal",0);
+            status = getIntent().getStringExtra("billStatus");
+        }
     }
 
     @OnClick(R.id.menu_dots_bill_view)
@@ -209,24 +238,26 @@ public class BillViewActivity extends AppCompatActivity {
 
     private void setUiFields()
     {
-        VendorDetails vendorDetails = new VendorDetails();
-        vendorDetails = addBillDetails.getVendorDetails();
-        wholeSellerName.setText(vendorDetails.getVendorName());
-        wholeSellerAddress.setText(vendorDetails.getVendorAddress());
-        if (vendorDetails.getVendorGst().matches(""))
+        wholeSellerName.setText(customerName);
+        wholeSellerAddress.setText(customerAddress);
+
+        if (customerGstNumber != null && !customerGstNumber.isEmpty())
         {
-            vendorGst = vendorDetails.getVendorGst();
+            wholeSellerGst.setText("(GST Number - " + customerGstNumber+ ")");
+        }
+        else
+        {
+            wholeSellerGst.setText("(GST Number - NA)");
         }
 
-        wholeSellerGst.setText("(GST Number - " + vendorGst + ")");
-        wholeSellerBillAmount.setText(addBillDetails.getBillAmount());
-        wholeSellerBillDate.setText(addBillDetails.getBillDate());
-        billStatus.setText(addBillDetails.getBillStatus());
+        wholeSellerBillAmount.setText(getResources().getString(R.string.rupee_sign)  + subTotal);
+        wholeSellerBillDate.setText(invoiceDate);
+        billStatus.setText(status);
 
-        if (addBillDetails.getBillImages().size() > 0)
+        if (billImages.size() > 0)
         {
-            keyList.addAll(addBillDetails.getBillImages().keySet());
-            valuesList.addAll(addBillDetails.getBillImages().values());
+            keyList.addAll(billImages.keySet());
+            valuesList.addAll(billImages.values());
         }
 
         billDocumentsAdapter.notifyDataSetChanged();

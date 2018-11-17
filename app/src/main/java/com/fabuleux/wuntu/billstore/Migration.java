@@ -12,10 +12,6 @@ import io.realm.RealmResults;
 import io.realm.RealmSchema;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by saksham on 30/4/17.
- */
-
 public class Migration implements RealmMigration {
     private int i = 0;
     @Override

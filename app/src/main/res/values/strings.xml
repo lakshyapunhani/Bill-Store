@@ -133,7 +133,7 @@
     <string name="txt_mark_paid">Mark Paid</string>
     <string name="txt_delete_bill">Delete Bill</string>
     <string name="txt_save_bill">Save Bill</string>
-    <string name="txt_discard_bill">Discard Bill</string>
+    <string name="txt_discard_bill">Discard Invoice</string>
     <string name="text_please_provide_the_below_details">Please provide the below details</string>
     <string name="txt_profile">Profile</string>
     <string name="freshchat_file_provider_authority">com.fabuleux.wuntu.billstore.provider</string>
@@ -161,9 +161,22 @@
     <string name="txt_delete">Delete</string>
     <string name="txt_app_settings">Settings</string>
     <string name="create_invoice">Create Invoice</string>
+    <string name="contacts">Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="search_contact">Search Contact</string>
+    <string name="due_date">Due Date</string>
+    <string name="txt_share_bill">Share Invoice</string>
+    <string name="please_add_contact">Please add a contact first</string>
+    <string name="no_invoice">No Invoice</string>
+    <string name="notifications">Notifications</string>
+    <string name="log_out">Log out</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="shop_company_mobile_number">Shop/Company Mobile Number</string>
+    <string name="invoices">Invoices</string>
 
     <string-array name="questions">
         <item>How to generate invoice?</item>
+        <item>How to add customers?</item>
         <item>How to add products?</item>
         <item>How to edit/delete product?</item>
         <item>How to change language?</item>
@@ -172,13 +185,25 @@
     </string-array>
 
     <string-array name="answers">
-        <item>Select make bill from bottom menu and select a customer or add new customer if no customer added yet by adding customer name, customer address and customer gst number if any. Select items to add in invoice by tapping on Invoiced Items and then preview the bill. Just print the bill. You can even see that bill generated under Customers on Home screen.</item>
+        <item>Select generate invoice from bottom menu and select a contact. Select items to add in invoice by tapping on plus button in item details. Add Taxes, Shipping charges or any discount by tapping on edit in billing details and then preview the bill. Just send the bill. Now you can track that bill sent on Invoices screen.</item>
+        <item>Select Settings from bottom menu and select Contacts. Tap the plus button in the bottom right corner and add contact with contact name,address, and mobile number.</item>
         <item>Select Settings from bottom menu and select Products. Tap the plus button in the bottom right corner and add product with product name,unit amount and description.</item>
         <item>Select Settings from bottom menu and select Products. Tap on the product and select edit or delete in the menu opened.</item>
         <item>Select Settings from bottom menu and select Change Language. Select the language and tap done</item>
         <item>Select Settings from bottom menu and select Profile. Edit the fields and tap on update.</item>
-        <item>Suppose you got a printed bill and you want to digitize it so add that bill with full information like bill amount,bill date, bill paid or due with picture of bill. Now you can access your bill in Bill Store under Vendors on Home screenSuppose you got a printed bill and you want to digitize it so add that bill with full information like bill amount,bill date, bill paid or due with picture of bill. Now you can access your bill in Bill Store under Vendors on Home screen.</item>
+        <item>Suppose you got a printed bill and you want to digitize it so add that bill with full information like bill amount,bill date, bill paid or due with picture of bill. Now you can access your bill in Bill Store under Vendors on Home screen.</item>
     </string-array>
+    <string name="txt_please_provide_the_below_details">Please provide below details</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="invoice_details">Invoice Details</string>
+    <string name="item_details">Item Details</string>
+    <string name="billing_details">Billing Details</string>
+    <string name="total">Total</string>
+    <string name="subtotal">SubTotal</string>
+    <string name="sendInvoice">Send Invoice</string>
+    <string name="shareInvoice">Share Invoice</string>
 
 
 </resources>

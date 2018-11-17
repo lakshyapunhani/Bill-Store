@@ -39,12 +39,9 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         @BindView(R.id.itemName)
         TextView itemName;
 
-        @BindView(R.id.totalAmount) TextView totalAmount;
+        @BindView(R.id.itemQty) TextView itemQty;
 
-        @BindView(R.id.quantity) TextView quantity;
-
-        @BindView(R.id.img_delete)
-        ImageView img_delete;
+        @BindView(R.id.itemUnitPrice) TextView itemUnitPrice;
 
         MyViewHolder(View view) {
             super(view);
@@ -58,7 +55,7 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         context = parent.getContext();
 
         View v =  LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invoice_item, parent, false);
+                .inflate(R.layout.item_create_invoice, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -67,18 +64,12 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position)
     {
         ((MyViewHolder)holder).itemName.setText(itemList.get(position).getItemName());
-        ((MyViewHolder)holder).quantity.setText(itemList.get(position).getQuantity() +  " * "  + context.getString(R.string.rupee_sign)+ itemList.get(position).getCostPerItem());
+        ((MyViewHolder)holder).itemQty.setText(itemList.get(position).getQuantity());
 
-        ((MyViewHolder)holder).totalAmount.setText(context.getString(R.string.rupee_sign) +itemList.get(position).getTotalAmount());
-        ((MyViewHolder)holder).img_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAlertDialog(position);
-            }
-        });
+        ((MyViewHolder)holder).itemUnitPrice.setText(context.getString(R.string.rupee_sign) +itemList.get(position).getTotalAmount());
     }
 
-    private void showAlertDialog(final int position)
+    /*private void showAlertDialog(final int position)
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setTitle("Delete Item");
@@ -100,20 +91,20 @@ public class InvoicePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
-    }
+    }*/
 
 
     @Override
     public int getItemCount()
     {
-        return this.itemList.size();
+        return itemList.size();
     }
 
-    private void removeAt(int position)
+    /*private void removeAt(int position)
     {
-        RealmManager.deleteParticularItem(itemList.get(position).getProductId());
+        *//*RealmManager.deleteParticularItem(itemList.get(position).getProductId());
         itemList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, itemList.size());
-    }
+        notifyItemRangeChanged(position, itemList.size());*//*
+    }*/
 }

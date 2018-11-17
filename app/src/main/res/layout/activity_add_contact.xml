@@ -1,0 +1,216 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_grey"
+    tools:context="com.fabuleux.wuntu.billstore.Activity.AddContactActivity">
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#0484AE">
+
+        <ImageView
+            android:id="@+id/back_arrow_contacts"
+            android:contentDescription="@string/btn_back_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_back_arrow"/>
+
+        <TextView
+            android:id="@+id/add_contact_title"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="@string/add_contact"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            style="@style/standard_title_text_style"
+            fontPath="fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"/>
+
+        <TextView
+            android:id="@+id/btn_add_contact"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="0.6"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="4dp"
+            android:text="@string/txt_done"
+            android:textAllCaps="true"
+            android:background="@drawable/btn_rounded_bg"
+            android:textColor="@android:color/white"
+            fontPath = "fonts/OpenSans-Regular.ttf"
+            tools:ignore="MissingPrefix"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textColor="@color/blue"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/text_shop_company_name"
+                    android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_contactName"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="0dp"
+                        android:inputType="textCapSentences"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:paddingStart="20dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        tools:targetApi="lollipop" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/text_shop_company_address"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_contactAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="0dp"
+                        android:inputType="textPostalAddress"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingStart="20dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        tools:targetApi="lollipop" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/shop_company_mobile_number"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_contactPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="phone"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="0dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingStart="20dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        tools:targetApi="lollipop" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/text_gst_number"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:orientation="horizontal">
+
+
+                    <EditText
+                        android:id="@+id/edt_contactGstNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="0dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:paddingStart="20dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        tools:targetApi="lollipop" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,7 +31,6 @@
     <string name="text_make_bill">बिल तयार करा</string>
     <string name="text_profile">प्रोफाइल</string>
     <string name="rupee_sign">&#8377;</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">घर</string>
     <string name="title_dashboard">डॅशबोर्ड</string>
     <string name="title_notifications">सूचना</string>
@@ -163,9 +162,29 @@
     <string name="txt_delete">हटवा</string>
     <string name="txt_app_settings">सेटिंग्ज</string>
     <string name="create_invoice">बिल तयार करा</string>
+    <string name="contacts">संपर्क</string>
+    <string name="add_contact">संपर्क जोडा</string>
+    <string name="search_contact">संपर्क शोधा</string>
+    <string name="due_date">देय तारीख</string>
+    <string name="txt_share_bill">चलन चालवा</string>
+    <string name="please_add_contact">कृपया प्रथम संपर्क जोडा</string>
+    <string name="no_invoice">चलन नाही</string>
+    <string name="notifications">अधिसूचना</string>
+    <string name="log_out">बाहेर पडणे</string>
+    <string name="are_you_sure">तुला खात्री आहे?</string>
+    <string name="shop_company_mobile_number">दुकान / कंपनी मोबाइल नंबर</string>
+    <string name="invoices">बिल</string>
+    <string name="invoice_details">चलन तपशील</string>
+    <string name="item_details">आयटम तपशील</string>
+    <string name="billing_details">पावतीचा तपशील</string>
+    <string name="total">एकूण</string>
+    <string name="subtotal">सबटोटल</string>
+    <string name="sendInvoice">चलन पाठवा</string>
+    <string name="shareInvoice">चलन चालवा</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>
+        <item>ग्राहक कसे जोडायचे?</item>
         <item>उत्पादने कशी जोडावीत?</item>
         <item>उत्पादन संपादित / हटवा कसे?</item>
         <item>भाषा कशी बदलायची?</item>
@@ -175,6 +194,7 @@
 
     <string-array name="answers">
         <item>जर ग्राहकाचा ग्राहक, ग्राहक पत्ता आणि ग्राहकाची कोणतीही जीएसटी क्रमांक जोडून ग्राहक जोडला नाही तर तळाशी मेन तयार करा व ग्राहक निवडा किंवा नवीन ग्राहक जोडा. इनवॉइस केलेल्या आयटम्सवर टॅप करून बीजकमध्ये जोडण्यासाठी आयटम निवडा आणि नंतर बिलचे पूर्वावलोकन करा. फक्त बिल प्रिंट करा होम स्क्रीनवरील ग्राहकांनुसार व्युत्पन्न केलेला बिल देखील आपण पाहू शकता.</item>
+        <item>तळाशी मेनूमधून सेटिंग्ज निवडा आणि संपर्क निवडा. तळाशी उजव्या कोपर्यात प्लस बटण टॅप करा आणि संपर्क नाव, पत्ता आणि मोबाईल नंबरसह संपर्क जोडा.</item>
         <item>तळाशी मेनू आणि सेटिंग्ज निवडा उत्पादने निवडा. तळाशी उजव्या कोपर्यात प्लस बटण टॅप करा आणि उत्पादन नाव, युनिट रक्कम आणि वर्णनसह उत्पादन जोडा.</item>
         <item>तळाशी मेनू आणि सेटिंग्ज निवडा उत्पादने निवडा. उत्पादनावर टॅप करा आणि मेनूमध्ये संपादित किंवा हटवा निवडलेला उघडला.</item>
         <item>तळाशी मेनूमधून सेटिंग्ज निवडा आणि भाषा बदला निवडा. भाषा निवडा आणि पूर्ण झाल्यावर टॅप करा</item>

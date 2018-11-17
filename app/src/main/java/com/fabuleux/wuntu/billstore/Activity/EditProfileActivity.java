@@ -3,7 +3,9 @@ package com.fabuleux.wuntu.billstore.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -126,7 +130,7 @@ public class EditProfileActivity extends AppCompatActivity
         }
         if (!edt_updateGstNumber.getText().toString().trim().isEmpty())
         {
-            _shopGstNumber = edt_updateShopAddress.getText().toString();
+            _shopGstNumber = edt_updateGstNumber.getText().toString();
         }
         if (!edt_updatePanNumber.getText().toString().trim().isEmpty())
         {
@@ -162,20 +166,31 @@ public class EditProfileActivity extends AppCompatActivity
 
     public void writeDataToFirebase()
     {
-        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber);
+        User user = new User(_name, _shopName,_shopAddress,_shopGstNumber,_shopPanNumber,firebaseUser.getUid(),firebaseUser.getPhoneNumber());
 
         if (firebaseUser != null )
         {
             db.collection("Users")
                     .document(firebaseUser.getUid())
-                    .set(user);
-            Toast.makeText(this, "Data updated", Toast.LENGTH_SHORT).show();
-            if (progressDialog.isShowing())
-            {
-                progressDialog.dismiss();
-            }
-            finish();
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            if (progressDialog.isShowing() && !EditProfileActivity.this.isDestroyed())
+                            {
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(EditProfileActivity.this, "Request Failed. Please try again", Toast.LENGTH_SHORT).show();
+                }
+            });
 
+            finish();
         }
     }
 

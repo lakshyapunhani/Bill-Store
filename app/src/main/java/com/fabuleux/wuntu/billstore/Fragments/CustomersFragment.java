@@ -11,11 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.fabuleux.wuntu.billstore.Activity.InvoiceListActivity;
+import com.fabuleux.wuntu.billstore.Activity.NotificationsActivity;
 import com.fabuleux.wuntu.billstore.Adapters.CustomerListAdapter;
-import com.fabuleux.wuntu.billstore.Activity.BillsListActivity;
+import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +49,10 @@ public class CustomersFragment extends Fragment {
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
 
-    ArrayList<CustomerDetails> customerDetailsList;
+    @BindView(R.id.img_notifications)
+    ImageView img_notifications;
+
+    ArrayList<ContactPojo> customerDetailsList;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
@@ -83,9 +90,10 @@ public class CustomersFragment extends Fragment {
                 new RecyclerViewListener(context, customersList, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(context, BillsListActivity.class);
-                        intent.putExtra("fragment","customer");
-                        intent.putExtra("VendorName",customerDetailsList.get(position).getCustomerName());
+                        Intent intent = new Intent(context, InvoiceListActivity.class);
+                        intent.putExtra("contactNumber",customerDetailsList.get(position).getContactPhoneNumber());
+                        intent.putExtra("contactName",customerDetailsList.get(position).getContactName());
+
                         startActivity(intent);
                     }
 
@@ -96,7 +104,7 @@ public class CustomersFragment extends Fragment {
                 })
         );
 
-        billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Customers");
+        billsReference = db.collection("Users").document(firebaseUser.getUid()).collection("Contacts");
 
         billsReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -109,8 +117,11 @@ public class CustomersFragment extends Fragment {
                 customerDetailsList.clear();
 
                 for (DocumentSnapshot doc : documentSnapshots) {
-                    CustomerDetails customerDetails = doc.toObject(CustomerDetails.class);
-                    customerDetailsList.add(customerDetails);
+                    ContactPojo customerDetails = doc.toObject(ContactPojo.class);
+                    if (customerDetails.getNumberInvoices() > 0)
+                    {
+                        customerDetailsList.add(customerDetails);
+                    }
                 }
 
                 if (customerDetailsList.isEmpty())
@@ -127,5 +138,11 @@ public class CustomersFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @OnClick(R.id.img_notifications)
+    public void openNotifications()
+    {
+        startActivity(new Intent(context,NotificationsActivity.class));
     }
 }

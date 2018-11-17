@@ -21,20 +21,18 @@ public class RealmManager {
                 public void execute(Realm realm) {
 
                     RealmResults<ItemRealm> list = realm.where(ItemRealm.class).findAll();
-
-
                     list.deleteAllFromRealm();
 
                 }
             }, new Realm.Transaction.OnSuccess() {
                 @Override
                 public void onSuccess() {
-                    Log.d("aaaaaaaaa", "aaaaaaaaaaaa");
+                    Log.d("Success", "Success");
                 }
             }, new Realm.Transaction.OnError() {
                 @Override
                 public void onError(Throwable error) {
-                    Log.d("aaaaaaaaa", "aaaaaaaaaaaa");
+                    Log.d("Error", "Error");
                 }
             });
         }
@@ -235,23 +233,6 @@ public class RealmManager {
         }
     }
 
-    public static void deleteParticularItem(final String id)
-    {
-        try(Realm realm = Realm.getDefaultInstance())
-        {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm bgrealm) {
-                    ItemRealm itemRealm = bgrealm.where(ItemRealm.class).equalTo("productId",id).findFirst();
-                    if (itemRealm != null)
-                    {
-                        itemRealm.setNumProducts(0);
-                        itemRealm.setIsSaved("N");
-                    }
-                }
-            });
-        }
-    }
 
 
 }

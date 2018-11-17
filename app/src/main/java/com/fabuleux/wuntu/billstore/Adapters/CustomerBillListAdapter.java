@@ -4,10 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
+import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.MakeBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 
@@ -22,12 +24,12 @@ import butterknife.ButterKnife;
 
 public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    private ArrayList<MakeBillDetails> billsList= new ArrayList<>();
+    private ArrayList<InvoicePojo> billsList= new ArrayList<>();
 
-    private MakeBillDetails makeBillDetails;
+    private InvoicePojo makeBillDetails;
 
 
-    public CustomerBillListAdapter(ArrayList<MakeBillDetails> billsList)
+    public CustomerBillListAdapter(ArrayList<InvoicePojo> billsList)
     {
         this.billsList = billsList;
     }
@@ -42,6 +44,12 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         @BindView(R.id.item_date)
         TextView bill_date;
+
+        @BindView(R.id.img_typeInvoice)
+        ImageView img_typeInvoice;
+
+        @BindView(R.id.txt_typeInvoice)
+        TextView txt_typeInvoice;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -60,11 +68,23 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         makeBillDetails = billsList.get(position);
-        CustomerDetails customerDetails = new CustomerDetails();
-        customerDetails = makeBillDetails.getCustomerDetails();
-        ((ViewHolder)holder).invoice_number.setText("Invoice Number : " + makeBillDetails.getInvoiceNumber());
-        ((ViewHolder)holder).bill_date.setText(makeBillDetails.getBillTime());
+        ((ViewHolder)holder).invoice_number.setText("Invoice No : " + makeBillDetails.getInvoiceNumber());
+        ((ViewHolder)holder).bill_date.setText(makeBillDetails.getInvoiceDate());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
+        ((ViewHolder)holder).txt_typeInvoice.setText(makeBillDetails.getBillType());
+
+        if (makeBillDetails.getBillType().matches("Sent"))
+        {
+            ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_sent);
+        }
+        else if (makeBillDetails.getBillType().matches("Recieved"))
+        {
+            ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_recieve);
+        }
+        else
+        {
+            ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_added);
+        }
 
     }
 
