@@ -199,5 +199,7 @@
     <string name="billing_details">পূর্ণ রূপ প্রকাশ</string>
     <string name="total">মোট</string>
     <string name="subtotal">উপ মোট</string>
+    <string name="sendInvoice">চালান পাঠান</string>
+    <string name="shareInvoice">চালান শেয়ার করুন</string>
 </resources>
 

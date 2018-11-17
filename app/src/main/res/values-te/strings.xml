@@ -199,5 +199,7 @@
     <string name="billing_details">బిల్లింగ్ వివరాలు</string>
     <string name="total">మొత్తం</string>
     <string name="subtotal">పూర్తికాని</string>
+    <string name="sendInvoice">వాయిస్ పంపు</string>
+    <string name="shareInvoice">భాగస్వామ్యం వాయిస్</string>
 </resources>
 

@@ -198,5 +198,7 @@
     <string name="billing_details">ರಶೀದಿ ವಿವರಗಳು</string>
     <string name="total">ಒಟ್ಟು</string>
     <string name="subtotal">ಉಪಮೊತ್ತ</string>
+    <string name="sendInvoice">ಸರಕುಪಟ್ಟಿ ಕಳುಹಿಸಿ</string>
+    <string name="shareInvoice">ಸರಕುಪಟ್ಟಿ ಹಂಚಿಕೊಳ್ಳಿ</string>
 </resources>
 

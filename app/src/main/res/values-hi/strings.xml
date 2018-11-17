@@ -199,6 +199,8 @@
     <string name="billing_details">बिलिंग विवरण</string>
     <string name="total">योग</string>
     <string name="subtotal">उप-योग</string>
+    <string name="sendInvoice">बिल भेजें</string>
+    <string name="shareInvoice">शेयर बिल</string>
 
 </resources>
 

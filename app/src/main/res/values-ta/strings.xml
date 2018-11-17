@@ -179,6 +179,8 @@
     <string name="billing_details">பில்லிங் விவரங்கள்</string>
     <string name="total">மொத்த</string>
     <string name="subtotal">கூட்டுத்தொகை</string>
+    <string name="sendInvoice">விலைப்பட்டியல் அனுப்பவும்</string>
+    <string name="shareInvoice">பங்கு விலைப்பட்டியல்</string>
 
     <string-array name="questions">
         <item>விலைப்பட்டியல் எவ்வாறு உருவாக்கப்படுகிறது?</item>

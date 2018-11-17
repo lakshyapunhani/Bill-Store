@@ -243,13 +243,13 @@ public class PreviewActivity extends AppCompatActivity {
     {
         sendInvoice = new FloatingActionButton(this);
         sendInvoice.setTag("sendInvoice");
-        sendInvoice.setTitle("Send");
+        sendInvoice.setTitle(getString(R.string.sendInvoice));
         sendInvoice.setSize(FloatingActionButton.SIZE_MINI);
         sendInvoice.setImageResource(android.R.drawable.ic_menu_send);
 
         printInvoice = new FloatingActionButton(this);
         printInvoice.setTag("shareInvoice");
-        printInvoice.setTitle("Share");
+        printInvoice.setTitle(getString(R.string.shareInvoice));
         printInvoice.setSize(FloatingActionButton.SIZE_MINI);
         printInvoice.setImageResource(android.R.drawable.ic_menu_share);
 

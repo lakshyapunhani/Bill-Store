@@ -674,7 +674,6 @@
         fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_addButtonColorNormal="@color/colorPrimary"
         fab:fab_addButtonColorPressed="@color/colorPrimary"
-        fab:fab_addButtonPlusIconColor="@color/white"
-        />
+        fab:fab_addButtonPlusIconColor="@color/white" />
 
 </RelativeLayout>

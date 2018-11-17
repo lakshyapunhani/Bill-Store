@@ -198,5 +198,7 @@
     <string name="billing_details">બિલિંગ વિગતો</string>
     <string name="total">કુલ</string>
     <string name="subtotal">સબટોટલ</string>
+    <string name="sendInvoice">ભરતિયું મોકલો</string>
+    <string name="shareInvoice">શેર ભરતિયું</string>
 </resources>
 

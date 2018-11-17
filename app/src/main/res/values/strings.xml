@@ -202,6 +202,8 @@
     <string name="billing_details">Billing Details</string>
     <string name="total">Total</string>
     <string name="subtotal">SubTotal</string>
+    <string name="sendInvoice">Send Invoice</string>
+    <string name="shareInvoice">Share Invoice</string>
 
 
 </resources>
