@@ -17,9 +17,8 @@ import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Activity.InvoiceListActivity;
 import com.fabuleux.wuntu.billstore.Activity.NotificationsActivity;
-import com.fabuleux.wuntu.billstore.Adapters.CustomerListAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.InvoicesAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
-import com.fabuleux.wuntu.billstore.Pojos.CustomerDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,11 +39,11 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CustomersFragment extends Fragment {
+public class InvoicesFragment extends Fragment {
 
 
     @BindView(R.id.customersList)
-    RecyclerView customersList;
+    RecyclerView invoicesList;
 
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
@@ -56,7 +55,7 @@ public class CustomersFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
     FirebaseUser firebaseUser;
-    CustomerListAdapter customerListAdapter;
+    InvoicesAdapter invoicesAdapter;
 
     CollectionReference billsReference;
     Context context;
@@ -72,22 +71,22 @@ public class CustomersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_customers, container, false);
+        View view =inflater.inflate(R.layout.fragment_invoices, container, false);
         ButterKnife.bind(this,view);
         customerDetailsList = new ArrayList<>();
-        customerListAdapter = new CustomerListAdapter(customerDetailsList);
+        invoicesAdapter = new InvoicesAdapter(customerDetailsList);
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
-        customersList.setLayoutManager(mLayoutManager);
-        customersList.setItemAnimator(new DefaultItemAnimator());
-        customersList.setAdapter(customerListAdapter);
+        invoicesList.setLayoutManager(mLayoutManager);
+        invoicesList.setItemAnimator(new DefaultItemAnimator());
+        invoicesList.setAdapter(invoicesAdapter);
 
-        customersList.addOnItemTouchListener(
-                new RecyclerViewListener(context, customersList, new RecyclerViewListener.OnItemClickListener() {
+        invoicesList.addOnItemTouchListener(
+                new RecyclerViewListener(context, invoicesList, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(context, InvoiceListActivity.class);
@@ -133,7 +132,7 @@ public class CustomersFragment extends Fragment {
                     emptyLayout.setVisibility(View.GONE);
                 }
 
-                customerListAdapter.notifyDataSetChanged();
+                invoicesAdapter.notifyDataSetChanged();
             }
         });
 

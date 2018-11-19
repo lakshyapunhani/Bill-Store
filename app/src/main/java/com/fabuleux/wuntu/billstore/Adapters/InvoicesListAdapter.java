@@ -22,14 +22,14 @@ import butterknife.ButterKnife;
  * Created by Dell on 13-03-2018.
  */
 
-public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private ArrayList<InvoicePojo> billsList= new ArrayList<>();
 
     private InvoicePojo makeBillDetails;
 
 
-    public CustomerBillListAdapter(ArrayList<InvoicePojo> billsList)
+    public InvoicesListAdapter(ArrayList<InvoicePojo> billsList)
     {
         this.billsList = billsList;
     }

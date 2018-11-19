@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_grey"
-    tools:context="com.fabuleux.wuntu.billstore.Fragments.CustomersFragment">
+    tools:context="com.fabuleux.wuntu.billstore.Fragments.InvoicesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

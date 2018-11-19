@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Adapters.CustomerBillListAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.InvoicesListAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
@@ -46,7 +46,7 @@ public class InvoiceListActivity extends AppCompatActivity {
 
     ArrayList<InvoicePojo> billsList;
 
-    CustomerBillListAdapter customerBillListAdapter;
+    InvoicesListAdapter customerBillListAdapter;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -111,7 +111,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         billsList = new ArrayList<>();
         billItems = new HashMap<>();
 
-        customerBillListAdapter = new CustomerBillListAdapter(billsList);
+        customerBillListAdapter = new InvoicesListAdapter(billsList);
 
         mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -260,7 +260,7 @@ public class InvoiceListActivity extends AppCompatActivity {
     }
 
     private void sendDatatoBillView() {
-        Intent intent = new Intent(this, BillViewActivity.class);
+        Intent intent = new Intent(this, AddedBillPreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
         intent.putExtra("Customer Name", receiverName);
         intent.putExtra("Customer Address", receiverAddress);

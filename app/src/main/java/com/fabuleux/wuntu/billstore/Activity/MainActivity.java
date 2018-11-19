@@ -2,10 +2,8 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +19,7 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
-import com.fabuleux.wuntu.billstore.Fragments.CustomersFragment;
+import com.fabuleux.wuntu.billstore.Fragments.InvoicesFragment;
 import com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment;
 import com.fabuleux.wuntu.billstore.Fragments.SettingsFragment;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
@@ -46,7 +43,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
         RealmManager.deleteAllRealm();
 
-        customerFragment = new CustomersFragment();
+        customerFragment = new InvoicesFragment();
         addBillFragment = new AddBillFragment();
         makeBillFragment = new MakeBillFragment();
         profileFragment = new SettingsFragment();

@@ -47,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BillViewActivity extends AppCompatActivity {
+public class AddedBillPreviewActivity extends AppCompatActivity {
 
 
     @BindView(R.id.wholeSellerName)
@@ -134,7 +134,7 @@ public class BillViewActivity extends AppCompatActivity {
 
 
 
-        popup = new PopupMenu(BillViewActivity.this, menu_dots);
+        popup = new PopupMenu(AddedBillPreviewActivity.this, menu_dots);
         //Inflating the Popup using xml file
         popup.getMenuInflater()
                 .inflate(R.menu.popupmenu, popup.getMenu());
@@ -165,7 +165,7 @@ public class BillViewActivity extends AppCompatActivity {
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                 if (e != null)
                 {
-                    Toast.makeText(BillViewActivity.this, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddedBillPreviewActivity.this, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -181,7 +181,7 @@ public class BillViewActivity extends AppCompatActivity {
         });*/
 
         wholeSellerBillDocuments.addOnItemTouchListener(
-                new RecyclerViewListener(BillViewActivity.this, wholeSellerBillDocuments, new RecyclerViewListener.OnItemClickListener() {
+                new RecyclerViewListener(AddedBillPreviewActivity.this, wholeSellerBillDocuments, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position)
                     {
@@ -274,12 +274,12 @@ public class BillViewActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid)
                         {
-                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -290,12 +290,12 @@ public class BillViewActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid)
                         {
-                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -303,7 +303,7 @@ public class BillViewActivity extends AppCompatActivity {
 
     public void deleteBill()
     {
-        if (!progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+        if (!progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
         {
             progressDialog.show();
         }
@@ -325,13 +325,13 @@ public class BillViewActivity extends AppCompatActivity {
                                     // File deleted successfully
                                     if (finalI == keyList.size() - 1)
                                     {
-                                        if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                        if (progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
                                         {
                                             progressDialog.dismiss();
                                         }
 
                                         //getActivity().getSupportFragmentManager().popBackStack();
-                                        Toast.makeText(BillViewActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AddedBillPreviewActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }
@@ -339,7 +339,7 @@ public class BillViewActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
                                     // Uh-oh, an error occurred!
-                                    if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                    if (progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
                                     {
                                         progressDialog.dismiss();
                                     }
@@ -352,7 +352,7 @@ public class BillViewActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(BillViewActivity.this, "Not Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddedBillPreviewActivity.this, "Not Deleted", Toast.LENGTH_SHORT).show();
             }
         });
     }
