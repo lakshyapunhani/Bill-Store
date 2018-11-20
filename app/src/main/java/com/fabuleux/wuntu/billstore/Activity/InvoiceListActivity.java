@@ -256,6 +256,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("senderGSTNumber",senderGSTNumber);
         intent.putExtra("senderMobileNumber",senderMobileNumber);
         intent.putExtra("senderUID",senderUID);
+        intent.putExtra("billTime",billTime);
         startActivity(intent);
     }
 
@@ -278,6 +279,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("discount", discount);
         intent.putExtra("subTotal", subTotal);
         intent.putExtra("billImages", (Serializable) billImages);
+        intent.putExtra("billTime",billTime);
         startActivity(intent);
     }
 }

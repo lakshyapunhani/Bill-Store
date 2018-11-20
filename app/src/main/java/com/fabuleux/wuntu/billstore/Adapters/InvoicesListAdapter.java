@@ -42,6 +42,9 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.item_amount)
         TextView bill_amount;
 
+        @BindView(R.id.invoiceStatus)
+        TextView invoiceStatus;
+
         @BindView(R.id.item_date)
         TextView bill_date;
 
@@ -72,6 +75,7 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((ViewHolder)holder).bill_date.setText(makeBillDetails.getInvoiceDate());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
         ((ViewHolder)holder).txt_typeInvoice.setText(makeBillDetails.getBillType());
+        ((ViewHolder)holder).invoiceStatus.setText(makeBillDetails.getBillStatus());
 
         if (makeBillDetails.getBillType().matches("Sent"))
         {

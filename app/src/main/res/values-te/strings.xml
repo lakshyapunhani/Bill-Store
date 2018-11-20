@@ -201,5 +201,7 @@
     <string name="subtotal">పూర్తికాని</string>
     <string name="sendInvoice">వాయిస్ పంపు</string>
     <string name="shareInvoice">భాగస్వామ్యం వాయిస్</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 </resources>
 

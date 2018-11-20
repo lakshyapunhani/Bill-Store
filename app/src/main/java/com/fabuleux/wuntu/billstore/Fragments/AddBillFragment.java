@@ -597,14 +597,8 @@ public class AddBillFragment extends Fragment {
         StorageReference riversRef;
         if (firebaseUser != null)
         {
-            if (vendorView)
-            {
-                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
-            }
-            else
-            {
-                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
-            }
+
+            riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorUID);
 
             for (int i = 0; i< imagesList.size(); i++)
             {

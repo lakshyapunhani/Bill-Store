@@ -201,6 +201,8 @@
     <string name="subtotal">उप-योग</string>
     <string name="sendInvoice">बिल भेजें</string>
     <string name="shareInvoice">शेयर बिल</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 
 </resources>
 

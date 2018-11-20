@@ -200,5 +200,7 @@
     <string name="subtotal">સબટોટલ</string>
     <string name="sendInvoice">ભરતિયું મોકલો</string>
     <string name="shareInvoice">શેર ભરતિયું</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 </resources>
 
