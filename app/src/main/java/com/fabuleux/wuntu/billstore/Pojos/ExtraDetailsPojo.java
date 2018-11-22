@@ -8,8 +8,8 @@ public class ExtraDetailsPojo implements Parcelable
     int sgst;
     int igst;
     int utgst;
-    int shipping_charges;
-    int discount;
+    double shipping_charges;
+    double discount;
     boolean roundOff;
 
     public ExtraDetailsPojo() {
@@ -19,8 +19,8 @@ public class ExtraDetailsPojo implements Parcelable
         sgst = in.readInt();
         igst = in.readInt();
         utgst = in.readInt();
-        shipping_charges = in.readInt();
-        discount = in.readInt();
+        shipping_charges = in.readDouble();
+        discount = in.readDouble();
         roundOff = in.readByte() != 0;
     }
 
@@ -60,19 +60,19 @@ public class ExtraDetailsPojo implements Parcelable
         this.utgst = utgst;
     }
 
-    public int getShipping_charges() {
+    public double getShipping_charges() {
         return shipping_charges;
     }
 
-    public void setShipping_charges(int shipping_charges) {
+    public void setShipping_charges(double shipping_charges) {
         this.shipping_charges = shipping_charges;
     }
 
-    public int getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
@@ -94,8 +94,8 @@ public class ExtraDetailsPojo implements Parcelable
         dest.writeInt(sgst);
         dest.writeInt(igst);
         dest.writeInt(utgst);
-        dest.writeInt(shipping_charges);
-        dest.writeInt(discount);
+        dest.writeDouble(shipping_charges);
+        dest.writeDouble(discount);
         dest.writeByte((byte) (roundOff ? 1 : 0));
     }
 }
