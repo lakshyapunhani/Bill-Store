@@ -479,30 +479,34 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful())
                 {
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.contains("name"))
+                    if (documentSnapshot.exists())
                     {
-                        sessionManager.setName(documentSnapshot.get("name").toString());
+                        if (documentSnapshot.contains("name"))
+                        {
+                            sessionManager.setName(documentSnapshot.get("name").toString());
+                        }
+
+                        if (documentSnapshot.contains("shop_address"))
+                        {
+                            sessionManager.setShop_address(documentSnapshot.get("shop_address").toString());
+                        }
+
+                        if (documentSnapshot.contains("shop_gst"))
+                        {
+                            sessionManager.setShop_gst(documentSnapshot.get("shop_gst").toString());
+                        }
+
+                        if (documentSnapshot.contains("shop_name"))
+                        {
+                            sessionManager.setShop_name(documentSnapshot.get("shop_name").toString());
+                        }
+
+                        if (documentSnapshot.contains("shop_pan"))
+                        {
+                            sessionManager.setShop_pan(documentSnapshot.get("shop_pan").toString());
+                        }
                     }
 
-                    if (documentSnapshot.contains("shop_address"))
-                    {
-                        sessionManager.setShop_address(documentSnapshot.get("shop_address").toString());
-                    }
-
-                    if (documentSnapshot.contains("shop_gst"))
-                    {
-                        sessionManager.setShop_gst(documentSnapshot.get("shop_gst").toString());
-                    }
-
-                    if (documentSnapshot.contains("shop_name"))
-                    {
-                        sessionManager.setShop_name(documentSnapshot.get("shop_name").toString());
-                    }
-
-                    if (documentSnapshot.contains("shop_pan"))
-                    {
-                        sessionManager.setShop_pan(documentSnapshot.get("shop_pan").toString());
-                    }
                 }
             }
         });
