@@ -789,7 +789,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
             }
             else
             {
-                extraDetailsPojo.setShipping_charges(Integer.parseInt(edt_shippingCharges.getText().toString().trim()));
+                extraDetailsPojo.setShipping_charges(Double.parseDouble(edt_shippingCharges.getText().toString().trim()));
             }
         }
 
@@ -802,7 +802,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
             }
             else
             {
-                extraDetailsPojo.setDiscount(Integer.parseInt(edt_discount.getText().toString().trim()));
+                extraDetailsPojo.setDiscount(Double.parseDouble(edt_discount.getText().toString().trim()));
             }
         }
 
