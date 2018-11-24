@@ -234,7 +234,7 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.menu_dots_bill_view)
+    /*@OnClick(R.id.menu_dots_bill_view)
     public void menuClick()
     {
         //registering popup with OnMenuItemClickListener
@@ -253,7 +253,7 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         });
 
         popup.show();
-    }
+    }*/
 
 
 
