@@ -177,6 +177,8 @@ public class PreviewActivity extends AppCompatActivity {
     private String senderMobileNumber = "";
     private String senderUID = "";
 
+    private String billTime = "";
+
     HashMap<String,ItemPojo> billItems;
 
     private FirebaseFirestore db;
@@ -207,8 +209,6 @@ public class PreviewActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
-
-
 
     ContactPojo receiverPojo;
     ContactPojo senderPojo;
@@ -245,9 +245,10 @@ public class PreviewActivity extends AppCompatActivity {
         billItems.clear();
         itemList.clear();
 
+        getIntentItems();
+
         setFloatingActionMenu();
 
-        getIntentItems();
         //getShopDetails();
         initTable();
         setViews();
@@ -292,6 +293,14 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
         ///////////////////////////////////////////////Sent Invoice FAB
+
+        final DocumentReference receiverInvoiceReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(receiverMobileNumber).collection("Invoices").document(invoiceDate + " && " + billTime);
+
+
+        final DocumentReference senderInvoiceReference = db.collection("Users").document(receiverUID).
+                collection("Contacts").document(senderMobileNumber).collection("Invoices").document(invoiceDate + " && " + billTime);
+
         cancelSentInvoice = new FloatingActionButton(this);
         cancelSentInvoice.setTag("cancelSentInvoice");
         cancelSentInvoice.setTitle("Cancel Invoice");
@@ -316,7 +325,35 @@ public class PreviewActivity extends AppCompatActivity {
 
         cancelSentInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                receiverInvoiceReference.update("billStatus","Cancelled")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                senderInvoiceReference.update("billStatus","Cancelled")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                //Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Toast.makeText(PreviewActivity.this, "Sent cancelled", Toast.LENGTH_SHORT).show();
             }
         });
@@ -324,6 +361,35 @@ public class PreviewActivity extends AppCompatActivity {
         markPaidInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                receiverInvoiceReference.update("billStatus","Paid")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                senderInvoiceReference.update("billStatus","Paid")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                //Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       // Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
                 Toast.makeText(PreviewActivity.this, "Mark paid clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -339,6 +405,7 @@ public class PreviewActivity extends AppCompatActivity {
 
 
         //////////////////////////////////////////////////Received Invoice FAB
+
         cancelReceiveInvoice = new FloatingActionButton(this);
         cancelReceiveInvoice.setTag("cancelReceiveInvoice");
         cancelReceiveInvoice.setTitle("Cancel Invoice");
@@ -350,6 +417,33 @@ public class PreviewActivity extends AppCompatActivity {
         cancelReceiveInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                receiverInvoiceReference.update("billStatus","Cancelled")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                senderInvoiceReference.update("billStatus","Cancelled")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                //Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Toast.makeText(PreviewActivity.this, "Receive cancelled", Toast.LENGTH_SHORT).show();
             }
         });
@@ -391,6 +485,8 @@ public class PreviewActivity extends AppCompatActivity {
             senderGstNumber = getIntent().getStringExtra("senderGSTNumber");
             senderMobileNumber= getIntent().getStringExtra("senderMobileNumber");
             senderUID  = getIntent().getStringExtra("senderUID");
+
+            billTime = getIntent().getStringExtra("billTime");
         }
     }
 
@@ -422,14 +518,20 @@ public class PreviewActivity extends AppCompatActivity {
         if (showSave == 0)
         {
             createInvoiceFAB.setVisibility(View.VISIBLE);
+            sentInvoiceFAB.setVisibility(View.GONE);
+            receivedInvoiceFAB.setVisibility(View.GONE);
         }
         else if (showSave == 1)
         {
-            sentInvoiceFAB.setVisibility(View.GONE);
+            createInvoiceFAB.setVisibility(View.GONE);
+            sentInvoiceFAB.setVisibility(View.VISIBLE);
+            receivedInvoiceFAB.setVisibility(View.GONE);
         }
         else
         {
-            receivedInvoiceFAB.setVisibility(View.GONE);
+            createInvoiceFAB.setVisibility(View.GONE);
+            sentInvoiceFAB.setVisibility(View.GONE);
+            receivedInvoiceFAB.setVisibility(View.VISIBLE);
         }
 
         if (sgst != 0)

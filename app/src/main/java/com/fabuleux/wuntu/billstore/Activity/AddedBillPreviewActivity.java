@@ -12,7 +12,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.Adapters.BillDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -47,7 +45,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddedBillPreviewActivity extends AppCompatActivity {
 
@@ -114,7 +111,7 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
     double subTotal = 0;
 
     private FloatingActionButton markPaidFAB;
-    private FloatingActionButton deleteBillFAB;
+    private FloatingActionButton cancelBillFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,30 +184,30 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         markPaidFAB.setSize(FloatingActionButton.SIZE_MINI);
         markPaidFAB.setImageResource(android.R.drawable.ic_menu_send);
 
-        deleteBillFAB = new FloatingActionButton(this);
-        deleteBillFAB.setTag("deleteBill");
-        deleteBillFAB.setTitle(getString(R.string.deleteBill));
-        deleteBillFAB.setSize(FloatingActionButton.SIZE_MINI);
-        deleteBillFAB.setImageResource(android.R.drawable.ic_delete);
+        cancelBillFAB = new FloatingActionButton(this);
+        cancelBillFAB.setTag("cancelBill");
+        cancelBillFAB.setTitle(getString(R.string.cancelBill));
+        cancelBillFAB.setSize(FloatingActionButton.SIZE_MINI);
+        cancelBillFAB.setImageResource(android.R.drawable.ic_delete);
 
         addedBillFAB.addButton(markPaidFAB);
-        addedBillFAB.addButton(deleteBillFAB);
+        addedBillFAB.addButton(cancelBillFAB);
 
         markPaidFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                //saveButton();
-                editBill();
+                //editBill();
+                markPaidBill();
             }
         });
 
-        deleteBillFAB.setOnClickListener(new View.OnClickListener() {
+        cancelBillFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                //saveButton();
-                deleteBill();
+                //deleteBill();
+                cancelBill();
             }
         });
     }
@@ -283,6 +280,40 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
         billDocumentsAdapter.notifyDataSetChanged();
 
+    }
+
+    private void markPaidBill()
+    {
+        billDateReference.update("billStatus","Paid")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void cancelBill()
+    {
+        billDateReference.update("billStatus","Cancelled")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Cancelled", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void editBill()
