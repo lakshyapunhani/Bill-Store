@@ -162,6 +162,12 @@ public class PreviewActivity extends AppCompatActivity {
 
     private FloatingActionButton cancelReceiveInvoice;
 
+    @BindView(R.id.sharedInvoiceFAB)
+    FloatingActionsMenu sharedInvoiceFAB;
+
+    private FloatingActionButton cancelSharedInvoice;
+    private FloatingActionButton markPaidSharedInvoice;
+
     private ArrayList<ItemPojo> itemList;
     private String receiverName = "";
     private String receiverAddress = "";
@@ -417,12 +423,12 @@ public class PreviewActivity extends AppCompatActivity {
         cancelReceiveInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receiverInvoiceReference.update("billStatus","Cancelled")
+               receiverInvoiceReference.update("billStatus","Cancelled")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid)
                             {
-                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -447,6 +453,64 @@ public class PreviewActivity extends AppCompatActivity {
                 Toast.makeText(PreviewActivity.this, "Receive cancelled", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        //////////////////////////////////////////////////////////////////// Share Invoice FAB
+        cancelSharedInvoice = new FloatingActionButton(this);
+        cancelSharedInvoice.setTag("cancelSharedInvoice");
+        cancelSharedInvoice.setTitle("Cancel Invoice");
+        cancelSharedInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        cancelSharedInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        markPaidSharedInvoice = new FloatingActionButton(this);
+        markPaidSharedInvoice.setTag("markPaidSharedInvoice");
+        markPaidSharedInvoice.setTitle("Mark Paid Invoice");
+        markPaidSharedInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        markPaidSharedInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        sharedInvoiceFAB.addButton(markPaidSharedInvoice);
+        sharedInvoiceFAB.addButton(cancelSharedInvoice);
+
+        cancelSharedInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receiverInvoiceReference.update("billStatus","Cancelled")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Toast.makeText(PreviewActivity.this, "Cancel Share Invoice clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        markPaidSharedInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receiverInvoiceReference.update("billStatus","Paid")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(PreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Toast.makeText(PreviewActivity.this, "Mark paid shared invoice clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 
@@ -520,18 +584,28 @@ public class PreviewActivity extends AppCompatActivity {
             createInvoiceFAB.setVisibility(View.VISIBLE);
             sentInvoiceFAB.setVisibility(View.GONE);
             receivedInvoiceFAB.setVisibility(View.GONE);
+            sharedInvoiceFAB.setVisibility(View.GONE);
         }
         else if (showSave == 1)
         {
             createInvoiceFAB.setVisibility(View.GONE);
             sentInvoiceFAB.setVisibility(View.VISIBLE);
             receivedInvoiceFAB.setVisibility(View.GONE);
+            sharedInvoiceFAB.setVisibility(View.GONE);
+        }
+        else if (showSave == 2)
+        {
+            createInvoiceFAB.setVisibility(View.GONE);
+            sentInvoiceFAB.setVisibility(View.GONE);
+            receivedInvoiceFAB.setVisibility(View.VISIBLE);
+            sharedInvoiceFAB.setVisibility(View.GONE);
         }
         else
         {
             createInvoiceFAB.setVisibility(View.GONE);
             sentInvoiceFAB.setVisibility(View.GONE);
-            receivedInvoiceFAB.setVisibility(View.VISIBLE);
+            receivedInvoiceFAB.setVisibility(View.GONE);
+            sharedInvoiceFAB.setVisibility(View.VISIBLE);
         }
 
         if (sgst != 0)
@@ -749,7 +823,7 @@ public class PreviewActivity extends AppCompatActivity {
 
             GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
             InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojoAnotherUser, "", "Due", "Recieved", timestampString, billImages);
+                    invoiceDate, dueDate, gstPojoAnotherUser, "", "Due", "Received", timestampString, billImages);
 
             documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
             Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
@@ -821,7 +895,7 @@ public class PreviewActivity extends AppCompatActivity {
 
             documentReference.set(contactPojo);
             InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+                    invoiceDate, dueDate, gstPojo, "", "Due", "Shared", timestampString, billImages);
 
             documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
