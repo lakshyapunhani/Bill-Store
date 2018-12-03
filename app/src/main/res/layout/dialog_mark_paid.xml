@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/ThemeWithCorners"
     android:orientation="vertical">
@@ -66,6 +66,8 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_marginTop="10dp">
 
 
@@ -106,6 +108,17 @@
                     android:background="@color/white"/>
 
             </LinearLayout>
+
+            <Button
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:text="Done"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_rounded_bg"/>
 
         </LinearLayout>
 

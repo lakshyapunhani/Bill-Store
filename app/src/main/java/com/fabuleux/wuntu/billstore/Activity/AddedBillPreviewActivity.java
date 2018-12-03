@@ -1,5 +1,6 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,7 +13,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -284,6 +289,13 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
     private void markPaidBill()
     {
+
+        final Dialog dialog=new Dialog(this,R.style.ThemeWithCorners);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater layoutInflater=LayoutInflater.from(this);
+        View view1=layoutInflater.inflate(R.layout.dialog_mark_paid,null);
+        dialog.setContentView(view1);
+        dialog.show();
         billDateReference.update("billStatus","Paid")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

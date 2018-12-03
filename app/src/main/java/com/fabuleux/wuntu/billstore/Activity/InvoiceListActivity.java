@@ -127,7 +127,7 @@ public class InvoiceListActivity extends AppCompatActivity {
                         InvoicePojo makeBillDetails = new InvoicePojo();
                         makeBillDetails = billsList.get(position);
 
-                        if (makeBillDetails.getBillType().matches("Sent") || makeBillDetails.getBillType().matches("Received") || makeBillDetails.getBillType().matches("Shared"))
+                        if (makeBillDetails.getBillType().matches("Sent") || makeBillDetails.getBillType().matches("Recieved") || makeBillDetails.getBillType().matches("Shared"))
                         {
                             billTime = makeBillDetails.getBillTime();
                             sgst = makeBillDetails.getGstPojo().getSgst();
@@ -246,7 +246,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         {
             intent.putExtra("showFab", 1);
         }
-        else if (billType.matches("Received"))
+        else if (billType.matches("Recieved"))
         {
             intent.putExtra("showFab", 2);
         }

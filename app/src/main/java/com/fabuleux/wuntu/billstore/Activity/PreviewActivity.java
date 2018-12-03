@@ -823,7 +823,7 @@ public class PreviewActivity extends AppCompatActivity {
 
             GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
             InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojoAnotherUser, "", "Due", "Received", timestampString, billImages);
+                    invoiceDate, dueDate, gstPojoAnotherUser, "", "Due", "Recieved", timestampString, billImages);
 
             documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
             Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
