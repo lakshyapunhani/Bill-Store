@@ -41,7 +41,7 @@
                     android:text="@string/mark_paid"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -51,12 +51,15 @@
                     android:layout_weight="1">
 
                     <EditText
+                        android:id="@+id/billAmount"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
                         tools:text="500"
+                        android:maxLines="1"
                         android:background="@color/white"/>
 
                 </LinearLayout>
@@ -64,6 +67,7 @@
             </LinearLayout>
 
             <RadioGroup
+                android:id="@+id/radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -72,17 +76,20 @@
 
 
                 <RadioButton
+                    android:id="@+id/rb_cash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/paid_by_cash"/>
 
                 <RadioButton
+                    android:id="@+id/rb_card"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/paid_by_debit_credit_card"/>
 
                 <RadioButton
+                    android:id="@+id/rb_others"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,19 +99,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
                 <EditText
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/edt_others_reason"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:hint="@string/please_specify"
+                    android:visibility="gone"
                     android:background="@color/white"/>
 
             </LinearLayout>

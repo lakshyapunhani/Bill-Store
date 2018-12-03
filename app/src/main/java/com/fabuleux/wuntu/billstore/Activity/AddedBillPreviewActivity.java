@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -294,6 +295,24 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater layoutInflater=LayoutInflater.from(this);
         View view1=layoutInflater.inflate(R.layout.dialog_mark_paid,null);
+
+        EditText edt_bill_amount = view1.findViewById(R.id.billAmount);
+        edt_bill_amount.setText("" + subTotal);
+        final EditText edt_others_reason = view1.findViewById(R.id.edt_others_reason);
+        RadioGroup radioGroup = view1.findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_others)
+                {
+                    edt_others_reason.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    edt_others_reason.setVisibility(View.GONE);
+                }
+            }
+        });
         dialog.setContentView(view1);
         dialog.show();
         billDateReference.update("billStatus","Paid")
