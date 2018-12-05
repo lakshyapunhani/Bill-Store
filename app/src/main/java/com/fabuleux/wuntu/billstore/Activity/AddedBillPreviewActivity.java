@@ -116,6 +116,8 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
     double subTotal = 0;
 
+    int radioButtonFlag = 1;
+
     private FloatingActionButton markPaidFAB;
     private FloatingActionButton cancelBillFAB;
 
@@ -296,6 +298,7 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         LayoutInflater layoutInflater=LayoutInflater.from(this);
         View view1=layoutInflater.inflate(R.layout.dialog_mark_paid,null);
 
+
         EditText edt_bill_amount = view1.findViewById(R.id.billAmount);
         edt_bill_amount.setText("" + subTotal);
         final EditText edt_others_reason = view1.findViewById(R.id.edt_others_reason);
@@ -305,29 +308,66 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rb_others)
                 {
+                    radioButtonFlag = 3;
                     edt_others_reason.setVisibility(View.VISIBLE);
+                }
+                else if (checkedId == R.id.rb_card)
+                {
+                        radioButtonFlag = 2;
+                        edt_others_reason.setVisibility(View.GONE);
                 }
                 else
                 {
+                    radioButtonFlag = 1;
                     edt_others_reason.setVisibility(View.GONE);
                 }
             }
         });
-        dialog.setContentView(view1);
-        dialog.show();
-        billDateReference.update("billStatus","Paid")
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+
+        Button btn_mark_paid = view1.findViewById(R.id.btn_mark_paid);
+        btn_mark_paid.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                if (radioButtonFlag == 3)
+                {
+                    String reason = edt_others_reason.getText().toString().trim();
+                    if (reason.isEmpty())
+                    {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Please specify the transaction mode", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(AddedBillPreviewActivity.this, "Other clicked " + reason, Toast.LENGTH_SHORT).show();
+                }
+                else if (radioButtonFlag == 2)
+                {
+                    Toast.makeText(AddedBillPreviewActivity.this, "Card payment", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(AddedBillPreviewActivity.this, "Cash payment", Toast.LENGTH_SHORT).show();
+                }
+
+                billDateReference.update("billStatus","Paid")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.dismiss();
             }
         });
+        dialog.setContentView(view1);
+        dialog.show();
+
     }
 
     private void cancelBill()

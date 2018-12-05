@@ -79,6 +79,7 @@
                     android:id="@+id/rb_cash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/paid_by_cash"/>
 
                 <RadioButton
@@ -113,12 +114,18 @@
                     android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:hint="@string/please_specify"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:lines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:visibility="gone"
                     android:background="@color/white"/>
 
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_mark_paid"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
