@@ -222,6 +222,8 @@ public class PreviewActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
 
+        fn_permission();
+
         billImages = new HashMap<>();
 
         billItems = new HashMap<>();
@@ -698,43 +700,40 @@ public class PreviewActivity extends AppCompatActivity {
             progressDialog.show();
         }
 
-        if (receiverUID != null && !receiverUID.isEmpty())
-        {
-            for (int i = 0; i < itemList.size(); i++) {
-                ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
-                billItems.put(itemList.get(i).getItemName(), itemPojo);
-            }
 
-            receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+        for (int i = 0; i < itemList.size(); i++) {
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
+            billItems.put(itemList.get(i).getItemName(), itemPojo);
+        }
 
-            senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
-                    senderUID, newCustomerNumberInvoices + 1, invoiceDate);
+        receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, "", newCustomerNumberInvoices + 1, invoiceDate);
 
-            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                    collection("Contacts").document(receiverMobileNumber);
-            ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
-            GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
+        senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
+                senderUID, newCustomerNumberInvoices + 1, invoiceDate);
 
-            documentReference.set(contactPojo);
-            InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(receiverMobileNumber);
+        ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+        GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
 
-            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+        documentReference.set(contactPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
+                invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
 
-            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed()) {
-                progressDialog.dismiss();
-            }
+        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed()) {
+            progressDialog.dismiss();
+        }
 
-            if (boolean_permission) {
-                bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
-                createPdf();
-            } else {
-                fn_permission();
-            }
-
+        if (boolean_permission) {
+            bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+            createPdf();
+        } else {
+            fn_permission();
         }
     }
 
