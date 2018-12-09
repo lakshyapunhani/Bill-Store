@@ -892,9 +892,10 @@ public class PreviewActivity extends AppCompatActivity {
                 collection("Contacts").document(receiverMobileNumber);
         GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
 
-        documentReference.set(contactPojo);
-        InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+        documentReference.set(receiverPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(receiverPojo, senderPojo, invoiceNumber, subTotal, billItems,
+                invoiceDate, dueDate, gstPojo, "", "Due",
+                "Shared", timestampString, billImages,"","");
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
