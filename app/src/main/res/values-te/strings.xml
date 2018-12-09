@@ -203,5 +203,12 @@
     <string name="shareInvoice">భాగస్వామ్యం వాయిస్</string>
     <string name="markPaid">Mark Paid</string>
     <string name="deleteBill">Delete Bill</string>
+    <string name="mark_paid">Mark Paid</string>
+    <string name="paid_by_cash">Paid by cash</string>
+    <string name="paid_by_debit_credit_card">Paid by debit/credit card</string>
+    <string name="paid_by_mobile_wallet">Paid by mobile wallet</string>
+    <string name="others">Others</string>
+    <string name="please_specify">Please specify</string>
+    <string name="cancelBill">Cancel Bill</string>
 </resources>
 

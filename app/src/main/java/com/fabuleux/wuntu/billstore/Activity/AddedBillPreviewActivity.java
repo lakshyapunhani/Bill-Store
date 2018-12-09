@@ -1,5 +1,6 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,16 +13,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Adapters.BillDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -47,7 +51,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddedBillPreviewActivity extends AppCompatActivity {
 
@@ -113,8 +116,10 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
     double subTotal = 0;
 
+    int radioButtonFlag = 1;
+
     private FloatingActionButton markPaidFAB;
-    private FloatingActionButton deleteBillFAB;
+    private FloatingActionButton cancelBillFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,30 +192,30 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
         markPaidFAB.setSize(FloatingActionButton.SIZE_MINI);
         markPaidFAB.setImageResource(android.R.drawable.ic_menu_send);
 
-        deleteBillFAB = new FloatingActionButton(this);
-        deleteBillFAB.setTag("deleteBill");
-        deleteBillFAB.setTitle(getString(R.string.deleteBill));
-        deleteBillFAB.setSize(FloatingActionButton.SIZE_MINI);
-        deleteBillFAB.setImageResource(android.R.drawable.ic_delete);
+        cancelBillFAB = new FloatingActionButton(this);
+        cancelBillFAB.setTag("cancelBill");
+        cancelBillFAB.setTitle(getString(R.string.cancelBill));
+        cancelBillFAB.setSize(FloatingActionButton.SIZE_MINI);
+        cancelBillFAB.setImageResource(android.R.drawable.ic_delete);
 
         addedBillFAB.addButton(markPaidFAB);
-        addedBillFAB.addButton(deleteBillFAB);
+        addedBillFAB.addButton(cancelBillFAB);
 
         markPaidFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                //saveButton();
-                editBill();
+                //editBill();
+                markPaidBill();
             }
         });
 
-        deleteBillFAB.setOnClickListener(new View.OnClickListener() {
+        cancelBillFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                //saveButton();
-                deleteBill();
+                //deleteBill();
+                cancelBill();
             }
         });
     }
@@ -283,6 +288,103 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
         billDocumentsAdapter.notifyDataSetChanged();
 
+    }
+
+    private void markPaidBill()
+    {
+
+        final Dialog dialog=new Dialog(this,R.style.ThemeWithCorners);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater layoutInflater=LayoutInflater.from(this);
+        View view1=layoutInflater.inflate(R.layout.dialog_mark_paid,null);
+
+
+        EditText edt_bill_amount = view1.findViewById(R.id.billAmount);
+        edt_bill_amount.setText("" + subTotal);
+        final EditText edt_others_reason = view1.findViewById(R.id.edt_others_reason);
+        RadioGroup radioGroup = view1.findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_others)
+                {
+                    radioButtonFlag = 3;
+                    edt_others_reason.setVisibility(View.VISIBLE);
+                }
+                else if (checkedId == R.id.rb_card)
+                {
+                        radioButtonFlag = 2;
+                        edt_others_reason.setVisibility(View.GONE);
+                }
+                else
+                {
+                    radioButtonFlag = 1;
+                    edt_others_reason.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        Button btn_mark_paid = view1.findViewById(R.id.btn_mark_paid);
+        btn_mark_paid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if (radioButtonFlag == 3)
+                {
+                    String reason = edt_others_reason.getText().toString().trim();
+                    if (reason.isEmpty())
+                    {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Please specify the transaction mode", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(AddedBillPreviewActivity.this, "Other clicked " + reason, Toast.LENGTH_SHORT).show();
+                }
+                else if (radioButtonFlag == 2)
+                {
+                    Toast.makeText(AddedBillPreviewActivity.this, "Card payment", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(AddedBillPreviewActivity.this, "Cash payment", Toast.LENGTH_SHORT).show();
+                }
+
+                billDateReference.update("billStatus","Paid")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(view1);
+        dialog.show();
+
+    }
+
+    private void cancelBill()
+    {
+        billDateReference.update("billStatus","Cancelled")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Toast.makeText(AddedBillPreviewActivity.this, "Bill Cancelled", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void editBill()

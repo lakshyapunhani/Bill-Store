@@ -7,7 +7,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/splash104"/>
+            android:src="@mipmap/splash304"/>
     </item>
 
 </layer-list>

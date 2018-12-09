@@ -710,4 +710,21 @@
         fab:fab_addButtonColorPressed="@color/colorPrimary"
         fab:fab_addButtonPlusIconColor="@color/white" />
 
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/sharedInvoiceFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="6dp"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true"
+        android:translationZ="5dp"
+        android:visibility="gone"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_addButtonColorNormal="@color/colorPrimary"
+        fab:fab_addButtonColorPressed="@color/colorPrimary"
+        fab:fab_addButtonPlusIconColor="@color/white" />
+
 </RelativeLayout>
