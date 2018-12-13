@@ -292,12 +292,10 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
     private void markPaidBill()
     {
-
         final Dialog dialog=new Dialog(this,R.style.ThemeWithCorners);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater layoutInflater=LayoutInflater.from(this);
         View view1=layoutInflater.inflate(R.layout.dialog_mark_paid,null);
-
 
         EditText edt_bill_amount = view1.findViewById(R.id.billAmount);
         edt_bill_amount.setText("" + subTotal);
@@ -348,7 +346,9 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
                     Toast.makeText(AddedBillPreviewActivity.this, "Cash payment", Toast.LENGTH_SHORT).show();
                 }
 
-                billDateReference.update("billStatus","Paid")
+                billDateReference.update("billStatus","Paid");
+
+                billDateReference.update("paidOn",billTime)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid)
@@ -372,6 +372,7 @@ public class AddedBillPreviewActivity extends AppCompatActivity {
 
     private void cancelBill()
     {
+        billDateReference.update("cancelledOn",billTime);
         billDateReference.update("billStatus","Cancelled")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
