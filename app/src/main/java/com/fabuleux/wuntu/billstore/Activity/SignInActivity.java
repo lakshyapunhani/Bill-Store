@@ -79,7 +79,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
-    private SMSReceiver smsReceiver;
+    //private SMSReceiver smsReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,13 +91,13 @@ public class SignInActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         networkReceiver = new NetworkReceiver();
-        smsReceiver = new SMSReceiver();
+        //smsReceiver = new SMSReceiver();
 
         // Generate a filter object
-        IntentFilter intentFilter = new IntentFilter();
+       // IntentFilter intentFilter = new IntentFilter();
         // Add filter an action
-        intentFilter.addAction(SMS_RECEIVED_ACTION);
-        registerReceiver(smsReceiver, intentFilter);
+       // intentFilter.addAction(SMS_RECEIVED_ACTION);
+       // registerReceiver(smsReceiver, intentFilter);
 
         askForPermissions();
 
@@ -105,7 +105,6 @@ public class SignInActivity extends AppCompatActivity {
         otpDialog = new DialogOTP(this);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Verifying");
         progressDialog.setMessage("Please wait...");
 
 
@@ -127,20 +126,20 @@ public class SignInActivity extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot)
                         {
                             if (documentSnapshot != null && documentSnapshot.exists()) {
-                                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
-                                {
-                                    progressDialog.dismiss();
-                                }
+                                //if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                                //{
+                                //    progressDialog.dismiss();
+                                //}
                                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
                                 finish();
 
                             }
                             else
                             {
-                                if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
-                                {
-                                    progressDialog.dismiss();
-                                }
+                               // if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed())
+                               // {
+                               //     progressDialog.dismiss();
+                               // }
 
                                 Intent intent = new Intent(SignInActivity.this,LanguageSelectionActivity.class);
                                 intent.putExtra("flag",0);
@@ -197,12 +196,12 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 super.onCodeSent(verification_id, forceResendingToken);
 
-                //otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-               /* otpDialog.changeMessage(phone_number);
+                otpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                otpDialog.changeMessage(phone_number);
                 if (!otpDialog.isShowing()  && !SignInActivity.this.isDestroyed())
                 {
                     otpDialog.show();
-                }*/
+                }
 
 
                 mVerificationCode = verification_id;
@@ -227,7 +226,7 @@ public class SignInActivity extends AppCompatActivity {
             permissionsToRequestFor.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+       /* if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
         {
             permissionsToRequestFor.add(android.Manifest.permission.CALL_PHONE);
         }
@@ -235,7 +234,7 @@ public class SignInActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
         {
             permissionsToRequestFor.add(android.Manifest.permission.SEND_SMS);
-        }
+        }*/
 
         if (permissionsToRequestFor.size() > 0) {
             String[] requestArray = new String[permissionsToRequestFor.size()];
@@ -273,10 +272,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
-       /* if (otpDialog.isShowing() && !SignInActivity.this.isDestroyed())
+        if (otpDialog.isShowing() && !SignInActivity.this.isDestroyed())
         {
             otpDialog.dismiss();
-        }*/
+        }
 
         // [START verify_with_code]
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -312,9 +311,9 @@ public class SignInActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSendOTPEvent(EventOTP event)
     {
-        if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
-            progressDialog.show();
-        }
+        //if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+        //    progressDialog.show();
+        //}
         verifyPhoneNumberWithCode(mVerificationCode, event.getCode());
     };
 
@@ -355,7 +354,7 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    public class SMSReceiver extends BroadcastReceiver {
+   /* public class SMSReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -381,9 +380,9 @@ public class SignInActivity extends AppCompatActivity {
                     if (strMessage.contains("verification")) {
                         String otpSms;
                         try {
-                            if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
-                                progressDialog.show();
-                            }
+                            //if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+                            //    progressDialog.show();
+                            //}
                             otpSms = strMessage.substring(0, 6);
                             String otpSms1 = strMessage.substring(0,1);
                             String otpSms2 = strMessage.substring(1,2);
@@ -404,22 +403,22 @@ public class SignInActivity extends AppCompatActivity {
                                     new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     1);
                         } else {
-                            if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
-                                progressDialog.dismiss();
-                            }
+                           // if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
+                           //     progressDialog.dismiss();
+                           // }
                         }
                     }
                 }
             }
         }
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (smsReceiver != null) {
-            unregisterReceiver(smsReceiver);
-        }
+       // if (smsReceiver != null) {
+       //     unregisterReceiver(smsReceiver);
+       // }
         if (networkReceiver != null)
         {
             this.unregisterReceiver(networkReceiver);

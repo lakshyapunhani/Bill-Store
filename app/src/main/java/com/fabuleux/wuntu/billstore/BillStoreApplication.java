@@ -27,7 +27,7 @@ public class BillStoreApplication extends Application
     {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
 
         Realm.init(this);

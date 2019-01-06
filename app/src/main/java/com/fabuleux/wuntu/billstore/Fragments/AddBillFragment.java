@@ -598,7 +598,15 @@ public class AddBillFragment extends Fragment {
         if (firebaseUser != null)
         {
 
-            riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorUID);
+            if (newVendorUID == null || newVendorUID.isEmpty())
+            {
+                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorName);
+            }
+            else
+            {
+                riversRef = mStorageRef.child(firebaseUser.getUid()).child(newVendorUID);
+            }
+
 
             for (int i = 0; i< imagesList.size(); i++)
             {
