@@ -25,6 +25,8 @@ import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BillViewActivity extends AppCompatActivity {
+public class AddedBillPreviewActivity extends AppCompatActivity {
 
 
     @BindView(R.id.wholeSellerName)
@@ -74,15 +76,17 @@ public class BillViewActivity extends AppCompatActivity {
     @BindView(R.id.menu_dots_bill_view)
     ImageView menu_dots;
 
+    @BindView(R.id.addedBillFAB)
+    FloatingActionsMenu addedBillFAB;
+
     BillDocumentsAdapter billDocumentsAdapter;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore db;
 
-    AddBillDetails addBillDetails;
 
-    String vendorName,billDate,billTime;
+    String billTime;
 
     Map<String,String> billImages;
 
@@ -109,6 +113,9 @@ public class BillViewActivity extends AppCompatActivity {
 
     double subTotal = 0;
 
+    private FloatingActionButton markPaidFAB;
+    private FloatingActionButton deleteBillFAB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +141,7 @@ public class BillViewActivity extends AppCompatActivity {
 
 
 
-        popup = new PopupMenu(BillViewActivity.this, menu_dots);
+        popup = new PopupMenu(AddedBillPreviewActivity.this, menu_dots);
         //Inflating the Popup using xml file
         popup.getMenuInflater()
                 .inflate(R.menu.popupmenu, popup.getMenu());
@@ -146,42 +153,19 @@ public class BillViewActivity extends AppCompatActivity {
         wholeSellerBillDocuments.setItemAnimator(new DefaultItemAnimator());
         wholeSellerBillDocuments.setAdapter(billDocumentsAdapter);
 
+
+
         getIntentItems();
 
         setUiFields();
 
-       /* if (getIntent() != null)
-        {
-            vendorName = getIntent().getStringExtra("VendorName");
-            billDate = getIntent().getStringExtra("BillDate");
-            billTime = getIntent().getStringExtra("BillTime");
-        }
+        setFloatingActionMenu();
 
-        billDateReference = db.collection("Users").document(firebaseUser.getUid()).collection("Vendors")
-                .document(vendorName).collection(firebaseUser.getUid()).document(billDate + "&&" + billTime);
-
-        billDateReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                if (e != null)
-                {
-                    Toast.makeText(BillViewActivity.this, "Bill Date Request Failed", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (documentSnapshot.exists())
-                {
-                    keyList.clear();
-                    valuesList.clear();
-                    addBillDetails = documentSnapshot.toObject(AddBillDetails.class);
-                    setUiFields();
-                }
-
-            }
-        });*/
+        billDateReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(newCustomerMobileNumber).collection("Invoices").document(invoiceDate + " && " + billTime);
 
         wholeSellerBillDocuments.addOnItemTouchListener(
-                new RecyclerViewListener(BillViewActivity.this, wholeSellerBillDocuments, new RecyclerViewListener.OnItemClickListener() {
+                new RecyclerViewListener(AddedBillPreviewActivity.this, wholeSellerBillDocuments, new RecyclerViewListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position)
                     {
@@ -193,6 +177,42 @@ public class BillViewActivity extends AppCompatActivity {
                     public void onLongItemClick(View view, int position)
                     {}
                 }));
+    }
+
+    private void setFloatingActionMenu()
+    {
+        markPaidFAB = new FloatingActionButton(this);
+        markPaidFAB.setTag("markPaid");
+        markPaidFAB.setTitle(getString(R.string.markPaid));
+        markPaidFAB.setSize(FloatingActionButton.SIZE_MINI);
+        markPaidFAB.setImageResource(android.R.drawable.ic_menu_send);
+
+        deleteBillFAB = new FloatingActionButton(this);
+        deleteBillFAB.setTag("deleteBill");
+        deleteBillFAB.setTitle(getString(R.string.deleteBill));
+        deleteBillFAB.setSize(FloatingActionButton.SIZE_MINI);
+        deleteBillFAB.setImageResource(android.R.drawable.ic_delete);
+
+        addedBillFAB.addButton(markPaidFAB);
+        addedBillFAB.addButton(deleteBillFAB);
+
+        markPaidFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                //saveButton();
+                editBill();
+            }
+        });
+
+        deleteBillFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                //saveButton();
+                deleteBill();
+            }
+        });
     }
 
     private void getIntentItems()
@@ -210,10 +230,11 @@ public class BillViewActivity extends AppCompatActivity {
             billImages = (HashMap<String, String>) getIntent().getSerializableExtra("billImages");
             subTotal = getIntent().getDoubleExtra("subTotal",0);
             status = getIntent().getStringExtra("billStatus");
+            billTime = getIntent().getStringExtra("billTime");
         }
     }
 
-    @OnClick(R.id.menu_dots_bill_view)
+    /*@OnClick(R.id.menu_dots_bill_view)
     public void menuClick()
     {
         //registering popup with OnMenuItemClickListener
@@ -232,7 +253,7 @@ public class BillViewActivity extends AppCompatActivity {
         });
 
         popup.show();
-    }
+    }*/
 
 
 
@@ -267,19 +288,19 @@ public class BillViewActivity extends AppCompatActivity {
     public void editBill()
     {
 
-        if (addBillDetails.getBillStatus().equalsIgnoreCase("due"))
+        if (status.equalsIgnoreCase("due"))
         {
             billDateReference.update("billStatus","Paid")
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid)
                         {
-                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -290,12 +311,12 @@ public class BillViewActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid)
                         {
-                            Toast.makeText(BillViewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddedBillPreviewActivity.this, "Bill Updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(BillViewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddedBillPreviewActivity.this, "Bill Not Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -303,7 +324,7 @@ public class BillViewActivity extends AppCompatActivity {
 
     public void deleteBill()
     {
-        if (!progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+        if (!progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
         {
             progressDialog.show();
         }
@@ -314,10 +335,10 @@ public class BillViewActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         StorageReference desertRef ;
                         //desertRef = mStorageRef.child(firebaseUser.getUid()).child(vendorName);
-                        String parent = billDate + "&&" + billTime;
+                        String parent = invoiceDate + "&&" + billTime;
                         for (int i = 0;i<keyList.size();i++)
                         {
-                            desertRef = mStorageRef.child(firebaseUser.getUid()).child(vendorName).child(parent + "/" + keyList.get(i));
+                            desertRef = mStorageRef.child(firebaseUser.getUid()).child(newCustomerUID).child(parent + "/" + keyList.get(i));
                             final int finalI = i;
                             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -325,13 +346,12 @@ public class BillViewActivity extends AppCompatActivity {
                                     // File deleted successfully
                                     if (finalI == keyList.size() - 1)
                                     {
-                                        if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                        if (progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
                                         {
                                             progressDialog.dismiss();
                                         }
 
-                                        //getActivity().getSupportFragmentManager().popBackStack();
-                                        Toast.makeText(BillViewActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AddedBillPreviewActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }
@@ -339,7 +359,7 @@ public class BillViewActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
                                     // Uh-oh, an error occurred!
-                                    if (progressDialog.isShowing() && !BillViewActivity.this.isDestroyed())
+                                    if (progressDialog.isShowing() && !AddedBillPreviewActivity.this.isDestroyed())
                                     {
                                         progressDialog.dismiss();
                                     }
@@ -352,7 +372,7 @@ public class BillViewActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(BillViewActivity.this, "Not Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddedBillPreviewActivity.this, "Not Deleted", Toast.LENGTH_SHORT).show();
             }
         });
     }

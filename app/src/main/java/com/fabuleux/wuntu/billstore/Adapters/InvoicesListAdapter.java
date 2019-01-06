@@ -22,14 +22,14 @@ import butterknife.ButterKnife;
  * Created by Dell on 13-03-2018.
  */
 
-public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private ArrayList<InvoicePojo> billsList= new ArrayList<>();
 
     private InvoicePojo makeBillDetails;
 
 
-    public CustomerBillListAdapter(ArrayList<InvoicePojo> billsList)
+    public InvoicesListAdapter(ArrayList<InvoicePojo> billsList)
     {
         this.billsList = billsList;
     }
@@ -41,6 +41,9 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         @BindView(R.id.item_amount)
         TextView bill_amount;
+
+        @BindView(R.id.invoiceStatus)
+        TextView invoiceStatus;
 
         @BindView(R.id.item_date)
         TextView bill_date;
@@ -72,6 +75,7 @@ public class CustomerBillListAdapter extends RecyclerView.Adapter<RecyclerView.V
         ((ViewHolder)holder).bill_date.setText(makeBillDetails.getInvoiceDate());
         ((ViewHolder)holder).bill_amount.setText("" +makeBillDetails.getBillAmount());
         ((ViewHolder)holder).txt_typeInvoice.setText(makeBillDetails.getBillType());
+        ((ViewHolder)holder).invoiceStatus.setText(makeBillDetails.getBillStatus());
 
         if (makeBillDetails.getBillType().matches("Sent"))
         {

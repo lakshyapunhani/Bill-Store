@@ -180,6 +180,8 @@
     <string name="subtotal">സബ് മൊത്തം</string>
     <string name="sendInvoice">ഇൻവോയ്സ് അയയ്ക്കുക</string>
     <string name="shareInvoice">ഇൻവോയ്സ് പങ്കിടുക</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>

@@ -201,5 +201,7 @@
     <string name="subtotal">উপ মোট</string>
     <string name="sendInvoice">চালান পাঠান</string>
     <string name="shareInvoice">চালান শেয়ার করুন</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 </resources>
 

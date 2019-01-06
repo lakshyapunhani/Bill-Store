@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Adapters.CustomerBillListAdapter;
+import com.fabuleux.wuntu.billstore.Adapters.InvoicesListAdapter;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
@@ -46,7 +46,7 @@ public class InvoiceListActivity extends AppCompatActivity {
 
     ArrayList<InvoicePojo> billsList;
 
-    CustomerBillListAdapter customerBillListAdapter;
+    InvoicesListAdapter customerBillListAdapter;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -111,7 +111,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         billsList = new ArrayList<>();
         billItems = new HashMap<>();
 
-        customerBillListAdapter = new CustomerBillListAdapter(billsList);
+        customerBillListAdapter = new InvoicesListAdapter(billsList);
 
         mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -242,7 +242,14 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("Customer Number Invoices", customerNumberInvoices);
         intent.putExtra("Invoice Date", invoiceDate);
         intent.putExtra("Due Date", dueDate);
-        intent.putExtra("showSave", false);
+        if (billType.matches("Sent"))
+        {
+            intent.putExtra("showFab", 1);
+        }
+        else
+        {
+            intent.putExtra("showFab", 2);
+        }
         intent.putExtra("sgst", sgst);
         intent.putExtra("igst", igst);
         intent.putExtra("utgst", utgst);
@@ -256,11 +263,12 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("senderGSTNumber",senderGSTNumber);
         intent.putExtra("senderMobileNumber",senderMobileNumber);
         intent.putExtra("senderUID",senderUID);
+        intent.putExtra("billTime",billTime);
         startActivity(intent);
     }
 
     private void sendDatatoBillView() {
-        Intent intent = new Intent(this, BillViewActivity.class);
+        Intent intent = new Intent(this, AddedBillPreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
         intent.putExtra("Customer Name", receiverName);
         intent.putExtra("Customer Address", receiverAddress);
@@ -278,6 +286,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("discount", discount);
         intent.putExtra("subTotal", subTotal);
         intent.putExtra("billImages", (Serializable) billImages);
+        intent.putExtra("billTime",billTime);
         startActivity(intent);
     }
 }

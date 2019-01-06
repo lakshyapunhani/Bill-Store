@@ -7,15 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Adapters.CustomerBillListAdapter;
 import com.fabuleux.wuntu.billstore.Adapters.NotificationsAdapter;
-import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +21,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

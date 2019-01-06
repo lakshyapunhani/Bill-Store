@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
  * Created by Dell on 12-03-2018.
  */
 
-public class CustomerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class InvoicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private ArrayList<ContactPojo> customerDetailsList;
 
-    public CustomerListAdapter(ArrayList<ContactPojo> customerDetailsList) {
+    public InvoicesAdapter(ArrayList<ContactPojo> customerDetailsList) {
         this.customerDetailsList = customerDetailsList;
     }
 

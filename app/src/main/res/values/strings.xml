@@ -204,6 +204,8 @@
     <string name="subtotal">SubTotal</string>
     <string name="sendInvoice">Send Invoice</string>
     <string name="shareInvoice">Share Invoice</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 
 
 </resources>

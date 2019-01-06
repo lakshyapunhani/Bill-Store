@@ -181,6 +181,8 @@
     <string name="subtotal">ਉਪ-ਕੁੱਲ</string>
     <string name="sendInvoice">ਇਨਵੌਇਸ ਭੇਜੋ</string>
     <string name="shareInvoice">ਇਨਵੌਇਸ ਸ਼ੇਅਰ ਕਰੋ</string>
+    <string name="markPaid">Mark Paid</string>
+    <string name="deleteBill">Delete Bill</string>
 
     <string-array name="questions">
         <item>ਇਨਵੌਇਸ ਕਿਵੇਂ ਤਿਆਰ ਕਰੀਏ?</item>
