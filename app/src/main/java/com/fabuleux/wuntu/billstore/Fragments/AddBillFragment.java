@@ -336,7 +336,9 @@ public class AddBillFragment extends Fragment {
                 {
                     ContactPojo contactDetails = documentSnapshot.toObject(ContactPojo.class);
                     customersList.add(contactDetails);
-                    customerNameList.add(contactDetails.getContactName());
+                    if (contactDetails != null) {
+                        customerNameList.add(contactDetails.getContactName());
+                    }
                 }
                 spinnerAdapter.notifyDataSetChanged();
             }
@@ -365,8 +367,6 @@ public class AddBillFragment extends Fragment {
                     fo = new FileOutputStream(destination);
                     fo.write(bytes.toByteArray());
                     fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -594,7 +594,7 @@ public class AddBillFragment extends Fragment {
 
     private void writeImageToCloud()
     {
-        StorageReference riversRef;
+        final StorageReference riversRef;
         if (firebaseUser != null)
         {
 
@@ -625,16 +625,29 @@ public class AddBillFragment extends Fragment {
                 }
 
                 Log.d("TAG",fileName1);
+                final int finalI = i;
                 riversRef.child(billDate + "&&" + timestampString + "/" + uri.getLastPathSegment()).putFile(uri)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Get a URL to the uploaded content
-                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                if (downloadUrl != null) {
-                                    billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
-                                }
-                                writeDataToFirebase();
+                                riversRef.child(billDate + "&&" + timestampString + "/" + uri.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri finalUri) {
+                                        if (finalUri != null) {
+                                            billImages.put(uri.getLastPathSegment(),finalUri.toString());
+                                        }
+                                        if (finalI == (imagesList.size() - 1))
+                                        {
+                                            writeDataToFirebase();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("TAG","TAG");
+                                    }
+                                });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -650,6 +663,8 @@ public class AddBillFragment extends Fragment {
                             }
                         });
             }
+
+
         }
     }
 
