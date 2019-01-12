@@ -147,6 +147,21 @@ public class PreviewActivity extends AppCompatActivity {
     @BindView(R.id.createInvoiceFAB)
     FloatingActionsMenu createInvoiceFAB;
 
+    private FloatingActionButton sendInvoice;
+    private FloatingActionButton printInvoice;
+
+    @BindView(R.id.sentInvoiceFAB)
+    FloatingActionsMenu sentInvoiceFAB;
+
+    private FloatingActionButton cancelSentInvoice;
+    private FloatingActionButton markPaidInvoice;
+    private FloatingActionButton paymentReminder;
+
+    @BindView(R.id.receivedInvoiceFAB)
+    FloatingActionsMenu receivedInvoiceFAB;
+
+    private FloatingActionButton cancelReceiveInvoice;
+
     private ArrayList<ItemPojo> itemList;
     private String receiverName = "";
     private String receiverAddress = "";
@@ -187,14 +202,13 @@ public class PreviewActivity extends AppCompatActivity {
     String billType = "";
 
     boolean printClicked = false;
-    boolean showSave = true;
+    int showSave ;
     ProgressDialog progressDialog;
 
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
 
-    private FloatingActionButton sendInvoice;
-    private FloatingActionButton printInvoice;
+
 
     ContactPojo receiverPojo;
     ContactPojo senderPojo;
@@ -241,6 +255,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     private void setFloatingActionMenu()
     {
+
+
+        ////////////////////////////////////////////// Create Invoice FAB
         sendInvoice = new FloatingActionButton(this);
         sendInvoice.setTag("sendInvoice");
         sendInvoice.setTitle(getString(R.string.sendInvoice));
@@ -273,6 +290,69 @@ public class PreviewActivity extends AppCompatActivity {
                 printButton();
             }
         });
+
+        ///////////////////////////////////////////////Sent Invoice FAB
+        cancelSentInvoice = new FloatingActionButton(this);
+        cancelSentInvoice.setTag("cancelSentInvoice");
+        cancelSentInvoice.setTitle("Cancel Invoice");
+        cancelSentInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        cancelSentInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        markPaidInvoice = new FloatingActionButton(this);
+        markPaidInvoice.setTag("markPaidInvoice");
+        markPaidInvoice.setTitle("Mark Paid Invoice");
+        markPaidInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        markPaidInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        paymentReminder = new FloatingActionButton(this);
+        paymentReminder.setTag("paymentReminderInvoice");
+        paymentReminder.setTitle("Remind Payment");
+        paymentReminder.setSize(FloatingActionButton.SIZE_MINI);
+        paymentReminder.setImageResource(android.R.drawable.ic_menu_send);
+
+        sentInvoiceFAB.addButton(markPaidInvoice);
+        sentInvoiceFAB.addButton(cancelSentInvoice);
+        sentInvoiceFAB.addButton(paymentReminder);
+
+        cancelSentInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PreviewActivity.this, "Sent cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        markPaidInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PreviewActivity.this, "Mark paid clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        paymentReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PreviewActivity.this, "Payment Reminder", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+        //////////////////////////////////////////////////Received Invoice FAB
+        cancelReceiveInvoice = new FloatingActionButton(this);
+        cancelReceiveInvoice.setTag("cancelReceiveInvoice");
+        cancelReceiveInvoice.setTitle("Cancel Invoice");
+        cancelReceiveInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        cancelReceiveInvoice.setImageResource(android.R.drawable.ic_menu_send);
+
+        receivedInvoiceFAB.addButton(cancelReceiveInvoice);
+
+        cancelReceiveInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PreviewActivity.this, "Receive cancelled", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -294,7 +374,7 @@ public class PreviewActivity extends AppCompatActivity {
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             dueDate = getIntent().getStringExtra("Due Date");
 
-            showSave = getIntent().getBooleanExtra("showSave",false);
+            showSave = getIntent().getIntExtra("showFab",0);
 
             utgst = getIntent().getDoubleExtra("utgst",0);
             sgst = getIntent().getDoubleExtra("sgst",0);
@@ -339,13 +419,17 @@ public class PreviewActivity extends AppCompatActivity {
 
         txt_invoiceNumber.setText("#" + invoiceNumber);
 
-        if (showSave)
+        if (showSave == 0)
         {
             createInvoiceFAB.setVisibility(View.VISIBLE);
         }
+        else if (showSave == 1)
+        {
+            sentInvoiceFAB.setVisibility(View.GONE);
+        }
         else
         {
-            createInvoiceFAB.setVisibility(View.GONE);
+            receivedInvoiceFAB.setVisibility(View.GONE);
         }
 
         if (sgst != 0)

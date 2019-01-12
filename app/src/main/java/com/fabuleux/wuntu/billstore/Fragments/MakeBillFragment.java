@@ -432,7 +432,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("Customer Number Invoices",customerNumberInvoices);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("Due Date",dueDate);
-        intent.putExtra("showSave",true);
+        intent.putExtra("showFab",0);
         intent.putExtra("sgst",sgst);
         intent.putExtra("igst",igst);
         intent.putExtra("utgst",utgst);

@@ -242,7 +242,14 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("Customer Number Invoices", customerNumberInvoices);
         intent.putExtra("Invoice Date", invoiceDate);
         intent.putExtra("Due Date", dueDate);
-        intent.putExtra("showSave", false);
+        if (billType.matches("Sent"))
+        {
+            intent.putExtra("showFab", 1);
+        }
+        else
+        {
+            intent.putExtra("showFab", 2);
+        }
         intent.putExtra("sgst", sgst);
         intent.putExtra("igst", igst);
         intent.putExtra("utgst", utgst);
