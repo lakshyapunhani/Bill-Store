@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/ThemeWithCorners"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        card_view:contentPaddingLeft="-3dp"
+        card_view:contentPaddingRight="-3dp"
+        card_view:contentPaddingTop="-3dp"
+        card_view:contentPaddingBottom="-3dp"
+        android:orientation="vertical"
+        card_view:cardBackgroundColor="#e6e4e4"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/mark_paid"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/billAmount"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
+                        tools:text="500"
+                        android:maxLines="1"
+                        android:background="@color/white"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp">
+
+
+                <RadioButton
+                    android:id="@+id/rb_cash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/paid_by_cash"/>
+
+                <RadioButton
+                    android:id="@+id/rb_card"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paid_by_debit_credit_card"/>
+
+                <RadioButton
+                    android:id="@+id/rb_others"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/others"/>
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/edt_others_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/please_specify"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:lines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:visibility="gone"
+                    android:background="@color/white"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_mark_paid"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:text="Done"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_rounded_bg"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

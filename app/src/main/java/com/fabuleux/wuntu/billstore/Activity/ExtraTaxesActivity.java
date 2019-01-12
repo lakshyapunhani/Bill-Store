@@ -120,6 +120,7 @@ public class ExtraTaxesActivity extends AppCompatActivity
         sgstFive = true;
         igstFive = true;
         utgstFive = true;
+
         if (getIntent().getParcelableExtra("ExtraTaxes") != null)
         {
             extraDetailsPojo = getIntent().getParcelableExtra("ExtraTaxes");

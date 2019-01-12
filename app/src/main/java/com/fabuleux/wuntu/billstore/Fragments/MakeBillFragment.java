@@ -266,6 +266,12 @@ public class MakeBillFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onClearEvent(EventClearBill event)
     {
+        itemFlag = 0;
+        taxesFlag = 0;
+        sgst = 0.0;
+        igst = 0.0;
+        utgst = 0.0;
+        extraDetailsPojo = null;
         itemList.clear();
         invoice_total.setText("");
         rate_gst.setText("");

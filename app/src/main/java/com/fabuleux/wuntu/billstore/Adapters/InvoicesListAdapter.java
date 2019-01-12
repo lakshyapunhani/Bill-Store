@@ -85,6 +85,10 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         {
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_recieve);
         }
+        else if (makeBillDetails.getBillType().matches("Shared"))
+        {
+            ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_added);
+        }
         else
         {
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_added);

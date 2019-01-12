@@ -30,13 +30,17 @@ public class InvoicePojo
 
     private Map<String,String> billImages;
 
+    private String paidOn;
+
+    private String cancelledOn;
+
     public InvoicePojo() {
     }
 
     public InvoicePojo(ContactPojo receiverPojo,ContactPojo senderPojo, String invoiceNumber,
                        double billAmount, Map<String, ItemPojo> billItems, String invoiceDate,
                        String dueDate, GstPojo gstPojo, String billDescription, String billStatus, String billType
-                        , String billTime, Map<String, String> billImages)
+                        , String billTime, Map<String, String> billImages,String paidOn,String cancelledOn)
     {
         this.receiverPojo = receiverPojo;
         this.senderPojo = senderPojo;
@@ -51,6 +55,8 @@ public class InvoicePojo
         this.billType = billType;
         this.billTime = billTime;
         this.billImages = billImages;
+        this.paidOn = paidOn;
+        this.cancelledOn = cancelledOn;
     }
 
     public String getInvoiceNumber() {
@@ -155,5 +161,21 @@ public class InvoicePojo
 
     public void setSenderPojo(ContactPojo senderPojo) {
         this.senderPojo = senderPojo;
+    }
+
+    public String getPaidOn() {
+        return paidOn;
+    }
+
+    public void setPaidOn(String paidOn) {
+        this.paidOn = paidOn;
+    }
+
+    public String getCancelledOn() {
+        return cancelledOn;
+    }
+
+    public void setCancelledOn(String cancelledOn) {
+        this.cancelledOn = cancelledOn;
     }
 }

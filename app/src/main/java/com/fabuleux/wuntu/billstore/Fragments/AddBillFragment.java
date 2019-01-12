@@ -669,7 +669,8 @@ public class AddBillFragment extends Fragment {
         GstPojo gstPojo = new GstPojo(0,0,0,0,0);
         ContactPojo senderPojo = new ContactPojo();
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo,senderPojo,billNumber,totalAmount,billItems,
-                billDate, "", gstPojo,"","Due","Added",timestampString,billImages);
+                billDate, "", gstPojo,"","Due","Added",
+                timestampString,billImages,"","");
 
         documentReference.collection("Invoices").document(billDate + " && " + timestampString)
                 .set(invoicePojo).addOnSuccessListener(new OnSuccessListener<Void>() {
