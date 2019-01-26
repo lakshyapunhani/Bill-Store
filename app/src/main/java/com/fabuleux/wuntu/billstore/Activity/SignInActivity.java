@@ -320,7 +320,9 @@ public class SignInActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResendOTPEvent(ResendOTPEvent event)
     {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
+        String country_code = "+91";
+        String phone_number1 = country_code + phone_number_edittext.getText().toString().trim();
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number1, 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
     }
 
     @Override
@@ -354,64 +356,6 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-   /* public class SMSReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent.getAction().equals(SMS_RECEIVED_ACTION)) {
-                Bundle extras = intent.getExtras();
-
-                String strMessage = "";
-
-                if (extras != null) {
-                    Object[] smsextras = (Object[]) extras.get("pdus");
-
-                    assert smsextras != null;
-                    for (Object smsextra : smsextras) {
-                        SmsMessage smsmsg = SmsMessage.createFromPdu((byte[]) smsextra);
-
-                        String strMsgBody = smsmsg.getMessageBody();
-                        strMessage += strMsgBody;
-                    }
-
-                    //012345 is your verification code
-
-                    strMessage = strMessage.toLowerCase();
-                    if (strMessage.contains("verification")) {
-                        String otpSms;
-                        try {
-                            //if (!progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
-                            //    progressDialog.show();
-                            //}
-                            otpSms = strMessage.substring(0, 6);
-                            String otpSms1 = strMessage.substring(0,1);
-                            String otpSms2 = strMessage.substring(1,2);
-                            String otpSms3 = strMessage.substring(2,3);
-                            String otpSms4 = strMessage.substring(3,4);
-                            String otpSms5 = strMessage.substring(4,5);
-                            String otpSms6 = strMessage.substring(5,6);
-
-                            EventPrintOtp eventPrintOtp = new EventPrintOtp(otpSms1,otpSms2,otpSms3,otpSms4,otpSms5,otpSms6);
-                            EventBus.getDefault().postSticky(eventPrintOtp);
-                        } catch (Exception e) {
-                            return;
-                        }
-                        if (ContextCompat.checkSelfPermission(SignInActivity.this,
-                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                            ActivityCompat.requestPermissions(SignInActivity.this,
-                                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    1);
-                        } else {
-                           // if (progressDialog.isShowing() && !SignInActivity.this.isDestroyed()) {
-                           //     progressDialog.dismiss();
-                           // }
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 
     @Override
     protected void onDestroy() {
