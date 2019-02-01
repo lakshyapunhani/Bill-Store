@@ -698,44 +698,43 @@ public class PreviewActivity extends AppCompatActivity {
             progressDialog.show();
         }
 
-        if (receiverUID != null && !receiverUID.isEmpty())
-        {
-            for (int i = 0; i < itemList.size(); i++) {
-                ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
-                billItems.put(itemList.get(i).getItemName(), itemPojo);
-            }
-
-            receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
-
-            senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
-                    senderUID, newCustomerNumberInvoices + 1, invoiceDate);
-
-            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
-                    collection("Contacts").document(receiverMobileNumber);
-            ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                    receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
-            GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
-
-            documentReference.set(contactPojo);
-            InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
-
-            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
-
-
-            if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed()) {
-                progressDialog.dismiss();
-            }
-
-            if (boolean_permission) {
-                bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
-                createPdf();
-            } else {
-                fn_permission();
-            }
-
+        /*if (receiverUID != null && !receiverUID.isEmpty())
+        {*/
+        for (int i = 0; i < itemList.size(); i++) {
+            ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
+            billItems.put(itemList.get(i).getItemName(), itemPojo);
         }
+
+        receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+
+        senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
+                senderUID, newCustomerNumberInvoices + 1, invoiceDate);
+
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(receiverMobileNumber);
+        ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
+                receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+        GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
+
+        documentReference.set(contactPojo);
+        InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
+                invoiceDate, dueDate, gstPojo, "", "Shared", "Sent", timestampString, billImages);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
+
+        if (progressDialog.isShowing() && !PreviewActivity.this.isDestroyed()) {
+            progressDialog.dismiss();
+        }
+
+        if (boolean_permission) {
+            bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+            createPdf();
+        } else {
+            fn_permission();
+        }
+
+        // }
     }
 
     private void createPdf()
@@ -838,6 +837,8 @@ public class PreviewActivity extends AppCompatActivity {
 
         } else {
             boolean_permission = true;
+            bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+            createPdf();
         }
     }
 
@@ -849,7 +850,8 @@ public class PreviewActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 boolean_permission = true;
-                printButton();
+                bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+                createPdf();
 
             } else if (permissions.length > 0)
             {

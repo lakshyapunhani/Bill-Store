@@ -20,6 +20,7 @@ import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
+import com.freshchat.consumer.sdk.Freshchat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,6 +48,10 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("FCM TAG","MESSAGE RECIEVED");
+        if (Freshchat.isFreshchatNotification(remoteMessage)) {
+
+            Freshchat.getInstance(this).handleFcmMessage(remoteMessage);
+        }
         Map data = remoteMessage.getData();
         String message = data.containsKey("message") ? data.get("message").toString() : "" ;
         String title = data.containsKey("title") ? data.get("title").toString() : "" ;
@@ -58,10 +63,6 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
         CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Notifications");
         final DocumentReference documentReference = collectionReference.document(time);
-        /*HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("message",message);
-        hashMap.put("title",title);
-        hashMap.put("time",time);*/
 
         NotificationPojo notificationPojo = new NotificationPojo(title,message,time);
         documentReference.set(notificationPojo);
