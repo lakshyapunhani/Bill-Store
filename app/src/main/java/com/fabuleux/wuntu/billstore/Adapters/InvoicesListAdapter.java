@@ -77,13 +77,15 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((ViewHolder)holder).txt_typeInvoice.setText(makeBillDetails.getBillType());
         ((ViewHolder)holder).invoiceStatus.setText(makeBillDetails.getBillStatus());
 
-        if (makeBillDetails.getBillType().matches("Sent"))
+        if (makeBillDetails.getBillType().matches("Sent") || makeBillDetails.getBillType().matches("Sales"))
         {
+            ((ViewHolder)holder).txt_typeInvoice.setText("Sales");
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_sent);
         }
-        else if (makeBillDetails.getBillType().matches("Recieved"))
+        else if (makeBillDetails.getBillType().matches("Recieved") || makeBillDetails.getBillType().matches("Purchase"))
         {
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_recieve);
+            ((ViewHolder)holder).txt_typeInvoice.setText("Purchase");
         }
         else
         {

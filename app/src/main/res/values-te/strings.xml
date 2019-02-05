@@ -203,5 +203,8 @@
     <string name="shareInvoice">భాగస్వామ్యం వాయిస్</string>
     <string name="markPaid">Mark Paid</string>
     <string name="deleteBill">Delete Bill</string>
+    <string name="bill_type">Bill Type</string>
+    <string name="sales">Sales</string>
+    <string name="purchase">Purchase</string>
 </resources>
 

@@ -99,9 +99,6 @@ public class AddBillFragment extends Fragment {
     @BindView(R.id.vendorSpinner)
     SearchableSpinner vendorSpinner;
 
-    @BindView(R.id.innerView_existingVendor)
-    LinearLayout innerView_existingVendor;
-
     @BindView(R.id.text_pickDate)
     TextView text_pickDate;
 
@@ -133,7 +130,11 @@ public class AddBillFragment extends Fragment {
 
     int spinnerValue;
 
-    boolean vendorView, statusView;
+    boolean statusView;
+
+    boolean billTypeView;
+
+    String billType = "Sales";
 
     String newVendorName,newVendorAddress,newVendorGst = "",newVendorPhoneNumber = "",newVendorUID = "";
 
@@ -457,6 +458,20 @@ public class AddBillFragment extends Fragment {
         billStatus = "Paid";
     }
 
+    @OnClick(R.id.radio_sales)
+    public void onSalesRadioButtonClicked()
+    {
+        billTypeView = false;
+        billType = "Sales";
+    }
+
+    @OnClick(R.id.radio_purchase)
+    public void onPurchaseRadioButtonClicked()
+    {
+        billTypeView = true;
+        billType = "Purchase";
+    }
+
     private void cameraIntent()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -669,7 +684,7 @@ public class AddBillFragment extends Fragment {
         GstPojo gstPojo = new GstPojo(0,0,0,0,0);
         ContactPojo senderPojo = new ContactPojo();
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo,senderPojo,billNumber,totalAmount,billItems,
-                billDate, "", gstPojo,"","Due","Added",timestampString,billImages);
+                billDate, "", gstPojo,"","Due",billType,timestampString,billImages);
 
         documentReference.collection("Invoices").document(billDate + " && " + timestampString)
                 .set(invoicePojo).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -681,9 +696,12 @@ public class AddBillFragment extends Fragment {
                     progressDialog.dismiss();
                 }
                 //clearData();
-                Toast.makeText(context, "Bill Added", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(context,MainActivity.class));
-                //EventBus.getDefault().post(new SetCurrentFragmentEvent("home","add_bill","make_bill","profile"));
+                Toast.makeText(context, "Bill Saved", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(context,MainActivity.class));
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                getActivity().finish(); // call this to finish the current activity
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

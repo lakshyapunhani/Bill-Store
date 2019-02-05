@@ -71,11 +71,10 @@
                 android:textColor="@color/blue"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/text_select_from_existing_vendors"
+                android:text="@string/txt_select_customer"
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/innerView_existingVendor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edt_rounded_corner">
@@ -233,6 +232,54 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_paid"
+                        android:textSize="14sp"
+                        android:buttonTint="@color/blue"
+                        android:textColor="@color/blue"
+                        tools:targetApi="lollipop" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bill_type"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"/>
+
+                <RadioGroup
+                    android:id="@+id/billTypeRadioGroup"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radio_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sales"
+                        android:checked="true"
+                        android:buttonTint="@color/blue"
+                        tools:targetApi="lollipop"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
+
+
+                    <RadioButton
+                        android:id="@+id/radio_purchase"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/purchase"
                         android:textSize="14sp"
                         android:buttonTint="@color/blue"
                         android:textColor="@color/blue"
