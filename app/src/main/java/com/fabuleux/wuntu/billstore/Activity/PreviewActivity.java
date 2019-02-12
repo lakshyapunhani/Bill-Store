@@ -14,7 +14,6 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -45,12 +44,9 @@ import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.greenrobot.eventbus.EventBus;
@@ -291,7 +287,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         ///////////////////////////////////////////////Sent Invoice FAB
         cancelSentInvoice = new FloatingActionButton(this);
-        cancelSentInvoice.setTag("cancelSentInvoice");
+        cancelSentInvoice.setTag("cancelSentInvoiceMethod");
         cancelSentInvoice.setTitle("Cancel Invoice");
         cancelSentInvoice.setSize(FloatingActionButton.SIZE_MINI);
         cancelSentInvoice.setImageResource(android.R.drawable.ic_menu_send);
@@ -308,14 +304,23 @@ public class PreviewActivity extends AppCompatActivity {
         paymentReminder.setSize(FloatingActionButton.SIZE_MINI);
         paymentReminder.setImageResource(android.R.drawable.ic_menu_send);
 
-        sentInvoiceFAB.addButton(markPaidInvoice);
+        //sentInvoiceFAB.addButton(markPaidInvoice);
         sentInvoiceFAB.addButton(cancelSentInvoice);
-        sentInvoiceFAB.addButton(paymentReminder);
+        //sentInvoiceFAB.addButton(paymentReminder);
 
         cancelSentInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Toast.makeText(PreviewActivity.this, "Sent cancelled", Toast.LENGTH_SHORT).show();
+                if (receiverUID != null && !receiverUID.isEmpty())
+                {
+                    cancelSentInvoiceMethod();
+                }
+                else
+                {
+                    cancelPrintedInvoiceMethod();
+                }
             }
         });
 
@@ -389,6 +394,13 @@ public class PreviewActivity extends AppCompatActivity {
             senderGstNumber = getIntent().getStringExtra("senderGSTNumber");
             senderMobileNumber= getIntent().getStringExtra("senderMobileNumber");
             senderUID  = getIntent().getStringExtra("senderUID");
+            timestampString = getIntent().getStringExtra("billTime");
+
+            for (int i = 0;i<itemList.size();i++)
+            {
+                ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
+                billItems.put(itemList.get(i).getItemName(),itemPojo);
+            }
         }
     }
 
@@ -420,10 +432,12 @@ public class PreviewActivity extends AppCompatActivity {
         if (showSave == 0)
         {
             createInvoiceFAB.setVisibility(View.VISIBLE);
+            sentInvoiceFAB.setVisibility(View.GONE);
         }
         else if (showSave == 1)
         {
-            sentInvoiceFAB.setVisibility(View.GONE);
+            sentInvoiceFAB.setVisibility(View.VISIBLE);
+            createInvoiceFAB.setVisibility(View.GONE);
         }
         else
         {
@@ -579,16 +593,18 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
 
+
+
     private void sendInvoiceToSelectedUser()
     {
         if (receiverUID != null && !receiverUID.isEmpty())
         {
-            //////////////////////////// Bill added to own DB
-            for (int i = 0;i<itemList.size();i++)
+            //////////////////////////// Bill added to Sender DB
+            /*for (int i = 0;i<itemList.size();i++)
             {
                 ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(),itemList.get(i).getItemName(),itemList.get(i).getCostPerItem(),itemList.get(i).getQuantity(),itemList.get(i).getTotalAmount());
                 billItems.put(itemList.get(i).getItemName(),itemPojo);
-            }
+            }*/
 
             final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                     collection("Contacts").document(receiverMobileNumber);
@@ -687,6 +703,59 @@ public class PreviewActivity extends AppCompatActivity {
         finish();
     }
 
+    public void cancelPrintedInvoiceMethod()
+    {
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(receiverMobileNumber);
+
+        documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                update("billStatus","Cancelled");
+
+        finish();
+    }
+
+    public void cancelSentInvoiceMethod()
+    {
+        final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                collection("Contacts").document(receiverMobileNumber);
+
+        documentReference.collection("Invoices").
+                document(invoiceDate + " && " + timestampString).
+                update("billStatus","Cancelled");
+
+        String message ;
+        if (!sessionManager.getShop_name().isEmpty())
+        {
+            message = sessionManager.getShop_name() + " cancelled Invoice no : " + invoiceNumber;
+        }
+        else
+        {
+            message = firebaseUser.getPhoneNumber() + " cancelled Invoice no : " + invoiceNumber;
+        }
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("deviceId", receiverUID);
+        HashMap<String,Object> objectHashMap = new HashMap<>();
+
+        NotificationPojo notificationPojo = new
+                NotificationPojo("Invoice Received",message,
+                ""+ System.currentTimeMillis());
+
+        objectHashMap.put("data",notificationPojo);
+        hashMap.put("payload",objectHashMap);
+
+        CommonRequest.getInstance(this).sendNotification(hashMap);
+
+
+        DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
+                collection("Contacts").document(firebaseUser.getPhoneNumber());
+
+        documentReferenceAnotherUser.collection("Invoices").
+                document(invoiceDate + " && " + timestampString).
+                update("billStatus","Cancelled");
+        finish();
+    }
+
     public void printButton()
     {
 
@@ -697,10 +766,11 @@ public class PreviewActivity extends AppCompatActivity {
 
         /*if (receiverUID != null && !receiverUID.isEmpty())
         {*/
-        for (int i = 0; i < itemList.size(); i++) {
+
+        /*for (int i = 0; i < itemList.size(); i++) {
             ItemPojo itemPojo = new ItemPojo(itemList.get(i).getProductId(), itemList.get(i).getItemName(), itemList.get(i).getCostPerItem(), itemList.get(i).getQuantity(), itemList.get(i).getTotalAmount());
             billItems.put(itemList.get(i).getItemName(), itemPojo);
-        }
+        }*/
 
         receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
                 receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
@@ -716,7 +786,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         documentReference.set(contactPojo);
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                invoiceDate, dueDate, gstPojo, "", "Shared", "Sales", timestampString, billImages);
+                invoiceDate, dueDate, gstPojo, "", "Due", "Sales", timestampString, billImages);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 

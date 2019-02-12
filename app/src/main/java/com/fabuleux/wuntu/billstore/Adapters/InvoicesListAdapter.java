@@ -87,10 +87,10 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_recieve);
             ((ViewHolder)holder).txt_typeInvoice.setText("Purchase");
         }
-        else
+        /*else
         {
             ((ViewHolder)holder).img_typeInvoice.setImageResource(R.drawable.ic_invoice_added);
-        }
+        }*/
 
     }
 
