@@ -57,29 +57,13 @@ public class InvoiceListActivity extends AppCompatActivity {
     String contactNumber;
     private ArrayList<ItemPojo> itemList;
 
-    String billTime ="";
-    String receiverName ="", receiverAddress = "", receiverGSTNumber ="",
-            receiverMobileNumber = "", receiverUID = "";
-    int customerNumberInvoices;
-
-    String senderName = "",senderAddress = "",senderGSTNumber = "",senderMobileNumber = "",senderUID = "";
-
-    String invoiceNumber = "";
     String billType = "";
 
-    String invoiceDate = "",dueDate = "";
     Map<String,ItemPojo> billItems;
 
-    double sgst = 0,igst = 0,utgst = 0;
-
-    double subTotal = 0;
-
-    double shipping_charges = 0,discount = 0;
-
-    double totalAmount = 0;
-    String billStatus ="";
-
     Map<String,String> billImages;
+
+    InvoicePojo makeBillDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,79 +108,28 @@ public class InvoiceListActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        InvoicePojo makeBillDetails = new InvoicePojo();
+                        makeBillDetails = new InvoicePojo();
                         makeBillDetails = billsList.get(position);
 
-                        if (makeBillDetails.getBillType().matches("Sent")
+                        if ((makeBillDetails.getBillType().matches("Sent")
                                 || makeBillDetails.getBillType().matches("Recieved")
                                 || makeBillDetails.getBillType().matches("Sales")
-                                || makeBillDetails.getBillType().matches("Purchase"))
+                                || makeBillDetails.getBillType().matches("Purchase")) && !makeBillDetails.isBillAdded())
                         {
-                            billTime = makeBillDetails.getBillTime();
-                            sgst = makeBillDetails.getGstPojo().getSgst();
-                            igst = makeBillDetails.getGstPojo().getIgst();
-                            utgst = makeBillDetails.getGstPojo().getUtgst();
-                            shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
-                            discount = makeBillDetails.getGstPojo().getDiscount();
-
-                            ContactPojo receiverPojo = new ContactPojo();
-                            receiverPojo = makeBillDetails.getReceiverPojo();
-                            receiverName = receiverPojo.getContactName();
-                            receiverAddress = receiverPojo.getContactAddress();
-                            receiverGSTNumber = receiverPojo.getContactGstNumber();
-                            receiverMobileNumber = receiverPojo.getContactPhoneNumber();
-                            receiverUID = receiverPojo.getContactUID();
-                            customerNumberInvoices = receiverPojo.getNumberInvoices();
-
-                            ContactPojo senderPojo = new ContactPojo();
-                            senderPojo = makeBillDetails.getSenderPojo();
-                            senderName = senderPojo.getContactName();
-                            senderAddress = senderPojo.getContactAddress();
-                            senderGSTNumber = senderPojo.getContactGstNumber();
-                            senderMobileNumber = senderPojo.getContactPhoneNumber();
-                            senderUID = senderPojo.getContactUID();
-
                             itemList.clear();
-
                             billItems = new HashMap<>();
                             billItems = makeBillDetails.getBillItems();
                             itemList.addAll(billItems.values());
-                            invoiceDate = makeBillDetails.getInvoiceDate();
-                            dueDate = makeBillDetails.getDueDate();
-                            subTotal = makeBillDetails.getBillAmount();
-                            billStatus = makeBillDetails.getBillStatus();
-                            invoiceNumber = makeBillDetails.getInvoiceNumber();
                             billType = makeBillDetails.getBillType();
                             sendDatatoPreview();
                         }
-                        else
+                        else if (makeBillDetails.getBillType().matches("Added") || makeBillDetails.isBillAdded())
                         {
-                            billTime = makeBillDetails.getBillTime();
-                            sgst = makeBillDetails.getGstPojo().getSgst();
-                            igst = makeBillDetails.getGstPojo().getIgst();
-                            utgst = makeBillDetails.getGstPojo().getUtgst();
-                            shipping_charges = makeBillDetails.getGstPojo().getShippingCharges();
-                            discount = makeBillDetails.getGstPojo().getDiscount();
-                            ContactPojo contactPojo = new ContactPojo();
-                            contactPojo = makeBillDetails.getReceiverPojo();
-                            receiverName = contactPojo.getContactName();
-                            receiverAddress = contactPojo.getContactAddress();
-                            receiverGSTNumber = contactPojo.getContactGstNumber();
-                            receiverMobileNumber = contactPojo.getContactPhoneNumber();
-                            receiverUID = contactPojo.getContactUID();
-                            customerNumberInvoices = contactPojo.getNumberInvoices();
-
                             billItems = new HashMap<>();
-
                             billItems = makeBillDetails.getBillItems();
-
                             itemList.clear();
                             itemList.addAll(billItems.values());
-                            invoiceDate = makeBillDetails.getInvoiceDate();
-                            dueDate = makeBillDetails.getDueDate();
-                            subTotal = makeBillDetails.getBillAmount();
                             billImages = makeBillDetails.getBillImages();
-                            billStatus = makeBillDetails.getBillStatus();
                             sendDatatoBillView();
                         }
                     }
@@ -237,14 +170,14 @@ public class InvoiceListActivity extends AppCompatActivity {
     private void sendDatatoPreview() {
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
-        intent.putExtra("receiverName", receiverName);
-        intent.putExtra("receiverAddress", receiverAddress);
-        intent.putExtra("receiverGSTNumber", receiverGSTNumber);
-        intent.putExtra("receiverMobileNumber", receiverMobileNumber);
-        intent.putExtra("receiverUID", receiverUID);
-        intent.putExtra("Customer Number Invoices", customerNumberInvoices);
-        intent.putExtra("Invoice Date", invoiceDate);
-        intent.putExtra("Due Date", dueDate);
+        intent.putExtra("receiverName", makeBillDetails.getReceiverPojo().getContactName());
+        intent.putExtra("receiverAddress", makeBillDetails.getReceiverPojo().getContactAddress());
+        intent.putExtra("receiverGSTNumber", makeBillDetails.getReceiverPojo().getContactGstNumber());
+        intent.putExtra("receiverMobileNumber", makeBillDetails.getReceiverPojo().getContactPhoneNumber());
+        intent.putExtra("receiverUID", makeBillDetails.getReceiverPojo().getContactUID());
+        intent.putExtra("Customer Number Invoices",makeBillDetails.getReceiverPojo().getNumberInvoices());
+        intent.putExtra("Invoice Date", makeBillDetails.getInvoiceDate());
+        intent.putExtra("Due Date", makeBillDetails.getDueDate());
         if (billType.matches("Sent") || billType.matches("Sales"))
         {
             intent.putExtra("showFab", 1);
@@ -253,43 +186,44 @@ public class InvoiceListActivity extends AppCompatActivity {
         {
             intent.putExtra("showFab", 2);
         }
-        intent.putExtra("sgst", sgst);
-        intent.putExtra("igst", igst);
-        intent.putExtra("utgst", utgst);
-        intent.putExtra("shipping charge", shipping_charges);
-        intent.putExtra("discount", discount);
-        intent.putExtra("subTotal", subTotal);
-        intent.putExtra("invoiceNumber",invoiceNumber);
-        intent.putExtra("billType",billType);
-        intent.putExtra("senderName",senderName);
-        intent.putExtra("senderAddress",senderAddress);
-        intent.putExtra("senderGSTNumber",senderGSTNumber);
-        intent.putExtra("senderMobileNumber",senderMobileNumber);
-        intent.putExtra("senderUID",senderUID);
-        intent.putExtra("billTime",billTime);
+        intent.putExtra("sgst", makeBillDetails.getGstPojo().getSgst());
+        intent.putExtra("igst", makeBillDetails.getGstPojo().getIgst());
+        intent.putExtra("utgst", makeBillDetails.getGstPojo().getUtgst());
+        intent.putExtra("shipping charge", makeBillDetails.getGstPojo().getShippingCharges());
+        intent.putExtra("discount", makeBillDetails.getGstPojo().getDiscount());
+        intent.putExtra("subTotal", makeBillDetails.getBillAmount());
+        intent.putExtra("invoiceNumber",makeBillDetails.getInvoiceNumber());
+        intent.putExtra("billType",makeBillDetails.getBillType());
+        intent.putExtra("senderName",makeBillDetails.getSenderPojo().getContactName());
+        intent.putExtra("senderAddress",makeBillDetails.getSenderPojo().getContactAddress());
+        intent.putExtra("senderGSTNumber",makeBillDetails.getSenderPojo().getContactGstNumber());
+        intent.putExtra("senderMobileNumber",makeBillDetails.getSenderPojo().getContactPhoneNumber());
+        intent.putExtra("senderUID",makeBillDetails.getSenderPojo().getContactUID());
+        intent.putExtra("billTime",makeBillDetails.getBillTime());
         startActivity(intent);
     }
 
     private void sendDatatoBillView() {
         Intent intent = new Intent(this, AddedBillPreviewActivity.class);
         intent.putParcelableArrayListExtra("ItemList", itemList);
-        intent.putExtra("Customer Name", receiverName);
-        intent.putExtra("Customer Address", receiverAddress);
-        intent.putExtra("Customer Mobile Number", receiverMobileNumber);
-        intent.putExtra("Customer UID", receiverUID);
-        intent.putExtra("Customer Number Invoices", customerNumberInvoices);
-        intent.putExtra("Invoice Date", invoiceDate);
-        intent.putExtra("Due Date", dueDate);
+        intent.putExtra("Customer Name", makeBillDetails.getReceiverPojo().getContactName());
+        intent.putExtra("Customer Address", makeBillDetails.getReceiverPojo().getContactAddress());
+        intent.putExtra("receiverGSTNumber", makeBillDetails.getReceiverPojo().getContactGstNumber());
+        intent.putExtra("Customer Mobile Number", makeBillDetails.getReceiverPojo().getContactPhoneNumber());
+        intent.putExtra("Customer UID", makeBillDetails.getReceiverPojo().getContactUID());
+        intent.putExtra("Customer Number Invoices", makeBillDetails.getReceiverPojo().getNumberInvoices());
+        intent.putExtra("Invoice Date", makeBillDetails.getInvoiceDate());
+        intent.putExtra("Due Date", makeBillDetails.getDueDate());
         intent.putExtra("showSave", false);
-        intent.putExtra("sgst", sgst);
-        intent.putExtra("igst", igst);
-        intent.putExtra("utgst", utgst);
-        intent.putExtra("billStatus",billStatus );
-        intent.putExtra("shipping charge", shipping_charges);
-        intent.putExtra("discount", discount);
-        intent.putExtra("subTotal", subTotal);
+        intent.putExtra("sgst", makeBillDetails.getGstPojo().getSgst());
+        intent.putExtra("igst", makeBillDetails.getGstPojo().getIgst());
+        intent.putExtra("utgst", makeBillDetails.getGstPojo().getUtgst());
+        intent.putExtra("billStatus",makeBillDetails.getBillStatus());
+        intent.putExtra("shipping charge", makeBillDetails.getGstPojo().getShippingCharges());
+        intent.putExtra("discount", makeBillDetails.getGstPojo().getDiscount());
+        intent.putExtra("subTotal", makeBillDetails.getBillAmount());
         intent.putExtra("billImages", (Serializable) billImages);
-        intent.putExtra("billTime",billTime);
+        intent.putExtra("billTime",makeBillDetails.getBillTime());
         startActivity(intent);
     }
 }

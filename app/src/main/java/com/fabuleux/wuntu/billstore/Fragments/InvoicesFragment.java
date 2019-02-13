@@ -110,29 +110,44 @@ public class InvoicesFragment extends Fragment {
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e)
             {
                 if (e != null) {
-                    Toast.makeText(context, "Bills Request Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Some error occurred. Please try again", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 customerDetailsList.clear();
 
                 for (DocumentSnapshot doc : documentSnapshots) {
-                    ContactPojo customerDetails = doc.toObject(ContactPojo.class);
-                    if (customerDetails.getNumberInvoices() > 0)
-                    {
-                        customerDetailsList.add(customerDetails);
-                    }
+                    final ContactPojo customerDetails = doc.toObject(ContactPojo.class);
+
+                    CollectionReference collectionReference =  billsReference.document(customerDetails.getContactPhoneNumber()).collection("Invoices");
+                    collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Toast.makeText(context, "Some error occurred. Please try again", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (documentSnapshots.size() > 0)
+                            {
+                                customerDetailsList.add(customerDetails);
+                            }
+
+                            if (customerDetailsList.isEmpty())
+                            {
+                                emptyLayout.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                emptyLayout.setVisibility(View.GONE);
+                            }
+
+                            invoicesAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+
                 }
 
-                if (customerDetailsList.isEmpty())
-                {
-                    emptyLayout.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    emptyLayout.setVisibility(View.GONE);
-                }
 
-                invoicesAdapter.notifyDataSetChanged();
             }
         });
 

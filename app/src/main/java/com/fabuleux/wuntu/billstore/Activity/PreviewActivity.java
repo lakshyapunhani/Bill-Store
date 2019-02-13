@@ -394,7 +394,11 @@ public class PreviewActivity extends AppCompatActivity {
             senderGstNumber = getIntent().getStringExtra("senderGSTNumber");
             senderMobileNumber= getIntent().getStringExtra("senderMobileNumber");
             senderUID  = getIntent().getStringExtra("senderUID");
-            timestampString = getIntent().getStringExtra("billTime");
+            if (getIntent().hasExtra("billTime"))
+            {
+                timestampString = getIntent().getStringExtra("billTime");
+            }
+
 
             for (int i = 0;i<itemList.size();i++)
             {
@@ -619,7 +623,7 @@ public class PreviewActivity extends AppCompatActivity {
 
             documentReference.set(receiverPojo);
             InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
-                    invoiceDate, dueDate, gstPojo,"","Due","Sales",timestampString,billImages);
+                    invoiceDate, dueDate, gstPojo,"","Due","Sales",timestampString,billImages,false);
 
             documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
@@ -661,7 +665,8 @@ public class PreviewActivity extends AppCompatActivity {
 
             GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
             InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
-                    invoiceDate, dueDate, gstPojoAnotherUser, "", "Due", "Purchase", timestampString, billImages);
+                    invoiceDate, dueDate, gstPojoAnotherUser, "",
+                    "Due", "Purchase", timestampString, billImages,false);
 
             documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
             Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
@@ -786,7 +791,8 @@ public class PreviewActivity extends AppCompatActivity {
 
         documentReference.set(contactPojo);
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
-                invoiceDate, dueDate, gstPojo, "", "Due", "Sales", timestampString, billImages);
+                invoiceDate, dueDate, gstPojo, "",
+                "Due", "Sales", timestampString, billImages,false);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
