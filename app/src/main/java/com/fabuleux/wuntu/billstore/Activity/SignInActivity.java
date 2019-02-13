@@ -320,7 +320,9 @@ public class SignInActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResendOTPEvent(ResendOTPEvent event)
     {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number_edittext.getText().toString(), 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
+        String country_code = "+91";
+        String phone_number1 = country_code + phone_number_edittext.getText().toString().trim();
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phone_number1, 60, TimeUnit.SECONDS, SignInActivity.this, callbacks, token);
     }
 
     @Override

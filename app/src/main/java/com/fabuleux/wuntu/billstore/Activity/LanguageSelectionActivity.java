@@ -160,7 +160,9 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Sele
         config.locale = locale;
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
         sessionManager.saveLanguagePreference(selectedLanguage);
+        finish();
         Intent refresh = new Intent(LanguageSelectionActivity.this,MainActivity.class);
+        refresh.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK);
         refresh.putExtra("fragmentFlag","home");
         startActivity(refresh);
     }
