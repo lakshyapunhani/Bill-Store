@@ -200,6 +200,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("senderMobileNumber",makeBillDetails.getSenderPojo().getContactPhoneNumber());
         intent.putExtra("senderUID",makeBillDetails.getSenderPojo().getContactUID());
         intent.putExtra("billTime",makeBillDetails.getBillTime());
+        intent.putExtra("billStatus",makeBillDetails.getBillStatus());
         startActivity(intent);
     }
 

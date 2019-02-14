@@ -150,7 +150,7 @@ public class PreviewActivity extends AppCompatActivity {
     FloatingActionsMenu sentInvoiceFAB;
 
     private FloatingActionButton cancelSentInvoice;
-    private FloatingActionButton markPaidInvoice;
+    private FloatingActionButton recordPaymentFab;
     private FloatingActionButton paymentReminder;
 
     @BindView(R.id.receivedInvoiceFAB)
@@ -196,6 +196,7 @@ public class PreviewActivity extends AppCompatActivity {
     int extraTaxLayout = 2;
 
     String billType = "";
+    String billStatus = "";
 
     boolean printClicked = false;
     int showSave ;
@@ -203,8 +204,6 @@ public class PreviewActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
     private NetworkReceiver networkReceiver;
-
-
 
     ContactPojo receiverPojo;
     ContactPojo senderPojo;
@@ -292,11 +291,11 @@ public class PreviewActivity extends AppCompatActivity {
         cancelSentInvoice.setSize(FloatingActionButton.SIZE_MINI);
         cancelSentInvoice.setImageResource(android.R.drawable.ic_menu_send);
 
-        markPaidInvoice = new FloatingActionButton(this);
-        markPaidInvoice.setTag("markPaidInvoice");
-        markPaidInvoice.setTitle("Mark Paid Invoice");
-        markPaidInvoice.setSize(FloatingActionButton.SIZE_MINI);
-        markPaidInvoice.setImageResource(android.R.drawable.ic_menu_send);
+        recordPaymentFab = new FloatingActionButton(this);
+        recordPaymentFab.setTag("recordPaymentFab");
+        recordPaymentFab.setTitle("Mark Paid Invoice");
+        recordPaymentFab.setSize(FloatingActionButton.SIZE_MINI);
+        recordPaymentFab.setImageResource(android.R.drawable.ic_menu_send);
 
         paymentReminder = new FloatingActionButton(this);
         paymentReminder.setTag("paymentReminderInvoice");
@@ -304,15 +303,26 @@ public class PreviewActivity extends AppCompatActivity {
         paymentReminder.setSize(FloatingActionButton.SIZE_MINI);
         paymentReminder.setImageResource(android.R.drawable.ic_menu_send);
 
-        //sentInvoiceFAB.addButton(markPaidInvoice);
+        sentInvoiceFAB.addButton(recordPaymentFab);
         sentInvoiceFAB.addButton(cancelSentInvoice);
         //sentInvoiceFAB.addButton(paymentReminder);
+
+        if (billStatus.matches("Cancelled"))
+        {
+            cancelSentInvoice.setVisibility(View.GONE);
+            recordPaymentFab.setVisibility(View.GONE);
+        }
+
+        if (billStatus.matches("Paid"))
+        {
+            recordPaymentFab.setVisibility(View.GONE);
+        }
 
         cancelSentInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(PreviewActivity.this, "Sent cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PreviewActivity.this, "Invoice cancelled", Toast.LENGTH_SHORT).show();
                 if (receiverUID != null && !receiverUID.isEmpty())
                 {
                     cancelSentInvoiceMethod();
@@ -324,10 +334,10 @@ public class PreviewActivity extends AppCompatActivity {
             }
         });
 
-        markPaidInvoice.setOnClickListener(new View.OnClickListener() {
+        recordPaymentFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PreviewActivity.this, "Mark paid clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PreviewActivity.this, "record payment clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -337,9 +347,6 @@ public class PreviewActivity extends AppCompatActivity {
                 Toast.makeText(PreviewActivity.this, "Payment Reminder", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
         //////////////////////////////////////////////////Received Invoice FAB
         cancelReceiveInvoice = new FloatingActionButton(this);
@@ -397,6 +404,11 @@ public class PreviewActivity extends AppCompatActivity {
             if (getIntent().hasExtra("billTime"))
             {
                 timestampString = getIntent().getStringExtra("billTime");
+            }
+
+            if (getIntent().hasExtra("billStatus"))
+            {
+                billStatus = getIntent().getStringExtra("billStatus");
             }
 
 

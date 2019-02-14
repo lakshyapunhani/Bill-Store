@@ -186,6 +186,8 @@
     <string name="bill_type">Bill Type</string>
     <string name="sales">Sales</string>
     <string name="purchase">Purchase</string>
+    <string name="record_payment">Record Payment</string>
+    <string name="payment_due">Payment due</string>
 
     <string-array name="questions">
         <item>चलन कसे व्युत्पन्न करावे?</item>
