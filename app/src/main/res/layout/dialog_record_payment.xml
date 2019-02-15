@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/record_payment"
-                    android:textSize="27sp"
+                    android:textSize="24sp"
                     android:layout_marginBottom="5dp"
                     android:textColor="@android:color/black"/>
 
@@ -67,7 +67,7 @@
 
 
                 <Button
-                    android:id="@+id/btn_dismiss"
+                    android:id="@+id/btn_submit"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="@string/txt_submit"

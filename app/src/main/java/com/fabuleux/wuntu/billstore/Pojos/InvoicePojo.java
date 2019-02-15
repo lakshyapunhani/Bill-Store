@@ -30,15 +30,19 @@ public class InvoicePojo
 
     private boolean billAdded;
 
+    private double dueAmount;
+
     private Map<String,String> billImages;
 
     public InvoicePojo() {
     }
 
     public InvoicePojo(ContactPojo receiverPojo,ContactPojo senderPojo, String invoiceNumber,
-                       double billAmount, Map<String, ItemPojo> billItems, String invoiceDate,
-                       String dueDate, GstPojo gstPojo, String billDescription, String billStatus, String billType
-                        , String billTime, Map<String, String> billImages,boolean billAdded)
+                       double billAmount, Map<String, ItemPojo> billItems,
+                       String invoiceDate, String dueDate, GstPojo gstPojo,
+                       String billDescription, String billStatus, String billType,
+                       String billTime, Map<String, String> billImages,
+                       boolean billAdded,double dueAmount)
     {
         this.receiverPojo = receiverPojo;
         this.senderPojo = senderPojo;
@@ -54,6 +58,7 @@ public class InvoicePojo
         this.billTime = billTime;
         this.billImages = billImages;
         this.billAdded = billAdded;
+        this.dueAmount = dueAmount;
     }
 
     public String getInvoiceNumber() {
@@ -166,5 +171,13 @@ public class InvoicePojo
 
     public void setBillAdded(boolean billAdded) {
         this.billAdded = billAdded;
+    }
+
+    public double getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(double dueAmount) {
+        this.dueAmount = dueAmount;
     }
 }

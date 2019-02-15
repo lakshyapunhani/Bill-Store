@@ -1,5 +1,6 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,8 +24,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -151,7 +156,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     private FloatingActionButton cancelSentInvoice;
     private FloatingActionButton recordPaymentFab;
-    private FloatingActionButton paymentReminder;
+    private FloatingActionButton sharePrintedInvoice;
 
     @BindView(R.id.receivedInvoiceFAB)
     FloatingActionsMenu receivedInvoiceFAB;
@@ -164,7 +169,7 @@ public class PreviewActivity extends AppCompatActivity {
     private String receiverGstNumber = "";
     private String receiverMobileNumber = "";
     private String receiverUID = "";
-    int newCustomerNumberInvoices;
+    //int newCustomerNumberInvoices;
     private String invoiceDate = "",dueDate = "";
 
     private String senderName = "";
@@ -228,10 +233,6 @@ public class PreviewActivity extends AppCompatActivity {
         progressDialog.setTitle("Saving");
         progressDialog.setMessage("Please wait...");
 
-        //popup = new PopupMenu(this, menu_dots);
-        //Inflating the Popup using xml file
-        //popup.getMenuInflater().inflate(R.menu.preview_menu, popup.getMenu());
-
         firebaseUser = firebaseAuth.getCurrentUser();
 
         timestamp = System.currentTimeMillis();
@@ -240,10 +241,9 @@ public class PreviewActivity extends AppCompatActivity {
         billItems.clear();
         itemList.clear();
 
-        setFloatingActionMenu();
-
         getIntentItems();
         //getShopDetails();
+        setFloatingActionMenu();
         initTable();
         setViews();
     }
@@ -293,19 +293,19 @@ public class PreviewActivity extends AppCompatActivity {
 
         recordPaymentFab = new FloatingActionButton(this);
         recordPaymentFab.setTag("recordPaymentFab");
-        recordPaymentFab.setTitle("Mark Paid Invoice");
+        recordPaymentFab.setTitle("Record Payment");
         recordPaymentFab.setSize(FloatingActionButton.SIZE_MINI);
         recordPaymentFab.setImageResource(android.R.drawable.ic_menu_send);
 
-        paymentReminder = new FloatingActionButton(this);
-        paymentReminder.setTag("paymentReminderInvoice");
-        paymentReminder.setTitle("Remind Payment");
-        paymentReminder.setSize(FloatingActionButton.SIZE_MINI);
-        paymentReminder.setImageResource(android.R.drawable.ic_menu_send);
+        sharePrintedInvoice = new FloatingActionButton(this);
+        sharePrintedInvoice.setTag("printInvoice");
+        sharePrintedInvoice.setTitle("Print Invoice");
+        sharePrintedInvoice.setSize(FloatingActionButton.SIZE_MINI);
+        sharePrintedInvoice.setImageResource(android.R.drawable.ic_menu_send);
 
         sentInvoiceFAB.addButton(recordPaymentFab);
         sentInvoiceFAB.addButton(cancelSentInvoice);
-        //sentInvoiceFAB.addButton(paymentReminder);
+        sentInvoiceFAB.addButton(sharePrintedInvoice);
 
         if (billStatus.matches("Cancelled"))
         {
@@ -336,15 +336,31 @@ public class PreviewActivity extends AppCompatActivity {
 
         recordPaymentFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(PreviewActivity.this, "record payment clicked", Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                final Dialog dialog=new Dialog(PreviewActivity.this,R.style.ThemeWithCorners);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                LayoutInflater layoutInflater=LayoutInflater.from(PreviewActivity.this);
+                View view1=layoutInflater.inflate(R.layout.dialog_record_payment,null);
+                EditText editText = view1.findViewById(R.id.duePaymentAmount);
+                Button button = view1.findViewById(R.id.btn_submit);
+
+                editText.setText(String.valueOf(subTotal));
+
+                dialog.setContentView(view1);
+                dialog.show();
             }
         });
 
-        paymentReminder.setOnClickListener(new View.OnClickListener() {
+        sharePrintedInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PreviewActivity.this, "Payment Reminder", Toast.LENGTH_SHORT).show();
+                if (boolean_permission) {
+                    bitmap = loadBitmapFromView(scrollView, scrollView.getWidth(), scrollView.getChildAt(0).getHeight());
+                    createPdf();
+                } else {
+                    fn_permission();
+                }
             }
         });
 
@@ -379,7 +395,7 @@ public class PreviewActivity extends AppCompatActivity {
             receiverUID = getIntent().getStringExtra("receiverUID");
             receiverMobileNumber = getIntent().getStringExtra("receiverMobileNumber");
 
-            newCustomerNumberInvoices = getIntent().getIntExtra("Customer Number Invoices", 0);
+            //newCustomerNumberInvoices = getIntent().getIntExtra("Customer Number Invoices", 0);
 
             invoiceDate = getIntent().getStringExtra("Invoice Date");
             dueDate = getIntent().getStringExtra("Due Date");
@@ -608,9 +624,6 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private void sendInvoiceToSelectedUser()
     {
         if (receiverUID != null && !receiverUID.isEmpty())
@@ -625,17 +638,18 @@ public class PreviewActivity extends AppCompatActivity {
             final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                     collection("Contacts").document(receiverMobileNumber);
             receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                    receiverMobileNumber, receiverUID,newCustomerNumberInvoices + 1,invoiceDate);
+                    receiverMobileNumber, receiverUID,invoiceDate);
 
 
             senderPojo = new ContactPojo(senderName,senderAddress,senderGstNumber,senderMobileNumber,
-                    senderUID,newCustomerNumberInvoices + 1,invoiceDate);
+                    senderUID,invoiceDate);
 
             GstPojo gstPojo = new GstPojo(sgst,igst,utgst,shipping_charges,discount);
 
             documentReference.set(receiverPojo);
             InvoicePojo invoicePojo = new InvoicePojo(receiverPojo,senderPojo,invoiceNumber,subTotal,billItems,
-                    invoiceDate, dueDate, gstPojo,"","Due","Sales",timestampString,billImages,false);
+                    invoiceDate, dueDate, gstPojo,"","Due","Sales",
+                    timestampString,billImages,false,subTotal);
 
             documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 
@@ -678,7 +692,8 @@ public class PreviewActivity extends AppCompatActivity {
             GstPojo gstPojoAnotherUser = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
             InvoicePojo invoicePojoAnotherUser = new InvoicePojo(receiverPojo,senderPojo, invoiceNumber, subTotal, billItems,
                     invoiceDate, dueDate, gstPojoAnotherUser, "",
-                    "Due", "Purchase", timestampString, billImages,false);
+                    "Due", "Purchase",
+                    timestampString, billImages,false,subTotal);
 
             documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojoAnotherUser);
             Toast.makeText(this, "Invoice sent", Toast.LENGTH_SHORT).show();
@@ -790,21 +805,21 @@ public class PreviewActivity extends AppCompatActivity {
         }*/
 
         receiverPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+                receiverMobileNumber, receiverUID, invoiceDate);
 
         senderPojo = new ContactPojo(senderName, senderAddress, senderGstNumber, senderMobileNumber,
-                senderUID, newCustomerNumberInvoices + 1, invoiceDate);
+                senderUID, invoiceDate);
 
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(receiverMobileNumber);
         ContactPojo contactPojo = new ContactPojo(receiverName, receiverAddress, receiverGstNumber,
-                receiverMobileNumber, receiverUID, newCustomerNumberInvoices + 1, invoiceDate);
+                receiverMobileNumber, receiverUID, invoiceDate);
         GstPojo gstPojo = new GstPojo(sgst, igst, utgst, shipping_charges, discount);
 
         documentReference.set(contactPojo);
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo, senderPojo, invoiceNumber, subTotal, billItems,
                 invoiceDate, dueDate, gstPojo, "",
-                "Due", "Sales", timestampString, billImages,false);
+                "Due", "Sales", timestampString, billImages,false,subTotal);
 
         documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).set(invoicePojo);
 

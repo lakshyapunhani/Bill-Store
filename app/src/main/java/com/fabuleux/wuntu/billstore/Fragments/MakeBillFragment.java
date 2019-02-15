@@ -143,7 +143,7 @@ public class MakeBillFragment extends Fragment {
 
     String receiverName ="", receiverAddress = "", receiverGSTNumber ="",
             receiverMobileNumber = "", receiverUID = "";
-    int customerNumberInvoices;
+    //int customerNumberInvoices;
 
     String invoiceDate = "",dueDate = "";
 
@@ -392,7 +392,7 @@ public class MakeBillFragment extends Fragment {
         }
         receiverMobileNumber = customersList.get(customerSpinnerValue).getContactPhoneNumber();
         receiverUID = customersList.get(customerSpinnerValue).getContactUID();
-        customerNumberInvoices = customersList.get(customerSpinnerValue).getNumberInvoices();
+        //customerNumberInvoices = customersList.get(customerSpinnerValue).getNumberInvoices();
         sendDatatoPreview();
     }
 
@@ -429,7 +429,7 @@ public class MakeBillFragment extends Fragment {
         intent.putExtra("receiverGSTNumber", receiverGSTNumber);
         intent.putExtra("receiverMobileNumber", receiverMobileNumber);
         intent.putExtra("receiverUID", receiverUID);
-        intent.putExtra("Customer Number Invoices",customerNumberInvoices);
+        //intent.putExtra("Customer Number Invoices",customerNumberInvoices);
         intent.putExtra("Invoice Date",invoiceDate);
         intent.putExtra("Due Date",dueDate);
         intent.putExtra("showFab",0);

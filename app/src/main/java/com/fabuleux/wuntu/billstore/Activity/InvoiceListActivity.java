@@ -175,7 +175,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("receiverGSTNumber", makeBillDetails.getReceiverPojo().getContactGstNumber());
         intent.putExtra("receiverMobileNumber", makeBillDetails.getReceiverPojo().getContactPhoneNumber());
         intent.putExtra("receiverUID", makeBillDetails.getReceiverPojo().getContactUID());
-        intent.putExtra("Customer Number Invoices",makeBillDetails.getReceiverPojo().getNumberInvoices());
+        //intent.putExtra("Customer Number Invoices",makeBillDetails.getReceiverPojo().getNumberInvoices());
         intent.putExtra("Invoice Date", makeBillDetails.getInvoiceDate());
         intent.putExtra("Due Date", makeBillDetails.getDueDate());
         if (billType.matches("Sent") || billType.matches("Sales"))
@@ -212,7 +212,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         intent.putExtra("receiverGSTNumber", makeBillDetails.getReceiverPojo().getContactGstNumber());
         intent.putExtra("Customer Mobile Number", makeBillDetails.getReceiverPojo().getContactPhoneNumber());
         intent.putExtra("Customer UID", makeBillDetails.getReceiverPojo().getContactUID());
-        intent.putExtra("Customer Number Invoices", makeBillDetails.getReceiverPojo().getNumberInvoices());
+        //intent.putExtra("Customer Number Invoices", makeBillDetails.getReceiverPojo().getNumberInvoices());
         intent.putExtra("Invoice Date", makeBillDetails.getInvoiceDate());
         intent.putExtra("Due Date", makeBillDetails.getDueDate());
         intent.putExtra("showSave", false);

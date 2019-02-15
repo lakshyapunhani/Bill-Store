@@ -100,10 +100,6 @@ public class InvoicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     R.drawable.ic_house_black, 0, 0, 0);
             ((ViewHolder) holder).traderAddress.setText(contactPojo.getContactAddress());
 
-            if (contactPojo.getNumberInvoices() > 0)
-            {
-
-            }
             ((ViewHolder)holder).last_invoice_date.setText(contactPojo.getLastInvoiceDate());
         }
     }

@@ -217,13 +217,13 @@ public class AddContactActivity extends AppCompatActivity
         final DocumentReference documentReference = collectionReference.document(firebaseUser.getPhoneNumber());
         final ContactPojo contactPojo = new ContactPojo(sessionManager.getShop_name(),sessionManager.getShop_address(),
                 sessionManager.getShop_gst(),firebaseUser.getPhoneNumber(),
-                firebaseUser.getUid(),0,"");
+                firebaseUser.getUid(),"");
         documentReference.set(contactPojo);
     }
 
         private void addContact()
         {
-            final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber, contactUID,0,"");
+            final ContactPojo contactPojo = new ContactPojo(contactName,contactAddress,contactGstNumber,contactPhoneNumber, contactUID,"");
 
             final DocumentReference documentReference = contactReference.document(contactPhoneNumber);
 

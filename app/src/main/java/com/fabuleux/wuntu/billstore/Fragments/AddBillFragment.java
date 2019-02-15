@@ -138,7 +138,7 @@ public class AddBillFragment extends Fragment {
 
     String newVendorName,newVendorAddress,newVendorGst = "",newVendorPhoneNumber = "",newVendorUID = "";
 
-    int vendorNumberInvoices;
+    //int vendorNumberInvoices;
 
     String billAmount,billDescription,billDate;
     String billStatus = "Due";
@@ -545,7 +545,7 @@ public class AddBillFragment extends Fragment {
         newVendorGst = customersList.get(spinnerValue).getContactGstNumber();
         newVendorPhoneNumber = customersList.get(spinnerValue).getContactPhoneNumber();
         newVendorUID = customersList.get(spinnerValue).getContactUID();
-        vendorNumberInvoices = customersList.get(spinnerValue).getNumberInvoices();
+        //vendorNumberInvoices = customersList.get(spinnerValue).getNumberInvoices();
 
         if (!text_pickDate.getText().toString().trim().equals("Select Bill Date"))
         {
@@ -679,12 +679,12 @@ public class AddBillFragment extends Fragment {
         final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
                 collection("Contacts").document(newVendorPhoneNumber);
         ContactPojo contactPojo = new ContactPojo(newVendorName,newVendorAddress,newVendorGst,
-                newVendorPhoneNumber,newVendorUID,vendorNumberInvoices + 1,billDate);
+                newVendorPhoneNumber,newVendorUID,billDate);
         documentReference.set(contactPojo);
         GstPojo gstPojo = new GstPojo(0,0,0,0,0);
         ContactPojo senderPojo = new ContactPojo();
         InvoicePojo invoicePojo = new InvoicePojo(contactPojo,senderPojo,billNumber,totalAmount,billItems,
-                billDate, "", gstPojo,"","Due",billType,timestampString,billImages,true);
+                billDate, "", gstPojo,"","Due",billType,timestampString,billImages,true,totalAmount);
 
         documentReference.collection("Invoices").document(billDate + " && " + timestampString)
                 .set(invoicePojo).addOnSuccessListener(new OnSuccessListener<Void>() {
