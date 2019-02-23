@@ -52,22 +52,26 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
             Freshchat.getInstance(this).handleFcmMessage(remoteMessage);
         }
-        Map data = remoteMessage.getData();
-        String message = data.containsKey("message") ? data.get("message").toString() : "" ;
-        String title = data.containsKey("title") ? data.get("title").toString() : "" ;
-        String time = data.containsKey("time") ? data.get("time").toString() : "" ;
+        else
+        {
+            Map data = remoteMessage.getData();
+            String message = data.containsKey("message") ? data.get("message").toString() : "" ;
+            String title = data.containsKey("title") ? data.get("title").toString() : "" ;
+            String time = data.containsKey("time") ? data.get("time").toString() : "" ;
 
-        db = FirebaseFirestore.getInstance();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+            db = FirebaseFirestore.getInstance();
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseUser = firebaseAuth.getCurrentUser();
 
-        CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Notifications");
-        final DocumentReference documentReference = collectionReference.document(time);
+            CollectionReference collectionReference = db.collection("Users").document(firebaseUser.getUid()).collection("Notifications");
+            final DocumentReference documentReference = collectionReference.document(time);
 
-        NotificationPojo notificationPojo = new NotificationPojo(title,message,time);
-        documentReference.set(notificationPojo);
+            NotificationPojo notificationPojo = new NotificationPojo(title,message,time);
+            documentReference.set(notificationPojo);
 
-        sendNotification(message,title);
+            sendNotification(message,title);
+        }
+
     }
 
     public void sendNotification(String message, String title) {

@@ -48,6 +48,7 @@ public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
         sessionManager.setDeviceToken(token);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        Freshchat.getInstance(this).setPushRegistrationToken(token);
         if (firebaseUser != null)
         {
             CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());

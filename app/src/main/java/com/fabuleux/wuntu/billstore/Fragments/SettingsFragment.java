@@ -123,7 +123,7 @@ public class SettingsFragment extends Fragment {
         Freshchat.getInstance(context.getApplicationContext()).init(freshchatConfig);
 
         FreshchatUser user = Freshchat.getInstance(context.getApplicationContext()).getUser();
-        user.setFirstName(firebaseUser.getUid()).setPhone("",firebaseUser.getPhoneNumber());
+        user.setFirstName(firebaseUser.getUid()).setPhone("+91",firebaseUser.getPhoneNumber());
         Freshchat.getInstance(context.getApplicationContext()).setUser(user);
 
         Freshchat.showConversations(context.getApplicationContext());

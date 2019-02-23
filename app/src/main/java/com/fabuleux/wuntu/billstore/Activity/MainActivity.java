@@ -31,6 +31,7 @@ import com.fabuleux.wuntu.billstore.Pojos.ProductModel;
 import com.fabuleux.wuntu.billstore.Pojos.User;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
+import com.freshchat.consumer.sdk.Freshchat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -153,7 +154,10 @@ public class MainActivity extends AppCompatActivity {
         if (!sessionManager.getDeviceToken().isEmpty())
         {
             CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
+            Freshchat.getInstance(this).setPushRegistrationToken(sessionManager.getDeviceToken());
         }
+
+        Freshchat.getInstance(this).setPushRegistrationToken(sessionManager.getDeviceToken());
 
         /////////////////////////////////////// Just for saving user mobile number to db
         DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
