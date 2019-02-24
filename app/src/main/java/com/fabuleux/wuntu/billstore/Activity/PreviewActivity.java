@@ -192,6 +192,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     double subTotal = 0;
 
+    double dueAmount = 0;
+
     double shipping_charges = 0,discount = 0;
 
     File filePath;
@@ -342,10 +344,80 @@ public class PreviewActivity extends AppCompatActivity {
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 LayoutInflater layoutInflater=LayoutInflater.from(PreviewActivity.this);
                 View view1=layoutInflater.inflate(R.layout.dialog_record_payment,null);
-                EditText editText = view1.findViewById(R.id.duePaymentAmount);
+                final EditText editText = view1.findViewById(R.id.duePaymentAmount);
                 Button button = view1.findViewById(R.id.btn_submit);
 
-                editText.setText(String.valueOf(subTotal));
+                editText.setText(String.valueOf(dueAmount));
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (editText.getText().toString().trim().isEmpty())
+                        {
+                            Toast.makeText(PreviewActivity.this, "Please enter some amount", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        double paidAmount = Double.parseDouble(editText.getText().toString().trim());
+                        if (paidAmount > dueAmount)
+                        {
+                            Toast.makeText(PreviewActivity.this, "Entered amount is more than amount to pay. Enter correct amount", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (paidAmount == dueAmount)
+                        {
+                            dialog.dismiss();
+                            Toast.makeText(PreviewActivity.this, "Payment recorded", Toast.LENGTH_SHORT).show();
+                            dueAmount = dueAmount - paidAmount;
+                            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                                    collection("Contacts").document(receiverMobileNumber);
+
+                            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                    update("dueAmount",dueAmount);
+
+                            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                    update("billStatus","Paid");
+
+                            if (receiverUID != null && !receiverUID.isEmpty())
+                            {
+                                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
+                                        collection("Contacts").document(firebaseUser.getPhoneNumber());
+
+                                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                        update("dueAmount",dueAmount);
+
+                                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                        update("billStatus","Paid");
+                            }
+                        }
+                        else
+                        {
+                            dialog.dismiss();
+                            Toast.makeText(PreviewActivity.this, "Payment recorded", Toast.LENGTH_SHORT).show();
+                            double dueAmount = subTotal - paidAmount;
+                            final DocumentReference documentReference = db.collection("Users").document(firebaseUser.getUid()).
+                                    collection("Contacts").document(receiverMobileNumber);
+
+                            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                    update("dueAmount",dueAmount);
+
+                            documentReference.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                    update("billStatus","Partial-Paid");
+
+                            if (receiverUID != null && !receiverUID.isEmpty())
+                            {
+                                DocumentReference documentReferenceAnotherUser = db.collection("Users").document(receiverUID).
+                                        collection("Contacts").document(firebaseUser.getPhoneNumber());
+
+                                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                        update("dueAmount",dueAmount);
+
+                                documentReferenceAnotherUser.collection("Invoices").document(invoiceDate + " && " + timestampString).
+                                        update("billStatus","Partial-Paid");
+                            }
+
+                        }
+
+                    }
+                });
 
                 dialog.setContentView(view1);
                 dialog.show();
@@ -425,6 +497,11 @@ public class PreviewActivity extends AppCompatActivity {
             if (getIntent().hasExtra("billStatus"))
             {
                 billStatus = getIntent().getStringExtra("billStatus");
+            }
+
+            if (getIntent().hasExtra("dueAmount"))
+            {
+                dueAmount = getIntent().getDoubleExtra("dueAmount",0);
             }
 
 
