@@ -181,7 +181,7 @@ public class EditProfileActivity extends AppCompatActivity
                                 progressDialog.dismiss();
                             }
                             Toast.makeText(EditProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                            //startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
