@@ -2,19 +2,15 @@ package com.fabuleux.wuntu.billstore.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.fabuleux.wuntu.billstore.R;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;

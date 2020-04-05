@@ -11,7 +11,7 @@
         android:layout_height="60dp"
         android:id="@+id/header"
         android:orientation="horizontal"
-        android:background="#0484AE">
+        android:background="@color/bg_header">
 
         <TextView
             android:layout_width="0dp"
@@ -63,11 +63,11 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customersList"
         android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

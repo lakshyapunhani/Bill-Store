@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,9 +12,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        card_view:cardBackgroundColor="#FFFFFF"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        card_view:cardBackgroundColor="@color/bg_tab_bar"
         card_view:cardPreventCornerOverlap="false"
         card_view:cardCornerRadius="5dp"
         card_view:contentPadding="10dp"
@@ -40,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="William Wallace"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/txtBackgroundColor"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
 
@@ -49,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:textColor="@color/txtBackgroundColor"
                     android:drawableLeft="@drawable/ic_house_black"
                     android:drawablePadding="5dp"
                     android:text="FCI, 3rd Floor, DLF Food Court,DLF City Centre, New Delhi,Delhi ,110087"/>
@@ -108,6 +108,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

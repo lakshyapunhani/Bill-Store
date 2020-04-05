@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#e6e4e4"
+    android:background="@color/background_grey"
     tools:context="com.fabuleux.wuntu.billstore.Fragments.MakeBillFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/blue">
+        android:background="@color/bg_header">
 
         <TextView
             android:layout_width="0dp"
@@ -47,7 +47,7 @@
 
     </LinearLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
@@ -58,7 +58,7 @@
             android:orientation="vertical">
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -113,11 +113,11 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edt_rounded_corner">
 
-                            <com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner
+                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                                 android:id="@+id/customerSpinner"
                                 android:layout_width="match_parent"
-                                android:layout_height="30dp">
-                            </com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner>
+                                android:layout_height="30dp"/>
+
 
                         </LinearLayout>
 
@@ -236,9 +236,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -281,18 +281,18 @@
 
                     <include layout="@layout/product_header"/>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_items"
                         android:layout_width="match_parent"
                         android:minHeight="50dp"
                         android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -635,10 +635,10 @@
                     </LinearLayout>
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -5,19 +5,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.AudioAttributes;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.fabuleux.wuntu.billstore.Activity.MainActivity;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
+import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.NotificationPojo;
 import com.fabuleux.wuntu.billstore.R;
 import com.freshchat.consumer.sdk.Freshchat;
@@ -26,13 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,12 +42,12 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("FCM TAG","MESSAGE RECIEVED");
-        if (Freshchat.isFreshchatNotification(remoteMessage)) {
-
-            Freshchat.getInstance(this).handleFcmMessage(remoteMessage);
-        }
-        else
-        {
+//        if (Freshchat.isFreshchatNotification(remoteMessage)) {
+//
+//            Freshchat.getInstance(this).handleFcmMessage(remoteMessage);
+//        }
+//        else
+//        {
             Map data = remoteMessage.getData();
             String message = data.containsKey("message") ? data.get("message").toString() : "" ;
             String title = data.containsKey("title") ? data.get("title").toString() : "" ;
@@ -70,7 +64,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
             documentReference.set(notificationPojo);
 
             sendNotification(message,title);
-        }
+//        }
 
     }
 
@@ -108,5 +102,25 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
     }
 
+    @Override
+    public void onNewToken(@NonNull String refreshedToken) {
+        assert refreshedToken != null;
+        Freshchat.getInstance(this).setPushRegistrationToken(refreshedToken);
+        registerDevice(refreshedToken);
+        super.onNewToken(refreshedToken);
+    }
 
+    private void registerDevice(String token)
+    {
+        FirebaseUser firebaseUser;
+        SessionManager sessionManager = new SessionManager(MyFcmListenerService.this);
+        sessionManager.setDeviceToken(token);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        Freshchat.getInstance(this).setPushRegistrationToken(token);
+        if (firebaseUser != null)
+        {
+            CommonRequest.getInstance(this).sendDeviceToken(firebaseUser.getUid());
+        }
+    }
 }

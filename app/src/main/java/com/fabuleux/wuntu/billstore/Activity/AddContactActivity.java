@@ -1,11 +1,9 @@
 package com.fabuleux.wuntu.billstore.Activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fabuleux.wuntu.billstore.Fragments.AddBillFragment;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Network.CommonRequest;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
@@ -29,9 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -266,10 +261,10 @@ public class AddContactActivity extends AppCompatActivity
         finish();
     }
 
-        public static void hideSoftKeyboard(Activity activity) {
+        public static void hideSoftKeyboard(AppCompatActivity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
+                        AppCompatActivity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }

@@ -13,14 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.transition.TransitionManager;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -31,22 +23,25 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.fabuleux.wuntu.billstore.Activity.MainActivity;
 import com.fabuleux.wuntu.billstore.Adapters.AddDocumentsAdapter;
-import com.fabuleux.wuntu.billstore.Dialogs.SearchableSpinner;
 import com.fabuleux.wuntu.billstore.EventBus.SetCurrentFragmentEvent;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.Pojos.ContactPojo;
 import com.fabuleux.wuntu.billstore.Pojos.GstPojo;
 import com.fabuleux.wuntu.billstore.Pojos.InvoicePojo;
 import com.fabuleux.wuntu.billstore.Pojos.ItemPojo;
-import com.fabuleux.wuntu.billstore.Pojos.VendorDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.MarshMallowPermission;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -64,6 +59,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -640,16 +636,27 @@ public class AddBillFragment extends Fragment {
                 }
 
                 Log.d("TAG",fileName1);
-                riversRef.child(billDate + "&&" + timestampString + "/" + uri.getLastPathSegment()).putFile(uri)
+
+                final StorageReference billReference = riversRef.child(billDate + "&&" + timestampString + "/" + uri.getLastPathSegment());
+
+                billReference.putFile(uri)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Get a URL to the uploaded content
-                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                if (downloadUrl != null) {
-                                    billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
-                                }
-                                writeDataToFirebase();
+
+                                billReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Uri downloadUrl = uri;
+                                        if (downloadUrl != null) {
+                                            billImages.put(uri.getLastPathSegment(),downloadUrl.toString());
+                                        }
+                                        writeDataToFirebase();
+                                    }
+                                });
+
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

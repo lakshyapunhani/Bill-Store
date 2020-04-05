@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/bg_tab_bar"
             android:orientation="horizontal"
             android:baselineAligned="false">
 
@@ -34,7 +35,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:background="@android:color/white"
                 android:paddingTop="10dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -43,7 +43,7 @@
                 android:focusable="true"
                 android:gravity="center">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_homePage"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -71,13 +71,12 @@
                 android:paddingTop="10dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:background="@android:color/white"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_makeBill"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -109,10 +108,9 @@
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@android:color/white"
                 android:gravity="center">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_addBill"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -131,9 +129,6 @@
 
             </LinearLayout>
 
-
-
-
             <LinearLayout
                 android:id="@+id/layout_profile"
                 android:layout_width="0dp"
@@ -142,14 +137,13 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:paddingLeft="5dp"
-                android:background="@android:color/white"
                 android:paddingRight="5dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -171,4 +165,4 @@
 
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

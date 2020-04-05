@@ -6,13 +6,13 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.MenuItem;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.fabuleux.wuntu.billstore.Adapters.BillDocumentsAdapter;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
-import com.fabuleux.wuntu.billstore.Pojos.AddBillDetails;
 import com.fabuleux.wuntu.billstore.R;
 import com.fabuleux.wuntu.billstore.Utils.NetworkReceiver;
 import com.fabuleux.wuntu.billstore.Utils.RecyclerViewListener;
@@ -47,7 +46,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddedBillPreviewActivity extends AppCompatActivity {
 

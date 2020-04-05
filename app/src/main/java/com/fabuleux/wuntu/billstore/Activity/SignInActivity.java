@@ -2,8 +2,6 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -11,18 +9,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
-import android.telephony.SmsMessage;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
+
 import android.util.Log;
 import android.widget.Toast;
 
 import com.fabuleux.wuntu.billstore.Dialogs.DialogOTP;
 import com.fabuleux.wuntu.billstore.EventBus.EventOTP;
-import com.fabuleux.wuntu.billstore.EventBus.EventPrintOtp;
 import com.fabuleux.wuntu.billstore.EventBus.InternetStatus;
 import com.fabuleux.wuntu.billstore.EventBus.ResendOTPEvent;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
@@ -52,8 +49,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 public class SignInActivity extends AppCompatActivity {
 

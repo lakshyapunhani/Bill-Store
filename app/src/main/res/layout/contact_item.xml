@@ -19,7 +19,7 @@
             android:id="@+id/iv_contactImage"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"

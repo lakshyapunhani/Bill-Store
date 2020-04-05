@@ -2,9 +2,9 @@ package com.fabuleux.wuntu.billstore.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -143,8 +143,8 @@ public class ProductSelectionActivity extends AppCompatActivity {
         mRecyclerView.setPreviewPadding(0);
         mRecyclerView.setIndexBarTextColor("#FFFFFF");
         mRecyclerView.setIndexBarVisibility(true);
-        mRecyclerView.setIndexbarHighLateTextColor("#33334c");
-        mRecyclerView.setIndexBarHighLateTextVisibility(true);
+//        mRecyclerView.setIndexbarHighLateTextColor("#33334c");
+//        mRecyclerView.setIndexBarHighLateTextVisibility(true);
     }
 
 
