@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         img_addBill.setImageResource(R.drawable.ic_add);
         img_makeBill.setImageResource(R.drawable.ic_invoice_white);
         img_profile.setImageResource(R.drawable.ic_settings_white);
-        text_homePage.setTextColor(getResources().getColor(R.color.blue));
+        text_homePage.setTextColor(getResources().getColor(R.color.bg_header));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
         text_profile.setTextColor(getResources().getColor(R.color.grey));
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         img_makeBill.setImageResource(R.drawable.ic_invoice_white);
         img_profile.setImageResource(R.drawable.ic_settings_white);
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
-        text_addBill.setTextColor(getResources().getColor(R.color.blue));
+        text_addBill.setTextColor(getResources().getColor(R.color.bg_header));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
         text_profile.setTextColor(getResources().getColor(R.color.grey));
     }
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
         img_profile.setImageResource(R.drawable.ic_settings_white);
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
-        text_makeBill.setTextColor(getResources().getColor(R.color.blue));
+        text_makeBill.setTextColor(getResources().getColor(R.color.bg_header));
         text_profile.setTextColor(getResources().getColor(R.color.grey));
     }
 
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
         text_homePage.setTextColor(getResources().getColor(R.color.grey));
         text_addBill.setTextColor(getResources().getColor(R.color.grey));
         text_makeBill.setTextColor(getResources().getColor(R.color.grey));
-        text_profile.setTextColor(getResources().getColor(R.color.blue));
+        text_profile.setTextColor(getResources().getColor(R.color.bg_header));
     }
 
 
