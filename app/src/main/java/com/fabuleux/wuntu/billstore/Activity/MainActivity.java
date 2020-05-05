@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -127,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isDarkThemeEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             selectedFragmentTag = getIntent().getStringExtra("fragmentFlag");
         }
 
-        sessionManager = new SessionManager(this);
+
         networkReceiver = new NetworkReceiver();
         gson = new Gson();
 
@@ -161,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////////////////////////// Just for saving user mobile number to db
         DocumentReference profileReference = db.collection("Users").document(firebaseUser.getUid());
-
 
         profileReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

@@ -207,5 +207,6 @@
     <string name="purchase">Purchase</string>
     <string name="record_payment">Record Payment</string>
     <string name="payment_due">Payment due</string>
+    <string name="txt_theme">Change Theme</string>
 </resources>
 

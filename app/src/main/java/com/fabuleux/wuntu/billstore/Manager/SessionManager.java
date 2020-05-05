@@ -28,6 +28,7 @@ public class SessionManager
     private String SHOP_GST = "shop_gst";
     private String SHOP_NAME = "shop_name";
     private String SHOP_PAN = "shop_pan";
+    private static final String DARK_THEME = "dark_theme";
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -44,6 +45,15 @@ public class SessionManager
         editor.clear();
         editor.commit();
     }
+
+    public void setDarkThemeEnabled (boolean isEnabled) {
+        editor.putBoolean(DARK_THEME, isEnabled).commit();
+    }
+
+    public boolean isDarkThemeEnabled () {
+        return pref.getBoolean(DARK_THEME, false);
+    }
+
 
     public void setFirstTimeLaunch(boolean isFirstTime) {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);

@@ -299,7 +299,7 @@ public class AddBillFragment extends Fragment {
 
                     }
                 }));
-        spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, customerNameList);
+        spinnerAdapter = new ArrayAdapter<>(context, R.layout.bg_array_adapter, customerNameList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vendorSpinner.setTitle("Select Vendor");
         vendorSpinner.setAdapter(spinnerAdapter);

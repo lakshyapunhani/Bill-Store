@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="William Wallace"
-                    android:textColor="@color/txtBackgroundColor"
+                    android:textColor="@color/secondary_color"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
 
@@ -48,9 +48,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/txtBackgroundColor"
-                    android:drawableLeft="@drawable/ic_house_black"
-                    android:drawablePadding="5dp"
+                    android:textColor="@color/secondary_color"
+                    android:drawableLeft="@drawable/ic_user"
+                    android:drawablePadding="10dp"
                     android:text="FCI, 3rd Floor, DLF Food Court,DLF City Centre, New Delhi,Delhi ,110087"/>
 
             </LinearLayout>
@@ -70,7 +70,7 @@
                     android:gravity="center"
                     android:textSize="10sp"
                     android:padding="3dp"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/numberOfInvoiceTextColor"
                     android:background="@drawable/textview_background"/>
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:paddingBottom="3dp"
                     android:paddingTop="3dp"
                     android:textStyle="italic"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/secondary_color" />
 
             </LinearLayout>
 

@@ -3,14 +3,14 @@
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/blue">
+    android:background="#000000"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:alpha="0.2"
+            android:alpha="0.1"
             android:scaleType="centerCrop"
             android:contentDescription="@string/txt_background_image"
             android:layout_width="match_parent"
@@ -19,7 +19,8 @@
 
     </FrameLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <ImageView
@@ -44,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textSize="35sp"
-                android:textStyle="italic|bold"
-                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -59,6 +60,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:visibility="gone"
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +81,7 @@
                 android:background="@drawable/edt_rounded_corner"/>
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/btn_signIn"
                 android:contentDescription="@string/txt_sign_in"
                 android:layout_marginTop="40dp"
@@ -87,6 +90,18 @@
                 app:srcCompat="@drawable/ic_right_arrow"/>
 
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/btn_signIn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/blue"
+            android:text="Login"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="24sp"/>
 
     </LinearLayout>
 </RelativeLayout>

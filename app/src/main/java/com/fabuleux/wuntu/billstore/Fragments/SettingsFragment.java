@@ -20,6 +20,7 @@ import com.fabuleux.wuntu.billstore.Activity.ContactsActivity;
 import com.fabuleux.wuntu.billstore.Activity.EditProfileActivity;
 import com.fabuleux.wuntu.billstore.Activity.FaqActivity;
 import com.fabuleux.wuntu.billstore.Activity.LanguageSelectionActivity;
+import com.fabuleux.wuntu.billstore.Activity.MainActivity;
 import com.fabuleux.wuntu.billstore.Manager.RealmManager;
 import com.fabuleux.wuntu.billstore.Manager.SessionManager;
 import com.fabuleux.wuntu.billstore.Activity.ProductsActivity;
@@ -61,12 +62,15 @@ public class SettingsFragment extends Fragment {
     LinearLayout layout_invite;
 
     @BindView(R.id.layout_products)
-            LinearLayout layout_products;
+    LinearLayout layout_products;
 
     @BindView(R.id.layout_contacts)
     LinearLayout layout_contacts;
 
     @BindView(R.id.layout_faq) LinearLayout layout_faq;
+
+    @BindView(R.id.layout_changeTheme)
+    LinearLayout layout_changeTheme;
 
     FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
@@ -205,6 +209,23 @@ public class SettingsFragment extends Fragment {
     public void contactsLayoutClick()
     {
         startActivity(new Intent(context,ContactsActivity.class));
+    }
+
+    @OnClick(R.id.layout_changeTheme)
+    public void onClickChangeTheme(){
+        if (sessionManager.isDarkThemeEnabled())
+        {
+            sessionManager.setDarkThemeEnabled(false);
+        }
+        else
+        {
+            sessionManager.setDarkThemeEnabled(true);
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//        finish();
+        startActivity(intent);
     }
 
 }

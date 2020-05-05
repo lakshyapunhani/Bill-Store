@@ -187,6 +187,7 @@
     <string name="purchase">Purchase</string>
     <string name="record_payment">Record Payment</string>
     <string name="payment_due">Payment due</string>
+    <string name="txt_theme">Change Theme</string>
 
     <string-array name="questions">
         <item>ഇൻവോയ്സ് എങ്ങനെയാണ് സൃഷ്ടിക്കേണ്ടത്?</item>

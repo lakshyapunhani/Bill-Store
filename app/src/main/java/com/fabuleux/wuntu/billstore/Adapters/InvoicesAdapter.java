@@ -96,7 +96,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             ((ViewHolder) holder).traderName.setText(contactPojo.getContactName());
             ((ViewHolder) holder).traderAddress.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_house_black, 0, 0, 0);
+                    R.drawable.ic_user, 0, 0, 0);
             ((ViewHolder) holder).traderAddress.setText(contactPojo.getContactAddress());
 
             ((ViewHolder)holder).last_invoice_date.setText(contactPojo.getLastInvoiceDate());

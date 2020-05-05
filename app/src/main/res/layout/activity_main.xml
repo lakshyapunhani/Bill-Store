@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:id="@+id/layout_mainFrame"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="12"
             android:orientation="horizontal">
 
         </LinearLayout>
@@ -35,9 +36,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -45,12 +43,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_homePage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:srcCompat="@drawable/ic_home_blue"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/text_homePage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,9 +66,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -78,12 +73,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_makeBill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:srcCompat="@drawable/ic_invoice_white"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/text_makeBill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,9 +97,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -112,12 +104,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_addBill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:srcCompat="@drawable/ic_add"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/text_addBill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,9 +127,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -145,12 +134,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:srcCompat="@drawable/ic_settings_white"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/text_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

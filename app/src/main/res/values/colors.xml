@@ -49,4 +49,9 @@
         <item>@android:color/white</item>
         <item>@android:color/white</item>
     </array>
+
+    <color name="primary_color">#FFFFFF</color>
+    <color name="secondary_color">#000000</color>
+    <color name="numberOfInvoiceTextColor">#0484AE</color>
+
 </resources>
